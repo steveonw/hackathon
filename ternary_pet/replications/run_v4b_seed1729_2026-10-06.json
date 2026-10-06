@@ -1,0 +1,31 @@
+{
+  "protocol": "v4b confirmatory training-order replication",
+  "seed": 1729,
+  "job_id": "6ac546b5fbc85ba6823b8941",
+  "pinned_commit": "f677c3065393582e43b77b255c267f17dd02e9cb",
+  "hardware": "t4-small",
+  "training_order_head": [221,850,89,747,685,1055,781,170,233,62,421,806,1031,1187,683,619],
+  "direct_1200": {
+    "loss": 5.865807823836803,
+    "ppl": 352.7670146377248,
+    "top1_agreement": 0.2545166015625,
+    "kl_to_teacher": 2.94986417517066,
+    "final_code_displacement": 0.014876283009847006
+  },
+  "staged_9_300_3_900": {
+    "loss": 5.186562202870846,
+    "ppl": 178.85263576152852,
+    "top1_agreement": 0.337646484375,
+    "kl_to_teacher": 2.238225907087326,
+    "nine_state_final_code_displacement": 0.023529265721638996,
+    "ternary_final_code_displacement": 0.011387885411580404,
+    "first_ternary_loss": 7.500201225280762
+  },
+  "paired_effect": {
+    "ppl_reduction_percent": 49.300068220606796,
+    "top1_gain_percentage_points": 8.31298828125,
+    "kl_reduction_percent": 24.124441866621304,
+    "ternary_entry_shock_reduction_percent": 42.81366701797336
+  },
+  "qualitative_note": "Both models remain degenerate; staged generations collapsed to '= =' patterns."
+}
