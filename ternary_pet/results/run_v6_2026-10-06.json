@@ -1,0 +1,75 @@
+{
+  "job_id": "6ac5816ffbc85ba6823ba8ec",
+  "job_name": "smollm2-v6-transition-ablation",
+  "pinned_commit": "ad5376d4db03c0e467a47353293220474d6a8b42",
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "hardware": "a10g-small",
+  "finished_at": "2026-10-06T23:46:42.296Z",
+  "seed": 1729,
+  "direct_1200": {
+    "loss": 5.874656490981579,
+    "ppl": 355.9023839918317,
+    "top1_agreement": 0.2554931640625,
+    "kl_to_teacher": 2.9536279663443565
+  },
+  "transition_diagnostics": {
+    "initial_q3_loss": 15.478385726610819,
+    "after_300_q9_loss": 4.932001898686091,
+    "after_300_q3_same_weights_same_diag_loss": 9.177112817764282,
+    "clean_q9_to_q3_loss_increase": 4.245110919078191,
+    "prepared_future_q3_improvement_vs_initial_q3": 6.301272908846537,
+    "q3_boundary_change_full_prepared_state": 0.006768887837727865,
+    "q3_boundary_change_masters_only_fixed_initial_scale": 0.0067550023396809895,
+    "top_fixed_scale_boundary_layers": {
+      "model.layers.0.self_attn.v_proj": 0.03440104166666667,
+      "model.layers.0.self_attn.o_proj": 0.02949435763888889,
+      "model.layers.0.self_attn.q_proj": 0.015723741319444446,
+      "model.layers.27.self_attn.k_proj": 0.013932291666666667
+    }
+  },
+  "branches": {
+    "carry_all": {
+      "loss": 5.205881115049124,
+      "ppl": 182.34146581752597,
+      "top1_agreement": 0.3280029296875,
+      "kl_to_teacher": 2.2812756206840277,
+      "vs_direct_loss_gain": 0.668775375932455,
+      "scale_source": "prepared",
+      "adam_mode": "full"
+    },
+    "reset_adam": {
+      "loss": 5.203097313642502,
+      "ppl": 181.83456926551654,
+      "top1_agreement": 0.3331298828125,
+      "kl_to_teacher": 2.275046933442354,
+      "vs_direct_loss_gain": 0.671559177339077,
+      "scale_source": "prepared",
+      "adam_mode": "fresh"
+    },
+    "masters_only": {
+      "loss": 5.1990046463906765,
+      "ppl": 181.09190166096116,
+      "top1_agreement": 0.327392578125,
+      "kl_to_teacher": 2.2622773461043835,
+      "vs_direct_loss_gain": 0.6756518445909025,
+      "scale_source": "initial",
+      "adam_mode": "fresh"
+    },
+    "masters_plus_weight_adam": {
+      "loss": 5.1799053475260735,
+      "ppl": 177.6659936716428,
+      "top1_agreement": 0.32958984375,
+      "kl_to_teacher": 2.2520528230816126,
+      "vs_direct_loss_gain": 0.6947511434555054,
+      "scale_source": "initial",
+      "adam_mode": "weights_only"
+    }
+  },
+  "headline": {
+    "branch_loss_range": 0.025975767523050308,
+    "branch_spread_as_percent_of_best_direct_gap": 3.738859268925248,
+    "masters_only_ppl_reduction_vs_direct_percent": 49.11581526301161,
+    "fixed_scale_future_ternary_code_change_percent": 0.6755002339680989
+  },
+  "interpretation": "Within this setup, almost all of the staged advantage survives resetting Adam and restoring initial quantizer scales. The prepared FP32 master weights are therefore the dominant carrier of the benefit. Learned scales and optimizer state make at most a small difference at this budget."
+}
