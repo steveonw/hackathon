@@ -66,3 +66,14 @@ The scripts were patched and the corrected immutable commit is:
 `f677c3065393582e43b77b255c267f17dd02e9cb`
 
 Only jobs launched from this corrected commit count toward the replication.
+
+
+### Corrected active jobs
+
+Pinned code: `f677c3065393582e43b77b255c267f17dd02e9cb`
+
+- order seed 1729: `6ac546b5fbc85ba6823b8941`
+- order seed 271828: `6ac546bafbc85ba6823b8946`
+
+The printed permutation heads differ, confirming these are genuinely different
+training orders.
