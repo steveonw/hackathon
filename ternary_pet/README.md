@@ -1,48 +1,56 @@
 # Ternary Pet Experiments
 
-Small, reproducible experiments around converting pretrained language models
-to ternary weights.
+Experiments on whether a pretrained language model can enter ternary weight
+space more gracefully through an intermediate representation.
 
-## Current pet
+## Current model
 
 **HuggingFaceTB/SmolLM2-360M-Instruct** (~362M parameters).
 
-## Evolution of the hypothesis
+## What we learned
 
-- **v1:** naive 27 -> 9 -> 3 staging; unstable and worse than direct QAT.
-- **v2:** strict nested ancestry; stable, but hard commits effectively trapped
-  the ternary codes.
-- **v3:** FP32 shadow weights + transition schedules; direct and up/down nearly
-  tied when ternary training budget was matched.
-- **v4:** persistent FP32 shadows, preserved optimizer state, absmean ternary
-  initialization, frozen non-quantized components, and exact code-flip logging.
+- **v1:** naive 27 -> 9 -> 3 was unstable.
+- **v2:** hard nested commits trapped the discrete states.
+- **v3:** persistent FP32 shadows and learnable scales made ternary recovery
+  much healthier, but transition schedules mostly tied.
+- **v4:** with the major confounds removed, 300 steps at 9 states followed by
+  900 ternary steps beat a 1200-step direct ternary control.
+- **v4b:** that v4 advantage reproduced under two independent shuffled training
+  orders.
 
-## First positive staged result: v4
+## Replicated paired result
 
-On the fixed 8192-token WikiText-2 evaluator:
+| Training order | Direct PPL ↓ | 9->3 PPL ↓ | Direct top-1 | 9->3 top-1 |
+|---|---:|---:|---:|---:|
+| reference v4 | 666.66 | **286.97** | 22.84% | **30.49%** |
+| seed 1729 | 352.77 | **178.85** | 25.45% | **33.76%** |
+| seed 271828 | 383.56 | **177.20** | 25.44% | **32.08%** |
 
-| Variant | PPL ↓ | Top-1 agreement ↑ | KL ↓ |
-|---|---:|---:|---:|
-| Direct ternary, 1200 steps | 666.66 | 22.84% | 3.546 |
-| **9-state 300 -> ternary 900** | **286.97** | **30.49%** | **2.716** |
-| Direct ternary, 900 steps | 670.74 | 22.96% | 3.508 |
+Across the three paired orderings, staging reduced perplexity by an average of
+**53.35%** and improved teacher top-1 agreement by **7.54 percentage points**.
 
-The equal-total-compute comparison is the key one: both direct-1200 and staged
-300+900 process the same 1200 training chunks in the same global order. The
-staged model gets only one special treatment: its first 300 updates use a
-9-state forward representation instead of ternary.
+The first ternary-step shock was also smaller after 9-state preparation in all
+three runs.
 
-The 9-state preparation reduced the first ternary-step loss from 17.31 to 6.59,
-a ~62% smaller transition shock.
+## Working interpretation
 
-Exact flip-rate logging also confirmed that the quantized codes themselves were
-moving, so this result is not the frozen-weight artifact seen in earlier runs.
+The evidence now supports a narrower version of the staircase hypothesis:
 
-## Important limitation
+> A persistent continuous master weight can use a 9-state (~3.17-bit) forward
+> representation to reorganize before the final 3-state / 1.58-bit constraint,
+> producing a less damaged ternary model than spending the same total updates
+> directly in ternary space.
 
-This is one seed. The staged model is **less damaged**, not yet healthy: its
-sample generations remain repetitive and degenerate. The next scientifically
-useful move is replication, not another new recipe.
+The mechanism is not "rounding through more steps preserves information."
+Without adaptation, staged and direct projection are identical. The apparent
+benefit comes from **learning while the intermediate states still exist**.
+
+## Limits
+
+The ternary models are still qualitatively degraded and repetitive. This is one
+360M checkpoint, one calibration/evaluation corpus, and only three paired
+training orders. It is a reproducible experimental effect, not yet a general
+result or a production-ready model.
 
 ## Repository layout
 
@@ -50,10 +58,6 @@ useful move is replication, not another new recipe.
 - `smollm2_nested_v2.py` — v2
 - `smollm2_transition_v3.py` — v3
 - `smollm2_v4_fliprate_9to3.py` — v4
-- `EXPERIMENT.md` — protocols
-- `results/` — immutable metrics and summaries
-
-## Interpretation rule
-
-A staged schedule counts as interesting only if it beats a fair direct control
-under matched data/compute and its quantized codes are demonstrably learning.
+- `replications/` — v4b scripts, manifests, and confirmation results
+- `results/` — immutable run records and summaries
+- `EXPERIMENT.md` — protocol history
