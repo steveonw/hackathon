@@ -115,3 +115,26 @@ Hugging Face Job:
 `6ac56d99fbc85ba6823ba03f`
 
 Hardware: A10G small. Hard timeout: 75 minutes.
+
+
+### v5 outcome
+
+Job `6ac56d99fbc85ba6823ba03f` completed successfully.
+
+Held-out results:
+
+- BF16 source: loss 3.6854 / PPL 39.86;
+- direct 6000@3: loss 4.4463 / PPL 85.31 / top-1 41.44% / KL 1.522;
+- staged 1500@9 -> 4500@3: loss 4.2493 / PPL 70.05 / top-1 43.64% / KL 1.330.
+
+The staged treatment therefore retained a **0.197 nats/token** advantage and
+17.88% lower PPL at 5x training volume, but the loss gap was about **74% smaller**
+than the 0.765-nat mean seen in v4/v4b.
+
+The immediate ternary-entry loss remained ~50.4% smaller after 9-state prep,
+showing that transition smoothing is highly reproducible even as the final
+quality gap narrows.
+
+Interpretation: v5 supports a large early optimization/head-start effect with a
+smaller residual advantage at 6000 updates. It does not establish a permanently
+better asymptotic ternary basin.
