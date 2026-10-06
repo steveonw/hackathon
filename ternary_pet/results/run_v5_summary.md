@@ -44,17 +44,19 @@ controlled experiments to distinguish:
 
 v5 alone cannot distinguish them.
 
-## Transition shock still replicates
+## Transition-entry loss: useful signal, but not a clean shock measurement
 
-Direct ternary first-step mixed loss: **13.105**.
+Direct ternary's first training-batch mixed loss was **13.105**. The first
+ternary training batch after 1500 9-state updates was **6.501**.
 
-After 1500 9-state updates, the first ternary step was **6.501**.
+Numerically that is 50.39% lower, but the two values were measured on
+**different training chunks**. Therefore this is evidence that the prepared
+model enters ternary training at a substantially lower-loss point, but it is
+not a clean same-batch measurement of the instantaneous quantizer-switch shock.
 
-That is a **50.39% reduction** in immediate ternary-entry shock, almost exactly
-in line with the ~51% mean shock reduction from v4/v4b.
-
-So the transition-smoothing effect remains highly stable even though the final
-held-out advantage shrank.
+A future protocol should score one fixed diagnostic batch/set immediately
+before and after changing Q9 -> Q3, with no optimizer update between the two
+evaluations.
 
 ## Code movement
 
@@ -64,10 +66,16 @@ held-out advantage shrank.
 - staged ternary phase after 4500 steps: **2.51%** net displacement from the
   ternary-stage start.
 
-These figures are not directly comparable across codebooks. In particular,
+These figures are not directly comparable across codebooks. Also,
+`flip_since_last` is a **snapshot Hamming difference** between logged
+checkpoints, not a count of every boundary crossing inside the 250-step window;
+a code can flip and flip back without being observed. Therefore these numbers
+should not be described as cumulative flip counts or direct measures of
+"thrashing."
+
 v5 still does not measure how much the 9-state phase changes the *eventual
-ternary projection* `Q3(W_after_9) vs Q3(W_initial)`, which external reviewers
-correctly identified as an important missing diagnostic.
+ternary projection* `Q3(W_after_9) vs Q3(W_initial)`, which is an important
+missing diagnostic.
 
 ## Qualitative generations
 
