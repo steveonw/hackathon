@@ -131,9 +131,9 @@ The staged treatment therefore retained a **0.197 nats/token** advantage and
 17.88% lower PPL at 5x training volume, but the loss gap was about **74% smaller**
 than the 0.765-nat mean seen in v4/v4b.
 
-The immediate ternary-entry loss remained ~50.4% smaller after 9-state prep,
-showing that transition smoothing is highly reproducible even as the final
-quality gap narrows.
+The first post-preparation ternary training-batch loss was ~50.4% lower than
+direct's first ternary batch, but those were different chunks. v6 later adds a
+clean same-data Q9 -> Q3 transition measurement.
 
 Interpretation: v5 supports a large early optimization/head-start effect with a
 smaller residual advantage at 6000 updates. It does not establish a permanently
