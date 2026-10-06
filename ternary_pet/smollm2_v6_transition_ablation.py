@@ -409,6 +409,17 @@ def capture_param_state(qs):
         }
     return out
 
+
+@torch.no_grad()
+def capture_scale_state(qs):
+    out={}
+    for name,mod,q in qs:
+        out[name]={
+            "raw_alpha":q.raw_alpha.detach().cpu().clone(),
+            "alpha":q.alpha().detach().cpu().clone(),
+        }
+    return out
+
 @torch.no_grad()
 def load_param_state(qs,checkpoint,scale_source):
     for name,mod,q in qs:
@@ -446,7 +457,7 @@ def train_preparation(teacher,lr):
     m=load_model(torch.float32); bf16_roundtrip_(m)
     qs,trainable=attach_quantizers(m,9)
 
-    initial=capture_param_state(qs)
+    initial=capture_scale_state(qs)
     set_levels(qs,3)
     initial_q3=snapshot_codes(qs)
     initial_q3_hist=code_hist(qs)
