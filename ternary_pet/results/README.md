@@ -9,22 +9,23 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v1 / `6ac52475404719ba37661c8b` | SmolLM2-360M-Instruct | T4 small | completed | naive staged PTQ/QAT |
 | v2 / `6ac527e5404719ba37661dc9` | SmolLM2-360M-Instruct | T4 small | completed | strict nested ancestry |
 | v3 / `6ac52df9404719ba37661fa1` | SmolLM2-360M-Instruct | T4 small | completed | transition schedules |
-| v4 / `6ac539b5404719ba376621a2` | SmolLM2-360M-Instruct | T4 small | completed | persistent-shadow 9->3 |
+| v4 / `6ac539b5404719ba37661fa1` | SmolLM2-360M-Instruct | T4 small | completed | persistent-shadow 9->3 |
 | v4b seed 1729 / `6ac546b5fbc85ba6823b8941` | SmolLM2-360M-Instruct | T4 small | completed | shuffled-order confirmation |
 | v4b seed 271828 / `6ac546bafbc85ba6823b8946` | SmolLM2-360M-Instruct | T4 small | completed | shuffled-order confirmation |
 | v5 / `6ac56d99fbc85ba6823ba03f` | SmolLM2-360M-Instruct | A10G small | completed | 5x training-volume test |
+| v6 / `6ac5816ffbc85ba6823ba8ec` | SmolLM2-360M-Instruct | A10G small | completed | causal transition ablation |
 
 ## Current headline
 
-At 1200 updates, staged 9->3 beat direct ternary by a mean **0.765 nats/token**
-across three paired training orders.
+v6 isolates the small-budget 9->3 advantage to the **prepared FP32 master
+weights**.
 
-At 6000 updates, staged still won, but by only **0.197 nats/token**:
+All four branches keeping the prepared masters finish around loss 5.18-5.21 /
+PPL 178-182, regardless of whether prepared scales or Adam state are retained.
 
-- direct: PPL **85.31**, top-1 **41.44%**, KL **1.522**
-- staged: PPL **70.05**, top-1 **43.64%**, KL **1.330**
+The direct control is loss 5.875 / PPL 355.90.
 
-This is evidence that much of the earlier staged advantage is an early
-optimization/head-start effect. A smaller residual advantage remains at v5.
+The new same-data diagnostic also shows that Q9 training changes **0.6755%** of
+future ternary assignments even when the original scales are held fixed.
 
-See `run_v5_summary.md` for interpretation.
+See `run_v6_summary.md`.
