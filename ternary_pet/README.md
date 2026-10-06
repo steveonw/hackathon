@@ -1,53 +1,52 @@
 # Ternary Pet Experiments
 
-Small, reproducible experiments around staged ternary quantization of language
-models.
-
-## Current hypothesis
-
-Instead of jumping directly from high precision to ternary weights, test a
-base-3-aligned staircase:
-
-```text
-full precision -> 27 states -> 9 states -> 3 states
-                  3^3          3^2        3^1
-```
-
-The main comparison is always against a direct `full precision -> 3` control.
+Small, reproducible experiments around converting pretrained language models
+to ternary weights.
 
 ## Current pet
 
 **HuggingFaceTB/SmolLM2-360M-Instruct** (~362M parameters).
 
-It is small enough for inexpensive repeated GPU runs, but large enough to make
-before/after language behavior measurable.
+## Evolution of the hypothesis
+
+- **v1:** naive 27 -> 9 -> 3 staging. Unstable and worse than direct QAT.
+- **v2:** strict nested balanced-ternary ancestry. Stable, but direct QAT still won.
+- **v3:** learnable ternary scales + FP32 shadow weights, comparing direct,
+  gradual, and "step up then down" transition schedules.
+
+The strongest v3 result is subtle: 200 FP32-master adaptation steps reduced the
+immediate ternary-switch shock by ~4%. When that path was then given the same
+600 fully ternary steps as direct QAT, the two finished nearly tied: direct had
+slightly better perplexity/KL, while up/down had slightly higher teacher
+top-token agreement.
+
+No ternary variant is yet qualitatively healthy; the project has not produced a
+usable converted checkpoint.
 
 ## Repository layout
 
-- `smollm2_staircase.py` — exact v1 experiment script
-- `EXPERIMENT.md` — hypothesis, controls, quantizer definition, and v2 plan
-- `results/` — immutable run outputs and summaries
+- `smollm2_staircase.py` — v1
+- `smollm2_nested_v2.py` — v2 strict ancestry
+- `smollm2_transition_v3.py` — v3 transition schedules
+- `EXPERIMENT.md` — experiment definitions
+- `results/` — immutable metrics and written summaries
 
-## Completed v1 run
+## Next hypothesis
 
-Hugging Face Job: `6ac52475404719ba37661c8b`
+The most justified next route combines the two ideas that reduced transition
+shock without hard-committing intermediate weights:
 
-Result: **no staged advantage demonstrated in v1**. Both raw ternary paths collapsed; direct QAT recovered more validation likelihood, while staged QAT retained slightly more top-1 baseline agreement but remained qualitatively broken. See `results/run_v1_summary.md`.
+```text
+BF16 source
+ -> FP32 master adaptation
+ -> soft ternary phase-in
+ -> full ternary QAT
+```
 
-Configuration:
-
-- hardware: `t4-small`
-- timeout: 30 minutes
-- model: `HuggingFaceTB/SmolLM2-360M-Instruct`
-- direct QAT: 30 optimizer steps at 3 levels
-- staged QAT: 10 steps each at 27, 9, and 3 levels
+The full-precision shadow/master weights should remain continuous throughout.
 
 ## Interpretation rule
 
-A staged result is interesting only if it beats a fair control. We will not
-treat a prettier anecdotal generation as evidence if perplexity/token behavior
-does not support it.
-
-Also, v1 uses independently rescaled 27/9/3 quantizers. The stricter
-**nested ternary ancestry** version is reserved for v2 and is documented in
-`EXPERIMENT.md`.
+A new schedule is interesting only if it beats a fair direct-ternary control
+under matched data and clearly stated compute budgets. Anecdotal generations
+alone do not count as evidence.
