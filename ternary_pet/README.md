@@ -7,55 +7,58 @@ space more gracefully through an intermediate representation.
 
 **HuggingFaceTB/SmolLM2-360M-Instruct** (~362M parameters).
 
-## Current result
+## Current headline
 
-The 9 -> 3 effect replicated strongly at 1200 total updates, then **survived but
-shrunk substantially** when training volume increased 5x.
+v4/v4b established a reproducible 9 -> 3 advantage at small training budgets.
+v5 showed that the advantage shrinks substantially with 5x more training.
 
-### v4/v4b: 1200-update regime
+**v6 now locates the small-budget advantage primarily in the adapted FP32 master
+weights.**
 
-Across three paired training orders, 9 -> 3 improved held-out loss by an average
-of **0.765 nats/token**, equivalent to about **53.35% lower perplexity** under
-those damaged-model conditions.
+### v6 causal transition ablation
 
-### v5: 6000-update / 768k-token regime
+| Condition | Loss ↓ | PPL ↓ |
+|---|---:|---:|
+| Direct 1200@3 | 5.875 | 355.90 |
+| Carry all staged state | 5.206 | 182.34 |
+| Reset Adam | 5.203 | 181.83 |
+| **Prepared masters only; reset scales + Adam** | **5.199** | **181.09** |
+| Prepared masters + weight Adam | 5.180 | 177.67 |
 
-| Variant | Loss ↓ | PPL ↓ | Teacher top-1 ↑ | KL ↓ |
-|---|---:|---:|---:|---:|
-| BF16 source | 3.685 | 39.86 | 99.68% | ~0 |
-| Direct 6000@3 | 4.446 | 85.31 | 41.44% | 1.522 |
-| **1500@9 -> 4500@3** | **4.249** | **70.05** | **43.64%** | **1.330** |
+Resetting Adam and restoring the original quantizer scales does **not** remove
+the benefit. The four staged branches span only **0.026 nats/token**, compared
+with a ~0.67-0.69 nat advantage over direct.
 
-The staged v5 advantage is **0.197 nats/token** / **17.88% lower PPL**. That is
-still a clear paired win, but the loss advantage is roughly **74% smaller** than
-the v4/v4b mean.
+## Mechanistic diagnostic
 
-The first ternary training-batch loss after 9-state preparation was **50.39%**
-lower than direct's first ternary batch, but those measurements used different
-training chunks. Treat this as a transition-entry signal, not yet a clean
-same-batch shock measurement.
+After 300 Q9 updates, using the same fixed diagnostic data:
 
-## Working interpretation
+- Q9 loss: **4.932**
+- immediate Q3 projection of the same weights: **9.177**
+- original Q3 projection before preparation: **15.478**
 
-The evidence now favors a more cautious statement:
+So Q9 -> Q3 still causes a large discrete shock, but Q9 training has already
+made the eventual ternary projection **6.30 nats/token better** before a single
+ternary optimizer update.
 
-> 9-state preparation gives a large early optimization/head-start benefit when
-> entering ternary space, and a smaller benefit is still present after 5x more
-> training.
+With the original quantizer scales held fixed, **0.6755%** of future ternary
+assignments changed during Q9 training. The learned-scale value is almost
+identical (**0.6769%**).
 
-We do not yet know whether the residual gap is asymptotic or whether direct
-ternary eventually catches up.
+That is direct evidence that the FP32 masters themselves cross future ternary
+decision boundaries during the intermediate stage.
 
-External review also identified a key unresolved mechanism question: the staged
-model carries adapted FP32 masters, learned scales, **and** Adam moments into
-ternary. A causal transition ablation is needed to determine where the benefit
-actually lives.
+## Current interpretation
 
-## Limits
+The narrow mechanism supported by the experiments is now:
 
-Both ternary variants remain qualitatively degraded. v5 staged generations are
-still repetitive despite better held-out metrics. This remains one 360M model,
-one training/evaluation corpus, and an under-tuned direct baseline.
+> Intermediate-state QAT can move continuous master weights into a configuration
+> whose later ternary projection is substantially less damaging. The early
+> benefit is carried mainly by those adapted master weights, not by Adam moments
+> or scale calibration.
+
+v5 still shows that direct ternary catches up substantially at larger training
+budgets, so this does not establish a permanently better asymptotic basin.
 
 ## Repository layout
 
@@ -64,6 +67,7 @@ one training/evaluation corpus, and an under-tuned direct baseline.
 - `smollm2_transition_v3.py` — v3
 - `smollm2_v4_fliprate_9to3.py` — v4
 - `smollm2_v5_5x.py` — v5
+- `smollm2_v6_transition_ablation.py` — v6
 - `replications/` — v4b confirmation
 - `results/` — immutable run records and summaries
 - `SHAREABLE_RESEARCH_REPORT.md` — external-review report
