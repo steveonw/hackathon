@@ -84,3 +84,34 @@ and against an equal final ternary-stage budget (900 steps).
 
 Remote run: Hugging Face Job `6ac539b5404719ba376621a2`, T4 small,
 45-minute hard timeout.
+
+
+## v5 — 5x training-volume test
+
+v5 keeps the replicated v4/v4b recipe fixed and increases only training volume.
+
+- model: `HuggingFaceTB/SmolLM2-360M-Instruct`
+- fixed evaluator: WikiText-2 test, 8192 tokens
+- training set: 6000 unique 128-token chunks, shuffled with seed 1729
+- LR: `1e-4`
+- non-quantized parameters frozen
+- persistent FP32 shadow weights
+- optimizer state preserved through the 9 -> 3 transition
+- absmean-initialized learnable quantizer scale
+- flip-rate logging every 250 steps
+
+Equal-total-compute pair:
+
+1. direct: 6000 ternary steps;
+2. staged: 1500 9-state steps -> 4500 ternary steps.
+
+Each treatment therefore processes ~768k training tokens. The successful 25/75
+stage split from v4/v4b is unchanged.
+
+Pinned Git commit:
+`23157f7ce03f6bbbf944806574b18c133843f049`
+
+Hugging Face Job:
+`6ac56d99fbc85ba6823ba03f`
+
+Hardware: A10G small. Hard timeout: 75 minutes.
