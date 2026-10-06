@@ -30,8 +30,10 @@ The staged v5 advantage is **0.197 nats/token** / **17.88% lower PPL**. That is
 still a clear paired win, but the loss advantage is roughly **74% smaller** than
 the v4/v4b mean.
 
-The immediate ternary transition shock remained strongly reduced: **50.39%**
-smaller after 9-state preparation.
+The first ternary training-batch loss after 9-state preparation was **50.39%**
+lower than direct's first ternary batch, but those measurements used different
+training chunks. Treat this as a transition-entry signal, not yet a clean
+same-batch shock measurement.
 
 ## Working interpretation
 
