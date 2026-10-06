@@ -93,6 +93,10 @@ def stream_chunks(split,n):
 all_train=stream_chunks("train",TRAIN_CHUNKS+LRVAL_CHUNKS)
 train_chunks=all_train[:TRAIN_CHUNKS]
 lrval_chunks=all_train[TRAIN_CHUNKS:]
+# Confirmatory replication: seed controls training-order permutation.
+_order_g=torch.Generator().manual_seed(SEED)
+_order=torch.randperm(len(train_chunks),generator=_order_g).tolist()
+train_chunks=[train_chunks[i] for i in _order]
 eval_chunks=stream_chunks("test",EVAL_CHUNKS)
 
 def load_model(dtype=torch.float32):
