@@ -1,31 +1,53 @@
-# v4 replication manifest
+# v4 / v4b replication manifest
 
-Reference protocol: `ternary_pet/smollm2_v4_fliprate_9to3.py`
+## Reference v4
 
 Reference seed: `424242`  
 Reference HF job: `6ac539b5404719ba376621a2`
 
-Reference v4 equal-total result:
+| Treatment | PPL | Top-1 agreement | KL |
+|---|---:|---:|---:|
+| Direct 1200@3 | 666.66 | 22.84% | 3.546 |
+| **Staged 300@9 + 900@3** | **286.97** | **30.49%** | **2.716** |
 
-| Seed | Direct 1200 PPL | 9->3 PPL | Direct top-1 | 9->3 top-1 |
-|---:|---:|---:|---:|---:|
-| 424242 | 666.66 | **286.97** | 22.84% | **30.49%** |
+## Aborted seed-only replicas
 
-Replication code is pinned to Git commit:
+Two initial replicas changed only `torch.manual_seed`:
 
-`f148eb024cd14ba28859718a9a9f59d55bf329d2`
+- seed 1729: HF job `6ac5455e404719ba37662609`
+- seed 271828: HF job `6ac5455f404719ba3766260b`
 
-## Replication jobs
+They produced bit-for-bit identical early training traces to each other and to
+v4, revealing that v4's fixed data order and effectively deterministic model
+path meant the nominal seed was not introducing meaningful stochasticity.
+Both jobs were canceled rather than spending the full GPU budget.
 
-| Seed | Script | HF job |
+This is retained as a methodological finding, not counted as replication.
+
+## Confirmatory v4b replicas
+
+v4b makes the seed meaningful by permuting the **same 1200 training chunks**.
+The held-out evaluator, quantizer, frozen/non-frozen parameter choices,
+optimizer, loss, and schedule are unchanged.
+
+The v4-selected learning rate is locked at `1e-4` instead of being re-tuned
+per seed. Only the preregistered primary comparison is run:
+
+- direct ternary: 1200 steps
+- staged: 300 steps at 9 states + 900 steps at 3 states
+
+Within each seed, both treatments consume the same shuffled 1200 chunks in the
+same order. Therefore the treatment difference is the precision schedule.
+
+Pinned code commit:
+
+`1e57c60a2c57fcd5880721420c2a6a11c2fc2680`
+
+| Order seed | Script | HF job |
 |---:|---|---|
-| 1729 | `replications/smollm2_v4_seed1729.py` | `6ac5455e404719ba37662609` |
-| 271828 | `replications/smollm2_v4_seed271828.py` | `6ac5455f404719ba3766260b` |
+| 1729 | `smollm2_v4b_orderseed1729.py` | `6ac54639fbc85ba6823b890e` |
+| 271828 | `smollm2_v4b_orderseed271828.py` | `6ac5463bfbc85ba6823b8910` |
 
-Only the seed differs from the v4 protocol. Both jobs use T4 small and a
-45-minute hard timeout.
-
-The replication criterion is simple: the staged 300@9 + 900@3 condition should
-beat the direct 1200@3 control on the fixed 8192-token evaluator. Perplexity,
-teacher top-1 agreement, KL, code-flip diagnostics, and generations will all be
-recorded.
+Replication criterion: staged 9->3 should beat direct 1200@3 on the fixed
+8192-token evaluator, with lower perplexity/KL and higher teacher top-1
+agreement.
