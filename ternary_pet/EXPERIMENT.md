@@ -86,3 +86,35 @@ The first remote run was launched as Hugging Face Job:
 `6ac52475404719ba37661c8b`
 
 with a 30-minute timeout on `t4-small`.
+
+
+## v2 — strict nested balanced-ternary ancestry
+
+v2 replaces independently rescaled 27/9/3 grids with one inherited balanced-
+ternary hierarchy. For each output row, a final ternary magnitude `alpha` is
+estimated once from the original full-precision weights and then held fixed.
+Define `s = alpha / 9`.
+
+- 27-state children: `n*s`, `n = -13..13`
+- 9-state parents: `p*3s`, `p = -4..4`
+- 3-state grandparents: `a*9s`, `a = -1,0,+1`
+
+Every three adjacent 27-state codes map to exactly one 9-state parent, and
+every three adjacent 9-state codes map to exactly one ternary grandparent.
+The transition therefore preserves a literal base-3 family tree rather than
+re-fitting a new quantizer at each stage.
+
+Recovery uses WikiText-2 calibration chunks and a mixed objective:
+30% next-token cross-entropy + 70% KL distillation against the untouched
+SmolLM2 teacher.
+
+v2 compares:
+
+1. direct ternary PTQ;
+2. strict nested 27 -> 9 -> 3 PTQ;
+3. direct ternary QAT for 90 steps;
+4. nested QAT with equal total compute: 30 + 30 + 30 steps;
+5. nested QAT with equal final-ternary budget: 30 + 30 + 90 steps.
+
+Remote run: Hugging Face Job `6ac527e5404719ba37661dc9`, T4 small,
+45-minute hard timeout.
