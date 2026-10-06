@@ -191,3 +191,39 @@ Hugging Face Job:
 \`6ac5816ffbc85ba6823ba8ec\`
 
 Hardware: A10G small. Hard timeout: 50 minutes.
+
+
+### v6 outcome
+
+Job `6ac5816ffbc85ba6823ba8ec` completed successfully.
+
+The causal branches were nearly identical:
+
+- carry all: loss 5.2059 / PPL 182.34;
+- reset Adam: loss 5.2031 / PPL 181.83;
+- prepared masters + original scales + fresh Adam: loss 5.1990 / PPL 181.09;
+- prepared masters + original scales + master-weight Adam only: loss 5.1799 /
+  PPL 177.67;
+- direct 1200@3: loss 5.8747 / PPL 355.90.
+
+The full four-branch spread is only 0.026 nats/token. Thus learned scale state
+and Adam carryover are not necessary for the staged advantage at this budget.
+
+On the fixed diagnostic set, before any ternary update:
+
+- initial Q3 loss: 15.4784;
+- after 300 Q9 updates under Q9: 4.9320;
+- same prepared weights immediately projected to Q3: 9.1771.
+
+The clean Q9 -> Q3 switch therefore costs 4.2451 nats/token, but the prepared Q3
+projection is already 6.3013 nats/token better than the initial Q3 projection.
+
+Future ternary assignments changed by 0.6769% with learned prepared scales and
+0.6755% with the original scales held fixed. This shows that the dominant
+effect is movement of FP32 master weights across future ternary decision
+boundaries, not scale calibration.
+
+Interpretation: v6 materially strengthens the "reorganization before
+constraint" mechanism within this setup. v5 still indicates that much of the
+benefit behaves like a finite-budget head start rather than a proven asymptotic
+advantage.
