@@ -1,0 +1,72 @@
+{
+  "job_id": "6ac52475404719ba37661c8b",
+  "job_name": "smollm2-ternary-staircase-v1",
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "hardware": "t4-small",
+  "timeout": "30m",
+  "finished_at": "2026-10-06T16:42:00.582Z",
+  "baseline": {
+    "loss": 4.612010886452415,
+    "ppl": 100.68641514990829,
+    "top1_agreement": 1.0,
+    "generations": [
+      "A baseline is a standard or reference value that serves as a baseline for comparison. It helps to establish a baseline for measurement, allowing researchers to accurately compare results and identify any deviations or anomalies. By establishing",
+      "17 + 28 = 45.",
+      "The dog stood patiently outside the library, its ears perked up and its tail wagging gently, awaiting the library's welcome.",
+      "One possible benefit of reducing numerical precision gradually is that it can help to reduce the impact of rounding errors in numerical computations. When a large number is rounded to a smaller number, the rounding errors can accumulate"
+    ]
+  },
+  "direct_ptq": {
+    "loss": 19.73282831365412,
+    "ppl": 371414153.1245023,
+    "top1_agreement": 0.0
+  },
+  "staged_ptq": {
+    "loss": 20.64385847611861,
+    "ppl": 485165195.4097903,
+    "top1_agreement": 0.0
+  },
+  "direct_qat_train": {
+    "first_loss": 19.749773025512695,
+    "last_loss": 3.2923262119293213,
+    "seconds": 10.158165454864502
+  },
+  "direct_qat": {
+    "loss": 13.29732402454723,
+    "ppl": 595599.669296312,
+    "top1_agreement": 0.01818181818181818
+  },
+  "staged_qat_train": [
+    {
+      "levels": 27,
+      "first_loss": 6.148005485534668,
+      "last_loss": 5.67224645614624,
+      "seconds": 3.5937485694885254
+    },
+    {
+      "levels": 9,
+      "first_loss": 5.110817909240723,
+      "last_loss": 10.035378456115723,
+      "seconds": 3.544180154800415
+    },
+    {
+      "levels": 3,
+      "first_loss": 20.99570083618164,
+      "last_loss": 17.099184036254883,
+      "seconds": 3.5809433460235596
+    }
+  ],
+  "staged_qat": {
+    "loss": 17.53057694868608,
+    "ppl": 41061313.0841151,
+    "top1_agreement": 0.07272727272727272
+  },
+  "notes": [
+    "The v1 evaluation set is tiny and custom; absolute perplexity is not a standard benchmark value.",
+    "Both raw ternary PTQ paths collapsed.",
+    "Direct QAT reduced validation loss substantially relative to raw ternary but remained far from baseline.",
+    "Staged QAT had higher top-1 agreement than direct QAT but much worse validation perplexity.",
+    "The 9-level and 3-level staged recovery phases were unstable.",
+    "v1 uses independently rescaled quantizers, not a strict nested 27-to-9-to-3 codebook."
+  ]
+}
