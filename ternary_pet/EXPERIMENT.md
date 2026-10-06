@@ -138,3 +138,56 @@ quality gap narrows.
 Interpretation: v5 supports a large early optimization/head-start effect with a
 smaller residual advantage at 6000 updates. It does not establish a permanently
 better asymptotic ternary basin.
+
+
+## v6 — causal dissection of the 9 -> 3 transition
+
+v6 returns to the v4-scale protocol to locate where the staged advantage is
+stored rather than spending more compute on another scale-up.
+
+Shared setup:
+
+- model: \`HuggingFaceTB/SmolLM2-360M-Instruct\`
+- seed/order: 1729
+- 1200 shuffled 128-token training chunks
+- fixed 8192-token WikiText-2 evaluator
+- LR: \`1e-4\`
+- frozen non-quantized parameters
+- persistent FP32 shadow/master weights
+- absmean-initialized learnable rowwise scales
+- CE + teacher-KL objective
+
+One common 9-state checkpoint is trained for 300 steps. That exact checkpoint
+then branches into four 900-step ternary continuations:
+
+1. \`carry_all\`: prepared masters + prepared scales + full Adam state;
+2. \`reset_adam\`: prepared masters + prepared scales + fresh Adam;
+3. \`masters_only\`: prepared masters + initial scales + fresh Adam;
+4. \`masters_plus_weight_adam\`: prepared masters + initial scales + Adam state
+   retained only for master weights; scale optimizer state is reset.
+
+A fresh \`direct_1200\` ternary run remains the matched control.
+
+### New transition diagnostics
+
+Before any ternary update, the shared prepared checkpoint is evaluated on the
+same fixed diagnostic chunks under Q9 and Q3. This gives a clean same-data
+quantizer-switch penalty.
+
+v6 also compares initial ternary codes against the prepared masters projected
+to ternary in two ways:
+
+- using the learned prepared scales;
+- using the original initial scales.
+
+The second comparison isolates how often 9-state training moved FP32 masters
+across *future ternary decision boundaries* without allowing scale changes to
+explain the crossing.
+
+Pinned Git commit:
+\`ad5376d4db03c0e467a47353293220474d6a8b42\`
+
+Hugging Face Job:
+\`6ac5816ffbc85ba6823ba8ec\`
+
+Hardware: A10G small. Hard timeout: 50 minutes.
