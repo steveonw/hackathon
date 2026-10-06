@@ -52,3 +52,35 @@ stored and updated at FP32 precision** before the ternary switch.
 
 Remote run: Hugging Face Job `6ac52df9404719ba37661fa1`, T4 small.
 See `results/run_v3_summary.md` for the outcome.
+
+
+## v4 — persistent-shadow 9 -> 3 with flip-rate diagnostics
+
+v4 is designed to answer whether staging helps **once the discrete weights are
+actually moving**.
+
+Changes from earlier runs:
+
+- one FP32 shadow/master weight tensor is kept for the whole run;
+- no hard commit at the 9 -> 3 transition;
+- Adam optimizer state is preserved across the transition;
+- non-quantized parameters are frozen;
+- the ternary scale is initialized from rowwise absmean and remains learnable;
+- actual discrete code flips are measured every 50 steps;
+- one fixed WikiText-2 test slice (8192 tokens) is used.
+
+Before the main comparison, a short direct-ternary LR sweep tests
+`2e-5`, `5e-5`, and `1e-4`; the lowest held-out diagnostic loss is selected.
+
+Main conditions:
+
+1. direct ternary for 1200 steps;
+2. 9-state QAT for 300 steps -> ternary QAT for 900 steps, with the same FP32
+   shadows and optimizer state;
+3. direct ternary for 900 steps.
+
+This lets condition 2 be compared both against equal total compute (1200 steps)
+and against an equal final ternary-stage budget (900 steps).
+
+Remote run: Hugging Face Job `6ac539b5404719ba376621a2`, T4 small,
+45-minute hard timeout.
