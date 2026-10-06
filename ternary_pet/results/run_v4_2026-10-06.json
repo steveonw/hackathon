@@ -1,0 +1,64 @@
+{
+  "job_id": "6ac539b5404719ba376621a2",
+  "job_name": "smollm2-v4-fliprate-9to3",
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "hardware": "t4-small",
+  "finished_at": "2026-10-06T18:42:20.966Z",
+  "chosen_lr": 0.0001,
+  "eval_tokens": 8192,
+  "bf16_source": {
+    "loss": 3.6853033304214478,
+    "ppl": 39.85721052089391,
+    "top1_agreement": 0.9964599609375,
+    "kl_to_teacher": 0.00004287233124955492
+  },
+  "direct_1200": {
+    "loss": 6.502279683947563,
+    "ppl": 666.6596754190521,
+    "top1_agreement": 0.2283935546875,
+    "kl_to_teacher": 3.5458541326224804,
+    "final_hist": {"-1": 0.34119293848673504, "0": 0.3173284339904785, "1": 0.34147862752278646},
+    "different_from_stage_start_at_end": 0.016745271682739257,
+    "final_train_loss": 3.9711995124816895
+  },
+  "staged_9_300_3_900": {
+    "loss": 5.659386768937111,
+    "ppl": 286.9726080691967,
+    "top1_agreement": 0.304931640625,
+    "kl_to_teacher": 2.7164830341935158,
+    "final_hist": {"-1": 0.3411133893330892, "0": 0.3174931240081787, "1": 0.3413934866587321},
+    "nine_state_stage": {
+      "steps": 300,
+      "first_train_loss": 13.328612327575684,
+      "final_train_loss": 2.9914493560791016,
+      "different_from_stage_start_at_end": 0.02539210001627604
+    },
+    "ternary_stage": {
+      "steps": 900,
+      "first_train_loss": 6.594282150268555,
+      "final_train_loss": 2.883316993713379,
+      "different_from_stage_start_at_end": 0.012246243158976237
+    }
+  },
+  "direct_900": {
+    "loss": 6.508385024964809,
+    "ppl": 670.7423103374038,
+    "top1_agreement": 0.2296142578125,
+    "kl_to_teacher": 3.508071307092905,
+    "final_hist": {"-1": 0.34118848164876303, "0": 0.3173288917541504, "1": 0.3414826265970866},
+    "different_from_stage_start_at_end": 0.014432929356892903,
+    "final_train_loss": 4.263999938964844
+  },
+  "headline": {
+    "staged_vs_direct1200_ppl_reduction_percent": 56.95,
+    "staged_vs_direct1200_top1_gain_percentage_points": 7.65,
+    "staged_vs_direct1200_kl_reduction_percent": 23.39,
+    "ternary_entry_loss_reduction_percent": 61.91
+  },
+  "caveats": [
+    "Single seed.",
+    "The ternary models are still qualitatively degenerate on the four chat prompts.",
+    "The equal-total-compute comparison (staged 300+900 vs direct 1200) is the cleanest main comparison.",
+    "The direct-900 comparison has the same number of ternary steps but sees a shifted subset/order of training chunks relative to the staged ternary phase."
+  ]
+}
