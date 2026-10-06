@@ -1,0 +1,31 @@
+{
+  "protocol": "v4b confirmatory training-order replication",
+  "seed": 271828,
+  "job_id": "6ac546bafbc85ba6823b8946",
+  "pinned_commit": "f677c3065393582e43b77b255c267f17dd02e9cb",
+  "hardware": "t4-small",
+  "training_order_head": [834,47,981,79,679,330,210,787,378,125,66,977,640,922,219,1156],
+  "direct_1200": {
+    "loss": 5.9494853019714355,
+    "ppl": 383.55587279614997,
+    "top1_agreement": 0.25439453125,
+    "kl_to_teacher": 3.046318434178829,
+    "final_code_displacement": 0.014831860860188803
+  },
+  "staged_9_300_3_900": {
+    "loss": 5.177271716296673,
+    "ppl": 177.19870256862248,
+    "top1_agreement": 0.32080078125,
+    "kl_to_teacher": 2.2578219641000032,
+    "nine_state_final_code_displacement": 0.023459628423055014,
+    "ternary_final_code_displacement": 0.011398280461629232,
+    "first_ternary_loss": 6.465721130371094
+  },
+  "paired_effect": {
+    "ppl_reduction_percent": 53.80107172474477,
+    "top1_gain_percentage_points": 6.640625,
+    "kl_reduction_percent": 25.883586601850915,
+    "ternary_entry_shock_reduction_percent": 48.30882924202421
+  },
+  "qualitative_note": "Staged generations are still degraded but contain more word-like phrases than the direct control."
+}
