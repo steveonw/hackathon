@@ -51,3 +51,18 @@ Pinned code commit:
 Replication criterion: staged 9->3 should beat direct 1200@3 on the fixed
 8192-token evaluator, with lower perplexity/KL and higher teacher top-1
 agreement.
+
+
+## v4b launch correction
+
+The first v4b launch attempt at commit
+`1e57c60a2c57fcd5880721420c2a6a11c2fc2680` failed before the main training
+loop because the generated scripts referenced the shuffled-order variable before
+the insertion was actually present. No confirmatory training result from those
+jobs is valid.
+
+The scripts were patched and the corrected immutable commit is:
+
+`f677c3065393582e43b77b255c267f17dd02e9cb`
+
+Only jobs launched from this corrected commit count toward the replication.
