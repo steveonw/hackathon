@@ -7,50 +7,53 @@ space more gracefully through an intermediate representation.
 
 **HuggingFaceTB/SmolLM2-360M-Instruct** (~362M parameters).
 
-## What we learned
+## Current result
 
-- **v1:** naive 27 -> 9 -> 3 was unstable.
-- **v2:** hard nested commits trapped the discrete states.
-- **v3:** persistent FP32 shadows and learnable scales made ternary recovery
-  much healthier, but transition schedules mostly tied.
-- **v4:** with the major confounds removed, 300 steps at 9 states followed by
-  900 ternary steps beat a 1200-step direct ternary control.
-- **v4b:** that v4 advantage reproduced under two independent shuffled training
-  orders.
+The 9 -> 3 effect replicated strongly at 1200 total updates, then **survived but
+shrunk substantially** when training volume increased 5x.
 
-## Replicated paired result
+### v4/v4b: 1200-update regime
 
-| Training order | Direct PPL ↓ | 9->3 PPL ↓ | Direct top-1 | 9->3 top-1 |
+Across three paired training orders, 9 -> 3 improved held-out loss by an average
+of **0.765 nats/token**, equivalent to about **53.35% lower perplexity** under
+those damaged-model conditions.
+
+### v5: 6000-update / 768k-token regime
+
+| Variant | Loss ↓ | PPL ↓ | Teacher top-1 ↑ | KL ↓ |
 |---|---:|---:|---:|---:|
-| reference v4 | 666.66 | **286.97** | 22.84% | **30.49%** |
-| seed 1729 | 352.77 | **178.85** | 25.45% | **33.76%** |
-| seed 271828 | 383.56 | **177.20** | 25.44% | **32.08%** |
+| BF16 source | 3.685 | 39.86 | 99.68% | ~0 |
+| Direct 6000@3 | 4.446 | 85.31 | 41.44% | 1.522 |
+| **1500@9 -> 4500@3** | **4.249** | **70.05** | **43.64%** | **1.330** |
 
-Across the three paired orderings, staging reduced perplexity by an average of
-**53.35%** and improved teacher top-1 agreement by **7.54 percentage points**.
+The staged v5 advantage is **0.197 nats/token** / **17.88% lower PPL**. That is
+still a clear paired win, but the loss advantage is roughly **74% smaller** than
+the v4/v4b mean.
 
-The first ternary-step shock was also smaller after 9-state preparation in all
-three runs.
+The immediate ternary transition shock remained strongly reduced: **50.39%**
+smaller after 9-state preparation.
 
 ## Working interpretation
 
-The evidence now supports a narrower version of the staircase hypothesis:
+The evidence now favors a more cautious statement:
 
-> A persistent continuous master weight can use a 9-state (~3.17-bit) forward
-> representation to reorganize before the final 3-state / 1.58-bit constraint,
-> producing a less damaged ternary model than spending the same total updates
-> directly in ternary space.
+> 9-state preparation gives a large early optimization/head-start benefit when
+> entering ternary space, and a smaller benefit is still present after 5x more
+> training.
 
-The mechanism is not "rounding through more steps preserves information."
-Without adaptation, staged and direct projection are identical. The apparent
-benefit comes from **learning while the intermediate states still exist**.
+We do not yet know whether the residual gap is asymptotic or whether direct
+ternary eventually catches up.
+
+External review also identified a key unresolved mechanism question: the staged
+model carries adapted FP32 masters, learned scales, **and** Adam moments into
+ternary. A causal transition ablation is needed to determine where the benefit
+actually lives.
 
 ## Limits
 
-The ternary models are still qualitatively degraded and repetitive. This is one
-360M checkpoint, one calibration/evaluation corpus, and only three paired
-training orders. It is a reproducible experimental effect, not yet a general
-result or a production-ready model.
+Both ternary variants remain qualitatively degraded. v5 staged generations are
+still repetitive despite better held-out metrics. This remains one 360M model,
+one training/evaluation corpus, and an under-tuned direct baseline.
 
 ## Repository layout
 
@@ -58,6 +61,8 @@ result or a production-ready model.
 - `smollm2_nested_v2.py` — v2
 - `smollm2_transition_v3.py` — v3
 - `smollm2_v4_fliprate_9to3.py` — v4
-- `replications/` — v4b scripts, manifests, and confirmation results
+- `smollm2_v5_5x.py` — v5
+- `replications/` — v4b confirmation
 - `results/` — immutable run records and summaries
+- `SHAREABLE_RESEARCH_REPORT.md` — external-review report
 - `EXPERIMENT.md` — protocol history
