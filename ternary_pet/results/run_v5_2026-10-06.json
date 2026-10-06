@@ -1,0 +1,54 @@
+{
+  "job_id": "6ac56d99fbc85ba6823ba03f",
+  "job_name": "smollm2-v5-5x-9to3",
+  "pinned_commit": "23157f7ce03f6bbbf944806574b18c133843f049",
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "hardware": "a10g-small",
+  "finished_at": "2026-10-06T22:57:08.469Z",
+  "seed": 1729,
+  "tokens_per_treatment": 768000,
+  "bf16_source": {
+    "loss": 3.685364991426468,
+    "ppl": 39.85966823232363,
+    "top1_agreement": 0.996826171875,
+    "kl_to_teacher": 0.000041862205478082615
+  },
+  "direct_6000": {
+    "loss": 4.446256712079048,
+    "ppl": 85.3070168602857,
+    "top1_agreement": 0.4144287109375,
+    "kl_to_teacher": 1.5218985341489315,
+    "final_hist": {"-1": 0.34088147163391114, "0": 0.3179595629374186, "1": 0.34115896542867025},
+    "final_code_displacement": 0.03167322794596354,
+    "first_train_loss": 13.105018615722656,
+    "final_train_loss": 3.3161773681640625
+  },
+  "staged_9_1500_3_4500": {
+    "loss": 4.249263066798449,
+    "ppl": 70.05376837213808,
+    "top1_agreement": 0.4364013671875,
+    "kl_to_teacher": 1.3300627013668418,
+    "final_hist": {"-1": 0.3406906191507975, "0": 0.31832332611083985, "1": 0.34098605473836263},
+    "nine_state": {
+      "steps": 1500,
+      "first_train_loss": 10.80948257446289,
+      "final_train_loss": 1.8772753477096558,
+      "final_code_displacement": 0.05025064468383789
+    },
+    "ternary": {
+      "steps": 4500,
+      "first_train_loss": 6.501437187194824,
+      "final_train_loss": 2.854585647583008,
+      "final_code_displacement": 0.025064465204874674
+    }
+  },
+  "paired_effect": {
+    "loss_improvement_nats_per_token": 0.1969936452805996,
+    "ppl_reduction_percent": 17.880414823471225,
+    "top1_gain_percentage_points": 2.197265625,
+    "kl_reduction_percent": 12.605034335575283,
+    "direct_bf16_loss_gap_closed_percent": 25.88983950458123,
+    "ternary_entry_shock_reduction_percent": 50.38971421685148
+  },
+  "qualitative_note": "Both variants remain qualitatively degraded. Direct produced one partially coherent story fragment; staged remained strongly repetitive on the fixed prompts. Held-out metrics favor staged, but generation quality does not yet show a clear practical win."
+}
