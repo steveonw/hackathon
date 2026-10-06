@@ -557,3 +557,57 @@ state, alongside a stronger tuned direct-ternary baseline.
 
 Qualitative generations remain poor for both conditions; the v5 held-out metric
 win has not yet become a clear generation-quality win.
+
+
+---
+
+## 18. v6 result: the advantage is carried by the master weights
+
+v6 performed a controlled transition ablation at the v4-scale budget.
+
+One shared 300-step Q9 checkpoint was branched into four 900-step ternary
+continuations that selectively preserved or reset learned scales and Adam state.
+
+| Condition | Held-out loss | PPL | Teacher top-1 | KL |
+|---|---:|---:|---:|---:|
+| Direct 1200@3 | 5.8747 | 355.90 | 25.55% | 2.954 |
+| Carry masters + scales + full Adam | 5.2059 | 182.34 | 32.80% | 2.281 |
+| Reset Adam | 5.2031 | 181.83 | 33.31% | 2.275 |
+| Masters only, original scales, fresh Adam | 5.1990 | 181.09 | 32.74% | 2.262 |
+| Masters + weight Adam, original scales | 5.1799 | 177.67 | 32.96% | 2.252 |
+
+The four staged branches differ by only **0.026 nats/token**. Resetting Adam and
+restoring the original quantizer scales does not remove the benefit.
+
+This strongly indicates that the small-budget staged advantage is carried
+primarily in the **adapted FP32 master weights**.
+
+### Clean same-data transition test
+
+On a fixed diagnostic set, with no optimizer update between Q9 and Q3:
+
+- initial Q3 loss before preparation: **15.4784**;
+- Q9 loss after 300 preparation steps: **4.9320**;
+- immediate Q3 loss of those same prepared weights: **9.1771**.
+
+Thus Q9 -> Q3 creates a genuine **+4.2451 nat** quantization penalty, but the
+prepared Q3 projection is already **6.3013 nats/token better** than the original
+Q3 projection before any ternary training.
+
+### Future ternary boundary crossings
+
+Q9 preparation changes **0.6769%** of eventual ternary assignments using the
+learned scales.
+
+With the **original scales held fixed**, it still changes **0.6755%**.
+
+Therefore the boundary movement is overwhelmingly explained by motion of the
+continuous master weights rather than scale calibration.
+
+This is the strongest evidence so far for the project's mechanistic hypothesis:
+intermediate-state training reorganizes continuous weights across future ternary
+decision boundaries before the final constraint is imposed.
+
+The result remains narrow: it does not prove that nine states are optimal, that
+the advantage persists asymptotically, or that a stronger direct ternary
+optimizer cannot close the gap.
