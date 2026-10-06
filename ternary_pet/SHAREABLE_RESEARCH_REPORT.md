@@ -505,3 +505,55 @@ the immediate ternary transition shock.
 That is a reproducible experimental effect on this setup.
 
 It is not yet a general result, a novelty claim, or a useful ternary LLM.
+
+
+---
+
+## 17. v5 result: the advantage persists but contracts
+
+v5 completed after the original external-review report was prepared.
+
+The training budget was increased from 1200 to 6000 updates per treatment,
+using 6000 unique 128-token chunks (~768k training tokens per treatment).
+
+| Variant | Held-out loss | PPL | Teacher top-1 | KL |
+|---|---:|---:|---:|---:|
+| BF16 source | 3.6854 | 39.86 | 99.68% | ~0 |
+| Direct 6000@3 | 4.4463 | 85.31 | 41.44% | 1.522 |
+| **1500@9 -> 4500@3** | **4.2493** | **70.05** | **43.64%** | **1.330** |
+
+The v5 paired staged effect is:
+
+- **0.197 nats/token** lower held-out loss;
+- **17.88%** lower perplexity;
+- **+2.20 percentage points** teacher top-1;
+- **12.61%** lower KL.
+
+This remains a staged win, but it is much smaller than the v4/v4b mean of
+**0.765 nats/token**. The measured loss advantage contracted by roughly **74%**
+when training volume increased 5x.
+
+The first ternary-step loss was still reduced from 13.105 (direct) to 6.501
+(after 9-state prep), a **50.39% transition-shock reduction**, closely matching
+the earlier ~51% replicated mean.
+
+### Revised interpretation after v5
+
+v5 strengthens the evidence that 9-state preparation is a robust way to reduce
+the initial optimization shock of entering ternary space.
+
+At the same time, it weakens the stronger claim that staging necessarily leads
+to a permanently superior ternary basin.
+
+The current evidence is most consistent with:
+
+> a large early optimization/head-start effect, with a smaller residual
+> advantage still measurable after 5x more training.
+
+A longer run could show either continued convergence or a persistent floor.
+Before paying for that, the higher-value experiment is a causal transition
+ablation separating adapted master weights, learned quantizer scales, and Adam
+state, alongside a stronger tuned direct-ternary baseline.
+
+Qualitative generations remain poor for both conditions; the v5 held-out metric
+win has not yet become a clear generation-quality win.
