@@ -50,3 +50,26 @@ The full-precision shadow/master weights should remain continuous throughout.
 A new schedule is interesting only if it beats a fair direct-ternary control
 under matched data and clearly stated compute budgets. Anecdotal generations
 alone do not count as evidence.
+
+
+## Active v4 diagnostic
+
+Hugging Face Job: `6ac539b5404719ba376621a2`
+
+v4 directly addresses the main confounds found after reviewing v2/v3:
+
+- persistent FP32 shadow weights;
+- no hard commit at 9 -> 3;
+- optimizer state survives the stage transition;
+- non-quantized parameters are frozen;
+- BitNet-like absmean ternary initialization;
+- exact code-flip logging;
+- fixed 8192-token WikiText-2 test slice.
+
+The LR diagnostic tested 2e-5, 5e-5, and 1e-4. All three caused real ternary
+code changes. The script selected **1e-4** from validation loss; after 100
+diagnostic steps, about 0.38% of all targeted codes differed from their initial
+state, with some early attention projections above 1%.
+
+The main comparison is direct ternary (1200), persistent-shadow 9->3
+(300+900), and direct ternary (900).
