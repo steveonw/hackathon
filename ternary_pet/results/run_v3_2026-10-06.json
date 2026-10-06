@@ -1,0 +1,75 @@
+{
+  "job_id": "6ac52df9404719ba37661fa1",
+  "job_name": "smollm2-ternary-transition-v3",
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "hardware": "t4-small",
+  "created_at": "2026-10-06T17:20:57.292Z",
+  "finished_at": "2026-10-06T17:43:32.768Z",
+  "wall_clock_seconds": 1355.476,
+  "setup": {
+    "source": "identical BF16-rounded checkpoint for all variants",
+    "master_weights": "FP32",
+    "ternary_scale": "learnable per-output-row",
+    "objective": "0.35 next-token CE + 0.65 KL to untouched teacher",
+    "calibration": "WikiText-2 train, 640 x 128-token chunks",
+    "evaluation": "WikiText-2 test, 8192 tokens"
+  },
+  "bf16_source": {
+    "loss": 3.6853033304214478,
+    "ppl": 39.85721052089391,
+    "top1_agreement": 0.9964599609375,
+    "kl_to_teacher": 0.00004287233124955492
+  },
+  "direct_600": {
+    "path": "600 fully ternary steps",
+    "loss": 7.59031667560339,
+    "ppl": 1978.9400965782736,
+    "top1_agreement": 0.076904296875,
+    "kl_to_teacher": 4.539134424179792,
+    "train_first_loss": 15.924173355102539,
+    "train_last_loss": 5.4804487228393555,
+    "ternary_histogram": {"-1": 0.1039341640472412, "0": 0.7919826507568359, "1": 0.10408318519592286}
+  },
+  "soft_200_400": {
+    "path": "200-step soft quantization ramp then 400 fully ternary steps",
+    "loss": 7.657595127820969,
+    "ppl": 2116.661003749197,
+    "top1_agreement": 0.0726318359375,
+    "kl_to_teacher": 4.588813338428736,
+    "train_step1_loss": 1.1290496587753296,
+    "train_step100_loss": 12.616268157958984,
+    "train_step200_loss": 9.974868774414062,
+    "train_last_loss": 5.501194953918457,
+    "ternary_histogram": {"-1": 0.10393544514973958, "0": 0.791981258392334, "1": 0.10408329645792644}
+  },
+  "updown_equal_total_200_400": {
+    "path": "200 FP32-master adaptation steps then 400 fully ternary steps",
+    "loss": 7.910346642136574,
+    "ppl": 2725.335018574239,
+    "top1_agreement": 0.0628662109375,
+    "kl_to_teacher": 4.806440711021423,
+    "pre_step200_loss": 1.0000667572021484,
+    "first_post_switch_loss": 15.288253784179688,
+    "train_last_loss": 5.8057708740234375,
+    "ternary_histogram": {"-1": 0.10392679532368977, "0": 0.7919980367024739, "1": 0.10407516797383626}
+  },
+  "updown_equal_final_200_600": {
+    "path": "200 FP32-master adaptation steps then 600 fully ternary steps",
+    "loss": 7.612345777451992,
+    "ppl": 2023.0180862758789,
+    "top1_agreement": 0.0770263671875,
+    "kl_to_teacher": 4.562586795538664,
+    "pre_step200_loss": 1.0000667572021484,
+    "first_post_switch_loss": 15.288253784179688,
+    "train_step700_loss": 5.390108585357666,
+    "train_last_loss": 5.543570041656494,
+    "ternary_histogram": {"-1": 0.10393423716227214, "0": 0.7919854450225831, "1": 0.10408031781514486}
+  },
+  "interpretation": [
+    "The FP32 preparation phase reduced the immediate ternary-switch loss from 15.9242 to 15.2883 (~4.0%).",
+    "Under equal total optimizer steps, FP32-prep + ternary was worse than direct ternary.",
+    "Under equal final ternary steps, FP32-prep nearly caught direct ternary and slightly exceeded it in top-1 teacher agreement, but direct retained better perplexity and KL.",
+    "The soft ramp virtually eliminated the first-step shock but did not improve final held-out metrics.",
+    "All ternary variants remained qualitatively degenerate on chat generations, so this is not yet a usable ternary conversion."
+  ]
+}
