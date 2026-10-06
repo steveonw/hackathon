@@ -28,9 +28,11 @@ before/after language behavior measurable.
 - `EXPERIMENT.md` — hypothesis, controls, quantizer definition, and v2 plan
 - `results/` — immutable run outputs and summaries
 
-## Active run
+## Completed v1 run
 
 Hugging Face Job: `6ac52475404719ba37661c8b`
+
+Result: **no staged advantage demonstrated in v1**. Both raw ternary paths collapsed; direct QAT recovered more validation likelihood, while staged QAT retained slightly more top-1 baseline agreement but remained qualitatively broken. See `results/run_v1_summary.md`.
 
 Configuration:
 
