@@ -1519,6 +1519,8 @@ claim; v13 asks a finer dynamical/practical question.
 
 Seed/order: **1729 first**.
 
+Hugging Face job: `6ac65927e7a0dae8a277c24c` (A10G-small, 65-minute cap).
+
 Pinned script:
 `ternary_pet/smollm2_v13_depth_sweep_firmness.py`
 
