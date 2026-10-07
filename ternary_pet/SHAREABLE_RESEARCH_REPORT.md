@@ -879,3 +879,33 @@ This does not yet prove that the discrete ternary code identities themselves
 are sufficient. The intervention transfers the full continuous Q9 master values
 on M. Replication across the other two training orders and a code-vs-within-bin
 intervention on M are the appropriate next steps.
+
+
+---
+
+## 26. v11 mechanism replication: localization survives 3/3 orders
+
+The hybrid-master intervention was replicated on orders 271828 and 424242 with
+no design changes.
+
+| Seed | D-vs-S mask | Full Q9 gain | Mask-only gain | Recovery |
+|---:|---:|---:|---:|---:|
+| 1729 | 6.458% | 0.7126 | 0.6807 | 95.5% |
+| 271828 | 6.181% | 0.7014 | 0.6813 | 97.1% |
+| 424242 | 6.301% | 0.6672 | 0.6443 | 96.6% |
+
+The mask-only intervention therefore recovers **96.4% of the full Q9
+trainability advantage on average**, from a disagreement set containing only
+**6.31% of quantized weights on average**.
+
+The same-code majority still produces a smaller secondary effect, but after the
+disagreement-mask positions already use Q9 masters, the remaining same-code
+contribution averages only **0.025 nats/token**.
+
+This upgrades the seed-1729 localization to a replicated conclusion for this
+model/data/training setup.
+
+The result identifies **where** the useful prepared state resides, not yet
+**which property** of that state is sufficient. The mask-only intervention
+transfers exact continuous Q9 master values. A code-identity-vs-within-bin
+intervention is therefore the next causal test.
