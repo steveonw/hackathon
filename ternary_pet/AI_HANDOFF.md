@@ -607,3 +607,26 @@ benefit**, without assuming signed-preload is the reason they matter. Another
 high-value axis is the intermediate level-count sweep (5/7/9/15 -> 3) under the
 same equal-compute v7 protocol. A stronger tuned direct-Q3 optimizer/scheduler
 baseline remains necessary before broad claims.
+
+## ACTIVE v9 — direct Q3 tuning
+
+Script:
+`smollm2_v9_direct_q3_tuning.py`
+
+Pinned code:
+`5c088e58539b2dede93df57ac3f72dbe0480a028`
+
+v9 first compares seven direct-Q3 learning-rate/schedule choices for 300 updates
+using only the validation split. It then runs three full 1200-step direct-Q3
+conditions: the historical constant 1e-4 reference plus the two best
+non-reference validation candidates.
+
+The held-out test set is used only after those candidates are fixed.
+
+Decision rule:
+
+- if tuned direct Q3 largely removes the Q9 gap, revise the project headline;
+- if Q9 remains clearly ahead, proceed to the four-arm Q3-vs-Q9 hybrid-master
+  intervention;
+- if a new direct schedule wins materially over 1e-4, repeat that schedule on
+  training orders 271828 and 424242 before making it canonical.
