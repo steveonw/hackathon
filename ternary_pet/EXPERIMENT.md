@@ -415,6 +415,11 @@ Pinned script:
 Pinned Git commit:
 `356bff9769c96faa0ca139f9cba088fc1a52c2c8`
 
+Hugging Face job:
+`6ac5a0b1404719ba37664653`
+
+Hardware: A10G-small. Hard timeout: 35 minutes.
+
 Protocol:
 
 - seed/order 1729;
