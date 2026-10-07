@@ -555,3 +555,75 @@ Canonical files:
 
 - `results/run_v8_2026-10-07.json`
 - `results/run_v8_summary.md`
+
+
+## v9 — direct-Q3 baseline tuning
+
+Purpose: test whether the replicated Q9 finite-budget advantage survives a
+stronger direct-Q3 optimizer schedule.
+
+Pinned script:
+`ternary_pet/smollm2_v9_direct_q3_tuning.py`
+
+Pinned script commit:
+`5c088e58539b2dede93df57ac3f72dbe0480a028`
+
+Seed/order: 1729. Same model, data construction, frozen non-quantized
+parameters, CE/KL objective, quantizer, and held-out evaluator as v7/v8.
+
+### Candidate screen
+
+Each candidate receives the same first 300 direct-Q3 training chunks.
+
+Candidates:
+
+- constant 1e-4 (historical reference);
+- constant 3e-4;
+- constant 5e-4;
+- constant 1e-3;
+- constant 3e-3;
+- 100-step warmup then cosine, peak 3e-4, floor 3e-5;
+- 100-step warmup then cosine, peak 1e-3, floor 1e-4.
+
+Selection uses **only** the existing 24-chunk validation split. The held-out
+8192-token test split is not used for hyperparameter selection.
+
+For cosine candidates, the schedule horizon is always 1200 updates, so the
+first 300 LR values during screening exactly match the first 300 values in a
+full run.
+
+### Full-run rule
+
+After the 300-step validation screen, run exactly three 1200-step direct-Q3
+conditions from the same BF16-rounded source:
+
+1. historical constant 1e-4 reference;
+2. lowest-validation-loss non-reference candidate;
+3. second-lowest-validation-loss non-reference candidate.
+
+Only after those three candidates are fixed may the held-out test evaluator be
+used.
+
+### Preregistered interpretation
+
+Historical seed-1729 Q9 -> Q3 reference from v7:
+
+- loss 5.193768;
+- PPL 180.146;
+- top-1 33.789%;
+- KL 2.255982.
+
+This historical Q9 result is **not** used for v9 candidate selection.
+
+Interpretation:
+
+- if a tuned direct-Q3 schedule closes most or all of the ~0.68-nat v7 gap,
+  narrow the project claim to an optimization/schedule advantage under the
+  original direct baseline;
+- if the best tuned direct-Q3 run remains substantially behind Q9, the
+  trainability effect survives a materially stronger direct baseline;
+- if the winning direct schedule materially improves over constant 1e-4, it
+  must be replicated on orders 271828 and 424242 before using it as the new
+  canonical direct baseline;
+- do not launch the hybrid-master mechanism intervention until this baseline
+  check is resolved.
