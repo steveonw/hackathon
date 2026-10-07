@@ -4,7 +4,7 @@
 >
 > Repository: `steveonw/hackathon`  
 > Project directory: `ternary_pet/`  
-> Current experiment: **v7 — equal-compute preparation geometry**  
+> Current experiment: **v7 completed — trainability/weight-selection geometry result**  
 > Current v7 pinned code: `3aa494a4c8418052ed9e13e0de4f97c692a29fc7`  
 > Hugging Face job: `6ac58e76fbc85ba6823bad78`
 
@@ -256,8 +256,7 @@ Pinned commit:
 
 `6ac58e76fbc85ba6823bad78`
 
-At handoff creation, this job had been launched on **A10G-small** with a
-45-minute hard timeout. Inspect the job directly for its current status.
+The job completed successfully on **A10G-small**.
 
 ### v7 arms
 
@@ -472,3 +471,44 @@ scientific test; do not let outside reviewers silently redefine the experiment.
 > those masters are already a better equal-compute ternary checkpoint, are
 > merely more trainable inside Q3 geometry, and whether Q9 is special compared
 > with FP32 warmup.
+
+
+## v7 OUTCOME — read this before planning the next experiment
+
+v7 resolves the main ambiguity left by v6.
+
+Equal-compute fixed-Q3 diagnostic at step 300:
+
+- direct Q3: **6.5589**
+- Q9-prepared masters: **9.2264**
+- FP32-prepared masters: **14.7346**
+
+Final after identical fresh-Adam 900-step Q3 continuation:
+
+- direct Q3 -> Q3: **5.8724 loss / 355.09 PPL**
+- Q9 -> Q3: **5.1938 / 180.15**
+- FP32 -> Q3: **6.0311 / 416.19**
+
+Therefore:
+
+1. Q9 does **not** win by producing a better immediate Q3 checkpoint.
+2. Q9 does produce a master state that is dramatically more trainable during
+   later Q3 optimization.
+3. Generic FP32 warmup is not enough; the intermediate discrete constraint
+   matters in this setup.
+4. Direct and Q9 change similar counts of future ternary codes (~0.69% vs
+   ~0.68%) but only **19.64% Jaccard** of changed positions overlap.
+5. Simple global threshold-margin distributions are effectively identical.
+
+The current mechanism hypothesis is now **Q9-specific gradient/weight-selection
+geometry**, not entry quality, Adam carryover, scale carryover, or generic
+high-precision warmup.
+
+See `results/run_v7_summary.md` and `results/run_v7_2026-10-07.json`.
+
+### Next decision
+
+Do not automatically scale up. The highest-value next work is to determine why
+the Q9-selected subset is more useful, or to compare intermediate state counts
+(5/7/9/15) using the same equal-compute v7 framework. A stronger tuned direct-Q3
+baseline remains necessary before broad claims.
