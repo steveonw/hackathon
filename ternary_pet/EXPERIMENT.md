@@ -1178,3 +1178,59 @@ Preregistered interpretation:
   the heterogeneity and do not canonicalize the 95.5% figure;
 - do not claim discrete ternary code labels alone are causal. Arm 10 transfers
   the full continuous S masters on M.
+
+
+### v11 replication-pair outcome
+
+Both preregistered confirmatory jobs completed successfully:
+
+- seed 271828: `6ac638c0c656c912b4ffae8a`
+- seed 424242: `6ac638c3f0d78b8017af0d5a`
+
+Both passed the exact pre-continuation pair checks:
+
+- 00/01 projected-Q3 Hamming = 0;
+- 10/11 projected-Q3 Hamming = 0;
+- paired validation diagnostics exactly match.
+
+Combined with seed 1729:
+
+| Seed | Mask % | L00 | L10 | L01 | L11 | Full gain | Mask gain | Recovery |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1729 | 6.458 | 5.6136 | 4.9329 | 5.5020 | 4.9010 | 0.7126 | 0.6807 | 95.5% |
+| 271828 | 6.181 | 5.6524 | 4.9711 | 5.5620 | 4.9510 | 0.7014 | 0.6813 | 97.1% |
+| 424242 | 6.301 | 5.6234 | 4.9791 | 5.4979 | 4.9563 | 0.6672 | 0.6443 | 96.6% |
+
+Aggregate:
+
+- mean disagreement-mask size: **6.313%**;
+- mean full 00->11 gain: **0.6938 nats/token**;
+- mean mask-only gain: **0.6688 nats/token**;
+- mean mask-only recovery: **96.4%**;
+- recovery range: **95.5%–97.1%**;
+- mean same-code-complement gain on a D background: **0.1092 nats**;
+- mean residual same-code contribution once M is already from Q9:
+  **0.0250 nats**;
+- mean factorial interaction: **0.0842 nats**.
+
+The mechanism localization therefore replicates in **3/3 orders**.
+
+Canonical interpretation:
+
+> Under this SmolLM2 matched-schedule setup, the dominant causal carrier of the
+> Q9 trainability advantage is the continuous Q9-prepared master state on the
+> ~6.3% of quantized positions where Q9 and direct preparation project to
+> different ternary codes after 300 updates.
+
+Do not claim code labels alone cause the effect. The intervention transfers full
+continuous Q9 master values on M.
+
+A secondary descriptive regularity also replicates: changed-set Jaccard versus
+the original source is 18.85%, 19.35%, and 18.97% (mean **19.05%**) across the
+three orders despite larger absolute code movement than the old v7 regime.
+
+Canonical aggregate:
+`replications/v11_hybrid_factorial_aggregate_summary.md`
+
+Next causal refinement: separate **Q9-selected Q3 code identity** from
+**continuous within-bin/boundary-relative position** on M.
