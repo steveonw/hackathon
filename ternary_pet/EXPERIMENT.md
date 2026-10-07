@@ -1427,6 +1427,11 @@ Scripts:
 - `replications/smollm2_v12_code_identity_position_seed271828.py`
 - `replications/smollm2_v12_code_identity_position_seed424242.py`
 
+Hugging Face jobs (A10G-small, 55-minute cap each):
+
+- seed 271828: `6ac64ccddf2184ac91ac092d`
+- seed 424242: `6ac64cd2df2184ac91ac092f`
+
 No design, epsilon, schedule, random-control, or continuation changes are
 allowed relative to seed 1729.
 
