@@ -459,3 +459,43 @@ Interpretation preregistered before launch:
   optimization geometry;
 - a positive result does not establish causality by itself; it identifies a
   more specific geometric correlate to test next.
+
+
+### v8 interpretation refinement added before result review
+
+A reviewer pointed out a post-selection issue: each future-flip set is defined
+after that arm's own preparation and continuation. Therefore an arm can look
+aligned on its own later-flipping weights partly because those weights were
+already nudged toward a boundary.
+
+For that reason, own-set alignment alone is not sufficient evidence.
+
+Read all four matched quantities together:
+
+1. Q9 prep on Q9's later-flip set;
+2. Q3 prep on Q9's later-flip set;
+3. Q3 prep on Q3's later-flip set;
+4. Q9 prep on Q3's later-flip set.
+
+Interpretation rule:
+
+- if each arm mainly wins on its own later-flip set by similar margins, treat
+  that as compatible with post-selection;
+- stronger evidence for Q9-specific directional preparation requires a clear
+  asymmetry across the matched comparisons;
+- if the cross-set comparisons do not favor Q9, do not claim a Q9-specific
+  directional-preloading mechanism.
+
+The current v8 script already records distributional statistics beyond the mean:
+median, q10/q25/q75/q90, fraction positive/negative, mean absolute displacement,
+and a per-layer breakdown.
+
+The running v8 script does not include a random/non-flipper null baseline. Since
+v8 is already running from a pinned commit, do not modify the script after
+launch. If the four-way result is positive or ambiguous, add a null comparison
+in a follow-up rather than changing v8 post hoc.
+
+If v8 gives a strong correlational signal, the next causal test should be an
+intervention that selectively removes the largest Q9-aligned preparation
+movements before the common Q3 continuation and measures how much of the Q9
+advantage is lost.
