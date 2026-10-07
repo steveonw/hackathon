@@ -989,6 +989,8 @@ Pinned code:
 
 Seed/order: 1729.
 
+Hugging Face job: `6ac5c7befbc85ba6823bbef0` (A10G-small, 50-minute cap).
+
 ### Preparation
 
 Use the exact v10 global LR schedule for the first 300 updates:
