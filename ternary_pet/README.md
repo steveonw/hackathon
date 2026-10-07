@@ -209,3 +209,38 @@ This is seed 1729 only; replicate v12 before canonicalizing this finer
 code-vs-position result.
 
 See `results/run_v12_code_identity_position_summary.md`.
+
+
+## v12 replicated mechanism — canonical three-order result
+
+The code-identity-vs-position intervention now replicates across all three
+training orders.
+
+| Seed | Exact Q9 on M | Q3 prototype on M | Minimal crossing | Matched random | Prototype recovery |
+|---:|---:|---:|---:|---:|---:|
+| 1729 | 4.9329 | **4.8884** | 5.4979 | 5.6793 | 106.5% |
+| 271828 | 4.9711 | **4.9187** | 5.5406 | 5.7208 | 107.7% |
+| 424242 | 4.9791 | **4.9373** | 5.4911 | 5.7031 | 106.5% |
+
+All exact/prototype/minimal arms begin with exactly the same projected Q3
+forward model.
+
+Aggregate:
+
+- prototype recovery of exact-Q9 gain: **106.9%**;
+- minimal-crossing recovery: **18.0%**;
+- matched-random recovery: **-10.7%**;
+- prototype beats exact Q9 by **0.0463 nats/token on average**;
+- matched-random is worse than direct in **3/3 orders**.
+
+Canonical interpretation:
+
+> Q9 discovers useful **which-position / which-code** assignments. Exact Q9
+> within-region FP32 coordinates are unnecessary, but merely crossing into the
+> chosen Q3 region is insufficient. The masters need useful depth/placement
+> inside that region; the standard Q3 reconstruction prototype is sufficient
+> and slightly better than exact Q9 in all three orders.
+
+This completes the current mechanism sequence for this setup.
+
+See `replications/v12_code_identity_position_aggregate_summary.md`.
