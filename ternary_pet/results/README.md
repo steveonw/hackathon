@@ -15,19 +15,25 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v5 / `6ac56d99fbc85ba6823ba03f` | SmolLM2-360M-Instruct | A10G small | completed | 5x training-volume test |
 | v6 / `6ac5816ffbc85ba6823ba8ec` | SmolLM2-360M-Instruct | A10G small | completed | causal transition ablation |
 | v7 / `6ac58e76fbc85ba6823bad78` | SmolLM2-360M-Instruct | A10G small | completed | equal-compute Q3/Q9/FP32 geometry |
+| v7 rep seed 271828 / `6ac59807fbc85ba6823bb060` | SmolLM2-360M-Instruct | A10G small | completed | v7 training-order replication |
+| v7 rep seed 424242 / `6ac59809fbc85ba6823bb063` | SmolLM2-360M-Instruct | A10G small | completed | v7 training-order replication |
 
 ## Current headline
 
-v7 resolves the main v6 ambiguity.
+The v7 trainability mechanism replicated in **3/3 training orders**.
 
-At equal 300-step compute, Q9 projects to a **worse** Q3 checkpoint than direct
-(9.226 vs 6.559 loss), but after the same fresh-Adam 900-step Q3 continuation it
-finishes much better (5.194 vs 5.872; 180.15 vs 355.09 PPL).
+In every order, Q9 is worse than direct Q3 at the equal-compute step-300
+fixed-Q3 diagnostic, yet finishes better after the identical 900-step Q3
+continuation.
 
-FP32 warmup finishes worse than direct (6.031 loss / 416.19 PPL).
+Aggregate across seeds 1729, 271828, 424242:
 
-Q3 and Q9 change similar fractions of future Q3 codes but only **19.64% Jaccard**
-overlap in which positions changed. The leading mechanism is now a
-Q9-specific **trainability / weight-selection geometry** effect.
+- mean final loss advantage: **0.688 nats/token**
+- mean paired PPL reduction: **49.69%**
+- mean teacher top-1 gain: **+6.86 pp**
+- mean Q3-vs-Q9 changed-set Jaccard: **19.66%**
 
-See `run_v7_summary.md`.
+FP32 warmup never approaches the Q9 result, but it is only worse than direct in
+2/3 orders; on seed 271828 it beats direct by a small 0.029 nats/token.
+
+See `../replications/v7_aggregate_summary.md`.
