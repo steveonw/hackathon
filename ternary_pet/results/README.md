@@ -25,6 +25,8 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v10 seed 271828 / `6ac5c254fbc85ba6823bbd6e` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
 | v10 seed 424242 / `6ac5c256404719ba37664cf1` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
 | v11 / `6ac5c7befbc85ba6823bbef0` | SmolLM2-360M-Instruct | A10G small | completed | hybrid-master causal localization |
+| v11 rep seed 271828 / `6ac638c0c656c912b4ffae8a` | SmolLM2-360M-Instruct | A10G small | completed | hybrid causal replication |
+| v11 rep seed 424242 / `6ac638c3f0d78b8017af0d5a` | SmolLM2-360M-Instruct | A10G small | completed | hybrid causal replication |
 
 ## Current headline
 
@@ -151,3 +153,19 @@ master state on the code-disagreement positions, not the distributed same-code
 majority.
 
 See `run_v11_hybrid_factorial_summary.md`.
+
+
+### v11 three-order causal aggregate
+
+| Seed | Mask size | L00 | L10 | L01 | L11 | Mask recovery |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1729 | 6.46% | 5.6136 | **4.9329** | 5.5020 | **4.9010** | **95.5%** |
+| 271828 | 6.18% | 5.6524 | **4.9711** | 5.5620 | **4.9510** | **97.1%** |
+| 424242 | 6.30% | 5.6234 | **4.9791** | 5.4979 | **4.9563** | **96.6%** |
+
+Mean mask size: **6.31%**.  
+Mean mask-only recovery: **96.4%**.
+
+The causal localization replicates in **3/3 orders**.
+
+See `../replications/v11_hybrid_factorial_aggregate_summary.md`.
