@@ -4,9 +4,10 @@
 >
 > Repository: `steveonw/hackathon`  
 > Project directory: `ternary_pet/`  
-> Current experiment: **v7 completed — trainability/weight-selection geometry result**  
-> Current v7 pinned code: `3aa494a4c8418052ed9e13e0de4f97c692a29fc7`  
-> Hugging Face job: `6ac58e76fbc85ba6823bad78`
+> Current state: **v8 completed; v7 trainability effect replicated, simple signed-preload mechanism not supported**  
+> Latest mechanism script: `smollm2_v8_signed_preload.py` at `356bff9769c96faa0ca139f9cba088fc1a52c2c8`  
+> Latest completed HF job: `6ac5a0b1404719ba37664653`  
+> Canonical current summaries: `replications/v7_aggregate_summary.md` and `results/run_v8_summary.md`
 
 ## 1. What the user is trying to discover
 
@@ -466,11 +467,11 @@ scientific test; do not let outside reviewers silently redefine the experiment.
 
 ## 12. One-sentence state of the project
 
-> We have reproducible evidence that Q9 preparation gives a large early ternary
-> recovery advantage carried in adapted FP32 masters; v7 is now testing whether
-> those masters are already a better equal-compute ternary checkpoint, are
-> merely more trainable inside Q3 geometry, and whether Q9 is special compared
-> with FP32 warmup.
+> Across three training orders, Q9 preparation creates a worse immediate Q3
+> checkpoint but a substantially more trainable FP32-master state for the same
+> later Q3 continuation; v8 did not support the tested simple signed-threshold
+> preload explanation, so the remaining mechanism is a deeper
+> trainability/weight-selection geometry effect.
 
 
 ## v7 OUTCOME — read this before planning the next experiment
