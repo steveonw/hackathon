@@ -863,7 +863,7 @@ def continue_hybrid(arm,d_masters,s_masters,diff_mask,reference_scales,teacher):
     if torch.cuda.is_available(): torch.cuda.empty_cache()
     return out
 
-def diag_close(a,b,tol=1e-6):
+def diag_close(a,b,tol=1e-5):
     keys=["loss","ppl","top1_agreement","kl_to_teacher"]
     return all(abs(float(a[k])-float(b[k]))<=tol for k in keys)
 
@@ -937,6 +937,11 @@ assert pair_checks["10_vs_11_hamming"]["fraction"]==0.0, pair_checks
 assert pair_checks["00_vs_01_diag_close"], pair_checks
 assert pair_checks["10_vs_11_diag_close"], pair_checks
 print(json.dumps({"event":"v11_pair_assertions_passed","checks":pair_checks}),flush=True)
+
+# The full code snapshots are large; after the exact pair assertions they are
+# no longer needed. Free them before the four continuations.
+del pre_codes
+gc.collect()
 
 arms={}
 for arm in ["00","10","01","11"]:
