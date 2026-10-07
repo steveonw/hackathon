@@ -733,6 +733,12 @@ Pinned commit:
 
 Seeds/orders: 1729, 271828, 424242.
 
+Hugging Face jobs:
+
+- 1729: `6ac5c252fbc85ba6823bbd6c`
+- 271828: `6ac5c254fbc85ba6823bbd6e`
+- 424242: `6ac5c256404719ba37664cf1`
+
 Protocol:
 
 - steps 1-100 warmup to 1e-3;
