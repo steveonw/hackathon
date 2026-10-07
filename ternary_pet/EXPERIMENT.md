@@ -1245,6 +1245,8 @@ property on M is sufficient**.
 
 Seed/order: 1729 first.
 
+Hugging Face job: `6ac642a0df2184ac91ac018d` (A10G-small, 55-minute cap).
+
 Pinned script:
 `ternary_pet/smollm2_v12_code_identity_position.py`
 
