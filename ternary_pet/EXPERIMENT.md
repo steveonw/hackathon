@@ -354,3 +354,50 @@ No result-dependent protocol changes are allowed. The confirmatory questions are
 3. Does FP32 warmup still fail to match Q9?
 4. Do Q3 and Q9 still change similar fractions of future Q3 codes while
    selecting substantially different positions?
+
+
+### v7 replication pair outcome
+
+Both preregistered replication jobs completed successfully:
+
+- seed 271828: `6ac59807fbc85ba6823bb060`
+- seed 424242: `6ac59809fbc85ba6823bb063`
+
+Together with the original seed 1729, the central v7 effect now replicates in
+**3/3 training orders**.
+
+Equal-compute fixed-Q3 loss after the first 300 updates:
+
+| Seed | Direct Q3 | Q9-prepared Q3 | Q9 disadvantage |
+|---:|---:|---:|---:|
+| 1729 | 6.5589 | 9.2264 | +2.6676 |
+| 271828 | 6.6449 | 8.8909 | +2.2460 |
+| 424242 | 6.5824 | 9.4334 | +2.8510 |
+
+Final held-out loss after the identical fresh-Adam 900-step Q3 continuation:
+
+| Seed | Direct | Q9 prep | Q9 gain |
+|---:|---:|---:|---:|
+| 1729 | 5.8724 | 5.1938 | 0.6786 |
+| 271828 | 5.9802 | 5.2417 | 0.7384 |
+| 424242 | 5.9469 | 5.3008 | 0.6461 |
+
+Aggregate:
+
+- mean final Q9 loss advantage: **0.6877 nats/token**;
+- mean paired PPL reduction: **49.69%**;
+- mean top-1 gain: **+6.86 percentage points**;
+- mean Q3-vs-Q9 changed-position Jaccard: **19.66%**.
+
+The changed-position result is highly stable: Q3 and Q9 move similar fractions
+of future ternary decisions (~0.68%) but mostly different specific weights.
+
+FP32 nuance: the FP32-prepared arm remains far behind Q9 in all three runs, but
+it is not always worse than direct. On seed 271828 it finishes 0.0292 nats/token
+better than direct; on the other two seeds it is worse. Therefore the safe
+replicated conclusion is that generic FP32 warmup **does not reproduce the Q9
+advantage**, not that FP32 is universally harmful.
+
+Interpretation: the Q9-specific trainability / weight-selection geometry result
+is now replicated across three training orders under the current
+SmolLM2/WikiText recipe.
