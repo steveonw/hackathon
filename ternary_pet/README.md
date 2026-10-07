@@ -171,3 +171,41 @@ values on those positions, so discrete ternary code identity has not yet been
 isolated from continuous within-bin geometry.
 
 See `replications/v11_hybrid_factorial_aggregate_summary.md`.
+
+
+## v12 seed-1729 result — code identity vs continuous position
+
+v12 holds the ternary forward model fixed while changing only the hidden FP32
+master position on the replicated Q9 disagreement mask.
+
+Final losses:
+
+| Arm | Construction | Loss |
+|---|---|---:|
+| D | direct masters | 5.6136 |
+| exact | exact Q9 masters on M | 4.9329 |
+| proto | Q3 prototype for Q9-selected code on M | **4.8884** |
+| minimal | just inside Q9-selected code region | 5.4979 |
+| random | matched transitions at different positions | 5.6793 |
+
+The exact/prototype/minimal arms have zero projected-Q3 Hamming and identical
+pre-continuation diagnostics.
+
+Interpretation on seed 1729:
+
+- exact Q9 within-region values are **not required**; the standardized Q3
+  prototype is slightly better than exact Q9;
+- Q9 code identity **alone is not sufficient**; barely crossing into the same
+  selected region recovers only ~17% of the exact-S gain;
+- the specific positions selected by Q9 matter: a layer/source/target-matched
+  random reassignment is worse than direct.
+
+Thus the strongest current mechanism is: Q9 discovers useful **which
+position/code** decisions, and later Q3 optimization benefits when the
+corresponding masters are placed well inside those target regions rather than
+barely across the boundary.
+
+This is seed 1729 only; replicate v12 before canonicalizing this finer
+code-vs-position result.
+
+See `results/run_v12_code_identity_position_summary.md`.
