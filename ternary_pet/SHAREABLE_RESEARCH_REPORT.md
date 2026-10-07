@@ -694,3 +694,42 @@ large trainability advantage**, not that FP32 warmup is always harmful.
 This substantially strengthens the narrow claim that, under this recipe, the
 intermediate Q9 forward constraint creates a reproducible finite-budget
 trainability / weight-selection geometry effect.
+
+
+---
+
+## 21. v8 result: simple directional pre-loading does not explain Q9
+
+v8 tested a more specific mechanism for the replicated v7 trainability effect.
+
+For each weight whose Q3 code changes during the common 900-step continuation,
+the diagnostic measured whether its first-300-step FP32 master motion was
+already aligned with the direction of that later ternary transition.
+
+Because later-flip sets are selected after each arm's own trajectory, the
+interpretation was preregistered around a four-way matched-position comparison.
+
+On Q9's later-flip set:
+
+- Q9 prep aligned displacement: **0.002328**
+- Q3 prep on the same positions/directions: **0.000873**
+- Q9 matched advantage: **+0.001455**
+
+On Q3's later-flip set:
+
+- Q3 prep aligned displacement: **0.003130**
+- Q9 prep on the same positions/directions: **0.001439**
+- Q3 matched advantage: **+0.001691**
+
+Thus each preparation mainly wins on its own later-flip set by a similar
+amount. The direct-Q3 own-set advantage is slightly larger.
+
+That is the pattern expected from post-selection / trajectory-specific
+alignment, not evidence that Q9 uniquely "pre-points" useful weights toward
+their future ternary thresholds.
+
+The v7 trainability effect itself remains intact and reproduced inside v8.
+Therefore the mechanism should remain described at the broader
+**trainability / weight-selection geometry** level. Global threshold proximity
+(v7) and simple signed future-threshold preloading (v8) have both failed to
+explain the Q9 advantage.
