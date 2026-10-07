@@ -866,3 +866,28 @@ If the same pattern replicates, the next causal refinement should separate
 **code identity** from **continuous within-bin position on the disagreement
 mask** itself, e.g. by constructing masters that preserve the Q9-selected Q3
 code while recentering each selected master within its ternary bin.
+
+## ACTIVE — v11 hybrid-factorial replication pair
+
+Pinned shared commit:
+`bb3ba53b4b55bfc6884d287d5a575785e212ffb4`
+
+Orders:
+
+- 271828
+- 424242
+
+Exact v11 design; no changes.
+
+The key replication question is whether the Q9 master values on the
+D-vs-S projected-Q3 disagreement mask again recover most of the full 00->11
+trainability gain.
+
+Require exact pair checks before continuation:
+
+- 00/01 zero Q3-code Hamming;
+- 10/11 zero Q3-code Hamming;
+- matching paired pre-continuation diagnostics.
+
+If the localization pattern replicates in both orders, aggregate all three
+orders before moving to the code-identity-vs-within-bin intervention on M.
