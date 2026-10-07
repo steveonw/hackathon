@@ -809,3 +809,40 @@ First verify that endpoints 00 and 11 reproduce a material direct-vs-Q9
 trainability gap under this common fresh-Adam continuation. Then interpret 10
 and 01 to localize the causal contribution to code-disagreement positions,
 same-code hidden master geometry, or their interaction.
+
+## ACTIVE v11 — matched-schedule hybrid-master factorial
+
+Pinned code:
+`f342fd9c706f2fe21aa00adabe6611b7f835f570`
+
+Seed/order: 1729.
+
+v11 rebuilds both step-300 states under the v10 schedule:
+
+- D = direct-Q3 prepared masters;
+- S = Q9-prepared masters.
+
+Using original Q3 scales, M is the exact set of positions where D and S project
+to different Q3 codes.
+
+Four arms:
+
+- 00 = D everywhere;
+- 10 = S on M, D elsewhere;
+- 01 = D on M, S elsewhere;
+- 11 = S everywhere.
+
+All arms get original Q3 scales, fresh Adam, and the same global LR continuation
+from step 301 through 1200.
+
+The script asserts zero Q3-code Hamming distance for paired equal-forward
+models 00/01 and 10/11 before any continuation update.
+
+Read the result causally:
+
+- 10 ~ 11 -> code-disagreement positions carry most of the benefit;
+- 01 ~ 11 -> same-code hidden master geometry carries most;
+- both intermediate -> split contribution;
+- neither helps alone but 11 wins -> interaction/synergy;
+- if 00-vs-11 itself does not reproduce a material gap under the common
+  continuation, do not localize mechanism from the hybrids.
