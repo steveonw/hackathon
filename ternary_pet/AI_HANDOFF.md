@@ -658,6 +658,11 @@ The v9-selected direct-Q3 schedule is being replicated on orders 271828 and
 Pinned scripts commit:
 `31c12d56c239d091e06731c49c809ade8739af95`
 
+Hugging Face jobs:
+
+- seed 271828: `6ac5b807404719ba37664ae8`
+- seed 424242: `6ac5b809fbc85ba6823bba12`
+
 Schedule:
 
 - 1200 direct-Q3 updates;
