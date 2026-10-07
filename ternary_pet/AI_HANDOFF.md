@@ -1126,3 +1126,35 @@ Compact confirmatory JSON summaries:
 - `results/run_v12_code_identity_position_seed424242_compact_2026-10-07.json`
 
 Full confirmatory traces remain auditable in the Hugging Face job logs above.
+
+## ACTIVE OPTIONAL v13 — depth sweep + firmness controls
+
+This is an optional closing experiment; the v12 three-order mechanism result
+remains canonical and already met the stop condition.
+
+Seed/order: 1729 first.
+
+Pinned code:
+`fc68603caa1bf0e33faadb28f97a62a1bd0e3957`
+
+Eight continuation arms:
+
+- D;
+- depth d=0.03, 0.25, 0.50, 0.75, 1.00 for Q9's selected codes on M;
+- B1 = direct's own codes prototyped on M;
+- B2 = direct's own codes prototyped on D's own changed-vs-initial set.
+
+Depth d=.03 exactly re-anchors v12 minimal crossing; d=1 exactly re-anchors v12
+prototype.
+
+For depth arms log Q9-code survival after 100/300/900 continuation steps under:
+
+- current learned Q3 scale;
+- fixed original alpha0;
+
+and split target zero vs target nonzero.
+
+All depth arms must have identical projected Q3 forward models before
+continuation. B1/B2 must be identical to D before continuation.
+
+Replication only if the seed-1729 depth/firmness result is clean.
