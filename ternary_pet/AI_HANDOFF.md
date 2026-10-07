@@ -723,36 +723,89 @@ then run the same Q3 continuation. This tests whether the residual Q9 advantage
 is carried mainly by code-disagreement positions, hidden same-code master
 geometry, or their interaction.
 
-## ACTIVE v10 — schedule-matched Q9 control
+## v10 — COMPLETED schedule-matched Q9 control
 
-Before the hybrid-master intervention, run Q9 -> Q3 under the exact global LR
-curve selected for tuned direct.
-
-Pinned commit:
+Pinned code:
 `4050f42cf226a300082178b2fda475ebcf31664e`
 
-Seeds/orders: 1729, 271828, 424242.
-
-Hugging Face jobs:
+Jobs:
 
 - 1729: `6ac5c252fbc85ba6823bbd6c`
 - 271828: `6ac5c254fbc85ba6823bbd6e`
 - 424242: `6ac5c256404719ba37664cf1`
 
-Protocol:
+The v9-selected global LR schedule was applied unchanged to Q9 -> Q3:
 
-- steps 1-100 warmup to 1e-3;
+- 100-step warmup to 1e-3;
 - cosine decay to 1e-4 through step 1200;
-- Q9 on global steps 1-300;
-- transition restores original Q3 scales and fresh Adam;
-- Q3 on global steps 301-1200;
-- LR curve continues across the transition and is not restarted.
+- Q9 steps 1-300;
+- original Q3 scales + fresh Adam at transition;
+- Q3 steps 301-1200;
+- LR curve continues rather than restarting.
 
-No Q9-specific schedule search is allowed.
+Result: matched-schedule Q9 beats tuned direct in **3/3 orders**.
 
-Compare each result against both:
+| Seed | Tuned direct | Matched Q9 | Q9 gain |
+|---:|---:|---:|---:|
+| 1729 | 5.5957 | 4.9010 | 0.6947 |
+| 271828 | 5.6228 | 4.9510 | 0.6718 |
+| 424242 | 5.6067 | 4.9563 | 0.6505 |
 
-- the v9 tuned-direct result for that seed;
-- the historical v7 constant-1e-4 Q9 -> Q3 result.
+Aggregate:
 
-This is an equal-schedule control, not a full best-tuned-vs-best-tuned search.
+- mean loss advantage: **0.6723 nats/token**;
+- mean PPL reduction: **48.94%**;
+- mean top-1 gain: **+6.82 pp**;
+- mean KL advantage: **0.6817**.
+
+The step-300 diagnostic still points the opposite way: matched Q9 is **0.5120
+nats/token worse** than tuned direct as an immediate fixed-Q3 checkpoint after
+equal 300-step compute.
+
+Therefore the trainability effect survives a much stronger and
+schedule-symmetric regime.
+
+Do not call 0.6723 a best-tuned-vs-best-tuned intrinsic advantage. Q9 received
+the direct-selected schedule, not an independent equal-budget search.
+
+Important geometry update: under this stronger schedule, step-300 projected-Q3
+code displacement is ~4.41% for direct and ~4.88% for Q9, much larger than the
+old ~0.68% v7 regime. Do not reuse the old v7 Jaccard/code-movement
+interpretation as if it automatically applies here.
+
+Canonical aggregate:
+`replications/v10_schedule_matched_q9_aggregate_summary.md`
+
+### Current next-question priority
+
+Proceed to the four-arm hybrid-master factorial in the **matched-schedule
+regime**.
+
+Rebuild both step-300 master states inside the same run:
+
+- D = direct-Q3 masters after 300 global-schedule updates;
+- S = Q9 masters after 300 global-schedule updates.
+
+Project both through the same original Q3 scales and define mask M where their
+Q3 codes differ.
+
+Construct:
+
+- 00: D everywhere;
+- 10: S on M, D elsewhere;
+- 01: D on M, S elsewhere;
+- 11: S everywhere.
+
+Assert before continuation:
+
+- Q3(00) == Q3(01) exactly;
+- Q3(10) == Q3(11) exactly;
+- paired diagnostic losses match to numerical tolerance.
+
+Then give **all four arms** original Q3 scales, fresh Adam, and the same global
+LR curve starting at step 301 for 900 Q3 updates.
+
+First verify that endpoints 00 and 11 reproduce a material direct-vs-Q9
+trainability gap under this common fresh-Adam continuation. Then interpret 10
+and 01 to localize the causal contribution to code-disagreement positions,
+same-code hidden master geometry, or their interaction.
