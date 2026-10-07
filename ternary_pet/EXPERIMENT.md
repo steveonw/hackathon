@@ -802,3 +802,47 @@ Corrected retry jobs:
 
 - seed 271828: `6ac5b913404719ba37664b21`
 - seed 424242: `6ac5b915fbc85ba6823bba5b`
+
+
+### v9 tuned-direct replication outcome
+
+Corrected confirmatory jobs completed successfully:
+
+- seed 271828: `6ac5b913404719ba37664b21`
+- seed 424242: `6ac5b915fbc85ba6823bba5b`
+
+The fixed v9-selected direct schedule was used with no further tuning:
+
+- 100-step warmup to LR 1e-3;
+- cosine decay to LR 1e-4 by step 1200;
+- direct Q3 throughout.
+
+Held-out comparison against the already-locked Q9 -> Q3 results:
+
+| Seed | Old direct loss | Tuned direct loss | Q9 loss | Residual Q9 gain | Old gap closed |
+|---:|---:|---:|---:|---:|---:|
+| 1729 | 5.8724 | 5.5957 | **5.1938** | **0.4020** | 40.77% |
+| 271828 | 5.9802 | 5.6228 | **5.2417** | **0.3810** | 48.40% |
+| 424242 | 5.9469 | 5.6067 | **5.3008** | **0.3059** | 52.65% |
+
+Q9 remains ahead of tuned direct in **3/3 orders**.
+
+Aggregate against tuned direct:
+
+- mean residual loss advantage: **0.3630 nats/token**;
+- mean paired PPL reduction: **30.38%**;
+- mean top-1 gain: **+2.52 pp**;
+- mean KL advantage: **0.3871**.
+
+The tuned schedule closes **47.27%** of the historical Q9/direct loss gap on
+average. Therefore direct under-tuning explained nearly half of the original
+small-budget effect, but not all of it.
+
+This tuned schedule now replaces constant 1e-4 as the canonical small-budget
+direct-Q3 baseline.
+
+Per the preregistered decision rule, the next experiment may proceed to the
+four-arm Q3-vs-Q9 hybrid-master factorial intervention.
+
+Canonical aggregate:
+`replications/v9_tuned_direct_aggregate_summary.md`
