@@ -1350,3 +1350,64 @@ submask intervention next.
 Replication rule: run seed 1729 first. Replicate the exact v12 design on orders
 271828 and 424242 only if the result is interpretable enough to justify a
 canonical code-vs-position claim.
+
+
+### v12 outcome
+
+Job `6ac642a0df2184ac91ac018d` completed successfully.
+
+All preregistered construction checks passed.
+
+True-mask equal-forward checks:
+
+- exact vs prototype projected-Q3 Hamming = 0;
+- exact vs minimal projected-Q3 Hamming = 0;
+- exact/prototype/minimal validation diagnostics exactly match before
+  continuation.
+
+Matched-random checks:
+
+- changed-position count exactly equals true |M|;
+- D-vs-random Hamming exactly equals the true mask fraction;
+- random instantiated codes exactly match the constructed plan;
+- random positions are outside true M;
+- per-layer/source/target transition counts are matched by construction.
+
+Held-out final results:
+
+| Arm | Loss | PPL | Gain vs D | Recovery vs exact |
+|---|---:|---:|---:|---:|
+| D | 5.6136 | 274.13 | — | — |
+| exact | 4.9329 | 138.78 | 0.6807 | 100% |
+| prototype | **4.8884** | **132.74** | **0.7252** | **106.5%** |
+| minimal | 5.4979 | 244.18 | 0.1157 | 17.0% |
+| matched random | 5.6793 | 292.75 | -0.0657 | -9.7% |
+
+Interpretation:
+
+1. Precise Q9 continuous master values on M are not required. The standardized
+   Q3 reconstruction prototype performs 0.0445 nats better than exact Q9 while
+   starting from the exact same ternary forward model.
+2. Q9-selected code identity alone is not sufficient. Minimal crossing has the
+   same projected Q3 codes but recovers only ~17% of the exact-S gain.
+3. Boundary-relative depth / position inside the selected Q3 region therefore
+   matters materially.
+4. Q9's specific position selection matters. Reproducing the same per-layer
+   source->target transition counts at different positions is worse than direct,
+   ruling against a generic "any matched 6.46% code disruption helps" story on
+   this seed.
+
+Mask composition is almost perfectly adjacent-code:
+
+- target 0: 49.78%;
+- target +/-1: 50.22%;
+- one-boundary adjacent transitions: 99.95%;
+- direct -1 <-> +1 flips: 0.05%.
+
+This is seed 1729 first. It is clear enough to replicate exactly on orders
+271828 and 424242.
+
+Canonical files:
+
+- `results/run_v12_code_identity_position_seed1729_2026-10-07.json`
+- `results/run_v12_code_identity_position_summary.md`
