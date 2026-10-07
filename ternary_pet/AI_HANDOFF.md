@@ -690,3 +690,8 @@ Corrected scripts are pinned together at:
 `3e74ccf5c448fc994d005a7baf94529b92e9996a`
 
 The scientific schedule is unchanged.
+
+Corrected retry jobs:
+
+- seed 271828: `6ac5b913404719ba37664b21`
+- seed 424242: `6ac5b915fbc85ba6823bba5b`
