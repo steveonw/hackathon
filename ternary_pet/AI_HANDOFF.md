@@ -608,27 +608,44 @@ high-value axis is the intermediate level-count sweep (5/7/9/15 -> 3) under the
 same equal-compute v7 protocol. A stronger tuned direct-Q3 optimizer/scheduler
 baseline remains necessary before broad claims.
 
-## ACTIVE v9 — direct Q3 tuning
+## v9 — COMPLETED direct-Q3 tuning
 
-Script:
-`smollm2_v9_direct_q3_tuning.py`
+Job: `6ac5ad77fbc85ba6823bb71c`  
+Pinned code: `5c088e58539b2dede93df57ac3f72dbe0480a028`
 
-Pinned code:
-`5c088e58539b2dede93df57ac3f72dbe0480a028`
+v9 confirmed the direct baseline was undertuned.
 
-Hugging Face job: `6ac5ad77fbc85ba6823bb71c` (A10G-small, 55-minute cap).
+Best full direct schedule on seed 1729:
 
-v9 first compares seven direct-Q3 learning-rate/schedule choices for 300 updates
-using only the validation split. It then runs three full 1200-step direct-Q3
-conditions: the historical constant 1e-4 reference plus the two best
-non-reference validation candidates.
+- 100-step warmup;
+- peak LR 1e-3;
+- cosine decay to 1e-4 by step 1200;
+- held-out loss **5.5957**;
+- PPL **269.27**;
+- top-1 **29.87%**;
+- KL **2.6640**.
 
-The held-out test set is used only after those candidates are fixed.
+Historical constant-1e-4 direct was 5.8747 loss / 355.90 PPL.
 
-Decision rule:
+Historical Q9 -> Q3 remains better at 5.1938 / 180.15.
 
-- if tuned direct Q3 largely removes the Q9 gap, revise the project headline;
-- if Q9 remains clearly ahead, proceed to the four-arm Q3-vs-Q9 hybrid-master
-  intervention;
-- if a new direct schedule wins materially over 1e-4, repeat that schedule on
-  training orders 271828 and 424242 before making it canonical.
+Thus tuned direct closes about **41%** of the old loss gap but leaves a
+**0.402-nat/token** Q9 advantage on seed 1729.
+
+Do **not** keep quoting the old ~0.68-nat seed-1729 effect as if the direct
+baseline were well tuned. The honest current number for this seed is ~0.40 nats
+against the better direct schedule.
+
+### Next decision
+
+Per the preregistered rule, run the tuned direct schedule on training orders
+271828 and 424242. Only after that should it become the canonical direct
+baseline and should the residual Q9 effect be aggregated.
+
+If the residual Q9 advantage survives both orders, proceed to the four-arm
+Q3-vs-Q9 hybrid-master factorial intervention.
+
+Canonical v9 files:
+
+- `results/run_v9_summary.md`
+- `results/run_v9_2026-10-07.json`
