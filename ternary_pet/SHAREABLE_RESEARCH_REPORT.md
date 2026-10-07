@@ -832,3 +832,50 @@ transfer unchanged to the tuned regime.
 
 This remains a finite-budget, single-model/data result, and v10 is an
 equal-schedule control rather than a full equal-search-budget tuning study.
+
+
+---
+
+## 25. v11 result: the Q9 advantage is causally concentrated on code-disagreement positions
+
+v11 performed a four-arm hybrid-master intervention under the stronger
+matched-schedule regime.
+
+At step 300, direct-Q3 masters D and Q9-prepared masters S were projected through
+the same original Q3 scales. The mask M where their Q3 codes differ contains
+**6.458%** of quantized weights.
+
+Four master states were built:
+
+- 00 = D everywhere;
+- 10 = S on M only;
+- 01 = S off M only;
+- 11 = S everywhere.
+
+Before continuation, Q3(00) and Q3(01) were exactly identical, as were Q3(10)
+and Q3(11), with zero Hamming distance and identical validation diagnostics.
+Therefore differences within each pair arise from hidden continuous master
+geometry rather than a different ternary forward model at continuation start.
+
+Final held-out losses:
+
+| Arm | Loss |
+|---|---:|
+| 00 | 5.6136 |
+| 10 | **4.9329** |
+| 01 | 5.5020 |
+| 11 | **4.9010** |
+
+The full 00->11 advantage is **0.7126 nats/token**. Transferring Q9 masters only
+on M recovers **0.6807 nats**, or **95.5%** of that gain. By contrast,
+transferring Q9 masters only on the same-code majority improves loss by just
+**0.1116 nats** on the direct background.
+
+Thus, on seed 1729, the dominant causal carrier of the Q9 trainability advantage
+is the relatively small set of positions where Q9 and direct choose different
+projected ternary assignments after preparation.
+
+This does not yet prove that the discrete ternary code identities themselves
+are sufficient. The intervention transfers the full continuous Q9 master values
+on M. Replication across the other two training orders and a code-vs-within-bin
+intervention on M are the appropriate next steps.
