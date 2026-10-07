@@ -680,3 +680,47 @@ Interpretation:
 - if a new direct schedule materially improves on 1e-4, repeat it on the other
   two v7 orders before making it canonical;
 - do not start the hybrid-master intervention until v9 is resolved.
+
+
+### v9 outcome
+
+Job `6ac5ad77fbc85ba6823bb71c` completed successfully.
+
+Validation-only 300-step ranking selected:
+
+1. constant 1e-3;
+2. warmup100 + cosine, peak 1e-3, floor 1e-4.
+
+The historical constant 1e-4 reference was also run as preregistered.
+
+Full 1200-step held-out results:
+
+| Schedule | Loss | PPL | Top-1 | KL |
+|---|---:|---:|---:|---:|
+| direct constant 1e-4 | 5.8747 | 355.90 | 25.55% | 2.9536 |
+| direct constant 1e-3 | 5.8356 | 342.26 | 26.68% | 2.8942 |
+| direct warm100 cosine 1e-3 -> 1e-4 | **5.5957** | **269.27** | **29.87%** | **2.6640** |
+| historical Q9 -> Q3 | **5.1938** | **180.15** | **33.79%** | **2.2560** |
+
+The tuned warmup+cosine direct baseline improves by 0.2789 nats/token versus
+constant 1e-4, closing about **41.0%** of the historical Q9-vs-direct loss gap.
+
+Q9 still remains ahead of tuned direct by:
+
+- **0.4020 nats/token** loss;
+- **33.1% lower PPL**;
+- **+3.92 pp** top-1;
+- **0.4080 lower KL**.
+
+Interpretation: the original direct baseline was materially undertuned, so the
+small-budget Q9 advantage should be revised downward in effect size. However,
+optimizer schedule tuning does not erase the Q9 result on seed/order 1729.
+
+Per preregistration, replicate the tuned direct schedule on orders 271828 and
+424242 before replacing constant 1e-4 as the canonical direct baseline or using
+the residual 0.402-nat gap as a replicated effect size.
+
+Canonical files:
+
+- `results/run_v9_2026-10-07.json`
+- `results/run_v9_summary.md`
