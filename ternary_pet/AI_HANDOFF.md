@@ -1067,3 +1067,25 @@ upgraded to a three-order conclusion:
 
 Only after those two confirmations should we decide whether any target-zero vs
 target-nonzero submask experiment is necessary.
+
+## ACTIVE — v12 replication pair
+
+Pinned shared commit:
+`06c2df406d3e2029f742d64ad1065408b9a6209b`
+
+Orders:
+
+- 271828
+- 424242
+
+Exact v12 design, unchanged.
+
+Canonicalization rule:
+
+1. prototype should again approach or beat exact;
+2. minimal crossing should remain much weaker;
+3. matched-random should remain non-beneficial;
+4. all equal-forward and random-plan construction assertions must pass.
+
+If all three mechanism patterns replicate on both orders, aggregate all three
+seeds and treat the mechanism phase as essentially complete.
