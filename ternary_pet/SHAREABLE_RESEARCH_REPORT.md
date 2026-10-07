@@ -982,3 +982,31 @@ special." Instead:
 Within the present SmolLM2/WikiText-2 setup, this closes the mechanism sequence.
 Further work should test generality or exploit the finding practically rather
 than continue subdividing the same causal story.
+
+
+---
+
+## 29. Optional v13 closing experiment: moderate interior depth is enough
+
+A seed-1729 depth sweep refined the v12 prototype result. All depth arms began
+from the same projected Q3 forward model, differing only in hidden master
+placement inside the Q9-selected regions.
+
+Final losses were 5.4948, 4.9262, 4.8850, 4.8876, and 4.8884 for depths 0.03,
+0.25, 0.50, 0.75, and 1.00 respectively, versus a direct baseline of 5.6136.
+
+The useful effect is therefore not monotonic with increasing depth. It rises
+sharply between the boundary and moderate interior placement, then saturates by
+about d=0.5.
+
+Q9-code survival after 900 continuation updates rises in parallel from 51.76%
+at d=0.03 to 86.48% at d=0.25 and 97.32% at d=0.50, reaching ~99% for deeper
+placements. Fixed-alpha0 and learned-scale survival are nearly identical.
+
+Two firmness-only controls that kept direct's own code choices but snapped their
+masters to prototypes were non-beneficial. This supports the interpretation
+that Q9's specific assignment choices are essential, while moderate interior
+placement helps preserve those assignments during later Q3 optimization.
+
+This v13 result is seed 1729 only and should be presented as an optional
+refinement. The v12 three-order result remains the replicated mechanism claim.
