@@ -1134,6 +1134,11 @@ Scripts:
 - `replications/smollm2_v11_hybrid_factorial_seed271828.py`
 - `replications/smollm2_v11_hybrid_factorial_seed424242.py`
 
+Hugging Face jobs (A10G-small, 50-minute cap each):
+
+- seed 271828: `6ac638c0c656c912b4ffae8a`
+- seed 424242: `6ac638c3f0d78b8017af0d5a`
+
 No design or hyperparameter changes are allowed relative to v11 seed 1729.
 
 Each run must independently rebuild:
