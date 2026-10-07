@@ -244,3 +244,35 @@ Canonical interpretation:
 This completes the current mechanism sequence for this setup.
 
 See `replications/v12_code_identity_position_aggregate_summary.md`.
+
+
+## v13 optional closing result — seed 1729
+
+A depth sweep on the replicated Q9 disagreement mask finds a sharp
+boundary-to-interior transition:
+
+| Depth | Loss | Recovery vs d=1 | Q9-code survival @900 |
+|---:|---:|---:|---:|
+| 0.03 | 5.4948 | 16.4% | 51.76% |
+| 0.25 | 4.9262 | 94.8% | 86.48% |
+| 0.50 | **4.8850** | 100.5% | 97.32% |
+| 0.75 | 4.8876 | 100.1% | 99.13% |
+| 1.00 | 4.8884 | 100.0% | 99.45% |
+
+Direct baseline: 5.6136.
+
+The effect saturates by about d=0.5; deeper is not materially better. Survival
+measured with the current learned scale and fixed original alpha0 is nearly
+identical.
+
+Firmness-only controls are non-beneficial:
+
+- direct codes prototyped on M: 5.6403
+- direct codes prototyped on D's own changed set: 5.6195
+
+Thus the useful recipe is not generic "snap weights to prototypes." It is
+Q9's specific position/code selection plus enough interior depth for those
+assignments to persist during later Q3 training.
+
+This is an optional seed-1729 refinement. The three-order v12 mechanism remains
+the canonical replicated result.
