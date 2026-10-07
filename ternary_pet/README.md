@@ -58,6 +58,15 @@ generic trajectory alignment rather than Q9-specific directional pre-loading.
 So the Q9 trainability effect remains replicated, but its mechanism is deeper
 than simple "point the future-flipping weights toward their next threshold."
 
+v9 strengthened the direct-Q3 baseline. A 100-step warmup followed by cosine
+decay from 1e-3 to 1e-4 improves seed-1729 direct loss from 5.8747 to 5.5957,
+closing about **41%** of the historical Q9 gap. Q9 still finishes ahead at
+5.1938 loss / 180.15 PPL versus tuned direct 5.5957 / 269.27.
+
+Therefore part of the small-budget Q9 advantage was due to an undertuned direct
+recipe, but the effect is not erased on seed 1729. The tuned direct schedule
+still needs replication on the other two training orders.
+
 This remains a finite-budget result on one model/data setup. v5 shows direct Q3
 catches up substantially with more training, and free-running generation remains
 poor.
@@ -75,5 +84,7 @@ poor.
 - `results/run_v7_seed424242_2026-10-07.json` — replication raw
 - `results/run_v8_summary.md` — signed-preload diagnostic
 - `results/run_v8_2026-10-07.json` — v8 raw result
+- `results/run_v9_summary.md` — tuned direct-Q3 baseline result
+- `results/run_v9_2026-10-07.json` — v9 raw result
 - `replications/` — replication scripts and summaries
 - `results/` — all run records
