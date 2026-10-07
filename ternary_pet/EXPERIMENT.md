@@ -1509,3 +1509,148 @@ cleanup for the mechanism claim.
 
 Canonical aggregate:
 `replications/v12_code_identity_position_aggregate_summary.md`.
+
+
+## v13 — optional closing depth sweep and direct-firmness controls
+
+Status: deliberately reopened as one optional closing mechanism experiment after
+the v12 stop condition. v12 remains sufficient for the canonical mechanism
+claim; v13 asks a finer dynamical/practical question.
+
+Seed/order: **1729 first**.
+
+Pinned script:
+`ternary_pet/smollm2_v13_depth_sweep_firmness.py`
+
+Pinned code:
+`fc68603caa1bf0e33faadb28f97a62a1bd0e3957`
+
+### Unchanged setup
+
+Reuse v12 exactly for:
+
+- matched global warmup+cosine schedule;
+- BF16-rounded source / FP32 masters;
+- 300-step preparation of D (direct Q3) and S (Q9);
+- original Q3 reference scales alpha0;
+- disagreement mask M where projected Q3(D) != projected Q3(S);
+- fresh Adam at continuation;
+- global LR continuation from steps 301-1200;
+- 900 Q3 continuation updates;
+- train/eval data and order.
+
+Actual Q3 geometry is confirmed from the implementation:
+
+- normalized coordinate `u=w/alpha0`;
+- Q3 decision boundaries at +/-1/3;
+- nonzero reconstruction prototypes at +/-2/3;
+- zero prototype at 0.
+
+No literal d=0 arm is used because exact half-integer rounding is tie-sensitive.
+
+### Experiment A — depth sweep
+
+Depths:
+
+`d in {0.03, 0.25, 0.50, 0.75, 1.00}`
+
+For target code c_S=+/-1:
+
+`u = c_S * (1/3 + d*(1/3))`
+
+For target code c_S=0:
+
+`u = c_D * (1/3) * (1-d)`
+
+where c_D is +/-1 on a disagreement position targeting zero.
+
+Thus:
+
+- d=0.03 exactly re-anchors the v12 epsilon=0.01 minimal crossing;
+- d=1.00 exactly re-anchors the v12 Q3 prototype.
+
+All depth arms use D outside M.
+
+Required validity:
+
+- every depth arm has zero projected-Q3 Hamming to d=1.00;
+- every depth arm exactly equals the projected S Q3 code model;
+- all depth-arm pre-continuation diagnostics match.
+
+Primary outcome: held-out final loss as a function of depth.
+
+### Code-survival diagnostic
+
+For every depth arm, after continuation updates 100, 300, and 900, measure the
+fraction of M still holding Q9's selected Q3 code.
+
+Measure survival two ways:
+
+1. under the arm's **current learned Q3 scale**;
+2. under the **fixed original alpha0** that defines the depth coordinate.
+
+Report each for:
+
+- all M;
+- target c_S=0;
+- target |c_S|=1.
+
+Interpretation:
+
+- if deeper placement improves both code survival and final loss, flip-back /
+  assignment retention is a plausible dynamical explanation;
+- if survival is similar across depths while final loss differs, then retention
+  alone is insufficient and hidden continuous geometry affects later
+  optimization even before/without different code survival;
+- subgroup survival is descriptive only. Do not infer target-zero/nonzero causal
+  gain without a separate submask intervention.
+
+### Experiment B — firmness without Q9's choices
+
+B1:
+- on M, keep direct's own projected Q3 code c_D;
+- snap the master to its Q3 reconstruction prototype;
+- D elsewhere.
+
+B2:
+- define D_changed as positions where D's step-300 projected Q3 code differs
+  from the initial projected Q3 code;
+- on D_changed, snap D's own code to its Q3 reconstruction prototype;
+- D elsewhere.
+
+Required validity:
+
+- Q3(B1) == Q3(D), zero Hamming and matching pre-continuation diagnostics;
+- Q3(B2) == Q3(D), zero Hamming and matching pre-continuation diagnostics.
+
+Log:
+
+- size of D_changed;
+- overlap/Jaccard between D_changed and M;
+- initial->D transition counts on D_changed.
+
+Interpretation:
+
+- B1/B2 little or no gain: firmness is useful primarily when attached to Q9's
+  selected decisions;
+- B1/B2 large gain: some of the v12 effect is a more general "commit direct
+  decisions firmly" optimization trick.
+
+### Run/replication rule
+
+This first job has exactly eight continuation arms:
+
+- D
+- d003
+- d025
+- d050
+- d075
+- d100
+- B1
+- B2
+
+No d=1.5 arm in the first pass.
+
+Replicate on orders 271828 and 424242 **only if seed 1729 gives a clear,
+scientifically interpretable pattern**. A messy depth curve is a stopping result,
+not a reason to keep adding arms.
