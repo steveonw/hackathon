@@ -49,6 +49,15 @@ Q9.
 > resulting master state responds much better to later ternary optimization
 > despite being a worse immediate ternary model.
 
+v8 tested a more specific explanation: that Q9 uniquely moves later-flipping
+weights in their eventual ternary-transition direction during preparation.
+That explanation was **not supported**. Each arm was more aligned on its own
+future-flip set by a similar margin, which is consistent with post-selection /
+generic trajectory alignment rather than Q9-specific directional pre-loading.
+
+So the Q9 trainability effect remains replicated, but its mechanism is deeper
+than simple "point the future-flipping weights toward their next threshold."
+
 This remains a finite-budget result on one model/data setup. v5 shows direct Q3
 catches up substantially with more training, and free-running generation remains
 poor.
@@ -64,5 +73,7 @@ poor.
 - `results/run_v7_2026-10-07.json` — original raw v7
 - `results/run_v7_seed271828_2026-10-07.json` — replication raw
 - `results/run_v7_seed424242_2026-10-07.json` — replication raw
+- `results/run_v8_summary.md` — signed-preload diagnostic
+- `results/run_v8_2026-10-07.json` — v8 raw result
 - `replications/` — replication scripts and summaries
 - `results/` — all run records
