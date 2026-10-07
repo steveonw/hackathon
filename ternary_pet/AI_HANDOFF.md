@@ -1134,6 +1134,8 @@ remains canonical and already met the stop condition.
 
 Seed/order: 1729 first.
 
+Hugging Face job: `6ac65927e7a0dae8a277c24c` (A10G-small, 65-minute cap).
+
 Pinned code:
 `fc68603caa1bf0e33faadb28f97a62a1bd0e3957`
 
