@@ -514,28 +514,44 @@ the Q9-selected subset is more useful, or to compare intermediate state counts
 baseline remains necessary before broad claims.
 
 
-## ACTIVE v7 REPLICATIONS
+## v7 REPLICATIONS — COMPLETED
 
-Two confirmatory replications of the completed v7 protocol are running. They
-change **only the training-order seed**.
-
-Pinned commit:
-`6caf3a98d485ed1fd49e22b915ddb6b175578420`
-
-Jobs:
+The two confirmatory jobs completed successfully:
 
 - seed 271828 — `6ac59807fbc85ba6823bb060`
 - seed 424242 — `6ac59809fbc85ba6823bb063`
 
-When they finish, compare each against the original seed 1729 on these exact
-questions:
+Together with seed 1729, the v7 trainability effect now holds in **3/3 training
+orders**.
 
-- step-300 fixed-Q3 ordering: direct Q3 vs Q9 vs FP32;
-- final 1200-step ordering after the identical Q3 continuation;
-- Q9-vs-direct final loss/PPL/top-1/KL effect size;
-- Q3-vs-Q9 changed-code Jaccard and pairwise Hamming;
-- threshold-margin distributions;
-- qualitative generation.
+Aggregate:
 
-Do not alter the protocol between seeds. If one seed contradicts the original,
-record it as a real replication failure rather than tuning it away.
+- Q9 is a worse fixed-Q3 checkpoint at step 300 in all 3;
+- Q9 finishes better after the identical 900-step continuation in all 3;
+- mean final loss gain: **0.6877 nats/token**;
+- mean PPL reduction: **49.69%**;
+- mean top-1 gain: **+6.86 pp**;
+- mean Q3-vs-Q9 changed-set Jaccard: **19.66%**.
+
+FP32 warmup does not reproduce Q9. Do **not** say FP32 is always worse than
+direct: seed 271828 gives FP32 a small 0.0292-nat improvement over direct.
+
+Canonical aggregate:
+`replications/v7_aggregate_summary.md`
+
+Raw replications:
+
+- `results/run_v7_seed271828_2026-10-07.json`
+- `results/run_v7_seed424242_2026-10-07.json`
+
+### Current next-question priority
+
+The replication question is now substantially answered. The strongest next
+mechanistic test is a signed **pre-loading diagnostic**: among weights that cross
+a Q3 boundary during the 900-step continuation, measure whether Q9 preparation
+had already moved their FP32 masters toward that eventual threshold more often
+or more strongly than direct Q3 preparation.
+
+A level-count sweep (5/7/9/15 -> 3) is also high value after or alongside that
+diagnostic. A stronger tuned direct-Q3 optimizer/scheduler baseline remains
+required before broad claims.
