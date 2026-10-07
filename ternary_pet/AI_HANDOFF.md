@@ -650,48 +650,53 @@ Canonical v9 files:
 - `results/run_v9_summary.md`
 - `results/run_v9_2026-10-07.json`
 
-## ACTIVE — v9 tuned-direct replication pair
+## v9 tuned-direct replication pair — COMPLETED
 
-The v9-selected direct-Q3 schedule is being replicated on orders 271828 and
-424242 with no new tuning.
-
-Pinned scripts commit:
-`31c12d56c239d091e06731c49c809ade8739af95`
-
-Hugging Face jobs:
-
-- seed 271828: `6ac5b807404719ba37664ae8`
-- seed 424242: `6ac5b809fbc85ba6823bba12`
-
-Schedule:
-
-- 1200 direct-Q3 updates;
-- 100-step warmup to 1e-3;
-- cosine decay to 1e-4.
-
-Compare each result against the already-locked v7 Q9 -> Q3 result for the same
-order. Do not alter the schedule between seeds.
-
-If Q9 remains ahead on both, use the three-order tuned-direct comparison as the
-new canonical small-budget effect before launching the hybrid-master factorial.
-
-
-### Tuned-direct replication technical retry
-
-Initial jobs:
-
-- `6ac5b807404719ba37664ae8` — failed pre-training from generated-script
-  `LR_` NameError;
-- `6ac5b809fbc85ba6823bba12` — cancelled before reaching the same bug.
-
-Do not count either as an experimental result.
-
-Corrected scripts are pinned together at:
-`3e74ccf5c448fc994d005a7baf94529b92e9996a`
-
-The scientific schedule is unchanged.
-
-Corrected retry jobs:
+Valid confirmatory jobs:
 
 - seed 271828: `6ac5b913404719ba37664b21`
 - seed 424242: `6ac5b915fbc85ba6823bba5b`
+
+Corrected scripts:
+`3e74ccf5c448fc994d005a7baf94529b92e9996a`
+
+Q9 remains better than the tuned direct-Q3 schedule in **3/3 orders**.
+
+| Seed | Tuned direct loss | Q9 loss | Residual Q9 gain |
+|---:|---:|---:|---:|
+| 1729 | 5.5957 | 5.1938 | 0.4020 |
+| 271828 | 5.6228 | 5.2417 | 0.3810 |
+| 424242 | 5.6067 | 5.3008 | 0.3059 |
+
+Canonical aggregate:
+
+- mean residual Q9 loss advantage: **0.3630 nats/token**;
+- mean PPL reduction: **30.38%**;
+- mean top-1 gain: **+2.52 pp**;
+- mean KL advantage: **0.3871**;
+- tuned direct closes **47.27%** of the old gap on average.
+
+Do not quote the older ~0.688-nat mean v7 gap as the current baseline
+comparison. The canonical small-budget effect is now ~**0.363 nats/token**
+against tuned direct.
+
+The initial failed/cancelled replication jobs remain technical audit records and
+do not count as experimental runs.
+
+Canonical file:
+`replications/v9_tuned_direct_aggregate_summary.md`
+
+### Current next-question priority
+
+Proceed to the four-arm Q3-vs-Q9 hybrid-master causal intervention. Use the
+equal-compute step-300 direct-Q3 and Q9-prepared master states to partition the
+actual prepared-state difference into:
+
+- positions where their projected Q3 codes differ;
+- positions where projected Q3 codes agree but continuous FP32 masters differ.
+
+Construct the 2x2 hybrids so paired arms have exactly identical ternary forward
+weights at continuation start, assert zero Hamming distance within those pairs,
+then run the same Q3 continuation. This tests whether the residual Q9 advantage
+is carried mainly by code-disagreement positions, hidden same-code master
+geometry, or their interaction.
