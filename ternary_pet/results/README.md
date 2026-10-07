@@ -19,6 +19,8 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v7 rep seed 424242 / `6ac59809fbc85ba6823bb063` | SmolLM2-360M-Instruct | A10G small | completed | v7 training-order replication |
 | v8 / `6ac5a0b1404719ba37664653` | SmolLM2-360M-Instruct | A10G small | completed | signed pre-loading mechanism diagnostic |
 | v9 / `6ac5ad77fbc85ba6823bb71c` | SmolLM2-360M-Instruct | A10G small | completed | direct-Q3 LR/schedule tuning |
+| v9 tuned rep seed 271828 / `6ac5b913404719ba37664b21` | SmolLM2-360M-Instruct | A10G small | completed | tuned direct-Q3 confirmation |
+| v9 tuned rep seed 424242 / `6ac5b915fbc85ba6823bba5b` | SmolLM2-360M-Instruct | A10G small | completed | tuned direct-Q3 confirmation |
 
 ## Current headline
 
@@ -71,3 +73,29 @@ The tuned schedule closes about **41%** of the original loss gap but leaves a
 replicated on seeds 271828 and 424242 before becoming canonical.
 
 See `run_v9_summary.md`.
+
+
+### v9 tuned-direct replication aggregate
+
+The v9-selected warmup+cosine direct-Q3 schedule was run without further tuning
+on orders 271828 and 424242.
+
+Q9 remains ahead of tuned direct in **3/3 orders**:
+
+| Seed | Tuned direct loss | Q9 loss | Q9 advantage |
+|---:|---:|---:|---:|
+| 1729 | 5.5957 | **5.1938** | **0.4020** |
+| 271828 | 5.6228 | **5.2417** | **0.3810** |
+| 424242 | 5.6067 | **5.3008** | **0.3059** |
+
+Aggregate:
+
+- mean residual loss advantage: **0.3630 nats/token**;
+- mean Q9 PPL reduction: **30.38%**;
+- mean top-1 gain: **+2.52 pp**;
+- mean KL advantage: **0.3871**;
+- direct tuning closes about **47.27%** of the old loss gap on average.
+
+The tuned schedule is now the canonical small-budget direct baseline.
+
+See `../replications/v9_tuned_direct_aggregate_summary.md`.
