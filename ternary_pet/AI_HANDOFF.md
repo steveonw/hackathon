@@ -561,6 +561,8 @@ required before broad claims.
 The next mechanism test is `smollm2_v8_signed_preload.py`, pinned at
 `356bff9769c96faa0ca139f9cba088fc1a52c2c8`.
 
+Hugging Face job: `6ac5a0b1404719ba37664653` (A10G-small, 35-minute cap).
+
 It keeps only the Q3 and Q9 arms and asks whether weights that later change Q3
 code had already moved in the same direction during the first 300 updates.
 
