@@ -1700,3 +1700,77 @@ an internal consistency check.
 
 The original timed-out job remains a technical failure only and contributes no
 experimental outcome.
+
+
+### v13 seed-1729 outcome — depth sweep + firmness controls
+
+Timeout-safe split jobs completed successfully:
+
+- depth sweep: `6ac6a265df2184ac91ac410d`
+- firmness controls: `6ac6a272df2184ac91ac412c`
+
+Pinned split commit:
+`9332a0a0b4063f7ed6786aa29fd049429cd50380`
+
+All preregistered equal-forward assertions passed.
+
+Depth-arm final losses:
+
+| Depth | Loss | Recovery vs d=1 prototype |
+|---:|---:|---:|
+| 0.03 | 5.4948 | 16.4% |
+| 0.25 | 4.9262 | 94.8% |
+| 0.50 | **4.8850** | 100.5% |
+| 0.75 | 4.8876 | 100.1% |
+| 1.00 | 4.8884 | 100.0% |
+
+Direct baseline: **5.6136**.
+
+The shape is threshold-like / saturating rather than monotonically "deeper is
+always better": nearly all of the prototype benefit is present by d=0.25, and
+performance is effectively flat from roughly d=0.5 through d=1.0.
+
+Q9-code survival on the true disagreement mask at continuation step 900 under
+the current learned Q3 scale:
+
+- d=0.03: **51.76%**
+- d=0.25: **86.48%**
+- d=0.50: **97.32%**
+- d=0.75: **99.13%**
+- d=1.00: **99.45%**
+
+Survival measured against fixed original alpha0 is nearly identical, so the
+pattern is not explained by learned-scale drift.
+
+Firmness-only controls:
+
+- B1, direct codes prototyped on M: loss **5.6403**, gain vs D **-0.0267**
+- B2, direct codes prototyped on D's own changed set: loss **5.6195**, gain vs D
+  **-0.0059**
+
+Thus generic "snap direct decisions firmly to prototypes" does not help on this
+seed.
+
+Current interpretation:
+
+> Q9's selected position/code decisions require a moderate interior commitment,
+> not merely threshold crossing. Moving to around d=0.25 preserves most of the
+> later benefit, and by d=0.5 the effect saturates. Code survival strongly tracks
+> this transition. Firmness is not generically beneficial for direct Q3
+> assignments; it is useful when attached to the specific assignments selected
+> by Q9.
+
+Do not state that survival is proven to be the sole causal mediator. It is a
+strongly aligned dynamical diagnostic.
+
+D's own changed set is **4.569%** of quantized weights. Its Jaccard overlap with
+the Q9 disagreement mask is **38.64%**.
+
+Canonical files:
+
+- `results/run_v13_seed1729_compact_2026-10-07.json`
+- `results/run_v13_depth_firmness_summary.md`
+
+The preregistered "clear pattern" condition is met, so replication on orders
+271828 and 424242 is scientifically justified but remains optional because v12
+already established the three-order canonical mechanism.
