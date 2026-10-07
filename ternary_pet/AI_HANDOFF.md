@@ -512,3 +512,30 @@ Do not automatically scale up. The highest-value next work is to determine why
 the Q9-selected subset is more useful, or to compare intermediate state counts
 (5/7/9/15) using the same equal-compute v7 framework. A stronger tuned direct-Q3
 baseline remains necessary before broad claims.
+
+
+## ACTIVE v7 REPLICATIONS
+
+Two confirmatory replications of the completed v7 protocol are running. They
+change **only the training-order seed**.
+
+Pinned commit:
+`6caf3a98d485ed1fd49e22b915ddb6b175578420`
+
+Jobs:
+
+- seed 271828 — `6ac59807fbc85ba6823bb060`
+- seed 424242 — `6ac59809fbc85ba6823bb063`
+
+When they finish, compare each against the original seed 1729 on these exact
+questions:
+
+- step-300 fixed-Q3 ordering: direct Q3 vs Q9 vs FP32;
+- final 1200-step ordering after the identical Q3 continuation;
+- Q9-vs-direct final loss/PPL/top-1/KL effect size;
+- Q3-vs-Q9 changed-code Jaccard and pairwise Hamming;
+- threshold-margin distributions;
+- qualitative generation.
+
+Do not alter the protocol between seeds. If one seed contradicts the original,
+record it as a real replication failure rather than tuning it away.
