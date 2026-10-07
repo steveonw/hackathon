@@ -1119,3 +1119,57 @@ Canonical files:
 
 Next: exact v11 replications on orders 271828 and 424242 before making the
 localization claim canonical across orders.
+
+
+## v11 replication pair — hybrid-master causal localization
+
+Purpose: replicate the seed-1729 v11 causal localization on the two remaining
+established training orders before treating the mechanism as canonical.
+
+Pinned shared commit containing both replication scripts:
+`bb3ba53b4b55bfc6884d287d5a575785e212ffb4`
+
+Scripts:
+
+- `replications/smollm2_v11_hybrid_factorial_seed271828.py`
+- `replications/smollm2_v11_hybrid_factorial_seed424242.py`
+
+No design or hyperparameter changes are allowed relative to v11 seed 1729.
+
+Each run must independently rebuild:
+
+- D = direct-Q3 masters after 300 matched-schedule updates;
+- S = Q9 masters after 300 matched-schedule updates;
+- M = positions where D and S project to different Q3 codes under the same
+  original Q3 scales.
+
+Each run must construct 00, 10, 01, 11 exactly as in v11 and assert before
+continuation:
+
+- Q3(00) == Q3(01), zero Hamming;
+- Q3(10) == Q3(11), zero Hamming;
+- paired validation diagnostics match within the existing numerical tolerance.
+
+All four arms then receive original Q3 scales, fresh Adam, and the same global
+LR continuation from step 301 through step 1200.
+
+Primary replication quantities:
+
+- full endpoint gain: L00 - L11;
+- mask transfer gain: L00 - L10;
+- same-code transfer gain: L00 - L01;
+- residual same-code contribution: L10 - L11;
+- mask fraction |M| / total;
+- fraction of full gain recovered by mask transfer:
+  (L00 - L10) / (L00 - L11).
+
+Preregistered interpretation:
+
+- if arm 10 again approaches arm 11 on both orders while arm 01 stays much
+  closer to 00, the mechanism claim upgrades to a replicated conclusion that
+  the dominant causal carrier is the Q9-prepared continuous master state on the
+  code-disagreement subset;
+- if one order reverses or shows a materially different decomposition, report
+  the heterogeneity and do not canonicalize the 95.5% figure;
+- do not claim discrete ternary code labels alone are causal. Arm 10 transfers
+  the full continuous S masters on M.
