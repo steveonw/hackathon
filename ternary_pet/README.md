@@ -107,3 +107,35 @@ poor.
 - `results/run_v10_schedule_matched_q9_seed424242_2026-10-07.json` — v10 raw
 - `replications/` — replication scripts and summaries
 - `results/` — all run records
+
+
+## v11 mechanism result — seed 1729
+
+The matched-schedule hybrid-master factorial gives a clear causal split.
+
+The direct-vs-Q9 step-300 projected-Q3 disagreement mask contains **6.458%** of
+quantized weights.
+
+After an identical fresh-Adam/original-Q3-scale continuation:
+
+| Arm | Composition | Final loss |
+|---|---|---:|
+| 00 | direct masters everywhere | 5.6136 |
+| 10 | Q9 masters only on code-disagreement positions | **4.9329** |
+| 01 | Q9 masters only on same-code positions | 5.5020 |
+| 11 | Q9 masters everywhere | **4.9010** |
+
+Transferring Q9 masters only on the 6.458% disagreement mask recovers
+**95.5%** of the full 00->11 loss gain. Same-code hidden geometry alone recovers
+a much smaller **0.1116 nats** on the direct background.
+
+The equal-forward pair assertions passed exactly before training:
+Q3(00)==Q3(01) and Q3(10)==Q3(11), with zero Hamming distance and identical
+diagnostic losses.
+
+This strongly localizes the seed-1729 trainability benefit to the positions
+where direct and Q9 choose different ternary assignments at step 300. It does
+**not** yet prove that the discrete code labels alone are causal, because arm 10
+transfers the full continuous Q9 master values on those positions.
+
+See `results/run_v11_hybrid_factorial_summary.md`.
