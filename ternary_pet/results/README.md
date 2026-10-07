@@ -14,18 +14,20 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v4b seed 271828 / `6ac546bafbc85ba6823b8946` | SmolLM2-360M-Instruct | T4 small | completed | shuffled-order confirmation |
 | v5 / `6ac56d99fbc85ba6823ba03f` | SmolLM2-360M-Instruct | A10G small | completed | 5x training-volume test |
 | v6 / `6ac5816ffbc85ba6823ba8ec` | SmolLM2-360M-Instruct | A10G small | completed | causal transition ablation |
+| v7 / `6ac58e76fbc85ba6823bad78` | SmolLM2-360M-Instruct | A10G small | completed | equal-compute Q3/Q9/FP32 geometry |
 
 ## Current headline
 
-v6 isolates the small-budget 9->3 advantage to the **prepared FP32 master
-weights**.
+v7 resolves the main v6 ambiguity.
 
-All four branches keeping the prepared masters finish around loss 5.18-5.21 /
-PPL 178-182, regardless of whether prepared scales or Adam state are retained.
+At equal 300-step compute, Q9 projects to a **worse** Q3 checkpoint than direct
+(9.226 vs 6.559 loss), but after the same fresh-Adam 900-step Q3 continuation it
+finishes much better (5.194 vs 5.872; 180.15 vs 355.09 PPL).
 
-The direct control is loss 5.875 / PPL 355.90.
+FP32 warmup finishes worse than direct (6.031 loss / 416.19 PPL).
 
-The new same-data diagnostic also shows that Q9 training changes **0.6755%** of
-future ternary assignments even when the original scales are held fixed.
+Q3 and Q9 change similar fractions of future Q3 codes but only **19.64% Jaccard**
+overlap in which positions changed. The leading mechanism is now a
+Q9-specific **trainability / weight-selection geometry** effect.
 
-See `run_v6_summary.md`.
+See `run_v7_summary.md`.
