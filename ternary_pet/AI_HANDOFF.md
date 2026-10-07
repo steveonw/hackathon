@@ -1011,30 +1011,59 @@ and can be included in the same seed-1729 job if memory/runtime remains
 comfortable.
 
 
-## ACTIVE v12 — code identity vs continuous position
+## v12 — COMPLETED seed-1729 code identity vs continuous position
 
-Seed/order: 1729 first.
+Job: `6ac642a0df2184ac91ac018d`  
+Pinned code: `22639f5b225e56be009886bf467a409910796eef`
 
-Hugging Face job: `6ac642a0df2184ac91ac018d` (A10G-small, 55-minute cap).
+All exact/prototype/minimal equal-forward assertions passed with zero projected
+Q3 Hamming and identical pre-continuation diagnostics.
 
-Pinned code:
-`22639f5b225e56be009886bf467a409910796eef`
+| Arm | Final loss | Interpretation |
+|---|---:|---|
+| D | 5.6136 | direct baseline |
+| exact | 4.9329 | exact Q9 masters on true M |
+| prototype | **4.8884** | standardized Q3 reconstruction level for Q9 code |
+| minimal | 5.4979 | epsilon=0.01 inside Q9-selected region |
+| random | 5.6793 | transition-matched random positions |
 
-Five continuation arms:
+Key effects:
 
-- D baseline;
-- exact Q9 masters on true disagreement mask M;
-- Q9-code reconstruction prototypes on M;
-- minimal-crossing values just inside Q9's selected Q3 regions on M
-  (normalized epsilon 0.01);
-- layer/source/target-transition-matched random prototype reassignment outside M.
+- exact gain vs D: **0.6807 nats**;
+- prototype gain: **0.7252 nats** = **106.5%** of exact positive-control gain;
+- minimal gain: **0.1157 nats** = **17.0%** recovery;
+- matched-random gain: **-0.0657 nats** = worse than D.
 
-The exact/prototype/minimal true-M arms must have zero projected-Q3 Hamming
-between them before continuation and identical forward diagnostics. The random
-control preserves the real mask's transition counts by layer and source/target
-code while randomizing which positions receive them.
+Current mechanism interpretation:
 
-Primary quantities are prototype/minimal/random recovery relative to the exact
-Q9-on-M positive-control gain.
+> Q9's exact within-region FP32 coordinates are unnecessary, but simply choosing
+> the Q9 code and barely crossing its boundary is also insufficient. The useful
+> information is the **specific position/code selection**, combined with a
+> master state placed safely inside the selected Q3 region. The canonical Q3
+> reconstruction prototype is sufficient on seed 1729 and slightly better than
+> the exact Q9 master values.
 
-Do not replicate until the seed-1729 result is interpreted.
+The matched-random control indicates that applying the same number and types of
+code changes to different positions does not help.
+
+Do not yet claim this finer result is replicated; v12 has only seed 1729.
+
+Canonical files:
+
+- `results/run_v12_code_identity_position_summary.md`
+- `results/run_v12_code_identity_position_seed1729_2026-10-07.json`
+
+### Current next-question priority
+
+Replicate the exact v12 design on orders 271828 and 424242.
+
+If prototype again approaches or beats exact, minimal crossing remains weak,
+and matched-random remains non-beneficial on both orders, the mechanism can be
+upgraded to a three-order conclusion:
+
+1. Q9 identifies useful **which-position/which-code** assignments;
+2. masters need to be placed well inside the selected ternary regions;
+3. exact Q9 continuous values are not required.
+
+Only after those two confirmations should we decide whether any target-zero vs
+target-nonzero submask experiment is necessary.
