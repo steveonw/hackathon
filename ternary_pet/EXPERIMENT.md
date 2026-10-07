@@ -1411,3 +1411,56 @@ Canonical files:
 
 - `results/run_v12_code_identity_position_seed1729_2026-10-07.json`
 - `results/run_v12_code_identity_position_summary.md`
+
+
+## v12 replication pair — code identity vs continuous position
+
+Purpose: replicate the seed-1729 v12 mechanism result on the two remaining
+training orders before treating the finer code-vs-position conclusion as
+canonical.
+
+Pinned shared commit:
+`06c2df406d3e2029f742d64ad1065408b9a6209b`
+
+Scripts:
+
+- `replications/smollm2_v12_code_identity_position_seed271828.py`
+- `replications/smollm2_v12_code_identity_position_seed424242.py`
+
+No design, epsilon, schedule, random-control, or continuation changes are
+allowed relative to seed 1729.
+
+Each run independently rebuilds D, S, the true disagreement mask M, and the
+layer/source/target-transition-matched random plan.
+
+Required construction assertions are unchanged:
+
+- exact/prototype projected-Q3 Hamming = 0;
+- exact/minimal projected-Q3 Hamming = 0;
+- exact/prototype/minimal pre-continuation diagnostics match;
+- matched-random changed count = |M|;
+- matched-random D-vs-random Hamming = |M|/total;
+- random positions are outside true M;
+- instantiated random codes match the constructed plan.
+
+Primary replication quantities per seed:
+
+- exact gain vs D;
+- prototype recovery of exact gain;
+- minimal-crossing recovery of exact gain;
+- matched-random recovery of exact gain.
+
+Preregistered interpretation:
+
+- if prototype again approaches or beats exact in both orders, exact Q9
+  within-region FP32 values are not necessary;
+- if minimal crossing remains much weaker in both orders, merely choosing the
+  Q9 code and barely crossing its boundary is insufficient;
+- if matched-random remains non-beneficial in both orders, the Q9-selected
+  positions themselves matter rather than generic matched code disruption;
+- if any of these patterns fails materially on one or both orders, report the
+  heterogeneity and do not canonicalize the seed-1729 percentages.
+
+After the pair completes, aggregate all three v12 orders and decide whether the
+mechanism sequence can stop without a target-zero vs target-nonzero submask
+follow-up.
