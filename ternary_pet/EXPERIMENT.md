@@ -1061,3 +1061,61 @@ Interpretation rules fixed before results:
 
 This is a seed-1729 mechanism experiment first. Replicate only after inspecting
 whether the intervention yields a stable, interpretable causal split.
+
+
+### v11 outcome
+
+Job `6ac5c7befbc85ba6823bbef0` completed successfully.
+
+The exact equal-forward assertions passed:
+
+- Q3(00) vs Q3(01): zero Hamming distance;
+- Q3(10) vs Q3(11): zero Hamming distance;
+- paired pre-continuation validation losses: exactly equal.
+
+The D-vs-S projected-Q3 disagreement mask M contains **6.4581%** of quantized
+weights (20,315,352 / 314,572,800).
+
+Final held-out losses:
+
+| Arm | Composition | Loss |
+|---|---|---:|
+| 00 | D everywhere | 5.6136 |
+| 10 | S on M, D elsewhere | **4.9329** |
+| 01 | D on M, S elsewhere | 5.5020 |
+| 11 | S everywhere | **4.9010** |
+
+The endpoint trainability gap reproduces: 00 - 11 = **0.7126 nats/token**.
+
+Causal contributions:
+
+- S on M onto D background: **0.6807 nats**, or **95.5%** of the full gain;
+- S on same-code complement onto D background: **0.1116 nats**;
+- once M is already from S, the remaining same-code contribution is only
+  **0.0319 nats**;
+- once the complement is already from S, transferring M still contributes
+  **0.6010 nats**;
+- factorial interaction: **+0.0797 nats**, indicating modest sub-additivity /
+  redundancy under the positive-benefit sign convention.
+
+Interpretation: on seed 1729, most of the trainability advantage is causally
+localized to the positions where Q9 and direct choose different projected Q3
+codes at step 300. The same-code majority contributes a smaller secondary
+effect.
+
+Do **not** translate this into "the code labels alone cause the effect." Arm 10
+transfers the complete Q9 continuous master values on M. A later intervention
+can separate discrete assignment from within-bin continuous position on M.
+
+Interesting secondary observation: despite much larger absolute step-300 code
+movement under the tuned schedule, the D-vs-S changed-set Jaccard versus initial
+is **18.85%**, close to the old v7 ~19.7% value. Treat this as a single-seed
+observation until replicated.
+
+Canonical files:
+
+- `results/run_v11_hybrid_factorial_seed1729_2026-10-07.json`
+- `results/run_v11_hybrid_factorial_summary.md`
+
+Next: exact v11 replications on orders 271828 and 424242 before making the
+localization claim canonical across orders.
