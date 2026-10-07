@@ -862,6 +862,12 @@ Scripts:
 - `replications/smollm2_schedule_matched_q9_seed271828.py`
 - `replications/smollm2_schedule_matched_q9_seed424242.py`
 
+Hugging Face jobs (A10G-small, 35-minute cap each):
+
+- seed 1729: `6ac5c252fbc85ba6823bbd6c`
+- seed 271828: `6ac5c254fbc85ba6823bbd6e`
+- seed 424242: `6ac5c256404719ba37664cf1`
+
 No Q9-specific hyperparameter search is allowed in v10.
 
 ### Fixed global LR schedule
