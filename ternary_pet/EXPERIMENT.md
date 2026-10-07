@@ -846,3 +846,64 @@ four-arm Q3-vs-Q9 hybrid-master factorial intervention.
 
 Canonical aggregate:
 `replications/v9_tuned_direct_aggregate_summary.md`
+
+
+## v10 — schedule-matched Q9 -> Q3 control
+
+Purpose: close the remaining LR/schedule fairness loophole before the
+hybrid-master mechanism intervention.
+
+Pinned scripts commit:
+`4050f42cf226a300082178b2fda475ebcf31664e`
+
+Scripts:
+
+- `replications/smollm2_schedule_matched_q9_seed1729.py`
+- `replications/smollm2_schedule_matched_q9_seed271828.py`
+- `replications/smollm2_schedule_matched_q9_seed424242.py`
+
+No Q9-specific hyperparameter search is allowed in v10.
+
+### Fixed global LR schedule
+
+Use exactly the schedule selected previously for direct Q3:
+
+- global steps 1-100: linear warmup to LR 1e-3;
+- global steps 101-1200: cosine decay to LR 1e-4.
+
+Quantization schedule:
+
+- global steps 1-300: Q9;
+- at the transition, discard learned Q9 scales, restore original Q3 scales,
+  and create fresh Adam exactly as in v7;
+- global steps 301-1200: Q3;
+- **do not restart the LR schedule** at the transition.
+
+Thus the first Q3 continuation update receives the global step-301 LR, while
+optimizer moments restart from zero.
+
+Everything else remains the established v7/v8/v9 setup: same model, BF16
+roundtrip source, training chunks/order, CE35/KL65 objective, frozen
+non-quantized parameters, grad clip, fixed validation/test evaluators, and
+teacher.
+
+### Primary comparisons
+
+For each seed/order, compare:
+
+1. tuned direct Q3 from v9;
+2. schedule-matched Q9 -> Q3 from v10;
+3. historical constant-1e-4 Q9 -> Q3 from v7.
+
+The v10 schedule was fixed before any v10 held-out result.
+
+### Interpretation
+
+- if schedule-matched Q9 remains better than tuned direct in 3/3 orders, the
+  residual Q9 advantage survives an equal global LR schedule;
+- if the gap shrinks or reverses, revise the canonical effect size accordingly;
+- compare v10 against historical Q9 to measure schedule interaction, but do not
+  call v10 "optimally tuned Q9": Q9 has not received an independent equal-size
+  hyperparameter search;
+- after this control is resolved, proceed to the four-arm hybrid-master causal
+  intervention using the stronger schedule regime.
