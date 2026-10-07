@@ -913,3 +913,64 @@ The v10 schedule was fixed before any v10 held-out result.
   hyperparameter search;
 - after this control is resolved, proceed to the four-arm hybrid-master causal
   intervention using the stronger schedule regime.
+
+
+### v10 outcome
+
+All three preregistered schedule-matched Q9 jobs completed successfully:
+
+- seed 1729: `6ac5c252fbc85ba6823bbd6c`
+- seed 271828: `6ac5c254fbc85ba6823bbd6e`
+- seed 424242: `6ac5c256404719ba37664cf1`
+
+Held-out final losses:
+
+| Seed | Tuned direct Q3 | Historical Q9 -> Q3 | Matched-schedule Q9 -> Q3 | Matched-Q9 gain |
+|---:|---:|---:|---:|---:|
+| 1729 | 5.5957 | 5.1938 | **4.9010** | **0.6947** |
+| 271828 | 5.6228 | 5.2417 | **4.9510** | **0.6718** |
+| 424242 | 5.6067 | 5.3008 | **4.9563** | **0.6505** |
+
+Aggregate versus tuned direct:
+
+- mean loss advantage: **0.6723 nats/token**;
+- mean paired PPL reduction: **48.94%**;
+- mean top-1 gain: **+6.82 pp**;
+- mean KL advantage: **0.6817**.
+
+The shared schedule improves Q9 itself by **0.3094 nats/token on average**
+relative to historical constant-1e-4 Q9 -> Q3.
+
+Equal-compute step-300 fixed-Q3 diagnostics:
+
+| Seed | Tuned direct @300 | Matched Q9 @300 | Q9 immediate disadvantage |
+|---:|---:|---:|---:|
+| 1729 | 5.9881 | 6.5423 | +0.5542 |
+| 271828 | 6.1710 | 6.7168 | +0.5458 |
+| 424242 | 6.0572 | 6.4933 | +0.4361 |
+
+Mean immediate Q9 disadvantage: **+0.5120 nats/token**.
+
+Thus the stronger equal-schedule regime preserves the core trainability result:
+Q9 preparation is a worse immediate ternary checkpoint after equal compute but
+a substantially better state for later Q3 optimization.
+
+Preparation movement is larger under the stronger schedule. At step 300,
+projected Q3 code displacement from the source averages:
+
+- tuned direct: **4.41%**;
+- matched Q9: **4.88%**.
+
+The old constant-1e-4 v7 geometry (~0.68% moved codes and ~19.7% changed-set
+Jaccard) should therefore not be assumed to characterize this tuned regime.
+
+Interpretation: v10 closes the equal-global-schedule fairness loophole. It does
+not establish a final best-tuned-vs-best-tuned effect because Q9 has not
+received an independent equal-budget schedule search.
+
+Canonical aggregate:
+`replications/v10_schedule_matched_q9_aggregate_summary.md`
+
+Next: run the four-arm hybrid-master factorial under this matched schedule,
+rebuilding direct and Q9 step-300 masters in the same run and using fresh Adam,
+original Q3 scales, and the global step-301 LR for all continuation arms.
