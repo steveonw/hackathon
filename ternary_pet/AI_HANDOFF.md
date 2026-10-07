@@ -867,27 +867,63 @@ If the same pattern replicates, the next causal refinement should separate
 mask** itself, e.g. by constructing masters that preserve the Q9-selected Q3
 code while recentering each selected master within its ternary bin.
 
-## ACTIVE — v11 hybrid-factorial replication pair
+## v11 hybrid-factorial localization — REPLICATED 3/3
 
-Pinned shared commit:
-`bb3ba53b4b55bfc6884d287d5a575785e212ffb4`
+Confirmatory jobs:
 
-Orders:
+- seed 271828: `6ac638c0c656c912b4ffae8a`
+- seed 424242: `6ac638c3f0d78b8017af0d5a`
 
-- 271828 — HF job `6ac638c0c656c912b4ffae8a`
-- 424242 — HF job `6ac638c3f0d78b8017af0d5a`
+All three orders pass the exact pair-equality assertions.
 
-Exact v11 design; no changes.
+| Seed | Mask | Full 00->11 gain | M-only gain | Recovery |
+|---:|---:|---:|---:|---:|
+| 1729 | 6.458% | 0.7126 | 0.6807 | 95.5% |
+| 271828 | 6.181% | 0.7014 | 0.6813 | 97.1% |
+| 424242 | 6.301% | 0.6672 | 0.6443 | 96.6% |
 
-The key replication question is whether the Q9 master values on the
-D-vs-S projected-Q3 disagreement mask again recover most of the full 00->11
-trainability gain.
+Aggregate:
 
-Require exact pair checks before continuation:
+- mean mask size: **6.313%**;
+- mean full gain: **0.6938 nats**;
+- mean M-only gain: **0.6688 nats**;
+- mean recovery: **96.4%**;
+- mean same-code-only gain on D background: **0.1092 nats**;
+- mean residual same-code gain after M is already from Q9: **0.0250 nats**.
 
-- 00/01 zero Q3-code Hamming;
-- 10/11 zero Q3-code Hamming;
-- matching paired pre-continuation diagnostics.
+The mechanism claim is now replicated:
 
-If the localization pattern replicates in both orders, aggregate all three
-orders before moving to the code-identity-vs-within-bin intervention on M.
+> The dominant causal carrier is the continuous Q9-prepared master state on the
+> ~6.3% of positions where Q9 and direct preparation disagree on the projected
+> Q3 code after 300 updates.
+
+This is a robust **where** result. It is not yet a **code-label sufficiency**
+result.
+
+Do not say "the discrete ternary assignments alone explain 96%." Arm 10
+transfers exact continuous Q9 masters on M.
+
+Canonical aggregate:
+`replications/v11_hybrid_factorial_aggregate_summary.md`
+
+### Current next-question priority
+
+Run a code-identity-vs-continuous-position intervention on M.
+
+Recommended first intervention:
+
+- rebuild D and S at step 300 under the matched schedule;
+- define M as before;
+- keep D outside M;
+- on M compare at least:
+  1. exact S masters (positive control; reproduces arm 10);
+  2. **S-code prototype** masters using the original Q3 scale:
+     `w = (2/3) * alpha * c_S`, where `c_S in {-1,0,+1}`;
+  3. optionally a minimal-crossing construction starting from D but moving each
+     M weight only far enough to enter S's Q3 code region.
+
+All arms should have the same intended S projected Q3 code on M at continuation
+start. If the prototype/minimal-crossing arms retain most of the exact-S gain,
+discrete code identity is sufficient for much of the effect. If they collapse
+toward D despite identical projected codes, the continuous boundary-relative
+geometry inside M is essential.
