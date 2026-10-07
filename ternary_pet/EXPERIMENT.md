@@ -322,3 +322,35 @@ Interpretation: v7 favors a Q9-specific **trainability / weight-selection
 geometry** mechanism. Q9 appears to reposition a different subset of continuous
 masters such that later Q3 optimization is much more productive, even though
 the immediate Q3 projection is worse.
+
+
+## v7 replication pair — seeds 271828 and 424242
+
+Purpose: test whether the v7 mechanism result survives independent shuffled
+training orders without changing any scientific setting.
+
+The replication scripts are exact copies of the pinned v7 protocol with only
+`SEED` changed. This changes the permutation of the same 1200 training chunks.
+
+Shared pinned commit containing both scripts:
+`6caf3a98d485ed1fd49e22b915ddb6b175578420`
+
+Replication scripts:
+
+- `replications/smollm2_v7_seed271828.py`
+- `replications/smollm2_v7_seed424242.py`
+
+Hugging Face jobs:
+
+- seed 271828: `6ac59807fbc85ba6823bb060`
+- seed 424242: `6ac59809fbc85ba6823bb063`
+
+Hardware: A10G-small. Hard timeout: 45 minutes each.
+
+No result-dependent protocol changes are allowed. The confirmatory questions are:
+
+1. At step 300, is Q9's fixed-Q3 projection still worse than direct Q3@300?
+2. After the common 900-step Q3 continuation, does Q9 still finish better?
+3. Does FP32 warmup still fail to match Q9?
+4. Do Q3 and Q9 still change similar fractions of future Q3 codes while
+   selecting substantially different positions?
