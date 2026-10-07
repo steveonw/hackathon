@@ -627,3 +627,54 @@ Interpretation:
   canonical direct baseline;
 - do not launch the hybrid-master mechanism intervention until this baseline
   check is resolved.
+
+
+## v9 — direct Q3 tuning
+
+Pinned script:
+`ternary_pet/smollm2_v9_direct_q3_tuning.py`
+
+Pinned code:
+`5c088e58539b2dede93df57ac3f72dbe0480a028`
+
+Seed/order 1729. Same model, data construction, objective, quantizer, frozen
+non-quantized parameters, and held-out evaluator as v7/v8.
+
+The first phase compares seven direct-Q3 schedules for 300 updates on the same
+training chunks:
+
+- constant 1e-4;
+- constant 3e-4;
+- constant 5e-4;
+- constant 1e-3;
+- constant 3e-3;
+- warmup 100 then cosine, peak 3e-4, floor 3e-5;
+- warmup 100 then cosine, peak 1e-3, floor 1e-4.
+
+Ranking uses only the existing 24-chunk validation split. The held-out test set
+is not used to choose candidates.
+
+For cosine schedules, the horizon is always 1200 updates, so screening uses the
+same first 300 LR values as a later full run.
+
+After screening, run exactly three 1200-step direct-Q3 conditions from the same
+source:
+
+1. constant 1e-4 reference;
+2. best non-reference validation candidate;
+3. second-best non-reference validation candidate.
+
+Only then evaluate those three on the held-out 8192-token test set.
+
+The historical seed-1729 Q9 result from v7 is kept only for comparison after
+selection: loss 5.193768, PPL 180.146, top-1 33.789%, KL 2.255982.
+
+Interpretation:
+
+- if a tuned direct schedule closes most of the prior Q9 gap, narrow the claim
+  to an advantage over the original direct recipe;
+- if tuned direct remains clearly behind, the Q9 trainability result survives a
+  stronger direct baseline;
+- if a new direct schedule materially improves on 1e-4, repeat it on the other
+  two v7 orders before making it canonical;
+- do not start the hybrid-master intervention until v9 is resolved.
