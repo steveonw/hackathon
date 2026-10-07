@@ -1234,3 +1234,117 @@ Canonical aggregate:
 
 Next causal refinement: separate **Q9-selected Q3 code identity** from
 **continuous within-bin/boundary-relative position** on M.
+
+
+## v12 — code identity vs continuous position on the replicated Q9 mask
+
+Purpose: resolve the remaining ambiguity from v11. v11 replicated **where** the
+useful prepared state resides (~6.3% D-vs-S projected-Q3 disagreement mask M),
+but arm 10 transferred the full continuous Q9 master values. v12 asks **what
+property on M is sufficient**.
+
+Seed/order: 1729 first.
+
+Pinned script:
+`ternary_pet/smollm2_v12_code_identity_position.py`
+
+Pinned code:
+`22639f5b225e56be009886bf467a409910796eef`
+
+### Common preparation and continuation
+
+Rebuild D and S from the same BF16-rounded source under the established matched
+global schedule:
+
+- D = 300 direct-Q3 updates;
+- S = 300 Q9 updates;
+- M = positions where D and S, projected through the same original Q3 scales,
+  choose different Q3 codes.
+
+All continuation arms receive:
+
+- original Q3 scales;
+- fresh Adam;
+- identical chunks 301-1200;
+- the same global LR curve continuing from step 301;
+- 900 Q3 updates.
+
+### Arms
+
+1. `D`: direct masters everywhere.
+2. `exact`: exact S masters on true M, D elsewhere. Positive control intended
+   to reproduce v11 arm 10.
+3. `proto`: on true M use the Q3 reconstruction prototype for S's projected
+   code, `w=(2/3)*alpha0*c_S`; D elsewhere.
+4. `minimal`: on true M move only just inside S's Q3 code region; D elsewhere.
+   Fixed normalized epsilon: **0.01** in `z=w/alpha0`.
+   - target +1: z=+1/3+0.01
+   - target -1: z=-1/3-0.01
+   - target 0 from direct +1: z=+1/3-0.01
+   - target 0 from direct -1: z=-1/3+0.01
+5. `random`: layer/source/target-transition-matched random reassignment outside
+   M using Q3 prototypes. For each layer and direct source code c_D, sample the
+   same number of outside-M positions and reproduce the exact observed
+   `c_D -> c_S` transition counts from true M.
+
+### Required pre-continuation assertions
+
+The three true-M Q9-code arms must start from the same ternary forward model:
+
+- projected Q3(exact) == projected Q3(proto), zero Hamming;
+- projected Q3(exact) == projected Q3(minimal), zero Hamming;
+- their validation diagnostics must match within the existing numerical
+  tolerance.
+
+Random-control assertions:
+
+- random changed-position count equals |M|;
+- D-vs-random projected-Q3 Hamming equals |M|/total;
+- instantiated random projected codes exactly match the constructed random plan;
+- random positions are strictly outside true M;
+- per-layer/source/target transition counts are inherited exactly from M by
+  construction.
+
+### Diagnostics
+
+Log:
+
+- true-mask transition counts `c_D -> c_S`;
+- target-code counts for c_S=0 versus |c_S|=1;
+- per-layer transition counts;
+- D and S normalized nearest-Q3-boundary distances on M, split by target zero
+  versus target nonzero.
+
+### Primary interpretation
+
+Let `G_exact = L_D - L_exact`.
+
+Report:
+
+- prototype recovery = `(L_D-L_proto)/G_exact`;
+- minimal-crossing recovery = `(L_D-L_minimal)/G_exact`;
+- matched-random recovery = `(L_D-L_random)/G_exact`.
+
+Preregistered reading:
+
+- proto ~= exact: Q9-selected Q3 code identity is sufficient for most of the
+  mask benefit; exact Q9 continuous values are not required.
+- minimal ~= exact: merely entering the Q9-selected Q3 region is sufficient.
+- proto strong but minimal weak: depth/location inside the target Q3 region
+  matters, though exact Q9 values may not.
+- proto and minimal both weak while exact is strong: precise continuous
+  Q9-prepared geometry on M is essential.
+- random near D or harmful while true-M proto/minimal help: Q9's **specific
+  position selection** matters, not merely making the same number and types of
+  code reassignments.
+- random also helps materially: some benefit may come from disrupting the direct
+  solution with matched code changes, requiring follow-up before attributing all
+  benefit to Q9-specific position selection.
+
+Do not infer target-zero versus target-nonzero causal contributions from
+descriptive subgroup statistics alone. If v12 is partial/ambiguous, run a
+submask intervention next.
+
+Replication rule: run seed 1729 first. Replicate the exact v12 design on orders
+271828 and 424242 only if the result is interpretable enough to justify a
+canonical code-vs-position claim.
