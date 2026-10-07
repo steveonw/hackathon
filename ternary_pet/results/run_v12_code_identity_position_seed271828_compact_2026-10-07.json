@@ -1,0 +1,28 @@
+{
+  "seed": 271828,
+  "job": "6ac64ccddf2184ac91ac092d",
+  "pinned_commit": "06c2df406d3e2029f742d64ad1065408b9a6209b",
+  "assertions": {
+    "exact_proto_hamming": 0,
+    "exact_minimal_hamming": 0,
+    "forward_diag_equal": true,
+    "random_plan_hamming": 0
+  },
+  "mask_fraction": 0.06180662473042806,
+  "effects": {
+    "seed": 271828,
+    "mask": 0.06180662473042806,
+    "D": 5.652408927679062,
+    "exact": 4.971127104014158,
+    "proto": 4.9186669290065765,
+    "minimal": 5.5406041741371155,
+    "random": 5.720837816596031,
+    "exact_gain": 0.6812818236649036,
+    "proto_gain": 0.7337419986724854,
+    "minimal_gain": 0.11180475354194641,
+    "random_gain": -0.0684288889169693,
+    "proto_rec": 1.077002164427896,
+    "minimal_rec": 0.16410940327235102,
+    "random_rec": -0.10044138349216673
+  }
+}
