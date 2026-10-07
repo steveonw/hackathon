@@ -927,3 +927,85 @@ start. If the prototype/minimal-crossing arms retain most of the exact-S gain,
 discrete code identity is sufficient for much of the effect. If they collapse
 toward D despite identical projected codes, the continuous boundary-relative
 geometry inside M is essential.
+
+### v12 design refinement — code identity vs boundary-relative geometry on M
+
+External review agrees with the next causal question and adds useful controls.
+Use seed/order 1729 first.
+
+Important wording: v11 proves exact equality of the **quantized Q3 forward
+weights** within the paired arms (same projected codes under the same original
+Q3 scales, with identical diagnostics). Do not describe this as literal
+byte-for-byte equality of serialized model files.
+
+Recommended v12 arms, all rebuilt in one run from matched-schedule step-300
+states D and S:
+
+1. **D baseline**
+   - D masters everywhere.
+
+2. **Exact-S-on-M positive control**
+   - S masters on the true disagreement mask M;
+   - D elsewhere;
+   - should reproduce v11 arm 10.
+
+3. **S-code prototype on M**
+   - preserve S's projected Q3 code on every position in M;
+   - replace the exact S master with the Q3 reconstruction prototype
+     `w = (2/3) * alpha0 * c_S`;
+   - D elsewhere.
+
+4. **Minimal-crossing S-code on M**
+   - start conceptually from D;
+   - move each M weight only far enough to enter S's Q3 code region under the
+     original Q3 scale, with a small preregistered normalized epsilon inside the
+     target region;
+   - D elsewhere.
+
+The exact-S, prototype, and minimal-crossing arms must all assert the **same
+projected Q3 codes on every quantized weight** before continuation. Thus they
+start from the same ternary forward model and differ only in hidden continuous
+master position.
+
+Interpretation:
+
+- prototype ~= exact-S: S code identity is sufficient for most of the benefit;
+- minimal-crossing ~= exact-S: merely crossing into the Q9-selected code region
+  is sufficient;
+- prototype helps but minimal-crossing does not: depth/location inside the Q3
+  region matters, but exact Q9 values may not;
+- both prototype and minimal-crossing collapse toward D: precise continuous
+  Q9-prepared geometry on M is essential.
+
+Because the prototype can be a large displacement, especially for target
+`c_S=0`, log the disagreement mask by transition class:
+
+- `c_D -> c_S` transition counts per layer;
+- target-code groups `c_S=0` versus `|c_S|=1`;
+- normalized distances `w/alpha0` from the relevant Q3 boundary for D and S.
+
+If v12 is partial/ambiguous, follow with target-zero vs target-nonzero submask
+interventions rather than trying to infer those contributions from aggregate
+statistics alone.
+
+#### Random reassignment control
+
+Do **not** use an unconstrained random 6.3% code flip.
+
+A scientifically matched random control should preserve the real mask's
+distribution as closely as practical:
+
+- within each layer and source direct-Q3 code `c_D`, sample the same number of
+  positions from outside M as occur in M;
+- assign target codes using the observed per-layer `c_D -> c_S` transition
+  counts from M (randomly permuted among the matched sampled positions);
+- place those random reassigned weights at the same standardized
+  representative used by the true-M comparison, preferably the Q3 prototype.
+
+This controls for mask size, layer allocation, source-code mix, and transition
+type. It asks whether the **specific positions selected by Q9** matter, versus
+merely making the same number and kinds of ternary code changes elsewhere.
+
+Run the true-M identity/position arms first. The matched-random arm is valuable
+and can be included in the same seed-1729 job if memory/runtime remains
+comfortable.
