@@ -1,5 +1,12 @@
 # Ternary Pet Experiments
 
+> ## 🤖 AI / researcher handoff — START HERE
+>
+> If you are taking over this project, read **[AI_HANDOFF.md](AI_HANDOFF.md)**
+> before changing an experiment or launching GPU compute. It contains the
+> current v7 job, pinned commits, validated results, known caveats, and the exact
+> next-step checklist.
+
 Experiments on whether a pretrained language model can enter ternary weight
 space more gracefully through an intermediate representation.
 
@@ -62,12 +69,14 @@ budgets, so this does not establish a permanently better asymptotic basin.
 
 ## Repository layout
 
+- `AI_HANDOFF.md` — **start here for a new AI/researcher**
 - `smollm2_staircase.py` — v1
 - `smollm2_nested_v2.py` — v2
 - `smollm2_transition_v3.py` — v3
 - `smollm2_v4_fliprate_9to3.py` — v4
 - `smollm2_v5_5x.py` — v5
 - `smollm2_v6_transition_ablation.py` — v6
+- `smollm2_v7_equal_compute_geometry.py` — v7
 - `replications/` — v4b confirmation
 - `results/` — immutable run records and summaries
 - `SHAREABLE_RESEARCH_REPORT.md` — external-review report
