@@ -28,6 +28,8 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v11 rep seed 271828 / `6ac638c0c656c912b4ffae8a` | SmolLM2-360M-Instruct | A10G small | completed | hybrid causal replication |
 | v11 rep seed 424242 / `6ac638c3f0d78b8017af0d5a` | SmolLM2-360M-Instruct | A10G small | completed | hybrid causal replication |
 | v12 / `6ac642a0df2184ac91ac018d` | SmolLM2-360M-Instruct | A10G small | completed | code identity vs continuous position |
+| v12 rep seed 271828 / `6ac64ccddf2184ac91ac092d` | SmolLM2-360M-Instruct | A10G small | completed | code/position mechanism confirmation |
+| v12 rep seed 424242 / `6ac64cd2df2184ac91ac092f` | SmolLM2-360M-Instruct | A10G small | completed | code/position mechanism confirmation |
 
 ## Current headline
 
@@ -187,3 +189,20 @@ Matched-random recovery: **-9.7%**.
 Exact/prototype/minimal begin from the same projected Q3 forward model.
 
 See `run_v12_code_identity_position_summary.md`.
+
+
+### v12 three-order code-vs-position aggregate
+
+| Seed | Direct | Exact Q9 | Prototype | Minimal | Random | Prototype recovery |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1729 | 5.6136 | 4.9329 | **4.8884** | 5.4979 | 5.6793 | 106.5% |
+| 271828 | 5.6524 | 4.9711 | **4.9187** | 5.5406 | 5.7208 | 107.7% |
+| 424242 | 5.6234 | 4.9791 | **4.9373** | 5.4911 | 5.7031 | 106.5% |
+
+Mean prototype recovery: **106.9%**.  
+Mean minimal recovery: **18.0%**.  
+Mean matched-random recovery: **-10.7%**.
+
+Pattern replicates in **3/3 orders**.
+
+See `../replications/v12_code_identity_position_aggregate_summary.md`.
