@@ -722,3 +722,31 @@ weights at continuation start, assert zero Hamming distance within those pairs,
 then run the same Q3 continuation. This tests whether the residual Q9 advantage
 is carried mainly by code-disagreement positions, hidden same-code master
 geometry, or their interaction.
+
+## ACTIVE v10 — schedule-matched Q9 control
+
+Before the hybrid-master intervention, run Q9 -> Q3 under the exact global LR
+curve selected for tuned direct.
+
+Pinned commit:
+`4050f42cf226a300082178b2fda475ebcf31664e`
+
+Seeds/orders: 1729, 271828, 424242.
+
+Protocol:
+
+- steps 1-100 warmup to 1e-3;
+- cosine decay to 1e-4 through step 1200;
+- Q9 on global steps 1-300;
+- transition restores original Q3 scales and fresh Adam;
+- Q3 on global steps 301-1200;
+- LR curve continues across the transition and is not restarted.
+
+No Q9-specific schedule search is allowed.
+
+Compare each result against both:
+
+- the v9 tuned-direct result for that seed;
+- the historical v7 constant-1e-4 Q9 -> Q3 result.
+
+This is an equal-schedule control, not a full best-tuned-vs-best-tuned search.
