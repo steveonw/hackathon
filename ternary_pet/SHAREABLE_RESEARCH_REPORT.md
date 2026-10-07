@@ -766,3 +766,31 @@ about **33% lower perplexity** on this seed.
 
 This tuned direct schedule now requires replication on the other two v7
 training orders before being treated as the canonical baseline.
+
+
+---
+
+## 23. Tuned direct replication: residual Q9 advantage survives 3/3 orders
+
+The v9-selected direct-Q3 schedule was replicated without further tuning on the
+two remaining v7 training orders.
+
+| Seed | Tuned direct loss | Q9 -> Q3 loss | Q9 advantage |
+|---:|---:|---:|---:|
+| 1729 | 5.5957 | **5.1938** | **0.4020** |
+| 271828 | 5.6228 | **5.2417** | **0.3810** |
+| 424242 | 5.6067 | **5.3008** | **0.3059** |
+
+Thus Q9 remains better than tuned direct in **3/3 orders**.
+
+Across the three orders, the mean residual Q9 advantage is **0.3630
+nats/token**, with **30.38% lower perplexity** and **+2.52 percentage points**
+higher teacher top-1 agreement.
+
+The stronger direct schedule closes about **47%** of the historical Q9-vs-direct
+loss gap on average. This materially reduces the original effect size and
+confirms that the historical direct recipe was weak, but does not erase the Q9
+advantage.
+
+The tuned warmup+cosine schedule should therefore be treated as the canonical
+small-budget direct baseline for subsequent mechanism experiments.
