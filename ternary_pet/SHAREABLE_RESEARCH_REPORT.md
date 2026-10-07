@@ -946,3 +946,39 @@ disruption.
 
 This is a seed-1729 mechanism result and should be replicated on the other two
 training orders before becoming canonical.
+
+
+---
+
+## 28. v12 mechanism replication: code choice plus interior placement explains the effect
+
+The seed-1729 v12 intervention was replicated exactly on orders 271828 and
+424242.
+
+In all three orders, exact Q9 masters, Q3 reconstruction prototypes, and
+minimal-crossing masters began from the same projected Q3 forward model.
+
+| Seed | Exact Q9 | Prototype | Minimal crossing | Matched random |
+|---:|---:|---:|---:|---:|
+| 1729 | 4.9329 | **4.8884** | 5.4979 | 5.6793 |
+| 271828 | 4.9711 | **4.9187** | 5.5406 | 5.7208 |
+| 424242 | 4.9791 | **4.9373** | 5.4911 | 5.7031 |
+
+The prototype recovers **106.9%** of the exact-Q9 positive-control gain on
+average and beats exact Q9 in all three orders. Minimal crossing recovers only
+**18.0%** on average. The matched-random reassignment is worse than direct in
+all three orders.
+
+The mechanism is therefore sharper than "Q9's exact continuous masters are
+special." Instead:
+
+- Q9 identifies the useful positions and target ternary codes;
+- those masters must be placed meaningfully inside the selected Q3 regions;
+- the standard Q3 reconstruction prototype is sufficient and slightly better
+  than the exact Q9 values;
+- making the same kinds of code transitions at different matched positions does
+  not help.
+
+Within the present SmolLM2/WikiText-2 setup, this closes the mechanism sequence.
+Further work should test generality or exploit the finding practically rather
+than continue subdividing the same causal story.
