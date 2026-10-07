@@ -1009,3 +1009,30 @@ merely making the same number and kinds of ternary code changes elsewhere.
 Run the true-M identity/position arms first. The matched-random arm is valuable
 and can be included in the same seed-1729 job if memory/runtime remains
 comfortable.
+
+
+## ACTIVE v12 — code identity vs continuous position
+
+Seed/order: 1729 first.
+
+Pinned code:
+`22639f5b225e56be009886bf467a409910796eef`
+
+Five continuation arms:
+
+- D baseline;
+- exact Q9 masters on true disagreement mask M;
+- Q9-code reconstruction prototypes on M;
+- minimal-crossing values just inside Q9's selected Q3 regions on M
+  (normalized epsilon 0.01);
+- layer/source/target-transition-matched random prototype reassignment outside M.
+
+The exact/prototype/minimal true-M arms must have zero projected-Q3 Hamming
+between them before continuation and identical forward diagnostics. The random
+control preserves the real mask's transition counts by layer and source/target
+code while randomizing which positions receive them.
+
+Primary quantities are prototype/minimal/random recovery relative to the exact
+Q9-on-M positive-control gain.
+
+Do not replicate until the seed-1729 result is interpreted.
