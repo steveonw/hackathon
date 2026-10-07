@@ -688,9 +688,31 @@ Canonical file:
 
 ### Current next-question priority
 
-Proceed to the four-arm Q3-vs-Q9 hybrid-master causal intervention. Use the
-equal-compute step-300 direct-Q3 and Q9-prepared master states to partition the
-actual prepared-state difference into:
+Before the hybrid-master intervention, close the remaining schedule-fairness
+loophole with a **schedule-matched Q9 control**.
+
+The current 0.363-nat three-order comparison is asymmetric in tuning effort:
+direct Q3 uses the v9-selected warmup+cosine schedule, while Q9 -> Q3 is still
+the historical constant-1e-4 run. Therefore **0.363 nats is not a proven lower
+bound or final intrinsic method advantage**.
+
+First apply the exact direct-selected global LR curve to Q9 -> Q3:
+
+- steps 1-100: linear warmup to 1e-3;
+- steps 101-1200: cosine decay to 1e-4;
+- Q9 for global steps 1-300;
+- at the Q9 -> Q3 transition restore original Q3 scales and use fresh Adam as
+  in v7, but continue the LR curve from global step 301;
+- no additional schedule tuning and no test-set selection.
+
+Run that schedule-matched Q9 protocol on the same three training orders and
+compare it with tuned direct and historical Q9. This is an equal-schedule
+control, **not** a full equal-search-budget Q9 optimization.
+
+If Q9 still wins clearly, then proceed to the four-arm Q3-vs-Q9 hybrid-master
+causal intervention using the schedule-matched preparation/continuation recipe.
+Use the equal-compute step-300 direct-Q3 and Q9-prepared master states to
+partition the actual prepared-state difference into:
 
 - positions where their projected Q3 codes differ;
 - positions where projected Q3 codes agree but continuous FP32 masters differ.
