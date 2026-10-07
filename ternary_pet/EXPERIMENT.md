@@ -227,3 +227,61 @@ Interpretation: v6 materially strengthens the "reorganization before
 constraint" mechanism within this setup. v5 still indicates that much of the
 benefit behaves like a finite-budget head start rather than a proven asymptotic
 advantage.
+
+
+## v7 — equal-compute preparation geometry
+
+v7 asks whether the Q9 advantage at 300 updates is already visible in the
+immediate ternary checkpoint, or whether Q9 mainly leaves the continuous
+masters in a more trainable within-bin geometry.
+
+Three preparation arms consume the exact same first 300 shuffled chunks:
+
+1. \`q3_300\`: direct ternary QAT for 300 updates;
+2. \`q9_300\`: 9-state QAT for 300 updates;
+3. \`fp32_300\`: unquantized-weight warmup for 300 updates, with FP32 master
+   storage/updates and the same autocast compute used elsewhere.
+
+At step 300, every master state is projected through the **same original Q3
+rowwise scales** and evaluated on the same fixed 24-chunk diagnostic set.
+
+Then all three receive an identical 900-step ternary continuation:
+
+- original Q3 scales restored;
+- fresh Adam;
+- same remaining 900 training chunks;
+- same LR \`1e-4\`.
+
+Thus the only state carried from preparation into the continuation is the FP32
+master weights.
+
+### New diagnostics
+
+v7 records:
+
+- native step-300 quality in Q3, Q9, or unquantized space;
+- equal-compute fixed-scale Q3 quality for all three master states;
+- Q3 code changes versus the initial source;
+- pairwise overlap/Jaccard of the exact weights whose Q3 codes changed;
+- pairwise Q3 Hamming distance among the prepared states;
+- distance of every prepared master weight to the nearest future Q3 decision
+  threshold at normalized \`w/alpha = +/-1/3\`;
+- final 1200-update held-out metrics and fixed generation prompts.
+
+The decisive distinction is:
+
+- if Q9's fixed-scale Q3 projection is already better than direct Q3@300, Q9
+  produces a **better ternary entry state**;
+- if direct Q3@300 is as good or better but Q9 wins after the shared 900-step
+  continuation, Q9 produces **better subsequent trainability / within-bin
+  master geometry**;
+- the FP32 arm tests whether the intermediate discrete grid is special or
+  whether a less-constrained warmup is sufficient.
+
+Pinned Git commit:
+\`3aa494a4c8418052ed9e13e0de4f97c692a29fc7\`
+
+Hugging Face Job:
+\`6ac58e76fbc85ba6823bad78\`
+
+Hardware: A10G small. Hard timeout: 45 minutes.
