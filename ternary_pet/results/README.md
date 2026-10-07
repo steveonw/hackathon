@@ -17,6 +17,7 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v7 / `6ac58e76fbc85ba6823bad78` | SmolLM2-360M-Instruct | A10G small | completed | equal-compute Q3/Q9/FP32 geometry |
 | v7 rep seed 271828 / `6ac59807fbc85ba6823bb060` | SmolLM2-360M-Instruct | A10G small | completed | v7 training-order replication |
 | v7 rep seed 424242 / `6ac59809fbc85ba6823bb063` | SmolLM2-360M-Instruct | A10G small | completed | v7 training-order replication |
+| v8 / `6ac5a0b1404719ba37664653` | SmolLM2-360M-Instruct | A10G small | completed | signed pre-loading mechanism diagnostic |
 
 ## Current headline
 
@@ -37,3 +38,19 @@ FP32 warmup never approaches the Q9 result, but it is only worse than direct in
 2/3 orders; on seed 271828 it beats direct by a small 0.029 nats/token.
 
 See `../replications/v7_aggregate_summary.md`.
+
+### v8 mechanism update
+
+v8 reproduced the seed-1729 v7 performance, but the proposed
+**Q9-specific signed-preload** explanation failed its matched-set test.
+
+- on Q9's later-flip set, Q9 prep was more aligned than Q3 prep by **0.001455**
+  normalized units;
+- on Q3's later-flip set, Q3 prep was more aligned than Q9 prep by **0.001691**;
+- the reciprocal own-set advantages are similar, with the Q3 advantage slightly
+  larger.
+
+This matches the preregistered post-selection pattern rather than a
+Q9-specific directional-preloading mechanism.
+
+See `run_v8_summary.md`.
