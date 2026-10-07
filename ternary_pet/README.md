@@ -139,3 +139,35 @@ where direct and Q9 choose different ternary assignments at step 300. It does
 transfers the full continuous Q9 master values on those positions.
 
 See `results/run_v11_hybrid_factorial_summary.md`.
+
+
+## v11 replicated mechanism result
+
+The hybrid-master factorial now replicates across all three established
+training orders.
+
+Across seeds 1729, 271828, and 424242:
+
+- D-vs-S projected-Q3 disagreement mask size: **6.46%, 6.18%, 6.30%**;
+- mean mask size: **6.31%**;
+- mask-only recovery of the full Q9 trainability gain:
+  **95.5%, 97.1%, 96.6%**;
+- mean recovery: **96.4%**;
+- mean full 00->11 gain: **0.6938 nats/token**;
+- mean mask-only gain: **0.6688 nats/token**.
+
+Thus the dominant causal carrier is robustly localized to the ~6.3% of
+positions where direct-Q3 and Q9 preparation choose different projected
+ternary codes after 300 updates.
+
+The same-code majority contributes a smaller secondary effect (mean
+**0.1092 nats** on the direct background), but after the disagreement mask is
+already from Q9, the remaining same-code contribution averages only
+**0.0250 nats**.
+
+This is a strong replicated **where** result, not yet a complete **what**
+result: the mask-only intervention transfers the full continuous Q9 master
+values on those positions, so discrete ternary code identity has not yet been
+isolated from continuous within-bin geometry.
+
+See `replications/v11_hybrid_factorial_aggregate_summary.md`.
