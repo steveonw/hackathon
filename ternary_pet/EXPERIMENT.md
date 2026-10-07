@@ -724,3 +724,42 @@ Canonical files:
 
 - `results/run_v9_2026-10-07.json`
 - `results/run_v9_summary.md`
+
+
+## v9 tuned-direct replication pair — orders 271828 and 424242
+
+Purpose: test whether the v9-selected stronger direct-Q3 schedule reduces the
+Q9 advantage consistently across the two remaining v7 training orders.
+
+Shared pinned commit containing both scripts:
+`31c12d56c239d091e06731c49c809ade8739af95`
+
+Scripts:
+
+- `replications/smollm2_v9_tuned_direct_seed271828.py`
+- `replications/smollm2_v9_tuned_direct_seed424242.py`
+
+Fixed schedule, chosen previously on seed/order 1729:
+
+- direct Q3 for all 1200 updates;
+- linear warmup for 100 steps to LR 1e-3;
+- cosine decay to LR 1e-4 at step 1200.
+
+There is **no new hyperparameter search** in these replications.
+
+Everything else follows the established v7/v8/v9 setup, including the same
+data construction, CE/KL objective, frozen non-quantized parameters, quantizer,
+and held-out evaluator.
+
+Primary paired comparisons use the already-recorded v7 Q9 -> Q3 results for the
+same orders. Those Q9 results are fixed historical references and are not
+recomputed or used to tune the direct schedule.
+
+Interpretation:
+
+- if Q9 remains ahead on both orders, the residual Q9 advantage survives a
+  stronger direct-Q3 schedule across all three v7 orders;
+- if tuned direct closes the gap on one or both orders, report that honestly and
+  revise the aggregate effect size;
+- only after this pair is complete should the tuned direct schedule replace
+  constant 1e-4 as the canonical small-budget direct baseline.
