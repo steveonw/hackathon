@@ -2,82 +2,63 @@
 
 > ## 🤖 AI / researcher handoff — START HERE
 >
-> If you are taking over this project, read **[AI_HANDOFF.md](AI_HANDOFF.md)**
-> before changing an experiment or launching GPU compute. It contains the
-> current v7 job, pinned commits, validated results, known caveats, and the exact
-> next-step checklist.
+> New AI/researcher: read **[AI_HANDOFF.md](AI_HANDOFF.md)** before changing an
+> experiment or launching compute.
 
 Experiments on whether a pretrained language model can enter ternary weight
 space more gracefully through an intermediate representation.
 
-## Current model
-
-**HuggingFaceTB/SmolLM2-360M-Instruct** (~362M parameters).
-
 ## Current headline
 
-v4/v4b established a reproducible 9 -> 3 advantage at small training budgets.
-v5 showed that the advantage shrinks substantially with 5x more training.
+**v7 shows that Q9's advantage is a trainability effect, not a better immediate
+ternary checkpoint.**
 
-**v6 now locates the small-budget advantage primarily in the adapted FP32 master
-weights.**
+After equal 300-step preparation and projection through the same original Q3
+scales:
 
-### v6 causal transition ablation
+- direct Q3@300 diagnostic loss: **6.559**
+- Q9-prepared Q3@300: **9.226**
+- FP32-prepared Q3@300: **14.735**
 
-| Condition | Loss ↓ | PPL ↓ |
+So Q9 is actually a *worse* immediate Q3 model than direct after equal compute.
+
+But after all three receive the same 900-step Q3 continuation with fresh Adam
+and original scales:
+
+| Path | Final loss ↓ | PPL ↓ |
 |---|---:|---:|
-| Direct 1200@3 | 5.875 | 355.90 |
-| Carry all staged state | 5.206 | 182.34 |
-| Reset Adam | 5.203 | 181.83 |
-| **Prepared masters only; reset scales + Adam** | **5.199** | **181.09** |
-| Prepared masters + weight Adam | 5.180 | 177.67 |
+| Q3 -> Q3 | 5.872 | 355.09 |
+| **Q9 -> Q3** | **5.194** | **180.15** |
+| FP32 -> Q3 | 6.031 | 416.19 |
 
-Resetting Adam and restoring the original quantizer scales does **not** remove
-the benefit. The four staged branches span only **0.026 nats/token**, compared
-with a ~0.67-0.69 nat advantage over direct.
+Q9 finishes **0.679 nats/token better** than direct and **49.27% lower PPL**.
+FP32 warmup is worse than direct.
 
-## Mechanistic diagnostic
-
-After 300 Q9 updates, using the same fixed diagnostic data:
-
-- Q9 loss: **4.932**
-- immediate Q3 projection of the same weights: **9.177**
-- original Q3 projection before preparation: **15.478**
-
-So Q9 -> Q3 still causes a large discrete shock, but Q9 training has already
-made the eventual ternary projection **6.30 nats/token better** before a single
-ternary optimizer update.
-
-With the original quantizer scales held fixed, **0.6755%** of future ternary
-assignments changed during Q9 training. The learned-scale value is almost
-identical (**0.6769%**).
-
-That is direct evidence that the FP32 masters themselves cross future ternary
-decision boundaries during the intermediate stage.
+Q3 and Q9 change nearly the same number of future ternary codes by step 300
+(~0.69% vs ~0.68%), but their changed-position sets overlap weakly
+(**19.64% Jaccard**). Global distance-to-threshold distributions are almost
+identical.
 
 ## Current interpretation
 
-The narrow mechanism supported by the experiments is now:
+> Q9's forward constraint appears to create a different **weight-selection /
+> optimization geometry**: it repositions a different subset of FP32 masters.
+> The resulting immediate Q3 model is poor, yet those masters are much more
+> trainable during later Q3 optimization.
 
-> Intermediate-state QAT can move continuous master weights into a configuration
-> whose later ternary projection is substantially less damaging. The early
-> benefit is carried mainly by those adapted master weights, not by Adam moments
-> or scale calibration.
+This is stronger evidence that the intermediate discrete representation itself
+matters; a generic FP32 warmup does not reproduce the effect.
 
-v5 still shows that direct ternary catches up substantially at larger training
-budgets, so this does not establish a permanently better asymptotic basin.
+v5 still shows that direct Q3 catches up substantially with much more training,
+so no asymptotic superiority has been established.
 
 ## Repository layout
 
-- `AI_HANDOFF.md` — **start here for a new AI/researcher**
-- `smollm2_staircase.py` — v1
-- `smollm2_nested_v2.py` — v2
-- `smollm2_transition_v3.py` — v3
-- `smollm2_v4_fliprate_9to3.py` — v4
-- `smollm2_v5_5x.py` — v5
-- `smollm2_v6_transition_ablation.py` — v6
-- `smollm2_v7_equal_compute_geometry.py` — v7
+- `AI_HANDOFF.md` — start here
+- `EXPERIMENT.md` — chronological protocol/outcomes
+- `SHAREABLE_RESEARCH_REPORT.md` — external-review narrative
+- `smollm2_v7_equal_compute_geometry.py` — current completed v7 script
+- `results/run_v7_summary.md` — v7 interpretation
+- `results/run_v7_2026-10-07.json` — complete v7 machine-readable result
 - `replications/` — v4b confirmation
-- `results/` — immutable run records and summaries
-- `SHAREABLE_RESEARCH_REPORT.md` — external-review report
-- `EXPERIMENT.md` — protocol history
+- `results/` — all run records
