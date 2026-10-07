@@ -611,3 +611,45 @@ decision boundaries before the final constraint is imposed.
 The result remains narrow: it does not prove that nine states are optimal, that
 the advantage persists asymptotically, or that a stronger direct ternary
 optimizer cannot close the gap.
+
+
+---
+
+## 19. v7 result: Q9 improves later trainability, not immediate Q3 entry quality
+
+v7 directly compared three equal-compute 300-step preparation paths and then
+gave each the same 900-step Q3 continuation with original Q3 scales and fresh
+Adam.
+
+At step 300, all master states were projected through the same original Q3
+quantizer:
+
+| Preparation | Fixed-Q3 loss |
+|---|---:|
+| Direct Q3 | **6.5589** |
+| Q9 | 9.2264 |
+| FP32/unquantized | 14.7346 |
+
+Thus Q9's immediate Q3 projection is **worse**, not better, than direct Q3 after
+equal compute.
+
+Yet after the shared continuation:
+
+| Path | Final loss | PPL |
+|---|---:|---:|
+| Q3 -> Q3 | 5.8724 | 355.09 |
+| **Q9 -> Q3** | **5.1938** | **180.15** |
+| FP32 -> Q3 | 6.0311 | 416.19 |
+
+Q9 finishes 0.6786 nats/token better than direct. FP32 warmup fails to reproduce
+the effect.
+
+Direct Q3 and Q9 move almost the same fraction of future Q3 assignments by step
+300 (0.6933% vs 0.6755%), but the changed-position sets overlap weakly
+(**19.64% Jaccard**). Their global distance-to-Q3-threshold distributions are
+nearly identical.
+
+The best-supported explanation is therefore no longer "better ternary starting
+checkpoint." It is a **Q9-specific trainability / weight-selection geometry**
+effect: the intermediate grid changes which continuous masters are repositioned,
+and that prepared state responds much better to later ternary training.
