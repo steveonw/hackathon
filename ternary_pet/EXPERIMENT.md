@@ -499,3 +499,59 @@ If v8 gives a strong correlational signal, the next causal test should be an
 intervention that selectively removes the largest Q9-aligned preparation
 movements before the common Q3 continuation and measures how much of the Q9
 advantage is lost.
+
+
+### v8 outcome
+
+Job `6ac5a0b1404719ba37664653` completed successfully.
+
+The seed-1729 v7 performance result reproduced:
+
+- direct Q3 step-300 diagnostic loss: **6.5589**
+- Q9-prepared Q3 step-300 diagnostic loss: **9.2264**
+- final direct loss: **5.8724**
+- final Q9 loss: **5.1938**
+
+The signed-preload mechanism itself was **not supported** by the preregistered
+four-way matched comparison.
+
+On Q9's later-flip positions/directions:
+
+- Q9 prep mean aligned displacement: **0.002328**
+- Q3 prep on the same positions/directions: **0.000873**
+- Q9 advantage: **+0.001455**
+- Q9 is more aligned on 53.44% of matched weights.
+
+On Q3's later-flip positions/directions:
+
+- Q3 prep mean aligned displacement: **0.003130**
+- Q9 prep on the same positions/directions: **0.001439**
+- Q3 advantage: **+0.001691**
+- Q3 is more aligned on 53.77% of matched weights.
+
+Thus each arm mainly wins on its **own** future-flip set by a similar margin,
+which is precisely the pattern preregistered as compatible with post-selection
+/ generic trajectory alignment. The direct-Q3 own-set advantage is slightly
+larger in mean magnitude.
+
+Own-set future-changer alignment is real in both arms:
+
+- direct Q3: mean 0.003130, median 0.002226, 59.11% positive;
+- Q9: mean 0.002328, median 0.001735, 57.28% positive.
+
+Among future-changing weights that had not yet changed Q3 code during the first
+300 updates, both arms show stronger positive preparation alignment (~70%
+positive). Weights that had already changed code during preparation show
+strongly negative alignment with their later continuation change in both arms,
+suggesting a generic crossing/reversal phenomenon rather than a Q9-specific
+effect.
+
+Interpretation: v8 **falsifies the simple Q9-specific directional-preloading
+story**. The replicated Q9 trainability / weight-selection effect remains, but
+its causal mechanism is not explained by a scalar "already moving toward the
+eventual threshold" statistic.
+
+Canonical files:
+
+- `results/run_v8_2026-10-07.json`
+- `results/run_v8_summary.md`
