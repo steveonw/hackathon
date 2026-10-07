@@ -810,41 +810,59 @@ trainability gap under this common fresh-Adam continuation. Then interpret 10
 and 01 to localize the causal contribution to code-disagreement positions,
 same-code hidden master geometry, or their interaction.
 
-## ACTIVE v11 — matched-schedule hybrid-master factorial
+## v11 — COMPLETED matched-schedule hybrid-master factorial
 
-Pinned code:
-`f342fd9c706f2fe21aa00adabe6611b7f835f570`
-
+Job: `6ac5c7befbc85ba6823bbef0`  
+Pinned code: `f342fd9c706f2fe21aa00adabe6611b7f835f570`  
 Seed/order: 1729.
 
-Hugging Face job: `6ac5c7befbc85ba6823bbef0` (A10G-small, 50-minute cap).
+All pair assertions passed exactly before continuation:
 
-v11 rebuilds both step-300 states under the v10 schedule:
+- Q3(00) == Q3(01), zero Hamming;
+- Q3(10) == Q3(11), zero Hamming;
+- paired validation diagnostics exactly match.
 
-- D = direct-Q3 prepared masters;
-- S = Q9-prepared masters.
+D-vs-S step-300 projected-Q3 disagreement mask:
 
-Using original Q3 scales, M is the exact set of positions where D and S project
-to different Q3 codes.
+- **6.4581%** of quantized weights;
+- 20,315,352 / 314,572,800 positions.
 
-Four arms:
+Final losses:
 
-- 00 = D everywhere;
-- 10 = S on M, D elsewhere;
-- 01 = D on M, S elsewhere;
-- 11 = S everywhere.
+| Arm | Meaning | Loss |
+|---|---|---:|
+| 00 | D everywhere | 5.6136 |
+| 10 | S on disagreement mask only | **4.9329** |
+| 01 | S on same-code complement only | 5.5020 |
+| 11 | S everywhere | **4.9010** |
 
-All arms get original Q3 scales, fresh Adam, and the same global LR continuation
-from step 301 through 1200.
+Full endpoint gain: **0.7126 nats**.
 
-The script asserts zero Q3-code Hamming distance for paired equal-forward
-models 00/01 and 10/11 before any continuation update.
+The disagreement-mask transfer alone contributes **0.6807 nats**, recovering
+**95.5%** of the full gain. Same-code hidden geometry alone contributes only
+**0.1116 nats** on the direct background; once the disagreement mask is already
+from Q9, the remaining same-code contribution is only **0.0319 nats**.
 
-Read the result causally:
+Current mechanism interpretation:
 
-- 10 ~ 11 -> code-disagreement positions carry most of the benefit;
-- 01 ~ 11 -> same-code hidden master geometry carries most;
-- both intermediate -> split contribution;
-- neither helps alone but 11 wins -> interaction/synergy;
-- if 00-vs-11 itself does not reproduce a material gap under the common
-  continuation, do not localize mechanism from the hybrids.
+> On seed 1729, the Q9 trainability advantage is carried predominantly by the
+> continuous Q9-prepared masters at the ~6.46% of positions where Q9 and direct
+> produce different projected Q3 codes at step 300.
+
+Do not claim the discrete code values alone are causal. Arm 10 transfers the
+full continuous Q9 master values on those positions.
+
+Canonical files:
+
+- `results/run_v11_hybrid_factorial_summary.md`
+- `results/run_v11_hybrid_factorial_seed1729_2026-10-07.json`
+
+### Current next-question priority
+
+Replicate the exact v11 factorial on orders 271828 and 424242 before making the
+localization result canonical across orders.
+
+If the same pattern replicates, the next causal refinement should separate
+**code identity** from **continuous within-bin position on the disagreement
+mask** itself, e.g. by constructing masters that preserve the Q9-selected Q3
+code while recentering each selected master within its ternary bin.
