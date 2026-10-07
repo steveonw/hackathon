@@ -8,6 +8,8 @@
 Experiments on whether a pretrained language model can enter ternary weight
 space more gracefully through an intermediate representation.
 
+**Research report:** [RESEARCH_REPORT.md](RESEARCH_REPORT.md) — concise public-facing summary of the current findings and mechanism results.
+
 ## Current headline
 
 **The v7 trainability effect now replicates across three independent training
