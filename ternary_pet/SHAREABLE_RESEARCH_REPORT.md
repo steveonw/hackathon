@@ -733,3 +733,36 @@ Therefore the mechanism should remain described at the broader
 **trainability / weight-selection geometry** level. Global threshold proximity
 (v7) and simple signed future-threshold preloading (v8) have both failed to
 explain the Q9 advantage.
+
+
+---
+
+## 22. v9 result: stronger direct optimization narrows but does not erase Q9
+
+v9 addressed a major baseline concern: the historical direct-Q3 LR search had
+ended at 1e-4, which was also the best tested value.
+
+Seven direct schedules were screened for 300 updates using only the validation
+split. The two best non-reference candidates were then run for the full 1200
+updates alongside the historical 1e-4 reference.
+
+The best full direct schedule used a 100-step warmup to 1e-3 followed by cosine
+decay to 1e-4.
+
+| Condition | Held-out loss | PPL | Top-1 | KL |
+|---|---:|---:|---:|---:|
+| direct 1e-4 | 5.8747 | 355.90 | 25.55% | 2.954 |
+| direct 1e-3 | 5.8356 | 342.26 | 26.68% | 2.894 |
+| **direct warmup+cosine** | **5.5957** | **269.27** | **29.87%** | **2.664** |
+| historical Q9 -> Q3 | **5.1938** | **180.15** | **33.79%** | **2.256** |
+
+The tuned schedule closes about **41%** of the historical seed-1729 Q9/direct
+loss gap.
+
+Therefore the earlier direct baseline was materially weak, and the Q9 effect
+size must be revised downward when comparing against a stronger optimizer
+schedule. However, Q9 still retains a **0.402-nat/token** loss advantage and
+about **33% lower perplexity** on this seed.
+
+This tuned direct schedule now requires replication on the other two v7
+training orders before being treated as the canonical baseline.
