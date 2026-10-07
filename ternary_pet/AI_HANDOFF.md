@@ -556,21 +556,53 @@ A level-count sweep (5/7/9/15 -> 3) is also high value after or alongside that
 diagnostic. A stronger tuned direct-Q3 optimizer/scheduler baseline remains
 required before broad claims.
 
-## ACTIVE v8 — signed pre-loading diagnostic
+## v8 — COMPLETED signed pre-loading diagnostic
 
-The next mechanism test is `smollm2_v8_signed_preload.py`, pinned at
-`356bff9769c96faa0ca139f9cba088fc1a52c2c8`.
+Job: `6ac5a0b1404719ba37664653`  
+Pinned code: `356bff9769c96faa0ca139f9cba088fc1a52c2c8`
 
-Hugging Face job: `6ac5a0b1404719ba37664653` (A10G-small, 35-minute cap).
+v8 tested whether Q9 uniquely moves later-flipping weights in their eventual
+ternary-transition direction during preparation.
 
-It keeps only the Q3 and Q9 arms and asks whether weights that later change Q3
-code had already moved in the same direction during the first 300 updates.
+**Result: negative for that specific mechanism.**
 
-The primary normalized statistic is:
+Four-way matched comparison:
 
-`sign(final_code - step300_code) * (W300 - W0) / alpha0`
+- on Q9's later-flip set: Q9 = **0.002328**, Q3 = **0.000873**,
+  Q9-Q3 = **+0.001455**;
+- on Q3's later-flip set: Q3 = **0.003130**, Q9 = **0.001439**,
+  Q3-Q9 = **+0.001691**.
 
-Crucially, v8 includes **matched-position controls**: Q9 and Q3 prep displacement
-are compared on the same exact future-changing weights and eventual directions.
-Do not interpret a higher value caused only by different selected weight sets as
-directional pre-loading.
+Each arm wins on its own future-flip set by a similar margin. That matches the
+preregistered post-selection pattern rather than Q9-specific directional
+pre-loading.
+
+Do **not** claim that Q9's advantage is explained by pointing future-flipping
+weights toward their next ternary threshold. v8 falsified that simple story.
+
+The broader replicated result from v7 remains:
+
+- Q9 is a worse immediate Q3 checkpoint after equal 300-step compute;
+- Q9 becomes much better after the same 900-step Q3 continuation;
+- the effect holds across 3/3 training orders;
+- Q3 and Q9 move similar numbers of future ternary codes but mostly different
+  specific weights.
+
+Current best description:
+
+> Q9 changes the optimization / weight-selection geometry in a reproducible
+> way, but neither global threshold proximity nor simple signed future-threshold
+> preloading explains why the selected Q9 master state is more trainable.
+
+Canonical v8 files:
+
+- `results/run_v8_summary.md`
+- `results/run_v8_2026-10-07.json`
+
+### Current next-question priority
+
+A causal intervention should now focus on **which Q9-selected weights carry the
+benefit**, without assuming signed-preload is the reason they matter. Another
+high-value axis is the intermediate level-count sweep (5/7/9/15 -> 3) under the
+same equal-compute v7 protocol. A stronger tuned direct-Q3 optimizer/scheduler
+baseline remains necessary before broad claims.
