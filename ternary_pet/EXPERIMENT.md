@@ -745,6 +745,13 @@ Fixed schedule, chosen previously on seed/order 1729:
 - linear warmup for 100 steps to LR 1e-3;
 - cosine decay to LR 1e-4 at step 1200.
 
+Hugging Face jobs:
+
+- seed 271828: `6ac5b807404719ba37664ae8`
+- seed 424242: `6ac5b809fbc85ba6823bba12`
+
+Hardware: A10G-small. Hard timeout: 35 minutes each.
+
 There is **no new hyperparameter search** in these replications.
 
 Everything else follows the established v7/v8/v9 setup, including the same
