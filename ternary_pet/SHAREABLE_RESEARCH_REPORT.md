@@ -653,3 +653,44 @@ The best-supported explanation is therefore no longer "better ternary starting
 checkpoint." It is a **Q9-specific trainability / weight-selection geometry**
 effect: the intermediate grid changes which continuous masters are repositioned,
 and that prepared state responds much better to later ternary training.
+
+
+---
+
+## 20. v7 replication: trainability effect holds across three orders
+
+Two exact training-order replications of v7 were run at seeds 271828 and 424242.
+Only the data-order seed changed.
+
+The central result replicated in both.
+
+| Seed | Direct Q3 @300 | Q9->Q3 @300 | Final direct | Final Q9 | Final Q9 gain |
+|---:|---:|---:|---:|---:|---:|
+| 1729 | 6.5589 | 9.2264 | 5.8724 | **5.1938** | **0.6786** |
+| 271828 | 6.6449 | 8.8909 | 5.9802 | **5.2417** | **0.7384** |
+| 424242 | 6.5824 | 9.4334 | 5.9469 | **5.3008** | **0.6461** |
+
+Thus in all three orders:
+
+1. Q9 preparation produces a **worse immediate fixed-Q3 checkpoint** than direct
+   Q3 after equal 300-step compute;
+2. after the same 900-step Q3 continuation, Q9 finishes substantially better.
+
+Across all three:
+
+- mean final loss advantage: **0.6877 nats/token**;
+- mean paired PPL reduction: **49.69%**;
+- mean teacher top-1 gain: **+6.86 pp**.
+
+The weight-selection signal also replicates. Direct Q3 and Q9 change similar
+fractions of future ternary codes, while the mean changed-position Jaccard is
+only **19.66%**.
+
+The FP32 control requires one refinement: FP32 remains far worse than Q9 in all
+three orders, but on seed 271828 it slightly beats direct Q3. Therefore the
+replicated conclusion is that **generic FP32 warmup does not reproduce Q9's
+large trainability advantage**, not that FP32 warmup is always harmful.
+
+This substantially strengthens the narrow claim that, under this recipe, the
+intermediate Q9 forward constraint creates a reproducible finite-budget
+trainability / weight-selection geometry effect.
