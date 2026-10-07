@@ -285,3 +285,40 @@ Hugging Face Job:
 \`6ac58e76fbc85ba6823bad78\`
 
 Hardware: A10G small. Hard timeout: 45 minutes.
+
+
+### v7 outcome
+
+Job `6ac58e76fbc85ba6823bad78` completed successfully.
+
+At equal 300-step compute, projected through the same original Q3 scales:
+
+- direct Q3@300 loss: **6.5589**
+- Q9-prepared Q3@300 loss: **9.2264**
+- FP32-prepared Q3@300 loss: **14.7346**
+
+Therefore Q9 does **not** provide a better immediate ternary entry checkpoint.
+
+After the identical 900-step Q3 continuation (fresh Adam, original Q3 scales,
+same remaining chunks):
+
+- Q3 -> Q3: loss **5.8724**, PPL **355.09**
+- Q9 -> Q3: loss **5.1938**, PPL **180.15**
+- FP32 -> Q3: loss **6.0311**, PPL **416.19**
+
+Q9 therefore finishes **0.6786 nats/token** better than direct despite starting
+the continuation from a substantially worse Q3 checkpoint. FP32 warmup does not
+reproduce the effect.
+
+At step 300, direct Q3 changes 0.6933% of future Q3 assignments and Q9 changes
+0.6755%, but their changed-position sets have only **19.64% Jaccard overlap**.
+When both change the same weight, they choose the same final ternary code 100%
+of the time.
+
+Global distance-to-Q3-threshold distributions are nearly identical across
+initial, Q3, Q9, and FP32 states.
+
+Interpretation: v7 favors a Q9-specific **trainability / weight-selection
+geometry** mechanism. Q9 appears to reposition a different subset of continuous
+masters such that later Q3 optimization is much more productive, even though
+the immediate Q3 projection is worse.
