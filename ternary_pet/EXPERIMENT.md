@@ -637,6 +637,8 @@ Pinned script:
 Pinned code:
 `5c088e58539b2dede93df57ac3f72dbe0480a028`
 
+Hugging Face job: `6ac5ad77fbc85ba6823bb71c` (A10G-small, 55-minute cap).
+
 Seed/order 1729. Same model, data construction, objective, quantizer, frozen
 non-quantized parameters, and held-out evaluator as v7/v8.
 
