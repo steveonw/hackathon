@@ -674,3 +674,19 @@ order. Do not alter the schedule between seeds.
 
 If Q9 remains ahead on both, use the three-order tuned-direct comparison as the
 new canonical small-budget effect before launching the hybrid-master factorial.
+
+
+### Tuned-direct replication technical retry
+
+Initial jobs:
+
+- `6ac5b807404719ba37664ae8` — failed pre-training from generated-script
+  `LR_` NameError;
+- `6ac5b809fbc85ba6823bba12` — cancelled before reaching the same bug.
+
+Do not count either as an experimental result.
+
+Corrected scripts are pinned together at:
+`3e74ccf5c448fc994d005a7baf94529b92e9996a`
+
+The scientific schedule is unchanged.
