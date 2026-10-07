@@ -401,3 +401,56 @@ advantage**, not that FP32 is universally harmful.
 Interpretation: the Q9-specific trainability / weight-selection geometry result
 is now replicated across three training orders under the current
 SmolLM2/WikiText recipe.
+
+
+## v8 — signed pre-loading diagnostic
+
+Purpose: test whether the replicated Q9 trainability advantage is explained by
+**directional preparation** of FP32 masters toward the ternary transitions they
+make later.
+
+Pinned script:
+`ternary_pet/smollm2_v8_signed_preload.py`
+
+Pinned Git commit:
+`356bff9769c96faa0ca139f9cba088fc1a52c2c8`
+
+Protocol:
+
+- seed/order 1729;
+- arm A: 300 Q3 updates;
+- arm B: 300 Q9 updates;
+- then both restore original Q3 scales, reset Adam, and consume the same final
+  900 Q3 chunks;
+- same LR, teacher, objective, evaluator, and frozen non-quantized parameters.
+
+Primary per-weight statistic, restricted to weights whose Q3 code changes during
+the 900-step continuation:
+
+```
+aligned_preload =
+sign(final_Q3_code - step300_Q3_code)
+* (W_step300 - W_initial)
+ / alpha_initial
+```
+
+Positive values mean preparation had already moved the continuous master in the
+same direction as its later ternary code transition.
+
+Matched-set controls prevent selection bias:
+
+1. On the exact positions/directions of Q9's later ternary transitions, compare
+   Q9-prep aligned displacement against Q3-prep aligned displacement.
+2. On the exact positions/directions of Q3's later transitions, compare
+   Q3-prep aligned displacement against Q9-prep aligned displacement.
+
+Interpretation preregistered before launch:
+
+- if Q9 shows substantially more positive/aligned displacement on its own
+  future-transition set than Q3 does at those same positions, that supports a
+  **directional pre-loading** mechanism;
+- if the two prep paths are similar on matched positions, then the benefit is
+  more likely due to some other property of the selected subset or its local
+  optimization geometry;
+- a positive result does not establish causality by itself; it identifies a
+  more specific geometric correlate to test next.
