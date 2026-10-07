@@ -59,3 +59,28 @@ generated-script truncation bug before training. The valid confirmatory jobs are
 
 Corrected replication scripts are pinned at
 `3e74ccf5c448fc994d005a7baf94529b92e9996a`.
+
+
+## Schedule-fairness caveat
+
+The three-order 0.363-nat result compares a **tuned direct-Q3 schedule** against
+the historical Q9 -> Q3 runs that still used constant LR 1e-4.
+
+That is a legitimate and useful result — Q9 beats a materially stronger tuned
+competitor even under its old schedule — but it is **not yet a symmetric
+schedule comparison**, and it should not be described as a proven conservative
+lower bound on the intrinsic Q9 advantage.
+
+The next control should transfer the exact v9-selected global LR curve to the
+Q9 -> Q3 protocol without any new hyperparameter search:
+
+- warmup to 1e-3 over global steps 1-100;
+- cosine decay to 1e-4 through global step 1200;
+- Q9 on steps 1-300;
+- original Q3 scales + fresh Adam at the transition;
+- Q3 continuation on steps 301-1200 using the remaining global LR curve.
+
+This isolates the effect of giving both methods the same LR schedule. It is
+still not equivalent to giving Q9 an independent hyperparameter search budget,
+so a final "best tuned method vs best tuned method" claim would require equal
+search opportunity.
