@@ -1015,6 +1015,8 @@ comfortable.
 
 Seed/order: 1729 first.
 
+Hugging Face job: `6ac642a0df2184ac91ac018d` (A10G-small, 55-minute cap).
+
 Pinned code:
 `22639f5b225e56be009886bf467a409910796eef`
 
