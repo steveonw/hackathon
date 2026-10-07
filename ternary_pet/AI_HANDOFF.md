@@ -616,6 +616,8 @@ Script:
 Pinned code:
 `5c088e58539b2dede93df57ac3f72dbe0480a028`
 
+Hugging Face job: `6ac5ad77fbc85ba6823bb71c` (A10G-small, 55-minute cap).
+
 v9 first compares seven direct-Q3 learning-rate/schedule choices for 300 updates
 using only the validation split. It then runs three full 1200-step direct-Q3
 conditions: the historical constant 1e-4 reference plus the two best
