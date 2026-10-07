@@ -18,6 +18,7 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v7 rep seed 271828 / `6ac59807fbc85ba6823bb060` | SmolLM2-360M-Instruct | A10G small | completed | v7 training-order replication |
 | v7 rep seed 424242 / `6ac59809fbc85ba6823bb063` | SmolLM2-360M-Instruct | A10G small | completed | v7 training-order replication |
 | v8 / `6ac5a0b1404719ba37664653` | SmolLM2-360M-Instruct | A10G small | completed | signed pre-loading mechanism diagnostic |
+| v9 / `6ac5ad77fbc85ba6823bb71c` | SmolLM2-360M-Instruct | A10G small | completed | direct-Q3 LR/schedule tuning |
 
 ## Current headline
 
@@ -54,3 +55,19 @@ This matches the preregistered post-selection pattern rather than a
 Q9-specific directional-preloading mechanism.
 
 See `run_v8_summary.md`.
+
+### v9 direct-baseline update
+
+The historical direct-Q3 recipe was undertuned.
+
+On seed 1729, a 100-step warmup plus cosine schedule (peak 1e-3, floor 1e-4)
+improves direct-Q3 held-out loss from **5.8747** to **5.5957** and PPL from
+**355.90** to **269.27**.
+
+Historical Q9 -> Q3 remains better at **5.1938 loss / 180.15 PPL**.
+
+The tuned schedule closes about **41%** of the original loss gap but leaves a
+**0.402-nat/token** residual Q9 advantage. This new direct schedule must be
+replicated on seeds 271828 and 424242 before becoming canonical.
+
+See `run_v9_summary.md`.
