@@ -1068,24 +1068,61 @@ upgraded to a three-order conclusion:
 Only after those two confirmations should we decide whether any target-zero vs
 target-nonzero submask experiment is necessary.
 
-## ACTIVE — v12 replication pair
+## v12 code/position mechanism — REPLICATED 3/3
 
-Pinned shared commit:
-`06c2df406d3e2029f742d64ad1065408b9a6209b`
+Confirmatory jobs:
 
-Orders:
+- seed 271828: `6ac64ccddf2184ac91ac092d`
+- seed 424242: `6ac64cd2df2184ac91ac092f`
 
-- 271828 — HF job `6ac64ccddf2184ac91ac092d`
-- 424242 — HF job `6ac64cd2df2184ac91ac092f`
+All construction assertions passed.
 
-Exact v12 design, unchanged.
+| Seed | Exact gain | Prototype recovery | Minimal recovery | Random recovery |
+|---:|---:|---:|---:|---:|
+| 1729 | 0.6807 | 106.5% | 17.0% | -9.7% |
+| 271828 | 0.6813 | 107.7% | 16.4% | -10.0% |
+| 424242 | 0.6443 | 106.5% | 20.5% | -12.4% |
 
-Canonicalization rule:
+Aggregate:
 
-1. prototype should again approach or beat exact;
-2. minimal crossing should remain much weaker;
-3. matched-random should remain non-beneficial;
-4. all equal-forward and random-plan construction assertions must pass.
+- mean true-mask size: **6.313%**;
+- mean exact-Q9-on-mask gain: **0.6688 nats**;
+- mean prototype gain: **0.7150 nats**;
+- mean prototype recovery: **106.9%**;
+- mean minimal recovery: **18.0%**;
+- mean matched-random recovery: **-10.7%**.
 
-If all three mechanism patterns replicate on both orders, aggregate all three
-seeds and treat the mechanism phase as essentially complete.
+Canonical mechanism conclusion:
+
+> Q9's useful prepared state is concentrated on the ~6.3% disagreement
+> positions. What matters there is the specific **which-position / which-code**
+> choice plus useful placement inside the chosen ternary region. Exact Q9
+> within-region FP32 coordinates are unnecessary; merely crossing the boundary
+> is insufficient; and applying the same transition pattern to different
+> positions is harmful.
+
+This is now replicated across all three established training orders.
+
+### Mechanism phase status
+
+**STOP CONDITION MET.**
+
+No additional mechanism jobs are required for the current SmolLM2/WikiText-2
+story unless a new question is deliberately opened.
+
+Possible next phases, each scientifically separate:
+
+1. cross-model / cross-dataset generalization;
+2. cheap practical recipe for predicting/learning the useful Q9-selected
+   positions/codes without a full Q9 phase;
+3. quantizer redesign using the position/code + prototype insight.
+
+Canonical aggregate:
+`replications/v12_code_identity_position_aggregate_summary.md`.
+
+Compact confirmatory JSON summaries:
+
+- `results/run_v12_code_identity_position_seed271828_compact_2026-10-07.json`
+- `results/run_v12_code_identity_position_seed424242_compact_2026-10-07.json`
+
+Full confirmatory traces remain auditable in the Hugging Face job logs above.
