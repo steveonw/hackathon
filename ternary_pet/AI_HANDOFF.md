@@ -817,6 +817,8 @@ Pinned code:
 
 Seed/order: 1729.
 
+Hugging Face job: `6ac5c7befbc85ba6823bbef0` (A10G-small, 50-minute cap).
+
 v11 rebuilds both step-300 states under the v10 schedule:
 
 - D = direct-Q3 prepared masters;
