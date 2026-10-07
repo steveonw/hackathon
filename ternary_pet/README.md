@@ -59,19 +59,25 @@ So the Q9 trainability effect remains replicated, but its mechanism is deeper
 than simple "point the future-flipping weights toward their next threshold."
 
 v9 strengthened the direct-Q3 baseline with a 100-step warmup to 1e-3 followed
-by cosine decay to 1e-4. That schedule now has confirmatory runs on all three
-v7 training orders.
+by cosine decay to 1e-4. v10 then applied that **same global LR schedule** to
+Q9 -> Q3 on all three training orders, with the v7 transition semantics
+(original Q3 scales + fresh Adam at step 300, no LR restart).
 
-Against this tuned direct baseline, Q9 remains better in **3/3 orders**:
+Schedule-matched Q9 remains better than tuned direct in **3/3 orders**:
 
-- residual held-out loss advantage: **0.402, 0.381, 0.306 nats/token**;
-- mean residual advantage: **0.363 nats/token**;
-- mean paired PPL reduction: **30.38%**;
-- mean teacher top-1 gain: **+2.52 pp**.
+- held-out loss advantage: **0.695, 0.672, 0.650 nats/token**;
+- mean advantage: **0.672 nats/token**;
+- mean paired PPL reduction: **48.94%**;
+- mean teacher top-1 gain: **+6.82 pp**.
 
-Direct tuning removes about **47%** of the old Q9-vs-direct loss gap on average,
-so the old ~0.69-nat headline was overstated. The canonical small-budget effect
-is now the ~0.36-nat mean advantage against tuned direct.
+The central trainability pattern also survives: after equal 300-step compute,
+the schedule-matched Q9 masters are still a **worse immediate Q3 checkpoint**
+than tuned direct by **0.512 nats/token on average**, yet they finish much
+better after the next 900 Q3 updates.
+
+This closes the equal-global-schedule loophole. It is still not a
+best-tuned-vs-best-tuned comparison because Q9 has not received an independent
+equal-budget hyperparameter search.
 
 This remains a finite-budget result on one model/data setup. v5 shows direct Q3
 catches up substantially with more training, and free-running generation remains
@@ -95,5 +101,9 @@ poor.
 - `replications/v9_tuned_direct_aggregate_summary.md` — canonical tuned-direct three-order comparison
 - `results/run_v9_tuned_direct_seed271828_2026-10-07.json` — tuned-direct replication raw
 - `results/run_v9_tuned_direct_seed424242_2026-10-07.json` — tuned-direct replication raw
+- `replications/v10_schedule_matched_q9_aggregate_summary.md` — equal-schedule Q9 aggregate
+- `results/run_v10_schedule_matched_q9_seed1729_2026-10-07.json` — v10 raw
+- `results/run_v10_schedule_matched_q9_seed271828_2026-10-07.json` — v10 raw
+- `results/run_v10_schedule_matched_q9_seed424242_2026-10-07.json` — v10 raw
 - `replications/` — replication scripts and summaries
 - `results/` — all run records
