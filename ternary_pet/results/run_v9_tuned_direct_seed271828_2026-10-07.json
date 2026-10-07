@@ -1,0 +1,574 @@
+{
+  "seed": 271828,
+  "schedule": {
+    "name": "warm100_cosine_1e-3",
+    "kind": "warmup_cosine",
+    "peak_lr": 0.001,
+    "warmup_steps": 100,
+    "min_lr": 0.0001
+  },
+  "training_order_head": [
+    834,
+    47,
+    981,
+    79,
+    679,
+    330,
+    210,
+    787,
+    378,
+    125,
+    66,
+    977,
+    640,
+    922,
+    219,
+    1156
+  ],
+  "bf16_source_test": {
+    "loss": 3.685364991426468,
+    "ppl": 39.85966823232363,
+    "top1_agreement": 0.996826171875,
+    "kl_to_teacher": 0.000041862205478082615,
+    "tokens": 8192
+  },
+  "validation_final": {
+    "loss": 5.31317937374115,
+    "ppl": 202.99459919581594,
+    "top1_agreement": 0.3362630208333333,
+    "kl_to_teacher": 2.4453880240519843,
+    "tokens": 3072
+  },
+  "test": {
+    "loss": 5.622788295149803,
+    "ppl": 276.65971772481305,
+    "top1_agreement": 0.29931640625,
+    "kl_to_teacher": 2.708918035030365,
+    "tokens": 8192,
+    "gen": [
+      "\n\n\n 2000 ) . The first is a 2000-@ 1000 – 1966 . The 2000s , the 1999 –",
+      " 2000 ) . The first time in the 1999 – 1966 – 1966 \n",
+      "\n 1966 ) . The first is a new figure of the 1999 – 1966 \n",
+      "\n 1966 ) . The first is a 2000-@ 1000 – 1966 . The 2000s , the 1999 – 1"
+    ],
+    "final_hist": {
+      "0": 0.3157591279347738,
+      "1": 0.34225863138834633,
+      "-1": 0.3419822406768799
+    },
+    "scale": {
+      "mean": 0.20746110379695892,
+      "std": 0.042371828109025955,
+      "min": 0.022381417453289032,
+      "max": 1.4307814836502075
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "lr": 0.00001,
+      "loss": 12.504034042358398,
+      "ce": 14.87548828125,
+      "kl": 11.227096557617188,
+      "validation": null,
+      "flip_since_last": 0,
+      "different_from_stage_start": 0,
+      "top_layers": [
+        {
+          "name": "model.layers.9.self_attn.v_proj",
+          "flip_since_last": 0,
+          "different_from_start": 0
+        },
+        {
+          "name": "model.layers.9.self_attn.q_proj",
+          "flip_since_last": 0,
+          "different_from_start": 0
+        },
+        {
+          "name": "model.layers.9.self_attn.o_proj",
+          "flip_since_last": 0,
+          "different_from_start": 0
+        },
+        {
+          "name": "model.layers.9.self_attn.k_proj",
+          "flip_since_last": 0,
+          "different_from_start": 0
+        },
+        {
+          "name": "model.layers.9.mlp.up_proj",
+          "flip_since_last": 0,
+          "different_from_start": 0
+        }
+      ]
+    },
+    {
+      "step": 100,
+      "lr": 0.001,
+      "loss": 5.876754283905029,
+      "ce": 8.601974487304688,
+      "kl": 4.409328460693359,
+      "validation": null,
+      "flip_since_last": 0.013682565689086913,
+      "different_from_stage_start": 0.013682565689086913,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.06303059895833334,
+          "different_from_start": 0.06303059895833334
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.05890407986111111,
+          "different_from_start": 0.05890407986111111
+        },
+        {
+          "name": "model.layers.29.self_attn.q_proj",
+          "flip_since_last": 0.026507161458333334,
+          "different_from_start": 0.026507161458333334
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.025472005208333332,
+          "different_from_start": 0.025472005208333332
+        },
+        {
+          "name": "model.layers.28.self_attn.k_proj",
+          "flip_since_last": 0.023024088541666668,
+          "different_from_start": 0.023024088541666668
+        }
+      ]
+    },
+    {
+      "step": 200,
+      "lr": 0.000981771838126524,
+      "loss": 4.297955513000488,
+      "ce": 5.617857933044434,
+      "kl": 3.5872390270233154,
+      "validation": null,
+      "flip_since_last": 0.02394900639851888,
+      "different_from_stage_start": 0.030257460276285807,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.10073567708333334,
+          "different_from_start": 0.11946614583333333
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.09098307291666667,
+          "different_from_start": 0.11346462673611112
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.060390625,
+          "different_from_start": 0.07286458333333333
+        },
+        {
+          "name": "model.layers.28.self_attn.k_proj",
+          "flip_since_last": 0.054225260416666664,
+          "different_from_start": 0.06528971354166667
+        },
+        {
+          "name": "model.layers.30.self_attn.k_proj",
+          "flip_since_last": 0.04889973958333333,
+          "different_from_start": 0.05848307291666666
+        }
+      ]
+    },
+    {
+      "step": 300,
+      "lr": 0.0009285640897740315,
+      "loss": 4.357865333557129,
+      "ce": 6.382537841796875,
+      "kl": 3.2676568031311035,
+      "validation": {
+        "loss": 6.170982380708058,
+        "ppl": 478.6560977122982,
+        "top1_agreement": 0.236328125,
+        "kl_to_teacher": 3.241359452406565,
+        "tokens": 3072
+      },
+      "flip_since_last": 0.02541632652282715,
+      "different_from_stage_start": 0.04272503534952799,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.10316080729166667,
+          "different_from_start": 0.1531640625
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.09532877604166666,
+          "different_from_start": 0.14567925347222221
+        },
+        {
+          "name": "model.layers.30.self_attn.k_proj",
+          "flip_since_last": 0.053447265625,
+          "different_from_start": 0.09142252604166666
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.05244466145833333,
+          "different_from_start": 0.102919921875
+        },
+        {
+          "name": "model.layers.28.self_attn.k_proj",
+          "flip_since_last": 0.05162434895833334,
+          "different_from_start": 0.09570638020833333
+        }
+      ]
+    },
+    {
+      "step": 400,
+      "lr": 0.0008446873302753783,
+      "loss": 4.433582305908203,
+      "ce": 6.240049839019775,
+      "kl": 3.460869312286377,
+      "validation": null,
+      "flip_since_last": 0.023526678085327147,
+      "different_from_stage_start": 0.05139348347981771,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.107255859375,
+          "different_from_start": 0.18209635416666667
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.09490125868055556,
+          "different_from_start": 0.16726019965277777
+        },
+        {
+          "name": "model.layers.28.self_attn.k_proj",
+          "flip_since_last": 0.047200520833333336,
+          "different_from_start": 0.11324544270833334
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "flip_since_last": 0.045352647569444446,
+          "different_from_start": 0.10388997395833334
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.042913411458333335,
+          "different_from_start": 0.12134114583333333
+        }
+      ]
+    },
+    {
+      "step": 500,
+      "lr": 0.000736936755850849,
+      "loss": 4.265395164489746,
+      "ce": 6.277202606201172,
+      "kl": 3.182114362716675,
+      "validation": null,
+      "flip_since_last": 0.0211136786142985,
+      "different_from_stage_start": 0.05757593790690104,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.08827799479166666,
+          "different_from_start": 0.19503255208333334
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.07952799479166667,
+          "different_from_start": 0.1784103732638889
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.039775390625,
+          "different_from_start": 0.1355859375
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "flip_since_last": 0.03822916666666667,
+          "different_from_start": 0.12024197048611111
+        },
+        {
+          "name": "model.layers.28.self_attn.k_proj",
+          "flip_since_last": 0.03708984375,
+          "different_from_start": 0.12807291666666668
+        }
+      ]
+    },
+    {
+      "step": 600,
+      "lr": 0.0006140416772229784,
+      "loss": 3.4560866355895996,
+      "ce": 4.8508830070495605,
+      "kl": 2.705042600631714,
+      "validation": {
+        "loss": 5.688023686408997,
+        "ppl": 295.3094195289677,
+        "top1_agreement": 0.27734375,
+        "kl_to_teacher": 2.8085717260837555,
+        "tokens": 3072
+      },
+      "flip_since_last": 0.018774016698201498,
+      "different_from_stage_start": 0.061753730773925784,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.07618815104166667,
+          "different_from_start": 0.20560546875
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.07081922743055556,
+          "different_from_start": 0.1881130642361111
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "flip_since_last": 0.03323676215277778,
+          "different_from_start": 0.132958984375
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "flip_since_last": 0.03307291666666667,
+          "different_from_start": 0.09278645833333334
+        },
+        {
+          "name": "model.layers.1.self_attn.o_proj",
+          "flip_since_last": 0.030565321180555556,
+          "different_from_start": 0.08240559895833334
+        }
+      ]
+    },
+    {
+      "step": 700,
+      "lr": 0.00048595832277702173,
+      "loss": 3.581926107406616,
+      "ce": 5.6129631996154785,
+      "kl": 2.488290786743164,
+      "validation": null,
+      "flip_since_last": 0.015602264404296875,
+      "different_from_stage_start": 0.06454038937886555,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.064658203125,
+          "different_from_start": 0.2127734375
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.05661024305555556,
+          "different_from_start": 0.1938357204861111
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.027698567708333333,
+          "different_from_start": 0.14872721354166665
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "flip_since_last": 0.026744791666666667,
+          "different_from_start": 0.14035698784722223
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "flip_since_last": 0.026630859375,
+          "different_from_start": 0.09665364583333333
+        }
+      ]
+    },
+    {
+      "step": 800,
+      "lr": 0.00036306324414915115,
+      "loss": 3.6186814308166504,
+      "ce": 5.4956769943237305,
+      "kl": 2.6079916954040527,
+      "validation": null,
+      "flip_since_last": 0.012548878987630208,
+      "different_from_stage_start": 0.06623418172200521,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.048349609375,
+          "different_from_start": 0.21676432291666667
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.04481879340277778,
+          "different_from_start": 0.1969259982638889
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.025166015625,
+          "different_from_start": 0.15405598958333333
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "flip_since_last": 0.02056315104166667,
+          "different_from_start": 0.099736328125
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "flip_since_last": 0.01982421875,
+          "different_from_start": 0.14314670138888888
+        }
+      ]
+    },
+    {
+      "step": 900,
+      "lr": 0.00025531266972462173,
+      "loss": 4.324660301208496,
+      "ce": 5.576231956481934,
+      "kl": 3.650737762451172,
+      "validation": {
+        "loss": 5.51706047852834,
+        "ppl": 248.90230710332068,
+        "top1_agreement": 0.3238932291666667,
+        "kl_to_teacher": 2.615592588980993,
+        "tokens": 3072
+      },
+      "flip_since_last": 0.009272143046061198,
+      "different_from_stage_start": 0.06716931978861491,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.03690104166666667,
+          "different_from_start": 0.21800130208333332
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.03334635416666667,
+          "different_from_start": 0.19855251736111112
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.016246744791666667,
+          "different_from_start": 0.15839518229166666
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "flip_since_last": 0.015475260416666666,
+          "different_from_start": 0.101103515625
+        },
+        {
+          "name": "model.layers.27.self_attn.k_proj",
+          "flip_since_last": 0.014996744791666667,
+          "different_from_start": 0.13287434895833333
+        }
+      ]
+    },
+    {
+      "step": 1000,
+      "lr": 0.0001714359102259684,
+      "loss": 3.678799629211426,
+      "ce": 5.175467491149902,
+      "kl": 2.872901678085327,
+      "validation": null,
+      "flip_since_last": 0.0066010061899820964,
+      "different_from_stage_start": 0.06764194170633951,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.024856770833333333,
+          "different_from_start": 0.21876302083333332
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.022537977430555557,
+          "different_from_start": 0.19881293402777778
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.011155598958333334,
+          "different_from_start": 0.16015950520833333
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "flip_since_last": 0.010966796875,
+          "different_from_start": 0.10134440104166667
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "flip_since_last": 0.010291883680555556,
+          "different_from_start": 0.1469900173611111
+        }
+      ]
+    },
+    {
+      "step": 1100,
+      "lr": 0.00011822816187347625,
+      "loss": 2.639064311981201,
+      "ce": 4.000866889953613,
+      "kl": 1.9057862758636475,
+      "validation": null,
+      "flip_since_last": 0.0046337699890136716,
+      "different_from_stage_start": 0.06787772178649902,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.016891276041666667,
+          "different_from_start": 0.21917317708333334
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.015052083333333334,
+          "different_from_start": 0.19909505208333333
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "flip_since_last": 0.0076953125,
+          "different_from_start": 0.10182942708333333
+        },
+        {
+          "name": "model.layers.27.self_attn.k_proj",
+          "flip_since_last": 0.007652994791666667,
+          "different_from_start": 0.13598307291666667
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "flip_since_last": 0.007123480902777778,
+          "different_from_start": 0.14767035590277777
+        }
+      ]
+    },
+    {
+      "step": 1200,
+      "lr": 0.0001,
+      "loss": 3.7450714111328125,
+      "ce": 5.351202011108398,
+      "kl": 2.8802318572998047,
+      "validation": {
+        "loss": 5.31317937374115,
+        "ppl": 202.99459919581594,
+        "top1_agreement": 0.3362630208333333,
+        "kl_to_teacher": 2.4453880240519843,
+        "tokens": 3072
+      },
+      "flip_since_last": 0.0034732691446940104,
+      "different_from_stage_start": 0.06801575660705567,
+      "top_layers": [
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "flip_since_last": 0.012731119791666667,
+          "different_from_start": 0.2193359375
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "flip_since_last": 0.011715494791666666,
+          "different_from_start": 0.1991937934027778
+        },
+        {
+          "name": "model.layers.29.self_attn.k_proj",
+          "flip_since_last": 0.006080729166666667,
+          "different_from_start": 0.16090494791666668
+        },
+        {
+          "name": "model.layers.27.self_attn.k_proj",
+          "flip_since_last": 0.00560546875,
+          "different_from_start": 0.13672200520833333
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "flip_since_last": 0.005602213541666666,
+          "different_from_start": 0.102353515625
+        }
+      ]
+    }
+  ],
+  "seconds": 398.7740752696991
+}
