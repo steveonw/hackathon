@@ -1469,3 +1469,43 @@ Preregistered interpretation:
 After the pair completes, aggregate all three v12 orders and decide whether the
 mechanism sequence can stop without a target-zero vs target-nonzero submask
 follow-up.
+
+
+### v12 replication-pair outcome
+
+Both confirmatory jobs completed successfully:
+
+- seed 271828: `6ac64ccddf2184ac91ac092d`
+- seed 424242: `6ac64cd2df2184ac91ac092f`
+
+All construction/equality assertions passed in both runs.
+
+Three-order final losses:
+
+| Seed | D | Exact | Prototype | Minimal | Random |
+|---:|---:|---:|---:|---:|---:|
+| 1729 | 5.6136 | 4.9329 | **4.8884** | 5.4979 | 5.6793 |
+| 271828 | 5.6524 | 4.9711 | **4.9187** | 5.5406 | 5.7208 |
+| 424242 | 5.6234 | 4.9791 | **4.9373** | 5.4911 | 5.7031 |
+
+Aggregate recovery relative to exact-Q9 positive control:
+
+- prototype: **106.9%**;
+- minimal crossing: **18.0%**;
+- matched random: **-10.7%**.
+
+Replicated conclusions:
+
+1. Exact Q9 within-region continuous coordinates are not required: the Q3
+   reconstruction prototype beats exact Q9 in **3/3 orders**.
+2. Q9-selected code identity alone is insufficient: minimal boundary crossing
+   remains weak in **3/3 orders** despite the same ternary forward model.
+3. Q9's specific position selection matters: the matched-random reassignment is
+   worse than direct in **3/3 orders**.
+
+The current mechanism sequence is now complete enough to stop. Any further work
+should be framed as a new generalization or application phase, not as necessary
+cleanup for the mechanism claim.
+
+Canonical aggregate:
+`replications/v12_code_identity_position_aggregate_summary.md`.
