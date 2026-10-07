@@ -27,6 +27,7 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v11 / `6ac5c7befbc85ba6823bbef0` | SmolLM2-360M-Instruct | A10G small | completed | hybrid-master causal localization |
 | v11 rep seed 271828 / `6ac638c0c656c912b4ffae8a` | SmolLM2-360M-Instruct | A10G small | completed | hybrid causal replication |
 | v11 rep seed 424242 / `6ac638c3f0d78b8017af0d5a` | SmolLM2-360M-Instruct | A10G small | completed | hybrid causal replication |
+| v12 / `6ac642a0df2184ac91ac018d` | SmolLM2-360M-Instruct | A10G small | completed | code identity vs continuous position |
 
 ## Current headline
 
@@ -169,3 +170,20 @@ Mean mask-only recovery: **96.4%**.
 The causal localization replicates in **3/3 orders**.
 
 See `../replications/v11_hybrid_factorial_aggregate_summary.md`.
+
+
+### v12 seed-1729 code-vs-position intervention
+
+- D: 5.6136
+- exact Q9-on-M: 4.9329
+- Q3 prototype on M: **4.8884**
+- minimal crossing on M: 5.4979
+- matched-random reassignment: 5.6793
+
+Prototype recovery relative to exact positive control: **106.5%**.  
+Minimal-crossing recovery: **17.0%**.  
+Matched-random recovery: **-9.7%**.
+
+Exact/prototype/minimal begin from the same projected Q3 forward model.
+
+See `run_v12_code_identity_position_summary.md`.
