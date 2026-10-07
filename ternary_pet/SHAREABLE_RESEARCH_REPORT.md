@@ -909,3 +909,40 @@ The result identifies **where** the useful prepared state resides, not yet
 **which property** of that state is sufficient. The mask-only intervention
 transfers exact continuous Q9 master values. A code-identity-vs-within-bin
 intervention is therefore the next causal test.
+
+
+---
+
+## 27. v12 seed-1729 result: Q9's exact master value is unnecessary, but boundary depth matters
+
+v12 separated code identity from continuous position on the v11 disagreement
+mask while holding the ternary forward model fixed.
+
+The exact-Q9, reconstruction-prototype, and minimal-crossing arms all began
+with exactly identical projected Q3 weights and diagnostics.
+
+Final losses:
+
+| Arm | Loss |
+|---|---:|
+| Direct | 5.6136 |
+| Exact Q9 masters on M | 4.9329 |
+| Q3 prototype for Q9 code on M | **4.8884** |
+| Minimal crossing into Q9 code region | 5.4979 |
+| Transition-matched random positions | 5.6793 |
+
+The Q3 prototype slightly **outperforms the exact Q9 master values**, showing
+that precise Q9 within-region continuous coordinates are not required.
+
+However, merely crossing the boundary into the same Q9-selected code region
+recovers only ~17% of the exact positive-control gain. Thus code identity by
+itself is insufficient; boundary-relative depth / continuous placement inside
+the selected region matters strongly.
+
+The matched-random reassignment is worse than direct despite preserving the
+real mask's layer/source/target transition counts, supporting the conclusion
+that Q9's specific position selection is important rather than generic code
+disruption.
+
+This is a seed-1729 mechanism result and should be replicated on the other two
+training orders before becoming canonical.
