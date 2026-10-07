@@ -1160,3 +1160,24 @@ All depth arms must have identical projected Q3 forward models before
 continuation. B1/B2 must be identical to D before continuation.
 
 Replication only if the seed-1729 depth/firmness result is clean.
+
+
+### v13 split relaunch active
+
+The original monolithic v13 job timed out after passing all construction checks.
+It remains a technical failure with no experimental result.
+
+Timeout-safe split, same seed-1729 design:
+
+- v13A depth sweep — HF job `6ac6a265df2184ac91ac410d`
+  - D + d003/d025/d050/d075/d100
+- v13B firmness controls — HF job `6ac6a272df2184ac91ac412c`
+  - D + B1 + B2
+
+Both use A10G-small with 120-minute caps.
+
+Pinned shared commit:
+`9332a0a0b4063f7ed6786aa29fd049429cd50380`
+
+Do not combine either split result with the timed-out monolithic run except for
+the already-passed construction-check audit trail.
