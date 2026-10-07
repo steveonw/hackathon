@@ -770,3 +770,30 @@ Interpretation:
   revise the aggregate effect size;
 - only after this pair is complete should the tuned direct schedule replace
   constant 1e-4 as the canonical small-budget direct baseline.
+
+
+### Technical retry note for tuned-direct replication pair
+
+The first launch pair used scripts generated from an incorrect substring cut:
+the generator matched `CANDIDATES=[` inside the earlier identifier
+`LR_CANDIDATES=[`. This truncated the shared helper prefix and left a stray
+`LR_` token in both generated files.
+
+Consequences:
+
+- seed 271828 job `6ac5b807404719ba37664ae8` failed before data/model
+  loading with `NameError: name 'LR_' is not defined`;
+- seed 424242 job `6ac5b809fbc85ba6823bba12` was cancelled before it could
+  reach the same failure, to avoid wasting compute.
+
+These are **technical failures only** and are retained in the audit trail. They
+contain no training result and do not count as replications.
+
+Both scripts were rebuilt from the exact v9 prefix using the newline-delimited
+marker `\nCANDIDATES=[`, and static checks confirmed the presence of the
+training helpers and absence of the stray token.
+
+Corrected shared commit:
+`3e74ccf5c448fc994d005a7baf94529b92e9996a`
+
+Scientific protocol and fixed tuned-direct schedule are unchanged.
