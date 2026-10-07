@@ -24,6 +24,7 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v10 seed 1729 / `6ac5c252fbc85ba6823bbd6c` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
 | v10 seed 271828 / `6ac5c254fbc85ba6823bbd6e` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
 | v10 seed 424242 / `6ac5c256404719ba37664cf1` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
+| v11 / `6ac5c7befbc85ba6823bbef0` | SmolLM2-360M-Instruct | A10G small | completed | hybrid-master causal localization |
 
 ## Current headline
 
@@ -129,3 +130,24 @@ The shared schedule improves Q9 by **0.3094 nats/token on average** versus the
 historical constant-1e-4 staged runs.
 
 See `../replications/v10_schedule_matched_q9_aggregate_summary.md`.
+
+
+### v11 hybrid-master causal localization
+
+Seed/order 1729:
+
+- D-vs-S step-300 projected-Q3 disagreement mask: **6.458%** of weights;
+- 00 direct endpoint: **5.6136**;
+- 10 Q9-on-mask-only: **4.9329**;
+- 01 Q9-on-same-code-only: **5.5020**;
+- 11 full Q9: **4.9010**.
+
+The 10 arm recovers **95.5%** of the full 00->11 loss gain. The 01 arm recovers
+only a small fraction. Pair-equality assertions passed exactly before
+continuation.
+
+Interpretation: on seed 1729, the dominant causal carrier is the Q9-prepared
+master state on the code-disagreement positions, not the distributed same-code
+majority.
+
+See `run_v11_hybrid_factorial_summary.md`.
