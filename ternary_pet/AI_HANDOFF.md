@@ -1181,3 +1181,53 @@ Pinned shared commit:
 
 Do not combine either split result with the timed-out monolithic run except for
 the already-passed construction-check audit trail.
+
+
+## v13 optional closing experiment — seed 1729 COMPLETE
+
+Jobs:
+
+- v13A depth sweep: `6ac6a265df2184ac91ac410d`
+- v13B firmness controls: `6ac6a272df2184ac91ac412c`
+
+Pinned split commit:
+`9332a0a0b4063f7ed6786aa29fd049429cd50380`
+
+All equal-forward assertions passed.
+
+Depth sweep:
+
+| d | loss | recovery vs d=1 | Q9-code survival at step 900 |
+|---:|---:|---:|---:|
+| 0.03 | 5.4948 | 16.4% | 51.76% |
+| 0.25 | 4.9262 | 94.8% | 86.48% |
+| 0.50 | **4.8850** | 100.5% | 97.32% |
+| 0.75 | 4.8876 | 100.1% | 99.13% |
+| 1.00 | 4.8884 | 100.0% | 99.45% |
+
+Direct baseline: 5.6136.
+
+Firmness controls:
+
+- B1 = 5.6403 (worse than D by 0.0267 nats)
+- B2 = 5.6195 (worse than D by 0.0059 nats)
+
+Interpretation:
+
+> The depth effect is sharply saturating. Barely crossing the boundary is weak,
+> d≈0.25 already recovers nearly all benefit, and d≈0.5 reaches the plateau.
+> Q9-code survival rises in parallel from ~52% to ~97-99%. Direct's own code
+> decisions do not benefit from prototype snapping, so firmness is not a generic
+> direct-Q3 optimization trick.
+
+Current learned-scale and fixed-alpha0 survival are nearly identical, arguing
+against scale drift as the main source of the survival pattern.
+
+This is seed 1729 only. The result is clear enough to satisfy the preregistered
+replication criterion, but replication is optional because v12 already met the
+mechanism stop condition.
+
+Do not launch 271828/424242 v13 replications without explicit user approval.
+
+Canonical summary:
+`results/run_v13_depth_firmness_summary.md`.
