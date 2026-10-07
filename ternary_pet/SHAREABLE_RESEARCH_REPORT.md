@@ -794,3 +794,41 @@ advantage.
 
 The tuned warmup+cosine schedule should therefore be treated as the canonical
 small-budget direct baseline for subsequent mechanism experiments.
+
+
+---
+
+## 24. v10 result: Q9 advantage survives equal global LR schedule
+
+v10 applied the exact direct-selected warmup+cosine global LR schedule to the
+Q9 -> Q3 path on all three established training orders.
+
+| Seed | Tuned direct | Historical Q9 | **Schedule-matched Q9** | Matched-Q9 gain |
+|---:|---:|---:|---:|---:|
+| 1729 | 5.5957 | 5.1938 | **4.9010** | **0.6947** |
+| 271828 | 5.6228 | 5.2417 | **4.9510** | **0.6718** |
+| 424242 | 5.6067 | 5.3008 | **4.9563** | **0.6505** |
+
+Schedule-matched Q9 therefore beats tuned direct in **3/3 orders**, with a mean
+held-out loss advantage of **0.6723 nats/token**, **48.94% lower perplexity**,
+and **+6.82 pp** teacher top-1 agreement.
+
+The same schedule improves Q9 by **0.3094 nats/token on average** relative to
+the older constant-1e-4 staged runs.
+
+Crucially, the equal-compute step-300 diagnostic still goes the other way.
+Projected through the same original Q3 quantizer, Q9 is **0.5120 nats/token
+worse than tuned direct on average** after the first 300 updates. It only
+becomes much better after the common later Q3 optimization budget.
+
+This strengthens the trainability interpretation: the effect is not explained
+by the old direct LR schedule, and it survives an equal global schedule.
+
+The stronger LR schedule changes the preparation regime substantially:
+step-300 projected-Q3 code displacement rises to roughly **4.41% for direct**
+and **4.88% for Q9**, compared with ~0.68% in the old v7 constant-LR regime.
+Accordingly, the old v7 changed-set/Jaccard geometry should not be assumed to
+transfer unchanged to the tuned regime.
+
+This remains a finite-budget, single-model/data result, and v10 is an
+equal-schedule control rather than a full equal-search-budget tuning study.
