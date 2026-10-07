@@ -974,3 +974,88 @@ Canonical aggregate:
 Next: run the four-arm hybrid-master factorial under this matched schedule,
 rebuilding direct and Q9 step-300 masters in the same run and using fresh Adam,
 original Q3 scales, and the global step-301 LR for all continuation arms.
+
+
+## v11 — matched-schedule hybrid-master factorial
+
+Purpose: causally partition the step-300 Q9-vs-direct master-state difference
+under the stronger v10 schedule.
+
+Pinned script:
+`ternary_pet/smollm2_v11_hybrid_factorial.py`
+
+Pinned code:
+`f342fd9c706f2fe21aa00adabe6611b7f835f570`
+
+Seed/order: 1729.
+
+### Preparation
+
+Use the exact v10 global LR schedule for the first 300 updates:
+
+- warmup to 1e-3 over steps 1-100;
+- continue the same cosine trajectory through step 300.
+
+Build two states from the same BF16-rounded source and same first 300 chunks:
+
+- D: direct Q3 preparation;
+- S: Q9 preparation.
+
+Discard both learned prep-scale states for the intervention. Project D and S
+through the same original Q3 scales.
+
+Define mask M as the exact weight positions where projected Q3(D) and Q3(S)
+codes differ.
+
+### Four causal arms
+
+- 00: D everywhere;
+- 10: S on M, D on the complement;
+- 01: D on M, S on the complement;
+- 11: S everywhere.
+
+All four arms start the continuation with:
+
+- original Q3 scales;
+- fresh Adam;
+- identical Q3 objective/data;
+- the global LR curve continuing from step 301;
+- 900 Q3 updates on the same remaining chunks.
+
+Before continuation, the script must assert:
+
+- Q3(00) == Q3(01) with zero Hamming distance;
+- Q3(10) == Q3(11) with zero Hamming distance;
+- validation diagnostics for each equal-forward pair agree within numerical
+  tolerance.
+
+### Primary interpretation
+
+Let final held-out losses be L00, L10, L01, L11.
+
+- `L00 - L10`: benefit from transferring Q9 masters on code-disagreement
+  positions M onto the direct background;
+- `L00 - L01`: benefit from transferring Q9 masters on positions whose
+  projected Q3 codes already agree;
+- `L10 - L11`: additional same-code contribution once M already comes from Q9;
+- `L01 - L11`: additional M contribution once the complement already comes
+  from Q9;
+- interaction:
+  `L00 - L10 - L01 + L11`.
+
+Interpretation rules fixed before results:
+
+- if 10 approaches 11 while 01 stays near 00, the advantage is concentrated
+  mainly on code-disagreement positions;
+- if 01 approaches 11 while 10 stays near 00, hidden same-code continuous
+  geometry carries most of the advantage;
+- if both hybrids recover meaningful but incomplete portions, both components
+  contribute;
+- if 10 and 01 each stay near 00 but 11 is much better, the effect is strongly
+  interaction-dependent and cannot be localized additively;
+- if endpoint 00-vs-11 trainability gap fails to reproduce materially under the
+  common fresh-Adam/original-scale continuation, do not overinterpret hybrid
+  localization.
+
+This is a seed-1729 mechanism experiment first. Replicate only after inspecting
+whether the intervention yields a stable, interpretable causal split.
