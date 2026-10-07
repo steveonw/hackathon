@@ -206,3 +206,17 @@ Mean matched-random recovery: **-10.7%**.
 Pattern replicates in **3/3 orders**.
 
 See `../replications/v12_code_identity_position_aggregate_summary.md`.
+
+
+### v13 optional closing experiment — seed 1729
+
+- depth job: `6ac6a265df2184ac91ac410d`
+- firmness job: `6ac6a272df2184ac91ac412c`
+- summary: `run_v13_depth_firmness_summary.md`
+
+Best discrete depth tested: **d=0.50**, loss **4.8850**.
+
+The transition is sharply saturating:
+d=0.03 gives 16.4% recovery, d=0.25 gives 94.8%, and d=0.50 gives 100.5%.
+
+B1/B2 firmness-only controls are both slightly worse than direct.
