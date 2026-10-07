@@ -1656,3 +1656,20 @@ No d=1.5 arm in the first pass.
 Replicate on orders 271828 and 424242 **only if seed 1729 gives a clear,
 scientifically interpretable pattern**. A messy depth curve is a stopping result,
 not a reason to keep adding arms.
+
+
+### v13 first launch — technical timeout, no experimental result
+
+HF job `6ac65927e7a0dae8a277c24c` stopped because the 65-minute wall-clock limit was reached.
+
+Before timeout, all preregistered construction assertions passed:
+
+- every depth arm had zero projected-Q3 Hamming to d=1.00;
+- every depth arm matched the projected S Q3 model;
+- all depth-arm pre-continuation diagnostics matched;
+- B1 and B2 had zero projected-Q3 Hamming to D and matching diagnostics.
+
+The run did not finish the continuation arms and emitted no `FINAL_JSON`.
+Treat it as a technical timeout only, with no experimental outcome.
+
+Relaunch the exact same pinned code and design, changing only the wall-clock timeout.
