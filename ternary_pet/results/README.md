@@ -21,6 +21,9 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v9 / `6ac5ad77fbc85ba6823bb71c` | SmolLM2-360M-Instruct | A10G small | completed | direct-Q3 LR/schedule tuning |
 | v9 tuned rep seed 271828 / `6ac5b913404719ba37664b21` | SmolLM2-360M-Instruct | A10G small | completed | tuned direct-Q3 confirmation |
 | v9 tuned rep seed 424242 / `6ac5b915fbc85ba6823bba5b` | SmolLM2-360M-Instruct | A10G small | completed | tuned direct-Q3 confirmation |
+| v10 seed 1729 / `6ac5c252fbc85ba6823bbd6c` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
+| v10 seed 271828 / `6ac5c254fbc85ba6823bbd6e` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
+| v10 seed 424242 / `6ac5c256404719ba37664cf1` | SmolLM2-360M-Instruct | A10G small | completed | schedule-matched Q9 control |
 
 ## Current headline
 
@@ -99,3 +102,30 @@ Aggregate:
 The tuned schedule is now the canonical small-budget direct baseline.
 
 See `../replications/v9_tuned_direct_aggregate_summary.md`.
+
+
+### v10 equal-schedule Q9 aggregate
+
+The direct-selected warmup+cosine global LR curve was applied unchanged to
+Q9 -> Q3 on all three established orders.
+
+| Seed | Tuned direct | Historical Q9 | **Matched-schedule Q9** | Q9 gain vs direct |
+|---:|---:|---:|---:|---:|
+| 1729 | 5.5957 | 5.1938 | **4.9010** | **0.6947** |
+| 271828 | 5.6228 | 5.2417 | **4.9510** | **0.6718** |
+| 424242 | 5.6067 | 5.3008 | **4.9563** | **0.6505** |
+
+Aggregate against tuned direct:
+
+- mean loss advantage: **0.6723 nats/token**;
+- mean PPL reduction: **48.94%**;
+- mean top-1 gain: **+6.82 pp**;
+- mean KL advantage: **0.6817**.
+
+At the equal-compute step-300 fixed-Q3 diagnostic, matched Q9 is still worse
+than tuned direct by **0.5120 nats/token on average**.
+
+The shared schedule improves Q9 by **0.3094 nats/token on average** versus the
+historical constant-1e-4 staged runs.
+
+See `../replications/v10_schedule_matched_q9_aggregate_summary.md`.
