@@ -58,13 +58,20 @@ So the clean Q9 -> Q3 switch itself costs:
 
 That is a real large quantization shock.
 
-However, the crucial result is that the prepared Q3 projection is still
-**6.3013 nats/token better than the original Q3 projection before any ternary
-training occurs**.
+The prepared Q3 projection is **6.3013 nats/token better than the original
+untrained Q3 projection**.
 
-Thus the 300-step Q9 phase does not merely warm up Adam. It changes the
-continuous weights into a state that is intrinsically more compatible with the
-later ternary projection.
+This proves that Q9 preparation changes the continuous masters in a way that
+survives immediate projection to ternary; it also rules out Adam warm-start as
+the sole explanation. However, this is **not yet an equal-compute entry-state
+comparison**. v6 did not evaluate the direct Q3 model after its own 300 updates
+on this same diagnostic set. Therefore v6 cannot yet distinguish:
+
+1. **better entry state** — Q9 preparation produces a better Q3 checkpoint than
+   direct Q3 after equal compute; from
+2. **better trainability** — direct Q3@300 may be as good or better immediately,
+   while Q9-prepared master positions make the following ternary optimization
+   more productive.
 
 ## Future ternary decision boundaries
 
@@ -93,9 +100,12 @@ The movement is concentrated in sensitive projections. With scales held fixed:
 - layer 0 `q_proj`: **1.57%**;
 - layer 27 `k_proj`: **1.39%**.
 
-Only ~0.68% of all targeted codes need to cross future ternary boundaries to
-produce a large downstream recovery advantage, so the location of the changes
-appears more important than their raw count.
+About 0.68% of all targeted codes cross future ternary boundaries during Q9
+preparation. Direct Q3 training moves a similar aggregate fraction by 300
+updates in the logged traces, so raw crossing count and broad layer location
+alone do not explain the staged advantage. The remaining question is whether
+Q9 changes *different specific codes* or leaves the FP32 masters in more
+trainable within-bin positions.
 
 ## What v6 establishes
 
@@ -108,7 +118,7 @@ FP32 master weights move
     ↓
 some weights cross future Q3 decision boundaries
     ↓
-the model enters ternary training from a substantially better discrete state
+the model enters ternary training from a different prepared master state
 ```
 
 Prepared scale values and inherited Adam moments are secondary at most under
