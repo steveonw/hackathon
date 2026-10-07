@@ -649,3 +649,23 @@ Canonical v9 files:
 
 - `results/run_v9_summary.md`
 - `results/run_v9_2026-10-07.json`
+
+## ACTIVE — v9 tuned-direct replication pair
+
+The v9-selected direct-Q3 schedule is being replicated on orders 271828 and
+424242 with no new tuning.
+
+Pinned scripts commit:
+`31c12d56c239d091e06731c49c809ade8739af95`
+
+Schedule:
+
+- 1200 direct-Q3 updates;
+- 100-step warmup to 1e-3;
+- cosine decay to 1e-4.
+
+Compare each result against the already-locked v7 Q9 -> Q3 result for the same
+order. Do not alter the schedule between seeds.
+
+If Q9 remains ahead on both, use the three-order tuned-direct comparison as the
+new canonical small-budget effect before launching the hybrid-master factorial.
