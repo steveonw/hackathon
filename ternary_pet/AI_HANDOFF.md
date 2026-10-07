@@ -555,3 +555,20 @@ or more strongly than direct Q3 preparation.
 A level-count sweep (5/7/9/15 -> 3) is also high value after or alongside that
 diagnostic. A stronger tuned direct-Q3 optimizer/scheduler baseline remains
 required before broad claims.
+
+## ACTIVE v8 — signed pre-loading diagnostic
+
+The next mechanism test is `smollm2_v8_signed_preload.py`, pinned at
+`356bff9769c96faa0ca139f9cba088fc1a52c2c8`.
+
+It keeps only the Q3 and Q9 arms and asks whether weights that later change Q3
+code had already moved in the same direction during the first 300 updates.
+
+The primary normalized statistic is:
+
+`sign(final_code - step300_code) * (W300 - W0) / alpha0`
+
+Crucially, v8 includes **matched-position controls**: Q9 and Q3 prep displacement
+are compared on the same exact future-changing weights and eventual directions.
+Do not interpret a higher value caused only by different selected weight sets as
+directional pre-loading.
