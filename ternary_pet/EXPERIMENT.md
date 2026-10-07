@@ -1673,3 +1673,30 @@ The run did not finish the continuation arms and emitted no `FINAL_JSON`.
 Treat it as a technical timeout only, with no experimental outcome.
 
 Relaunch the exact same pinned code and design, changing only the wall-clock timeout.
+
+
+### v13 timeout-safe split relaunch
+
+The monolithic v13 design is partitioned into two jobs with no scientific
+changes other than separating continuation arms.
+
+Pinned shared commit containing both split scripts:
+`9332a0a0b4063f7ed6786aa29fd049429cd50380`
+
+Jobs:
+
+- v13A depth sweep: `6ac6a265df2184ac91ac410d`
+  - arms: D, d003, d025, d050, d075, d100
+  - A10G-small
+  - 120-minute wall-clock cap
+- v13B firmness controls: `6ac6a272df2184ac91ac412c`
+  - arms: D, B1, B2
+  - A10G-small
+  - 120-minute wall-clock cap
+
+Both jobs independently rebuild the same seed-1729 D and S step-300 states
+under the original v13 setup. Shared D is intentionally rerun in both jobs as
+an internal consistency check.
+
+The original timed-out job remains a technical failure only and contributes no
+experimental outcome.
