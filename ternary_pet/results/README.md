@@ -258,10 +258,29 @@ B1/B2 firmness-only controls are both slightly worse than direct.
 
 | Job | Seed/order | Status | Purpose |
 |---|---:|---|---|
-| G1-4 / `6ac70af0df2184ac91ac6ffc` | 271828 | running/scheduling | exact G1-3 mechanism confirmation |
-| G1-5 / `6ac70af2df2184ac91ac7000` | 424242 | running/scheduling | exact G1-3 mechanism confirmation |
+| G1-4 / `6ac70af0df2184ac91ac6ffc` | 271828 | completed | negative staging order; M-d50 improves on S but remains worse than D |
+| G1-5 / `6ac70af2df2184ac91ac7000` | 424242 | completed | positive staging/mechanism confirmation |
 
 Shared pinned commit:
 `6ed697a0ca5d0d19ed5ebff04b81a2ed0d259230`.
 
 Only the seed/order differs from G1-3.
+
+
+### Granite three-order conclusion
+
+The frozen confirmations are **mixed**.
+
+- Full Q9 staging beats D on **2/3** orders.
+- Q9 is worse as an immediate fixed-Q3 checkpoint on **3/3** orders.
+- Mean disagreement mask: **6.35%**.
+- True-M d=0.5 beats full S on **3/3** orders.
+- Matched-random d=0.5 is harmful versus D on **3/3** orders.
+- True-M d=0.5 beats D on **2/3**, failing on seed 271828.
+
+Do not call Granite a clean 3/3 staging replication. The stronger recurring
+signal is that Q9-selected position/code commitments at moderate interior depth
+are more useful than the full Q9-prepared state itself.
+
+Canonical aggregate:
+`../replications/g1_granite350m_mechanism_aggregate_summary.md`.
