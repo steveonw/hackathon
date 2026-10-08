@@ -1694,3 +1694,44 @@ Potential future direction (no authorization to run): if investigating a
 family-aware LR, preregister intermediate peak-LR candidates and diagnostics
 *before* new held-out comparisons. Or return to assignment-level mechanism
 tests under the established constant-LR regime.
+
+
+### ACTIVE G1-8 — Granite 424242, Smol v10-v13 LR schedule
+
+HF job: `6ac79551e7a0dae8a2788f0b` (submitted 2026-10-08 13:06 UTC; A10G-small;
+75-minute cap; detached).
+
+Pinned code: `39399baff38b15f961e9571f142e193a783c925b`.
+Script: `ternary_pet/g1_granite350m_v10_schedule_mechanism_seed424242.py`.
+
+This is the one authorized targeted schedule-transfer test on the *weaker
+positive* Granite order 424242. The previously tested order 271828 was a
+known negative under constant LR and worse under the Smol v10-v13 schedule.
+424242 was the harder of the remaining two **positive orders** by historical
+staging gain: +0.06135 nats vs 1729's +0.12710. It was chosen using known
+outcomes; it is not a fresh random confirmation order.
+
+G1-8 differs from G1-7b successful four-arm script by exactly one seed
+assignment `271828` to `424242`. Events and `kind` retain some G1-7
+prefixes, so record results using **job ID + order 424242**.
+
+Arms D, S, M-exact, M-d50, with v10-v13 100-step warmup to 1e-3 and
+cosine to 1e-4 through 1200 steps, same 300 Q3/Q9 prep + 900 Q3
+continuation, Granite-safe BF16/FP32-master implementation, same matched
+training-order chunks and held-out evaluator. Random-d50 is intentionally
+omitted as in G1-7b.
+
+Frozen historical constant-LR 424242 held-out results:
+D=5.80192, S=5.74057, M-exact=5.74471, M-d50=5.71016,
+mask=6.02956%.
+Historical G1-7b transferred-LR 271828:
+D=6.00895, S=6.36920, M-exact=6.35442, M-d50=6.30402,
+mask=32.7145%.
+
+When job completes: verify status and equal-forward assertions, archive raw
+final JSON and per-run summary, compare every final arm to the historical
+constant-1e-4 424242 results, log movement, native prep, mask, survival and
+effect on staging gap, then update living report, chronology and handoff.
+Do not claim a family-universal effect or new matched-random control.
+
+No further new seed or model jobs authorized.
