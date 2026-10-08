@@ -34,6 +34,8 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v13A / `6ac6a265df2184ac91ac410d` | SmolLM2-360M-Instruct | A10G small | completed | depth sweep on Q9-selected mask |
 | v13B / `6ac6a272df2184ac91ac412c` | SmolLM2-360M-Instruct | A10G small | completed | direct-firmness controls |
 | G1-0 / `6ac6eacfdf2184ac91ac658a` | Granite-4.0-350M | A10G small | technical gate failed | architecture smoke; FP16 source/teacher path non-finite |
+| G1-0b / `6ac6eec9df2184ac91ac67ca` | Granite-4.0-350M | A10G small | completed | precision diagnostic; BF16 passed, FP16 failed |
+| G1-1 / `6ac6f18ae7a0dae8a2780246` | Granite-4.0-350M | A10G small | running | direct-Q3 validation-only schedule calibration |
 
 ## Current headline
 
@@ -62,8 +64,14 @@ inherited FP16 path: even the unquantized source evaluation was non-finite, and
 Q3/Q9 teacher-KL steps produced non-finite loss/gradients. This is a technical
 precision failure, **not** a negative Q9-vs-Q3 result.
 
-G1-1 remains blocked while preregistered G1-0b tests FP32/BF16/FP16 numerics.
-See `run_g1_0_granite350m_smoke_summary.md`.
+G1-0b resolved the blocker cleanly: FP32 and BF16 were finite, FP16 was
+non-finite, and one-step Q3/Q9 BF16 training had finite losses and gradients.
+BF16 is now locked as the Granite compute path before any scientific D-vs-S
+result. G1-1 direct-Q3 calibration is active.
+
+See:
+- `run_g1_0_granite350m_smoke_summary.md`
+- `run_g1_0b_granite350m_precision_summary.md`
 
 ### v8 mechanism update
 
