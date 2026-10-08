@@ -30,26 +30,28 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v12 / `6ac642a0df2184ac91ac018d` | SmolLM2-360M-Instruct | A10G small | completed | code identity vs continuous position |
 | v12 rep seed 271828 / `6ac64ccddf2184ac91ac092d` | SmolLM2-360M-Instruct | A10G small | completed | code/position mechanism confirmation |
 | v12 rep seed 424242 / `6ac64cd2df2184ac91ac092f` | SmolLM2-360M-Instruct | A10G small | completed | code/position mechanism confirmation |
+| v13 original / `6ac65927e7a0dae8a277c24c` | SmolLM2-360M-Instruct | A10G small | timed out | monolithic depth/firmness launch; technical failure only |
+| v13A / `6ac6a265df2184ac91ac410d` | SmolLM2-360M-Instruct | A10G small | completed | depth sweep on Q9-selected mask |
+| v13B / `6ac6a272df2184ac91ac412c` | SmolLM2-360M-Instruct | A10G small | completed | direct-firmness controls |
 
 ## Current headline
 
-The v7 trainability mechanism replicated in **3/3 training orders**.
+The canonical SmolLM2-360M / WikiText-2 mechanism result is now v12, replicated
+across **3/3 training orders**.
 
-In every order, Q9 is worse than direct Q3 at the equal-compute step-300
-fixed-Q3 diagnostic, yet finishes better after the identical 900-step Q3
-continuation.
+- schedule-matched Q9→Q3 beats tuned direct Q3 by **0.6723 nats/token** on
+  average with **48.94% lower PPL** (v10);
+- **96.4%** of the full trainability gain localizes to the ~**6.31%** of
+  positions where direct and Q9 choose different projected Q3 codes (v11);
+- placing Q9's selected codes at standardized Q3 prototypes recovers **106.9%**
+  of the exact-Q9 mask gain, while minimal crossing recovers **18.0%** and
+  transition-matched random positions are harmful in **3/3 orders** (v12).
 
-Aggregate across seeds 1729, 271828, 424242:
+v13 is an optional one-order refinement: the placement effect saturates around
+**d≈0.5**, with Q9-code survival rising to ~97%, while firmness applied to
+direct's own choices does not help.
 
-- mean final loss advantage: **0.688 nats/token**
-- mean paired PPL reduction: **49.69%**
-- mean teacher top-1 gain: **+6.86 pp**
-- mean Q3-vs-Q9 changed-set Jaccard: **19.66%**
-
-FP32 warmup never approaches the Q9 result, but it is only worse than direct in
-2/3 orders; on seed 271828 it beats direct by a small 0.029 nats/token.
-
-See `../replications/v7_aggregate_summary.md`.
+See `../RESEARCH_REPORT.md` for the living current-state interpretation.
 
 ### v8 mechanism update
 
