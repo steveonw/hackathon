@@ -6,7 +6,7 @@
 > Project directory: `ternary_pet/`  
 > Current state: **SmolLM2-360M mechanism complete; Granite-350M 3-order G1 mixed (2/3 positive), G1-6/G1-7b development negatives**  
 > Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
-> Latest completed HF job: **G1-8 `6ac79551e7a0dae8a2788f0b` — negative Smol LR schedule transfer on Granite order 424242, with surviving positive d50 intervention**  
+> Latest completed HF job before G1-9: **G1-8 `6ac79551e7a0dae8a2788f0b` — negative Smol LR schedule transfer on Granite order 424242, with surviving positive d50 intervention**  
 > Latest completed HF jobs: G1-4/G1-5 Granite confirmations `6ac70af0df2184ac91ac6ffc` / `6ac70af2df2184ac91ac7000`  
 > Granite compute rule: FP32 masters + BF16-rounded source + BF16 autocast/BF16 teacher; never FP16  
 > Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_2_granite350m_staging_summary.md`
@@ -1824,3 +1824,51 @@ Two earlier Hugging Face MCP 429 attempts returned no job IDs. On 2026-10-08 23:
 - initial stage SCHEDULING; A10G-small, 90-minute cap
 - pinned script `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`; no changes since preregistration
 - check status/logs and archive the full FINAL_JSON if completed. Check D/G/P/GP 1200-step, pull counts, sampled flip/reversal diagnostics, and baseline D reproducibility. Do not attribute infrastructure errors to experiments.
+
+
+### COMPLETED G1-9 — strong gridward pull effect (2026-10-08)
+
+Accepted after two logged HF 429 attempts. Job
+`6ac821ec095c5780892ff7f9`, **COMPLETED**
+2026-10-08 23:32:17 UTC. Code pin
+`6ce4c4056e8cfd3292c54f34bedc68bf7691688f`.
+
+**All four direct Q3 arms and checks valid; full final JSON archived**:
+- `results/run_g1_9_granite350m_gaussian_pull_seed271828_2026-10-08.json`
+- `results/run_g1_9_granite350m_gaussian_pull_summary.md`
+
+| Arm | Final heldout NLL |
+|---|---:|
+| D (clean) | 5.7267251685 |
+| G (Gaussian only) | 5.7433702722 |
+| P (gridward only) | **5.4897092953** |
+| GP (combined) | **5.4878531992** |
+
+D is **identical to historical Granite direct seed271828** at 5.726725.
+P improves by **0.237016 nats**, PPL 306.96→242.19
+(**21.10% reduction**), teacher-top1 agreement 27.66→31.08%.
+GP improves by 0.238872 nats but the incremental improvement
+over P alone is **0.001856**. G alone worse by 0.016645.
+
+All arms had 1,200 AdamW updates, constant LR 1e-4, original rowwise
+Q3 scale reset and fresh Adam at step300. P/GP applied
+`W ← 0.90W + 0.10Q3(W)` at steps100–900 every100.
+G/GP applied training-only normalized Gaussian σ_u=0.04,
+annealed to zero steps900–1200, deterministic hard-Q3 validation.
+
+Sampled continuation clean-code flips per step: D .000735745,
+G .000741340, P .000094469, GP .000089281.
+P is **87.2% less** than D. Final source-code movement D 10.335%,
+P 5.281%. Observed flip rate is strongly associated with improved
+loss, but reversal ratio changes much less: do not overclaim
+oscillation as proven causal pathway.
+
+All checks passed, single historically hard order and one σ/λ choice.
+No Q9, no random control in G1-9. WinQ-like gridward interp has prior
+art. Important next action would be frozen-parameter replication
+on a positive Granite order plus new-model confirmation; **not
+automatically authorized**. Preserve negative G1-7b/G1-8 and
+mixed original Granite 3-seed results, not retroactively rewrite them.
+
+Earlier handoff's pending/429 text is historical: **G1-9 is now
+complete**. No further jobs launched.
