@@ -1424,3 +1424,19 @@ Canonical summary:
 
 Next gated action is G1-4/G1-5 confirmation on orders 271828 and 424242, with
 the exact frozen G1 protocol. Do not launch without a separate user decision.
+
+
+### ACTIVE Granite confirmation pair
+
+Exact G1-3 confirmation scripts are pinned together at:
+`6ed697a0ca5d0d19ed5ebff04b81a2ed0d259230`.
+
+Jobs:
+- seed/order 271828: `6ac70af0df2184ac91ac6ffc`
+- seed/order 424242: `6ac70af2df2184ac91ac7000`
+
+Both are A10G-small with 75-minute caps and differ from seed 1729 only in
+`SEED` / shuffled training order.
+
+Do not aggregate until both complete and each order is inspected individually.
+Do not launch any larger-model jobs from this state.
