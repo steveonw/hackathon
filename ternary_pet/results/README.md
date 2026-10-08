@@ -432,5 +432,6 @@ steps through900. Noise-free hard-Q3 evaluation.
 Pinned implementation: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`.
 Script: `ternary_pet/g1_9_granite350m_gaussian_pull_seed271828.py`.
 
-**First job launch attempt rate-limited by HF MCP (HTTP 429), no job ID.**
-No results, no seed replication and no result claims at this point.
+**Two identical GPU job submissions were rate-limited by HF MCP
+(HTTP 429), no job ID returned.** G1-9 remains prepared, NOT RUNNING.
+No scientific results or additional GPU jobs exist for this protocol.
