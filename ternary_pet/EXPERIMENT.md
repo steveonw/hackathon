@@ -2683,3 +2683,16 @@ If All-d50 remains best, filtering by this score is counterproductive.
 
 No 1729/424242 replication and no larger-model job is authorized by this
 preregistration.
+
+
+#### G1-6 pinned implementation
+
+Script:
+`ternary_pet/g1_granite350m_trajectory_alignment_seed271828.py`
+
+Pinned implementation commit:
+`10110ffba0ce9b1069f015cd32b235958e37f6c9`
+
+The implementation follows the preregistration above. The alignment ranking is
+performed separately within each layer and D→S transition class, so the top and
+bottom halves are exactly matched for those known structural factors.
