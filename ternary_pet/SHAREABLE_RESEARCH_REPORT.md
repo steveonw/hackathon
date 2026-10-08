@@ -1191,3 +1191,43 @@ small positive mean, because it preserves the observed heterogeneity.
 
 Canonical aggregate:
 `replications/g1_granite350m_mechanism_aggregate_summary.md`.
+
+
+---
+
+## 34. Forensics: the negative Granite order is already different during Q9 prep
+
+No additional GPU job was required. The three raw G1 mechanism files were
+compared directly.
+
+The clearest discriminator is visible before the Q3 switch:
+
+| diagnostic | 1729 | 271828 | 424242 |
+|---|---:|---:|---:|
+| native Q9 minus direct loss @300 | −0.160 | **+0.278** | −0.138 |
+| Q9/direct grad ratio @100 | 0.82× | **3.33×** | 0.76× |
+| disagreement mask | 6.02% | **6.99%** | 6.03% |
+
+On the positive orders, Q9 itself is already training well in its own 9-state
+space by step 300. On the negative order, Q9 remains worse than direct and its
+gradient norms remain elevated.
+
+The negative order's Q9 mask is also more disjoint from direct's source-code
+movement: an overlap proxy is ~19.7% versus ~27.5% on the two positive orders.
+
+Causal decomposition adds a second clue. On 271828, even Q9 state outside the
+D-vs-S mask is harmful. Standard d=0.5 placement improves the true-mask state,
+but true positions finish only 0.0077 nats better than transition-matched random
+positions. On the positive orders that separation is 0.224 and 0.110 nats.
+
+Meanwhile global code histograms, scales, d=0.5 survival and continuation churn
+are almost unchanged.
+
+The resulting hypothesis is narrower than "staging sometimes fails": Q9 may
+need to **successfully settle and discover good assignments during its own prep
+phase**. Order 271828 appears to be a failed assignment-discovery trajectory.
+This is post-hoc evidence from three orders and must be preregistered before
+being used predictively.
+
+Detailed note:
+`replications/g1_granite350m_seed271828_forensics.md`.
