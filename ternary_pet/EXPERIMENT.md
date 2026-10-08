@@ -2714,3 +2714,87 @@ Wall-clock cap:
 
 This job is the single authorized trajectory-alignment development run on seed
 271828. No replication jobs are authorized by this launch record.
+
+
+### G1-7 — Granite port of the Smol v10-v13 matched schedule, hard order 271828
+
+**Status before launch: preregistered schedule-transfer experiment.**
+
+#### Motivation
+
+Granite G1 used the v7-like constant learning rate `1e-4`, selected by the
+Granite direct-only 300-step calibration. The strongest later Smol mechanism
+experiments (v10-v13), however, used a different matched global schedule:
+
+- steps 1-100: linear warmup to `1e-3`;
+- steps 101-1200: cosine decay to `1e-4`;
+- Q9 occupies global steps 1-300;
+- Q3 occupies global steps 301-1200;
+- the LR curve continues across the Q9-to-Q3 boundary and does not restart.
+
+G1-7 tests whether that protocol difference explains some of Granite order
+271828's failure.
+
+The Granite G1-1 calibration found the warm-`1e-3` schedule worse than
+constant `1e-4` at the 300-step direct-Q3 validation checkpoint. G1-7 does
+not override that calibration or claim the schedule is Granite-optimal. It is a
+deliberate transfer of the **full Smol v10-v13 schedule** to test protocol
+sensitivity.
+
+#### Frozen model / data / precision
+
+- model: `ibm-granite/granite-4.0-350m`
+- seed/order: **271828**
+- same 1,200 shuffled WikiText-2 chunks, sequence length 128
+- same fixed 24-chunk validation diagnostic and 64-chunk held-out evaluator
+- same FP32 persistent masters
+- same BF16-rounded common source
+- same BF16 autocast and BF16 teacher required by Granite
+- same CE35 + KL65 objective
+- AdamW beta=(0.9,0.95), zero weight decay, clip norm 1.0
+- target all `nn.Linear` except exact `lm_head`
+- nonquantized parameters frozen
+- original Q3 scales restored and fresh Adam at the step-300 mechanism
+  continuation, exactly as in the Granite G1-3 mechanism design
+
+The only intended scientific change relative to the prior Granite mechanism
+run on 271828 is the **global learning-rate schedule**.
+
+#### Preparation and mask
+
+Rebuild, from the common source:
+
+- D: direct Q3 for 300 updates under the v10-v13 global schedule;
+- S: Q9 for 300 updates under the same global schedule.
+
+Project both through the original Q3 scales and define M at positions where
+their projected Q3 codes disagree.
+
+#### Continuation arms
+
+All arms use original Q3 scales, fresh Adam, and the same remaining chunks
+301-1200. Their optimizer LR begins at the global step-301 value of the same
+v10-v13 schedule and continues to `1e-4` at step 1200.
+
+1. D
+2. S
+3. M-exact
+4. M-d50
+5. Random-d50, matched outside M by layer and source-to-target transition counts
+
+The same hard construction assertions as G1-3/G1-4/G1-5 must pass.
+
+#### Primary questions
+
+For order 271828 under the transferred Smol schedule:
+
+1. Does native Q9 preparation settle better relative to direct by step 300?
+2. Does full S beat D after the common Q3 continuation?
+3. Does M-d50 beat D and/or full S?
+4. Does true-M d50 clearly beat the matched-random control?
+5. How do mask size, changed-set overlap, and code survival compare with the
+   historical constant-`1e-4` 271828 result?
+
+This is a **development/protocol-sensitivity** test on a known negative order,
+not an independent confirmation. No other seed or larger-model job is
+authorized by this preregistration.
