@@ -37,7 +37,7 @@ Raw machine-readable and summarized results from each remote run belong here.
 | G1-0b / `6ac6eec9df2184ac91ac67ca` | Granite-4.0-350M | A10G small | completed | precision diagnostic; BF16 passed, FP16 failed |
 | G1-1 / `6ac6f18ae7a0dae8a2780246` | Granite-4.0-350M | A10G small | completed | direct-Q3 calibration; constant 1e-4 selected |
 | G1-2 / `6ac6f487df2184ac91ac693e` | Granite-4.0-350M | A10G small | completed | positive one-order staging gate; Q9→Q3 +0.1309 nat / 12.27% lower PPL |
-| G1-3 / `6ac6fe5fdf2184ac91ac6c1f` | Granite-4.0-350M | A10G small | running | compressed causal mechanism: D/S/M-exact/M-d50/matched-random-d50 |
+| G1-3 / `6ac6fe5fdf2184ac91ac6c1f` | Granite-4.0-350M | A10G small | completed | mechanism positive: exact-M 76.2%, d50 118.6%, matched-random harmful |
 
 ## Current headline
 
