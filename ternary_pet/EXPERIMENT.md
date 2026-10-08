@@ -2811,3 +2811,22 @@ Pinned implementation commit:
 This is the Granite BF16-safe port of the Smol v10-v13 global schedule. The
 five mechanism arms and construction assertions are otherwise inherited from
 the established Granite G1-3 design.
+
+
+#### G1-7 launch record
+
+Pinned code:
+`ab02c7a64a357bf792eee8d361032d2e2310bb1b`
+
+Hugging Face job:
+`6ac722dfdf2184ac91ac75e9`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+75 minutes
+
+This is the single authorized Granite hard-order matched-schedule transfer
+experiment. Do not launch 1729/424242 replicas unless this result is inspected
+first.
