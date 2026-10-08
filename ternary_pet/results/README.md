@@ -366,11 +366,11 @@ control could not be performed under this schedule; do not make a new
 position-specificity claim or extrapolate to other Granite orders.
 
 
-### G1-8 — Granite schedule transfer on remaining weaker positive order 424242
+### Completed G1-8 — Granite schedule transfer on weaker positive order 424242
 
 | Job | Seed/order | Status at launch | Purpose |
 |---|---:|---|---|
-| G1-8 / `6ac79551e7a0dae8a2788f0b` | 424242 | SCHEDULING | Test whether Smol v10-v13 high-peak schedule degrades an originally positive Granite order |
+| G1-8 / `6ac79551e7a0dae8a2788f0b` | 424242 | completed — negative transfer | all four arms degrade; S ~ties D; d50 still beats D |
 
 Code pin: `39399baff38b15f961e9571f142e193a783c925b`. This script differs from the completed G1-7b
 four-arm schedule-transfer harness by **only** `SEED=424242` in place of
@@ -381,3 +381,39 @@ Four arms: D, S, M-exact, M-d50; 300 prep and 900 Q3 continuation steps;
 Granite BF16-safe compute; v10-v13 global warmup+cosine schedule.
 No matched-random arm. Original constant-LR 424242 baselines:
 D 5.80192, S 5.74057, M-exact 5.74471, M-d50 5.71016.
+
+
+### G1-8 result — aggressive Smol LR hurts another Granite order
+
+Completed HF job: `6ac79551e7a0dae8a2788f0b`.
+Pinned code: `39399baff38b15f961e9571f142e193a783c925b`.
+
+G1-8 reused the successful G1-7b four-arm harness, changing only seed
+271828 → 424242. All four arms and equal-forward construction checks passed.
+The new result is a **negative absolute-performance schedule transfer**, but
+has a distinct positive d=0.5 intervention signal within the new schedule.
+
+| Arm | 424242 constant 1e-4 | 424242 Smol LR |
+|---|---:|---:|
+| D | 5.80192 | 6.05708 |
+| S | 5.74057 | 6.06241 |
+| M-exact | 5.74471 | 6.04609 |
+| M-d50 | **5.71016** | **6.02857** |
+
+The full S advantage of +0.06135 nats becomes **−0.00534** (near-tie).
+M-d50 still beats D by **0.02850 nats**, but by less than its historical
++0.09176 nats. D/S disagreement rises from **6.03%** to **29.49%** and
+d=0.5 code survival at continuation 900 drops from **90.57%** to **57.14%**.
+
+Importantly, native Q9 prep remains better than direct at step300 on 424242
+(6.21319 vs 6.30551), unlike the poor Q9 preparation on 271828 under
+the same high-LR schedule. Thus both seeds show **harmful schedule
+sensitivity**, but not an identical Q9-specific trajectory failure.
+
+Only two selected Granite seeds were tested under Smol's schedule. No
+matched-random control was executed in either amended four-arm transfer run.
+Do not claim all Granite seeds fail, or infer this erases the prior Smol 3/3
+result under its own schedule.
+
+Raw: `run_g1_8_granite350m_v10schedule_seed424242_2026-10-08.json`
+Summary: `run_g1_8_granite350m_v10schedule_summary.md`
