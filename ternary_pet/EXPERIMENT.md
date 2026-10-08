@@ -3255,3 +3255,17 @@ seeds, tuning, or larger models.**
   sampled indices depend only on seed.
 - **No pilot/parameter sweep**, one fixed factorial run; first arm is
   within-job D, followed by G, P, GP.
+
+
+#### G1-9 first GPU submission attempt: rate-limited (no job created)
+
+A single detached `uv run` submission was attempted for the pinned script
+`6ce4c4056e8cfd3292c54f34bedc68bf7691688f`, A10G-small,
+90-minute cap. Hugging Face connector replied:
+
+`429 Too Many Requests` at `https://huggingface.co/mcp?login`.
+
+**No HF job ID was issued, so no G1-9 run was launched or completed
+on that attempt.** This is an infrastructure submission failure and is
+not a scientific result. It authorizes no change to arms, seed,
+hyperparameters or held-out interpretation.
