@@ -2467,3 +2467,25 @@ be supported across the three orders after inspecting each one separately.
 Mixed orders must be reported plainly rather than averaged away.
 
 No larger-model jobs are launched by this preregistration.
+
+
+### G1-4 / G1-5 launch record
+
+Shared pinned code:
+`6ed697a0ca5d0d19ed5ebff04b81a2ed0d259230`
+
+Hardware:
+A10G-small for both jobs.
+
+Wall-clock cap:
+75 minutes per job.
+
+Jobs:
+
+- G1-4 seed/order 271828:
+  `6ac70af0df2184ac91ac6ffc`
+- G1-5 seed/order 424242:
+  `6ac70af2df2184ac91ac7000`
+
+These are exact frozen-protocol confirmations of G1-3 with only the seed/order
+changed. No additional jobs are authorized by this launch record.
