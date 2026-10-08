@@ -1851,3 +1851,22 @@ drawn from this job.
 **Stop rule:** if the target coverage or model structure shows that "quantize
 all `nn.Linear` weights except `lm_head`" is not a meaningfully comparable
 intervention, stop before G1-1 and preregister an architecture-specific mapping.
+
+
+### G1-0 launch record
+
+Hugging Face job:
+`6ac6eacfdf2184ac91ac658a`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+30 minutes
+
+Pinned code:
+`1c85fdb1bdccd70c5c925ea2807bf773381739fd`
+
+This is the architecture/quantization smoke gate only. G1-1 must not launch
+until this job is inspected and the target mapping is judged comparable enough
+to proceed.
