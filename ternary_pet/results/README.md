@@ -306,7 +306,7 @@ D→S transition class.
 
 | Job | Seed/order | Status | Purpose |
 |---|---:|---|---|
-| G1-7 / `6ac722dfdf2184ac91ac75e9` | 271828 | running/scheduling | test Smol v10-v13 LR schedule on the known hard Granite order |
+| G1-7 / `6ac722dfdf2184ac91ac75e9` | 271828 | technical failure | exact full-size matched-random control infeasible under transferred schedule |
 
 Pinned code:
 `ab02c7a64a357bf792eee8d361032d2e2310bb1b`.
@@ -315,3 +315,21 @@ Protocol:
 100-step warmup to 1e-3, cosine to 1e-4 by global step 1200; Q9 steps 1-300;
 same global LR curve continues through Q3 steps 301-1200. Granite retains BF16
 autocast/BF16 teacher. Arms: D, S, M-exact, M-d50, Random-d50.
+
+
+### Active G1-7b retry — amended four-arm schedule transfer
+
+| Job | Seed/order | Status | Purpose |
+|---|---:|---|---|
+| G1-7b / `6ac7248adf2184ac91ac768d` | 271828 | running/scheduling | complete the Smol v10-v13 schedule transfer without the infeasible full-size random arm |
+
+Pinned code:
+`808fd4975d16111d9c1c841c44d9038a01995ba3`.
+
+The original G1-7 job `6ac722dfdf2184ac91ac75e9` is a technical failure,
+not a scientific result. It finished both 300-step prep arms but could not
+construct an exact layer/source→target matched random control because one
+stratum required 595,275 distinct outside-mask positions but only 342,644
+existed.
+
+G1-7b retains D, S, M-exact and M-d50 unchanged and omits Random-d50.
