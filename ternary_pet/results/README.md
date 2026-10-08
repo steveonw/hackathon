@@ -435,3 +435,10 @@ Script: `ternary_pet/g1_9_granite350m_gaussian_pull_seed271828.py`.
 **Two identical GPU job submissions were rate-limited by HF MCP
 (HTTP 429), no job ID returned.** G1-9 remains prepared, NOT RUNNING.
 No scientific results or additional GPU jobs exist for this protocol.
+
+
+### G1-9 successfully launched (not yet completed)
+
+Hugging Face accepted the pinned Granite Gaussian × pull experiment after the two earlier 429 rate limits. Job `6ac821ec095c5780892ff7f9`, submitted 2026-10-08T23:06:20Z, A10G-small, 90-minute max; initial status **SCHEDULING**. Script commit `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`. Monitor: https://huggingface.co/jobs/codeflash85/6ac821ec095c5780892ff7f9
+
+Arms D/G/P/GP; seed271828; no parameter changes or additional jobs. Do not mark as completed until FINAL_JSON and scientific checks are verified.
