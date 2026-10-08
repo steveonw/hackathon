@@ -2400,3 +2400,70 @@ Canonical files:
 G1-3 is positive and scientifically interpretable. The preregistered condition
 for confirmatory Granite orders is satisfied, but **no G1-4/G1-5 jobs are
 launched by this result**.
+
+
+### G1-4 / G1-5 — Granite mechanism confirmation orders
+
+**Status before launch: preregistered exact confirmations.**
+
+Purpose:
+test whether the positive G1-2/G1-3 staging + mechanism result on Granite order
+1729 survives the two established independent shuffled training orders.
+
+Confirmation orders:
+
+- **G1-4:** seed/order 271828
+- **G1-5:** seed/order 424242
+
+Pinned scripts:
+
+- `ternary_pet/replications/g1_granite350m_mechanism_seed271828.py`
+- `ternary_pet/replications/g1_granite350m_mechanism_seed424242.py`
+
+Shared pinned commit containing both scripts:
+`6ed697a0ca5d0d19ed5ebff04b81a2ed0d259230`
+
+The scripts are exact copies of the completed G1-3 implementation with **only
+`SEED` / training-order identity changed**.
+
+Frozen protocol:
+
+- model: `ibm-granite/granite-4.0-350m`;
+- FP32 persistent masters;
+- BF16-rounded common source;
+- BF16 autocast + BF16 teacher;
+- constant LR 1e-4 selected by direct-only G1-1;
+- first 300 chunks build D and S under Q3 and Q9 respectively;
+- true M is the fixed-Q3 D-vs-S projected-code disagreement mask;
+- five common-continuation arms:
+  D, S, M-exact, M-d50, Random-d50;
+- original Q3 scales + fresh Adam for all arms at continuation;
+- identical steps 301-1200 within each order;
+- same construction assertions as G1-3;
+- same 8,192-token held-out evaluator.
+
+No retuning, architecture change, precision change, arm deletion, or
+result-dependent intervention is allowed.
+
+### Confirmatory questions
+
+Inspect **each order individually** before aggregation:
+
+1. Does full S still beat D at the final held-out endpoint?
+2. Is S still worse than D as an immediate fixed-Q3 checkpoint at step 300?
+3. Does true-M exact transfer retain a material fraction of the full S gain?
+4. Does true-M d=0.5 retain substantial benefit and preferably approach or beat
+   full S?
+5. Is transition/layer/source-matched Random-d50 clearly weaker than true-M
+   d=0.5, preferably non-beneficial or harmful?
+
+Do not require exact replication of Granite order-1729 effect size, 76.2%
+exact-M recovery, 118.6% d=0.5 recovery, or 6.0246% mask size.
+
+### Replication interpretation
+
+A replicated Granite mechanism conclusion requires the qualitative pattern to
+be supported across the three orders after inspecting each one separately.
+Mixed orders must be reported plainly rather than averaged away.
+
+No larger-model jobs are launched by this preregistration.
