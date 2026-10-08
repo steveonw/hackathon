@@ -262,6 +262,47 @@ For M-d50, Q9-selected-code survival is 99.68% after 100 continuation steps,
 97.98% after 300, and **90.70%** after 900; learned-scale and fixed-alpha0
 survival are nearly identical.
 
+### 5.7 Why Granite seed 271828 fails: post-hoc forensics
+
+The one negative Granite order is not obviously endpoint noise. Its Q9
+preparation is already qualitatively different before the switch.
+
+| diagnostic | 1729 (+) | 271828 (−) | 424242 (+) |
+|---|---:|---:|---:|
+| native Q9−D loss @300 | −0.160 | **+0.278** | −0.138 |
+| Q9/D grad ratio @100 | 0.82× | **3.33×** | 0.76× |
+| D-vs-S mask | 6.02% | **6.99%** | 6.03% |
+| changed-set Jaccard proxy | ~27.5% | **~19.7%** | ~27.5% |
+| true d50 − random advantage | 0.224 | **0.0077** | 0.110 |
+
+On the two positive orders, native Q9 validation is already better than native
+direct at step 300 and Q9 gradients have settled to direct-like magnitudes.
+On 271828, native Q9 is 0.278 nats worse, Q9 gradients remain much larger, and
+Q9 training loss is worse than direct at every logged prep checkpoint.
+
+The negative order also has a harmful same-code/off-mask Q9 contribution.
+Replacing Q9's off-mask masters with direct masters improves loss by 0.0365
+nats. Standardizing the true-mask Q9-selected codes at d=0.5 repairs another
+0.0195 nats, but the arm remains worse than direct and only 0.0077 nats better
+than matched random.
+
+Global Q9 histograms and scale statistics are nearly identical across seeds,
+as are d50 survival (~90%) and continuation code churn. The failure therefore
+looks more like **poor Q9 assignment discovery** than global scale drift,
+excessive late churn, or an evaluation accident.
+
+A notable but incomplete geometric clue is greater late-layer disagreement:
+layer 27 contains 4.56% of the negative seed's mask versus ~3.1% on the positive
+orders, driven mainly by shared-MLP input/output weights. This explains only a
+minority of the extra disagreement.
+
+Working hypothesis: Q9 staging succeeds when the 300-step Q9 phase itself
+reaches a settled native-Q9 state and discovers useful alternative ternary
+commitments. This is post-hoc n=3 evidence, not a validated predictor.
+
+Detailed analysis:
+`replications/g1_granite350m_seed271828_forensics.md`.
+
 ---
 
 ## 6. Limitations
