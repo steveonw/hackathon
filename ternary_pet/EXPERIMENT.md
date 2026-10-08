@@ -3291,3 +3291,48 @@ On 2026-10-08T23:06:20.440Z, after the previous two 429 failures, Hugging Face a
 - Script pin unchanged: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`
 - Arms/settings/seed unchanged; no duplicate jobs found in HF job list before launch.
 - Previous two 429 responses remain documented as infrastructure failures, not jobs.
+
+
+#### G1-9 FINAL result — gridward pull rescues Granite direct Q3 on 271828
+
+HF job `6ac821ec095c5780892ff7f9` completed **successfully** at
+2026-10-08T23:32:17.205Z (same code pin `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`).
+The two historical 429 submissions were infrastructure failures, but this
+third successfully accepted job produced a full valid experiment.
+
+All four arms D/G/P/GP completed their preregistered 300+900 optimizer
+updates. The direct control exactly reproduced the independent historical
+Granite 271828 endpoint. All 5 recorded structural/finiteness/step-count
+checks passed, including 9 gridward pulls in each P/GP arm.
+
+| Arm | Final heldout CE loss | PPL | D-minus-arm improvement |
+|---|---:|---:|---:|
+| D (clean Q3) | 5.726725 | 306.96 | — |
+| G (Gaussian only) | 5.743370 | 312.11 | −0.016645 |
+| P (gridward only) | **5.489709** | **242.19** | **+0.237016** |
+| GP (both) | **5.487853** | **241.74** | **+0.238872** |
+
+The **single positive main effect comes from gridward interpolation**:
+`W <- 0.9W + 0.1Q3(W)` after optimizer steps 100,200,...,900.
+Gaussian noise alone was a small negative; adding Gaussian to gridward
+improved P by only **0.001856 nats**, far too small to call a robust benefit.
+
+The 32,768-weight deterministic sample measured per-update, *noise-free*
+code-transition frequency over the 900-step continuation:
+D **0.000735745**; G **0.000741340**; P **0.000094469**;
+GP **0.000089281**. P has **87.2% fewer sampled code-flip events**.
+Final Q3 code movement from source: D **10.335%**, P **5.281%**.
+Sampled immediate reversal *fraction of flips* does not fall by nearly
+the same proportion, so transition reduction is not proof oscillations
+specifically caused the better endpoint.
+
+This is a **targeted, one-order (previously hard seed 271828) development
+result**, not cross-seed confirmation. The GP−P delta is tiny and without
+uncertainty quantification. Gridward interpolation and latent-noise training
+have relevant published WinQ prior art; do not claim invention of the general
+method. No Q9 arm, no random specificity control, and no new model family
+were tested in G1-9. Future frozen replication needed.
+
+Raw: `results/run_g1_9_granite350m_gaussian_pull_seed271828_2026-10-08.json`.
+Summary: `results/run_g1_9_granite350m_gaussian_pull_summary.md`.
+No follow-up GPU jobs launched.
