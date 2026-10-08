@@ -3039,3 +3039,13 @@ mask, M-d50 code survival after 100/300/900 Q3 continuation steps, final
 
 No 1729 test, intermediate-LR tuning, adaptive LR, additional seeds, new
 model families or automatic reruns are authorized as part of G1-8.
+
+
+#### G1-8 code pin (before GPU launch)
+
+- Script: `ternary_pet/g1_granite350m_v10_schedule_mechanism_seed424242.py`
+- Frozen implementation commit: `39399baff38b15f961e9571f142e193a783c925b`
+- Parent implementation: completed G1-7b (`808fd4975d16111d9c1c841c44d9038a01995ba3`)
+- Code delta: **exactly one line**, `SEED=271828` → `SEED=424242`
+- Arms: D, S, M-exact, M-d50 (no Random-d50)
+- Runtime: A10G-small, one detached job; no auto-replication.
