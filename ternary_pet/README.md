@@ -24,9 +24,12 @@ optimization. Exact Q9 continuous values are unnecessary, and generic
 prototype snapping does not help direct Q3.
 
 The mechanism phase on SmolLM2-360M / WikiText-2 has reached its stop condition.
-**Cross-model generalization is now active on Granite-4.0-350M.** Its BF16
-engineering gate passed after FP16 was found numerically invalid, and the
-direct-only G1-1 schedule calibration is the current live step.
+**Granite-4.0-350M now gives a positive first-order cross-family result.**
+Q9→Q3 beats direct by **0.1309 nats / 12.27% PPL**, while the true ~6.02%
+disagreement mask recovers **76.2%** of the staged gain with exact Q9 masters.
+Placing the Q9-selected codes at **d=0.5** on that true mask recovers
+**118.6%** and beats full Q9; the matched-random control is harmful. Granite is
+still **one order only**, so replication is the next gate.
 
 ## Evidence hierarchy
 
@@ -38,8 +41,11 @@ direct-only G1-1 schedule calibration is the current live step.
 - **Important negative result:** generic FP32 warm-up does not reproduce Q9,
   but it is **not worse than direct in every order**; order 271828 gives FP32 a
   small 0.0292-nat improvement over direct.
-- **Scope:** one 360M model and WikiText-2 so far; free-running generation remains
-  poor, and longer-run asymptotics are unresolved.
+- **Cross-family first order:** Granite-4.0-350M reproduces the staging effect
+  and qualitative position/code + interior-placement mechanism on order 1729,
+  but is not yet replicated.
+- **Scope:** WikiText-2 so far; free-running generation remains poor, and
+  longer-run asymptotics are unresolved.
 
 ## Repository map
 
