@@ -2320,3 +2320,22 @@ Before any 900-step continuation begins, the script asserts:
 
 Any failed construction assertion terminates the job and counts as a technical
 failure, not a mechanism result.
+
+
+### G1-3 launch record
+
+Hugging Face job:
+`6ac6fe5fdf2184ac91ac6c1f`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+75 minutes
+
+Pinned code:
+`c32fbc16f463039257d996a7b32c9eca5eada681`
+
+This is the single authorized G1-3 mechanism job for seed/order 1729. No
+confirmatory Granite orders and no larger-model jobs are launched by this
+record.
