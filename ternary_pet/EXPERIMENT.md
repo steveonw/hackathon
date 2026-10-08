@@ -1870,3 +1870,69 @@ Pinned code:
 This is the architecture/quantization smoke gate only. G1-1 must not launch
 until this job is inspected and the target mapping is judged comparable enough
 to proceed.
+
+
+### G1-0 outcome — architecture gate exposed a precision failure
+
+Job `6ac6eacfdf2184ac91ac658a` completed.
+
+Architecture/freezing checks were encouraging:
+
+- 352,379,904 total parameters (derived from target + excluded);
+- 249,561,088 targeted weight parameters across 168 target linears;
+- 102,818,816 excluded parameters;
+- no unexpected trainable tensors;
+- non-quantized parameters remained frozen;
+- initial Q3 zero fraction 31.99%;
+- initial Q9 zero fraction 12.37%;
+- peak CUDA memory 6.30 GiB for Q3 and 8.17 GiB for Q9.
+
+However, the inherited Smol FP16 compute path is numerically invalid on Granite:
+
+- unquantized source held-out loss/PPL were NaN;
+- Q3 CE was finite (21.55) but teacher KL, total loss, and grad norm were NaN;
+- Q9 CE was finite (26.62) but teacher KL, total loss, and grad norm were NaN.
+
+This is a **technical gate failure, not a scientific negative result**. Because
+the unquantized source already fails under FP16 autocast, do not attribute the
+NaNs to Q3 or Q9.
+
+Canonical summary:
+`results/run_g1_0_granite350m_smoke_summary.md`
+
+G1-1 remains blocked.
+
+### G1-0b — preregistered Granite precision diagnostic
+
+Purpose: determine whether the G1-0 NaNs are specifically caused by the inherited
+FP16 compute path and whether BF16 is a numerically valid Granite-specific
+replacement before any scientific D-vs-S result is observed.
+
+Pinned script:
+`ternary_pet/g1_granite350m_precision_smoke.py`
+
+Pinned commit:
+`3b217e11853ac062ef187ee163291ac6138163c5`
+
+The diagnostic compares the same BF16-rounded Granite source under:
+
+1. full FP32 compute;
+2. BF16 autocast;
+3. FP16 autocast.
+
+It also compares directly loaded BF16 and FP16 teachers, then runs exactly one
+Q3 and one Q9 CE35 + teacher-KL65 update using a BF16 teacher and BF16 autocast.
+
+Required pass condition before G1-1:
+
+- source FP32 finite;
+- source BF16 finite;
+- BF16 teacher finite;
+- Q3 BF16 step has finite CE/KL/loss and gradients;
+- Q9 BF16 step has finite CE/KL/loss and gradients.
+
+FP16 is allowed to fail. If BF16 passes and tracks FP32 reasonably, BF16 mixed
+precision becomes the preregistered Granite compute setting for G1 before any
+scientific staging result is seen.
+
+No scientific conclusion may be drawn from G1-0b.
