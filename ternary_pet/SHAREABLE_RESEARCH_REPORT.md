@@ -1152,3 +1152,42 @@ launched automatically.
 Jobs:
 - G1-2: `6ac6f487df2184ac91ac693e`
 - G1-3: `6ac6fe5fdf2184ac91ac6c1f`
+
+
+---
+
+## 33. Granite confirmations: one negative order changes the headline
+
+The two preregistered Granite confirmation orders completed with no protocol
+changes.
+
+| Seed | D | S | M-exact | M-d50 | Random-d50 |
+|---:|---:|---:|---:|---:|---:|
+| 1729 | 5.66205 | **5.53495** | 5.56525 | **5.51134** | 5.73514 |
+| 271828 | **5.72673** | 5.84103 | 5.80453 | 5.78502 | 5.79268 |
+| 424242 | 5.80192 | **5.74057** | 5.74471 | **5.71016** | 5.81984 |
+
+Seed 271828 is a genuine negative for the raw staging hypothesis: full Q9→Q3
+finishes 0.11431 nats worse than direct. Therefore Granite does **not** give a
+3/3 replication of the Smol staging advantage.
+
+At the same time, several pieces are more stable than the headline endpoint:
+
+- Q9 is worse as an immediate fixed-Q3 checkpoint on 3/3 orders;
+- the D-vs-S disagreement set remains about 6% (mean 6.35%);
+- true-mask d=0.5 beats full S on 3/3;
+- true-mask d=0.5 beats the matched-random control on 3/3;
+- matched-random is harmful versus D on 3/3;
+- but true-mask d=0.5 itself beats D only 2/3.
+
+Thus the most defensible cross-family interpretation is no longer "Q9 staging
+always wins." Instead, Q9 consistently exposes a structured set of alternative
+ternary commitments, and standardized interior placement of those commitments
+is more robust than carrying the full Q9-prepared state. Whether those
+commitments are globally beneficial still depends on the training order.
+
+This is a stronger scientific outcome than averaging the three seeds into a
+small positive mean, because it preserves the observed heterogeneity.
+
+Canonical aggregate:
+`replications/g1_granite350m_mechanism_aggregate_summary.md`.
