@@ -60,6 +60,21 @@ Q9's useful code commitments. These are targeted exploratory comparisons,
 not new independent seeds or a reason to revise the original Smol 3/3
 matched-schedule result.
 
+
+**G1-9 direct ternary optimization (new development result).** Inspired by
+WinQ's published methods, a preregistered 2×2 direct-Q3 test on Granite's
+known-hard order 271828 compared clean Q3 (D), Gaussian latent-weight noise
+(G), periodic 10%-toward-current-ternary-code interpolation (P), and both (GP),
+with **exactly 1,200 optimizer updates** each and constant `1e-4` LR.
+D reproduced its historical 5.72673-nat held-out loss *exactly*.
+Gridward interpolation improved held-out loss to **5.48971** (P),
+a **0.23702-nat gain / 21.10% lower perplexity**; GP was 5.48785,
+only 0.00186 better than P. Noise alone was worse (5.74337).
+Sampled per-update clean-code changes fell ~87.2% for P during Q3
+continuation. This is one known-hard-order result, not independent
+replication, and cannot yet establish whether reduced transitions caused
+the improvement. The core interpolation/noise ideas have published prior art.
+
 ---
 
 ## 2. Results at a glance
@@ -86,6 +101,7 @@ BF16 model scores perplexity **39.9**.
 | 15 | Granite confirmations are mixed | full S wins 2/3; M-d50 > S 3/3; random harmful 3/3; mean mask 6.35% | 3 orders | G1-3/G1-4/G1-5 |
 | 16 | Smol schedule transfer fails on Granite 271828 | D 6.0089 vs 5.7267; S 6.3692 vs 5.8410; M 32.71% vs 6.99%; d50 below D | 1 known-hard order, 4 arms, no new random control | G1-7b |
 | 17 | Smol schedule transfer also degrades previously positive Granite 424242 | D 6.0571 vs 5.8019; S 6.0624 vs 5.7406; mask 29.49% vs 6.03%; d50 still beats D by 0.0285 | 1 selected weaker positive order, 4 arms, no new random control | G1-8 |
+| 18 | Gridward latent-weight interpolation substantially improves direct Granite Q3 | D 5.72673; P **5.48971** (−0.23702 nat, −21.10% PPL); GP 5.48785; G-only 5.74337; sampled flips P ~87.2% lower | single historically hard order, four equal-budget arms, validation held out for diagnostics, no new random arm | G1-9 |
 
 ---
 
@@ -434,6 +450,74 @@ Raw result:
 Interpretation:
 `results/run_g1_8_granite350m_v10schedule_summary.md`.
 
+### 5.10 A different route: stabilize direct ternary training by gridward interpolation (G1-9)
+
+After Smol's successful staging and Granite's mixed staging and negative
+high-LR transfers, a preregistered **WinQ-inspired 2×2 factorial** on
+Granite's known-hard order 271828 isolated two interventions in
+**direct ternary QAT**, without any Q9 preparation:
+
+- **D:** ordinary hard-Q3 forward with FP32 masters and STE.
+- **G:** add row-scale-normalized Gaussian noise before training-time hard Q3
+  quantization (`σ=0.04×α_row` until step900, linearly decaying to zero
+  by step1200); evaluation remains hard, noiseless ternary.
+- **P:** after optimizer updates every 100 steps through step900, set
+  `W ← 0.9W+0.1Q3(W)` for the FP32 masters, at their current row scales.
+- **GP:** both.
+
+All four arms see the **same 1,200 ordered training chunks**, objective,
+fixed teacher, BF16 compute, AdamW, constant `1e-4` LR, 300-step scale reset
+and fresh-Adam boundary, and 8,192-token held-out evaluation. All
+predeclared checks passed. The D arm reproduced its independent prior
+seed271828 held-out result **exactly** (5.726725).
+
+| Arm | Held-out loss | PPL | Gain vs D | Teacher top-1 |
+|---|---:|---:|---:|---:|
+| D | 5.726725 | 306.96 | — | 27.66% |
+| G | 5.743370 | 312.11 | −0.016645 | 27.10% |
+| **P** | **5.489709** | **242.19** | **+0.237016** | **31.08%** |
+| GP | **5.487853** | **241.74** | **+0.238872** | 31.04% |
+
+**Main result:** periodic gridward interpolation improves held-out loss
+by **0.237 nats**, lowers PPL **21.10%**, and improves teacher-top1
+agreement by **3.42 percentage points** at equal optimizer-step budget.
+Gaussian alone fails to improve D. Combining Gaussian with pull gives
+only an additional **0.001856-nat** improvement beyond P (no meaningful
+claim of added noise benefit from one order).
+
+A deterministic sample of 32,768 weights across 16 layers monitored their
+noise-free ternary codes after every optimizer step. During the 900-step
+continuation, sampled code-change probability per weight-update was
+**0.000736 (D)**, **0.000741 (G)**, **0.0000945 (P)** and
+**0.0000893 (GP)**. The gridward-only arm shows **~87.2% fewer**
+sampled code flips, alongside a lower final fraction of source-code changes
+(D 10.335% vs P 5.281%). But the immediate two-step reversal **share**
+among flips decreased only modestly; this does not show that reversal
+oscillation alone mediates the result. Moving masters deeper into quantization
+cells changes future STE dynamics, so additional controls would be needed
+to separate the effects.
+
+At 300 steps, the gridward-only arm's native Q3 validation loss already
+improved from D **5.64539** to **5.50481**, preceding the final 900-step
+benefit. These are same protocol validation slices, not final held-out scores.
+
+**Boundaries:** The positive 271828 development outcome does not undo
+earlier Granite mixed three-order staging results, Smol three-order staging
+benefits, or G1-7b/G1-8 aggressive-LR failures. This is a different,
+direct-Q3 training algorithm tested on one known order. It does not
+establish a new Q9 mask-specificity result or a win across models.
+Gridward interpolation and Gaussian latent noise have prior art
+(e.g. WinQ, ICML 2026); novelty would require an additional contribution
+such as generalizable boundary-aware control, not merely implementing
+the pull rule. A frozen-parameter replication is the next priority.
+
+Completed GPU job: `6ac821ec095c5780892ff7f9`.
+Code pin: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`.
+Raw:
+`results/run_g1_9_granite350m_gaussian_pull_seed271828_2026-10-08.json`.
+Full analysis:
+`results/run_g1_9_granite350m_gaussian_pull_summary.md`.
+
 ---
 
 ## 6. Limitations
@@ -451,6 +535,14 @@ Interpretation:
   nor Granite's original 300-step calibration proves a universally optimal
   schedule. The two orders are historically selected development tests, not
   independent confirmations.
+- **G1-9's positive result needs replication.** Strong gridward direct-Q3
+  gain (+0.237 nats) was obtained only on the previously known difficult
+  Granite seed271828; it is not evidence of generalization by itself.
+  Gaussian noise alone was weakly harmful, while the GP-vs-P difference is
+  too small to interpret without uncertainty estimates. Fewer sampled
+  code changes and improved performance coexist, but do not prove
+  boundary-transition suppression alone caused the gain. The gridward
+  method itself has prior art in WinQ-style quantized training.
 - **Short training.** 1,200 steps of single 128-token chunks (~150k tokens). In
   the one longer run (v5: 6,000 steps, old constant-LR schedule, one order) the
   gap **shrank** from ~0.7 to 0.20 nats (ppl 70 vs 85). Whether it persists
@@ -469,6 +561,11 @@ Interpretation:
 
 ## 7. Possible next steps
 
+- **Replicate G1-9 before tuning:** Reuse the fixed constant-`1e-4`,
+  nine 10%-pull settings on at least one historically positive Granite order
+  and then a different model family/order; report all arms and retain the
+  exact historical baselines. P alone is nearly as good as GP and much
+  simpler. Do not tune Gaussian σ or λ on the 271828 held-out test.
 - **Generalization and schedule sensitivity:** Granite confirmation is
   mixed (2/3 positive at constant 1e-4). Copying Smol's higher-peak LR made
   both tested orders substantially worse and drove ~30–33% disagreement
