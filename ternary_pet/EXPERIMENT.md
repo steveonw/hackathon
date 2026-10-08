@@ -3435,3 +3435,17 @@ Read the final JSON before interpreting any scientific claim.
   *no other changes*.
 - One job to run on `a10g-small`, 90-minute cap, detached;
   arm order D/G/P/GP, 300+900, same tests.
+
+
+#### G1-10 launch record
+
+Hugging Face accepted **one** detached A10G-small job on
+2026-10-08T23:51:47.315Z (90-minute cap):
+- HF job: `6ac82c93fee2c900701711db`
+- URL: `https://huggingface.co/jobs/codeflash85/6ac82c93fee2c900701711db`
+- Status at submission: **SCHEDULING**, not yet a scientific outcome.
+- Immutable code SHA: `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`
+- This is the exact G1-9 factorial script except the training-order seed
+  `271828` → `424242`. No duplicates were listed before launch.
+- Archive complete JSON, validate all four arm checkpoints, and
+  compare paired D/P/GP/G after job reaches terminal state.
