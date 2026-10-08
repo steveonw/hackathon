@@ -24,8 +24,9 @@ optimization. Exact Q9 continuous values are unnecessary, and generic
 prototype snapping does not help direct Q3.
 
 The mechanism phase on SmolLM2-360M / WikiText-2 has reached its stop condition.
-The next phase is **cross-model generalization**, followed by scale-up only if
-the cheaper second-family test justifies it.
+**Cross-model generalization is now active on Granite-4.0-350M.** Its BF16
+engineering gate passed after FP16 was found numerically invalid, and the
+direct-only G1-1 schedule calibration is the current live step.
 
 ## Evidence hierarchy
 
