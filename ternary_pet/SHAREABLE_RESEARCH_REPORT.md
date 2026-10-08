@@ -1091,3 +1091,64 @@ Granite treatments. No retuning is allowed after observing Q9.
 
 G1-2, the first scientific Granite D-vs-S gate, was launched as
 `6ac6f487df2184ac91ac693e`.
+
+
+---
+
+## 32. G1-2/G1-3 — first Granite staging and mechanism result
+
+Granite-4.0-350M produced the first scientific cross-family positive result on
+training order 1729.
+
+G1-2 first compared direct Q3 with Q9→Q3 under the direct-selected constant
+1e-4 schedule.
+
+| Metric | Direct | Q9→Q3 |
+|---|---:|---:|
+| held-out loss | 5.66581 | **5.53495** |
+| PPL | 288.82 | **253.40** |
+| teacher top-1 | 27.53% | **28.04%** |
+| KL | 2.49025 | **2.38307** |
+
+The staged gain is 0.13086 nats/token with 12.27% lower PPL.
+
+Crucially, at equal 300-step compute the Q9-prepared state is a *much worse*
+immediate ternary model: fixed-Q3 loss 7.74247 versus 5.81745 for direct.
+Thus Granite reproduces the Smol trainability-not-entry-quality signature.
+
+The step-300 projected D-vs-S disagreement mask contains **6.0246%** of
+targeted weights.
+
+G1-3 then tested that mask causally with five common-continuation arms. All
+equal-forward and matched-random construction assertions passed.
+
+| Arm | Loss | Interpretation |
+|---|---:|---|
+| D | 5.66205 | direct-prepared baseline |
+| S | 5.53495 | full Q9 preparation |
+| M-exact | 5.56525 | exact Q9 masters only on true disagreement mask |
+| M-d50 | **5.51134** | Q9-selected codes on true mask at d=0.5 |
+| Random-d50 | 5.73514 | same transition structure at matched other positions |
+
+M-exact recovers **76.2%** of the full S gain. This is less complete than the
+~96.4% localization on SmolLM2.
+
+However, true-mask d=0.5 placement recovers **118.6%** of the full S gain and
+beats the full staged endpoint. The matched-random intervention is harmful,
+worse than D by 0.07308 nats.
+
+Therefore the deeper causal story generalizes qualitatively: Q9 finds useful
+specific position/code commitments, and moderate interior placement of those
+commitments is sufficient; exact Q9 continuous values are not required, while
+making equivalent transitions elsewhere does not help.
+
+Q9-code survival for M-d50 is 99.68% at continuation step 100, 97.98% at step
+300, and 90.70% at step 900. Fixed-original-scale and learned-scale survival
+are almost identical.
+
+This remains **one Granite training order**. No confirmatory Granite order was
+launched automatically.
+
+Jobs:
+- G1-2: `6ac6f487df2184ac91ac693e`
+- G1-3: `6ac6fe5fdf2184ac91ac6c1f`
