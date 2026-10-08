@@ -2489,3 +2489,74 @@ Jobs:
 
 These are exact frozen-protocol confirmations of G1-3 with only the seed/order
 changed. No additional jobs are authorized by this launch record.
+
+
+### G1-4 / G1-5 outcome — mixed staging replication
+
+Both frozen-protocol confirmations completed successfully and all construction
+assertions passed.
+
+Jobs:
+- seed/order 271828: `6ac70af0df2184ac91ac6ffc`
+- seed/order 424242: `6ac70af2df2184ac91ac7000`
+
+Final held-out losses:
+
+| Seed | D | S | M-exact | M-d50 | Random-d50 |
+|---:|---:|---:|---:|---:|---:|
+| 1729 | 5.66205 | **5.53495** | 5.56525 | **5.51134** | 5.73514 |
+| 271828 | **5.72673** | 5.84103 | 5.80453 | 5.78502 | 5.79268 |
+| 424242 | 5.80192 | **5.74057** | 5.74471 | **5.71016** | 5.81984 |
+
+Full-S staging gain vs D:
+- 1729: **+0.12710**
+- 271828: **−0.11431**
+- 424242: **+0.06135**
+
+Therefore full Q9→Q3 staging is positive on **2/3** Granite orders, not 3/3.
+Mean paired gain is only **+0.02471 nats/token**. Do not claim replicated
+Granite staging superiority.
+
+Step-300 fixed-Q3 entry remains worse for Q9 on **3/3** orders:
+- 1729: 7.74247 vs 5.81281
+- 271828: 6.51453 vs 5.64945
+- 424242: 7.57531 vs 5.68631
+
+The D-vs-S disagreement masks remain small:
+- 1729: 6.0246%
+- 271828: 6.9946%
+- 424242: 6.0296%
+- mean: **6.3496%**
+
+The structured d=0.5 intervention is more consistent than full S:
+- M-d50 beats full S on **3/3** orders;
+- M-d50 beats matched-random on **3/3** orders;
+- matched-random is harmful versus D on **3/3** orders;
+- but M-d50 itself beats D on only **2/3** orders.
+
+Mean M-d50 gain vs D: **+0.06139 nats/token**.
+Mean matched-random effect vs D: **−0.05232 nats/token**.
+
+On seed 271828, the true-M d=0.5 arm is still worse than D by 0.05829 nats
+and only 0.00766 nats better than matched-random. Therefore position specificity
+is weakly separated on this negative order and must not be overstated.
+
+Q9-selected-code survival at continuation step 900 is stable:
+90.70%, 89.59%, 90.57% across the three orders (mean **90.28%**), with
+learned-scale and fixed-alpha0 measurements nearly identical.
+
+### Granite G1 conclusion after three orders
+
+Safe conclusion:
+
+> Granite shows a stable ~6% disagreement geometry and a reproducible
+> worse-entry signature, but the final full-staging benefit is order-dependent
+> (2/3 positive). The true-mask d=0.5 intervention is more robust than carrying
+> the full Q9 state: it improves over full S on all three orders, while matched
+> random placement is harmful on all three.
+
+This is **mixed cross-family evidence**, not a clean replication of the Smol
+3/3 staging result.
+
+Canonical aggregate:
+`replications/g1_granite350m_mechanism_aggregate_summary.md`.
