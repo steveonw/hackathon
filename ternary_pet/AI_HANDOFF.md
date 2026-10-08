@@ -1815,3 +1815,12 @@ at HF MCP login**. Neither returned a job ID. G1-9 is **NOT RUNNING**,
 and no GPU run has been verified. No more automatic attempts in that turn.
 Check actual job submission outcome before claiming progress, and
 do not launch more seeds or tweak hyperparameters automatically.
+
+
+#### G1-9 accepted by HF, GPU job pending scientific completion
+
+Two earlier Hugging Face MCP 429 attempts returned no job IDs. On 2026-10-08 23:06:20 UTC, the subsequent authorized retry was accepted:
+- Job `6ac821ec095c5780892ff7f9` — https://huggingface.co/jobs/codeflash85/6ac821ec095c5780892ff7f9
+- initial stage SCHEDULING; A10G-small, 90-minute cap
+- pinned script `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`; no changes since preregistration
+- check status/logs and archive the full FINAL_JSON if completed. Check D/G/P/GP 1200-step, pull counts, sampled flip/reversal diagnostics, and baseline D reproducibility. Do not attribute infrastructure errors to experiments.
