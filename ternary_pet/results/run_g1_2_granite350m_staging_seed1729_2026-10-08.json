@@ -1,0 +1,3295 @@
+{
+  "kind": "g1_2_granite350m_staging_gate",
+  "model": "ibm-granite/granite-4.0-350m",
+  "seed": 1729,
+  "precision": "bf16",
+  "lr": 0.0001,
+  "source_test": {
+    "loss": 4.088764160871506,
+    "ppl": 59.66610840997695,
+    "top1_agreement": 0.97119140625,
+    "kl_to_teacher": 0.001657504066315596,
+    "tokens": 8192
+  },
+  "direct": {
+    "step300_native": {
+      "diag": {
+        "loss": 5.812806864579518,
+        "ppl": 334.5568648192047,
+        "top1_agreement": 0.22981770833333334,
+        "kl_to_teacher": 3.011625508467356,
+        "tokens": 3072
+      },
+      "hist": {
+        "fractions": {
+          "0": 0.3181454273832946,
+          "1": 0.34109172500482127,
+          "-1": 0.34076284761188413
+        },
+        "zero_fraction": 0.3181454273832946,
+        "total": 249561088
+      },
+      "learned_scale": {
+        "mean": 0.023447692394256592,
+        "std": 0.005722626578062773,
+        "min": 0.0021141653414815664,
+        "max": 0.5700321197509766
+      }
+    },
+    "step300_fixed_q3": {
+      "diag": {
+        "loss": 5.817448278268178,
+        "ppl": 336.11329084560714,
+        "top1_agreement": 0.2294921875,
+        "kl_to_teacher": 3.0181511640548706,
+        "tokens": 3072
+      },
+      "hist": {
+        "fractions": {
+          "0": 0.31799945911439526,
+          "1": 0.34116436453426585,
+          "-1": 0.3408361763513389
+        },
+        "zero_fraction": 0.31799945911439526,
+        "total": 249561088
+      }
+    },
+    "final": {
+      "loss": 5.665806874632835,
+      "ppl": 288.8209294053135,
+      "top1_agreement": 0.2752685546875,
+      "kl_to_teacher": 2.4902521520853043,
+      "tokens": 8192,
+      "gen": [
+        ", the project, the project, the project, the project, the project. the project. 2000s , which were the most important important important important important important important important important important important important importance in the project. the project.",
+        ", the 2000s , the 2000s , and the 2000s , and the 2000s . The project was the first time that the project was the project was the project . \n",
+        ", the project, the project was the most important important important important in the project. the project. the project. the project was the most important important important important important important important important importance in the project. the project. the project. ",
+        ", the 1980s , the most important important in the film film film film film film film film film film films . The film was a film film film film film film film film film film film film film film film film film film film"
+      ],
+      "final_hist": {
+        "fractions": {
+          "0": 0.31363301317230996,
+          "1": 0.34334999372979175,
+          "-1": 0.34301699309789835
+        },
+        "zero_fraction": 0.31363301317230996,
+        "total": 249561088
+      },
+      "scale": {
+        "mean": 0.023489810526371002,
+        "std": 0.00573093444108963,
+        "min": 0.0021107220090925694,
+        "max": 0.5692679286003113
+      },
+      "trace": [
+        {
+          "step": 1,
+          "loss": 17.04476547241211,
+          "ce": 19.7021484375,
+          "kl": 15.613866806030273,
+          "grad_norm_preclip": 833.4755249023438
+        },
+        {
+          "step": 100,
+          "loss": 4.237744331359863,
+          "ce": 6.481437683105469,
+          "kl": 3.029601573944092,
+          "grad_norm_preclip": 7.677499771118164
+        },
+        {
+          "step": 200,
+          "loss": 3.663644313812256,
+          "ce": 5.6457061767578125,
+          "kl": 2.5963804721832275,
+          "grad_norm_preclip": 7.44360876083374
+        },
+        {
+          "step": 300,
+          "loss": 3.7751975059509277,
+          "ce": 5.547528266906738,
+          "kl": 2.8208656311035156,
+          "grad_norm_preclip": 7.341274261474609
+        },
+        {
+          "step": 400,
+          "loss": 3.8534274101257324,
+          "ce": 5.141033172607422,
+          "kl": 3.1601016521453857,
+          "grad_norm_preclip": 8.579330444335938
+        },
+        {
+          "step": 500,
+          "loss": 3.922389268875122,
+          "ce": 6.027980804443359,
+          "kl": 2.788609504699707,
+          "grad_norm_preclip": 9.786924362182617
+        },
+        {
+          "step": 600,
+          "loss": 3.630791187286377,
+          "ce": 5.231822967529297,
+          "kl": 2.7686972618103027,
+          "grad_norm_preclip": 6.592555046081543
+        },
+        {
+          "step": 700,
+          "loss": 3.574843406677246,
+          "ce": 5.42997932434082,
+          "kl": 2.5759243965148926,
+          "grad_norm_preclip": 7.04755973815918
+        },
+        {
+          "step": 800,
+          "loss": 3.622211456298828,
+          "ce": 5.848244667053223,
+          "kl": 2.4235787391662598,
+          "grad_norm_preclip": 6.3895583152771
+        },
+        {
+          "step": 900,
+          "loss": 2.980414867401123,
+          "ce": 4.880714416503906,
+          "kl": 1.957176685333252,
+          "grad_norm_preclip": 6.788974285125732
+        },
+        {
+          "step": 1000,
+          "loss": 3.1189961433410645,
+          "ce": 5.075465202331543,
+          "kl": 2.0655126571655273,
+          "grad_norm_preclip": 5.071114540100098
+        },
+        {
+          "step": 1100,
+          "loss": 3.365452766418457,
+          "ce": 4.752010345458984,
+          "kl": 2.618844985961914,
+          "grad_norm_preclip": 7.62907075881958
+        },
+        {
+          "step": 1200,
+          "loss": 3.2352280616760254,
+          "ce": 5.327229022979736,
+          "kl": 2.1087660789489746,
+          "grad_norm_preclip": 6.038907527923584
+        }
+      ],
+      "seconds": 340.2094030380249,
+      "final_codes_vs_initial": {
+        "fraction": 0.10290597066158007,
+        "changed": 25681326,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.22354507446289062,
+            "changed": 58601,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.18242454528808594,
+            "changed": 191286,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.17879867553710938,
+            "changed": 46871,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.17192459106445312,
+            "changed": 45069,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.16503143310546875,
+            "changed": 43262,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.16214466094970703,
+            "changed": 170021,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.15932941436767578,
+            "changed": 167069,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.15036392211914062,
+            "changed": 157668,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.14867019653320312,
+            "changed": 38973,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.14817428588867188,
+            "changed": 38843,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.14614391326904297,
+            "changed": 153243,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.14282989501953125,
+            "changed": 149768,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.1413745880126953,
+            "changed": 148242,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.1392059326171875,
+            "changed": 36492,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.13554763793945312,
+            "changed": 35533,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.13547992706298828,
+            "changed": 142061,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.13532447814941406,
+            "changed": 141898,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.13077354431152344,
+            "changed": 137126,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.k_proj",
+            "fraction": 0.13071823120117188,
+            "changed": 34267,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.12934017181396484,
+            "changed": 135623,
+            "total": 1048576
+          }
+        ]
+      }
+    }
+  },
+  "staged": {
+    "step300_native_q9": {
+      "diag": {
+        "loss": 5.652398844559987,
+        "ppl": 284.9742554858729,
+        "top1_agreement": 0.2470703125,
+        "kl_to_teacher": 2.796009669701258,
+        "tokens": 3072
+      },
+      "hist": {
+        "fractions": {
+          "0": 0.12295876430864093,
+          "1": 0.11604881286621094,
+          "2": 0.09908487015411634,
+          "3": 0.07673044765696806,
+          "4": 0.14682526949073085,
+          "-4": 0.14668500323255523,
+          "-3": 0.07666686402649439,
+          "-2": 0.09900638436069008,
+          "-1": 0.11599358390359317
+        },
+        "zero_fraction": 0.12295876430864093,
+        "total": 249561088
+      },
+      "learned_scale": {
+        "mean": 0.023443888872861862,
+        "std": 0.005721766036003828,
+        "min": 0.0021196643356233835,
+        "max": 0.5687228441238403
+      },
+      "trace": [
+        {
+          "step": 1,
+          "loss": 22.37689971923828,
+          "ce": 24.3603515625,
+          "kl": 21.308887481689453,
+          "grad_norm_preclip": 4428.0322265625
+        },
+        {
+          "step": 100,
+          "loss": 4.132254600524902,
+          "ce": 6.3712310791015625,
+          "kl": 2.926651954650879,
+          "grad_norm_preclip": 6.30145788192749
+        },
+        {
+          "step": 200,
+          "loss": 3.3361635208129883,
+          "ce": 5.258808135986328,
+          "kl": 2.3008933067321777,
+          "grad_norm_preclip": 8.296976089477539
+        },
+        {
+          "step": 300,
+          "loss": 3.5257182121276855,
+          "ce": 5.30164098739624,
+          "kl": 2.5694522857666016,
+          "grad_norm_preclip": 7.09224796295166
+        }
+      ]
+    },
+    "step300_fixed_q3": {
+      "diag": {
+        "loss": 7.7424671451250715,
+        "ppl": 2304.1500489903938,
+        "top1_agreement": 0.08235677083333333,
+        "kl_to_teacher": 4.906485478083293,
+        "tokens": 3072
+      },
+      "hist": {
+        "fractions": {
+          "0": 0.3181097487441632,
+          "1": 0.34108718503423097,
+          "-1": 0.34080306622160583
+        },
+        "zero_fraction": 0.3181097487441632,
+        "total": 249561088
+      }
+    },
+    "transition": {
+      "restore_original_q3_scales": true,
+      "fresh_adam": true,
+      "lr": 0.0001
+    },
+    "final": {
+      "loss": 5.534950591623783,
+      "ppl": 253.39526747908408,
+      "top1_agreement": 0.2803955078125,
+      "kl_to_teacher": 2.3830744475126266,
+      "tokens": 8192,
+      "gen": [
+        ", the 2000s, 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , ",
+        ", 2008 \n",
+        ", the 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , ",
+        ", the 2000s, 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , 2000s , "
+      ],
+      "final_hist": {
+        "fractions": {
+          "0": 0.31349438579142597,
+          "1": 0.3434081518349527,
+          "-1": 0.3430974623736213
+        },
+        "zero_fraction": 0.31349438579142597,
+        "total": 249561088
+      },
+      "scale": {
+        "mean": 0.02348586544394493,
+        "std": 0.0057282340712845325,
+        "min": 0.002125276019796729,
+        "max": 0.5685657262802124
+      },
+      "trace": [
+        {
+          "global_step": 301,
+          "stage_step": 1,
+          "loss": 5.960107803344727,
+          "ce": 7.737741470336914,
+          "kl": 5.002920627593994,
+          "grad_norm_preclip": 48.013694763183594
+        },
+        {
+          "global_step": 400,
+          "stage_step": 100,
+          "loss": 3.6298532485961914,
+          "ce": 4.885250091552734,
+          "kl": 2.9538705348968506,
+          "grad_norm_preclip": 8.540553092956543
+        },
+        {
+          "global_step": 500,
+          "stage_step": 200,
+          "loss": 3.842895030975342,
+          "ce": 6.006814956665039,
+          "kl": 2.6777076721191406,
+          "grad_norm_preclip": 10.333244323730469
+        },
+        {
+          "global_step": 600,
+          "stage_step": 300,
+          "loss": 3.530625820159912,
+          "ce": 5.132740020751953,
+          "kl": 2.6679491996765137,
+          "grad_norm_preclip": 6.652547359466553
+        },
+        {
+          "global_step": 700,
+          "stage_step": 400,
+          "loss": 3.6030964851379395,
+          "ce": 5.448393821716309,
+          "kl": 2.6094751358032227,
+          "grad_norm_preclip": 7.633962631225586
+        },
+        {
+          "global_step": 800,
+          "stage_step": 500,
+          "loss": 3.6102583408355713,
+          "ce": 5.796658039093018,
+          "kl": 2.4329662322998047,
+          "grad_norm_preclip": 6.600525856018066
+        },
+        {
+          "global_step": 900,
+          "stage_step": 600,
+          "loss": 2.8023128509521484,
+          "ce": 4.688739776611328,
+          "kl": 1.7865443229675293,
+          "grad_norm_preclip": 5.756514072418213
+        },
+        {
+          "global_step": 1000,
+          "stage_step": 700,
+          "loss": 3.0025010108947754,
+          "ce": 5.003935813903809,
+          "kl": 1.9248056411743164,
+          "grad_norm_preclip": 5.0128560066223145
+        },
+        {
+          "global_step": 1100,
+          "stage_step": 800,
+          "loss": 3.2167513370513916,
+          "ce": 4.627054214477539,
+          "kl": 2.45735764503479,
+          "grad_norm_preclip": 7.0809831619262695
+        },
+        {
+          "global_step": 1200,
+          "stage_step": 900,
+          "loss": 3.0932059288024902,
+          "ce": 5.209098815917969,
+          "kl": 1.9538789987564087,
+          "grad_norm_preclip": 5.474429130554199
+        }
+      ],
+      "seconds": 256.68137669563293,
+      "start_codes_vs_initial": {
+        "fraction": 0.05272303509111164,
+        "changed": 13157618,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.12900161743164062,
+            "changed": 33817,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.09701156616210938,
+            "changed": 25431,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.09219741821289062,
+            "changed": 24169,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.08997249603271484,
+            "changed": 94343,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.08387088775634766,
+            "changed": 87945,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.08295059204101562,
+            "changed": 21745,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.07680130004882812,
+            "changed": 20133,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.07553577423095703,
+            "changed": 79205,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.07336044311523438,
+            "changed": 19231,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.07245063781738281,
+            "changed": 75970,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.07171630859375,
+            "changed": 18800,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.06990528106689453,
+            "changed": 73301,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.06923484802246094,
+            "changed": 72598,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.k_proj",
+            "fraction": 0.06830978393554688,
+            "changed": 17907,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.06760978698730469,
+            "changed": 70894,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.0659332275390625,
+            "changed": 69136,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.06592655181884766,
+            "changed": 69129,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.06524658203125,
+            "changed": 17104,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.06418228149414062,
+            "changed": 67300,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.06212425231933594,
+            "changed": 65142,
+            "total": 1048576
+          }
+        ]
+      },
+      "final_codes_vs_initial": {
+        "fraction": 0.10404911762526055,
+        "changed": 25966611,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.21055221557617188,
+            "changed": 55195,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.17056655883789062,
+            "changed": 44713,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.1705341339111328,
+            "changed": 178818,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.15769195556640625,
+            "changed": 41338,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.15613174438476562,
+            "changed": 163716,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.15265655517578125,
+            "changed": 40018,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.14627838134765625,
+            "changed": 38346,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.1454458236694336,
+            "changed": 152511,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.1400308609008789,
+            "changed": 146833,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.13870716094970703,
+            "changed": 145445,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.13806915283203125,
+            "changed": 36194,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.13796615600585938,
+            "changed": 36167,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.1376953125,
+            "changed": 144384,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.13576507568359375,
+            "changed": 142360,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.13572025299072266,
+            "changed": 142313,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.13087844848632812,
+            "changed": 34309,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.1287698745727539,
+            "changed": 135025,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.12775135040283203,
+            "changed": 133957,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.12671852111816406,
+            "changed": 132874,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.k_proj",
+            "fraction": 0.12633132934570312,
+            "changed": 33117,
+            "total": 262144
+          }
+        ]
+      }
+    }
+  },
+  "step300_geometry": {
+    "d_vs_s_hamming": {
+      "fraction": 0.06024596270392923,
+      "changed": 15035048,
+      "total": 249561088,
+      "top_layers": [
+        {
+          "name": "model.layers.26.self_attn.k_proj",
+          "fraction": 0.13557052612304688,
+          "changed": 35539,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.25.self_attn.k_proj",
+          "fraction": 0.10053253173828125,
+          "changed": 26354,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.26.self_attn.q_proj",
+          "fraction": 0.0992727279663086,
+          "changed": 104095,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.23.self_attn.k_proj",
+          "fraction": 0.098602294921875,
+          "changed": 25848,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.24.self_attn.k_proj",
+          "fraction": 0.095947265625,
+          "changed": 25152,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.22.self_attn.k_proj",
+          "fraction": 0.08936309814453125,
+          "changed": 23426,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.25.self_attn.q_proj",
+          "fraction": 0.08918285369873047,
+          "changed": 93515,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.27.self_attn.k_proj",
+          "fraction": 0.08809280395507812,
+          "changed": 23093,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.24.self_attn.q_proj",
+          "fraction": 0.08641624450683594,
+          "changed": 90614,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.10.self_attn.q_proj",
+          "fraction": 0.08545684814453125,
+          "changed": 89608,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.23.self_attn.q_proj",
+          "fraction": 0.0834188461303711,
+          "changed": 87471,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.22.self_attn.q_proj",
+          "fraction": 0.08249855041503906,
+          "changed": 86506,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.21.self_attn.k_proj",
+          "fraction": 0.08245849609375,
+          "changed": 21616,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.21.self_attn.q_proj",
+          "fraction": 0.08193111419677734,
+          "changed": 85911,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.20.self_attn.q_proj",
+          "fraction": 0.08155536651611328,
+          "changed": 85517,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.16.self_attn.q_proj",
+          "fraction": 0.08093452453613281,
+          "changed": 84866,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.16.self_attn.k_proj",
+          "fraction": 0.08084869384765625,
+          "changed": 21194,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.20.self_attn.k_proj",
+          "fraction": 0.08063125610351562,
+          "changed": 21137,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.27.self_attn.q_proj",
+          "fraction": 0.07983684539794922,
+          "changed": 83715,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.9.self_attn.q_proj",
+          "fraction": 0.0785369873046875,
+          "changed": 82352,
+          "total": 1048576
+        }
+      ]
+    },
+    "d_vs_initial": {
+      "fraction": 0.05324208636243804,
+      "changed": 13287153,
+      "total": 249561088,
+      "top_layers": [
+        {
+          "name": "model.layers.26.self_attn.k_proj",
+          "fraction": 0.14798355102539062,
+          "changed": 38793,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.26.self_attn.q_proj",
+          "fraction": 0.10574054718017578,
+          "changed": 110877,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.25.self_attn.k_proj",
+          "fraction": 0.10521697998046875,
+          "changed": 27582,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.23.self_attn.k_proj",
+          "fraction": 0.10465240478515625,
+          "changed": 27434,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.24.self_attn.k_proj",
+          "fraction": 0.09832382202148438,
+          "changed": 25775,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.24.self_attn.q_proj",
+          "fraction": 0.0916147232055664,
+          "changed": 96065,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.25.self_attn.q_proj",
+          "fraction": 0.08837604522705078,
+          "changed": 92669,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.23.self_attn.q_proj",
+          "fraction": 0.08435344696044922,
+          "changed": 88451,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.27.self_attn.k_proj",
+          "fraction": 0.0842132568359375,
+          "changed": 22076,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.21.self_attn.k_proj",
+          "fraction": 0.08073806762695312,
+          "changed": 21165,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.27.self_attn.q_proj",
+          "fraction": 0.07780075073242188,
+          "changed": 81580,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.21.self_attn.q_proj",
+          "fraction": 0.07643318176269531,
+          "changed": 80146,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.20.self_attn.k_proj",
+          "fraction": 0.07448196411132812,
+          "changed": 19525,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.22.self_attn.k_proj",
+          "fraction": 0.07402420043945312,
+          "changed": 19405,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.20.self_attn.q_proj",
+          "fraction": 0.07349681854248047,
+          "changed": 77067,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.16.self_attn.q_proj",
+          "fraction": 0.07265377044677734,
+          "changed": 76183,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.16.self_attn.k_proj",
+          "fraction": 0.07189559936523438,
+          "changed": 18847,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.10.self_attn.q_proj",
+          "fraction": 0.06927967071533203,
+          "changed": 72645,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.22.self_attn.q_proj",
+          "fraction": 0.06789970397949219,
+          "changed": 71198,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.19.self_attn.q_proj",
+          "fraction": 0.0661773681640625,
+          "changed": 69392,
+          "total": 1048576
+        }
+      ]
+    },
+    "s_vs_initial": {
+      "fraction": 0.05272303509111164,
+      "changed": 13157618,
+      "total": 249561088,
+      "top_layers": [
+        {
+          "name": "model.layers.26.self_attn.k_proj",
+          "fraction": 0.12900161743164062,
+          "changed": 33817,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.25.self_attn.k_proj",
+          "fraction": 0.09701156616210938,
+          "changed": 25431,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.23.self_attn.k_proj",
+          "fraction": 0.09219741821289062,
+          "changed": 24169,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.26.self_attn.q_proj",
+          "fraction": 0.08997249603271484,
+          "changed": 94343,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.25.self_attn.q_proj",
+          "fraction": 0.08387088775634766,
+          "changed": 87945,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.24.self_attn.k_proj",
+          "fraction": 0.08295059204101562,
+          "changed": 21745,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.22.self_attn.k_proj",
+          "fraction": 0.07680130004882812,
+          "changed": 20133,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.24.self_attn.q_proj",
+          "fraction": 0.07553577423095703,
+          "changed": 79205,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.20.self_attn.k_proj",
+          "fraction": 0.07336044311523438,
+          "changed": 19231,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.23.self_attn.q_proj",
+          "fraction": 0.07245063781738281,
+          "changed": 75970,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.21.self_attn.k_proj",
+          "fraction": 0.07171630859375,
+          "changed": 18800,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.22.self_attn.q_proj",
+          "fraction": 0.06990528106689453,
+          "changed": 73301,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.20.self_attn.q_proj",
+          "fraction": 0.06923484802246094,
+          "changed": 72598,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.16.self_attn.k_proj",
+          "fraction": 0.06830978393554688,
+          "changed": 17907,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.21.self_attn.q_proj",
+          "fraction": 0.06760978698730469,
+          "changed": 70894,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.10.self_attn.q_proj",
+          "fraction": 0.0659332275390625,
+          "changed": 69136,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.16.self_attn.q_proj",
+          "fraction": 0.06592655181884766,
+          "changed": 69129,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.27.self_attn.k_proj",
+          "fraction": 0.06524658203125,
+          "changed": 17104,
+          "total": 262144
+        },
+        {
+          "name": "model.layers.27.self_attn.q_proj",
+          "fraction": 0.06418228149414062,
+          "changed": 67300,
+          "total": 1048576
+        },
+        {
+          "name": "model.layers.19.self_attn.q_proj",
+          "fraction": 0.06212425231933594,
+          "changed": 65142,
+          "total": 1048576
+        }
+      ]
+    },
+    "changed_overlap": {
+      "d_changed_fraction": 0.05324208636243804,
+      "s_changed_fraction": 0.05272303509111164,
+      "intersection_fraction": 0.022874824139250426,
+      "union_fraction": 0.08309029731429926,
+      "jaccard": 0.27530078575508754,
+      "same_final_code_among_both_changed": 0.9986671141734339
+    },
+    "disagreement_transitions": {
+      "fraction": 0.06024596270392923,
+      "count": 15035048,
+      "total": 249561088,
+      "global_transition_counts": {
+        "-1->0": 3760239,
+        "-1->1": 3141,
+        "0->-1": 3752016,
+        "0->1": 3748625,
+        "1->-1": 3101,
+        "1->0": 3767926
+      },
+      "layers": [
+        {
+          "name": "model.layers.26.self_attn.k_proj",
+          "disagreement_fraction": 0.13557052612304688,
+          "disagreement_count": 35539,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 9143,
+            "-1->1": 253,
+            "0->-1": 8446,
+            "0->1": 8382,
+            "1->-1": 249,
+            "1->0": 9066
+          }
+        },
+        {
+          "name": "model.layers.25.self_attn.k_proj",
+          "disagreement_fraction": 0.10053253173828125,
+          "disagreement_count": 26354,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 6590,
+            "-1->1": 67,
+            "0->-1": 6468,
+            "0->1": 6497,
+            "1->-1": 40,
+            "1->0": 6692
+          }
+        },
+        {
+          "name": "model.layers.26.self_attn.q_proj",
+          "disagreement_fraction": 0.0992727279663086,
+          "disagreement_count": 104095,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 26746,
+            "-1->1": 257,
+            "0->-1": 25224,
+            "0->1": 25175,
+            "1->-1": 275,
+            "1->0": 26418
+          }
+        },
+        {
+          "name": "model.layers.23.self_attn.k_proj",
+          "disagreement_fraction": 0.098602294921875,
+          "disagreement_count": 25848,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 6511,
+            "-1->1": 103,
+            "0->-1": 6356,
+            "0->1": 6322,
+            "1->-1": 109,
+            "1->0": 6447
+          }
+        },
+        {
+          "name": "model.layers.24.self_attn.k_proj",
+          "disagreement_fraction": 0.095947265625,
+          "disagreement_count": 25152,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 6265,
+            "0->-1": 6115,
+            "0->1": 6238,
+            "1->-1": 2,
+            "1->0": 6532
+          }
+        },
+        {
+          "name": "model.layers.22.self_attn.k_proj",
+          "disagreement_fraction": 0.08936309814453125,
+          "disagreement_count": 23426,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 5741,
+            "-1->1": 15,
+            "0->-1": 6010,
+            "0->1": 5902,
+            "1->-1": 18,
+            "1->0": 5740
+          }
+        },
+        {
+          "name": "model.layers.25.self_attn.q_proj",
+          "disagreement_fraction": 0.08918285369873047,
+          "disagreement_count": 93515,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 23426,
+            "-1->1": 163,
+            "0->-1": 23252,
+            "0->1": 23451,
+            "1->-1": 183,
+            "1->0": 23040
+          }
+        },
+        {
+          "name": "model.layers.27.self_attn.k_proj",
+          "disagreement_fraction": 0.08809280395507812,
+          "disagreement_count": 23093,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 5925,
+            "0->-1": 5690,
+            "0->1": 5603,
+            "1->0": 5875
+          }
+        },
+        {
+          "name": "model.layers.24.self_attn.q_proj",
+          "disagreement_fraction": 0.08641624450683594,
+          "disagreement_count": 90614,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 22825,
+            "-1->1": 92,
+            "0->-1": 22170,
+            "0->1": 22120,
+            "1->-1": 74,
+            "1->0": 23333
+          }
+        },
+        {
+          "name": "model.layers.10.self_attn.q_proj",
+          "disagreement_fraction": 0.08545684814453125,
+          "disagreement_count": 89608,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 22310,
+            "-1->1": 247,
+            "0->-1": 22188,
+            "0->1": 22216,
+            "1->-1": 248,
+            "1->0": 22399
+          }
+        },
+        {
+          "name": "model.layers.23.self_attn.q_proj",
+          "disagreement_fraction": 0.0834188461303711,
+          "disagreement_count": 87471,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 22240,
+            "-1->1": 66,
+            "0->-1": 21506,
+            "0->1": 21391,
+            "1->-1": 59,
+            "1->0": 22209
+          }
+        },
+        {
+          "name": "model.layers.22.self_attn.q_proj",
+          "disagreement_fraction": 0.08249855041503906,
+          "disagreement_count": 86506,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 21573,
+            "-1->1": 111,
+            "0->-1": 21607,
+            "0->1": 21700,
+            "1->-1": 125,
+            "1->0": 21390
+          }
+        },
+        {
+          "name": "model.layers.21.self_attn.k_proj",
+          "disagreement_fraction": 0.08245849609375,
+          "disagreement_count": 21616,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 5358,
+            "-1->1": 1,
+            "0->-1": 5395,
+            "0->1": 5368,
+            "1->-1": 1,
+            "1->0": 5493
+          }
+        },
+        {
+          "name": "model.layers.21.self_attn.q_proj",
+          "disagreement_fraction": 0.08193111419677734,
+          "disagreement_count": 85911,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 22062,
+            "-1->1": 118,
+            "0->-1": 21008,
+            "0->1": 21054,
+            "1->-1": 105,
+            "1->0": 21564
+          }
+        },
+        {
+          "name": "model.layers.20.self_attn.q_proj",
+          "disagreement_fraction": 0.08155536651611328,
+          "disagreement_count": 85517,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 21618,
+            "-1->1": 119,
+            "0->-1": 20925,
+            "0->1": 21325,
+            "1->-1": 105,
+            "1->0": 21425
+          }
+        },
+        {
+          "name": "model.layers.16.self_attn.q_proj",
+          "disagreement_fraction": 0.08093452453613281,
+          "disagreement_count": 84866,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 21352,
+            "-1->1": 7,
+            "0->-1": 20883,
+            "0->1": 21056,
+            "1->-1": 4,
+            "1->0": 21564
+          }
+        },
+        {
+          "name": "model.layers.16.self_attn.k_proj",
+          "disagreement_fraction": 0.08084869384765625,
+          "disagreement_count": 21194,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 5468,
+            "0->-1": 5238,
+            "0->1": 5260,
+            "1->0": 5228
+          }
+        },
+        {
+          "name": "model.layers.20.self_attn.k_proj",
+          "disagreement_fraction": 0.08063125610351562,
+          "disagreement_count": 21137,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 5456,
+            "-1->1": 10,
+            "0->-1": 5239,
+            "0->1": 5166,
+            "1->-1": 8,
+            "1->0": 5258
+          }
+        },
+        {
+          "name": "model.layers.27.self_attn.q_proj",
+          "disagreement_fraction": 0.07983684539794922,
+          "disagreement_count": 83715,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 21324,
+            "-1->1": 21,
+            "0->-1": 20611,
+            "0->1": 20522,
+            "1->-1": 11,
+            "1->0": 21226
+          }
+        },
+        {
+          "name": "model.layers.9.self_attn.q_proj",
+          "disagreement_fraction": 0.0785369873046875,
+          "disagreement_count": 82352,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 20304,
+            "-1->1": 615,
+            "0->-1": 20236,
+            "0->1": 20252,
+            "1->-1": 588,
+            "1->0": 20357
+          }
+        },
+        {
+          "name": "model.layers.19.self_attn.q_proj",
+          "disagreement_fraction": 0.075897216796875,
+          "disagreement_count": 79584,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 19865,
+            "-1->1": 196,
+            "0->-1": 19602,
+            "0->1": 19724,
+            "1->-1": 210,
+            "1->0": 19987
+          }
+        },
+        {
+          "name": "model.layers.5.self_attn.q_proj",
+          "disagreement_fraction": 0.07553958892822266,
+          "disagreement_count": 79209,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 20124,
+            "-1->1": 200,
+            "0->-1": 19572,
+            "0->1": 19265,
+            "1->-1": 210,
+            "1->0": 19838
+          }
+        },
+        {
+          "name": "model.layers.13.self_attn.q_proj",
+          "disagreement_fraction": 0.07487869262695312,
+          "disagreement_count": 78516,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 19583,
+            "-1->1": 16,
+            "0->-1": 19627,
+            "0->1": 19675,
+            "1->-1": 14,
+            "1->0": 19601
+          }
+        },
+        {
+          "name": "model.layers.0.self_attn.o_proj",
+          "disagreement_fraction": 0.0748443603515625,
+          "disagreement_count": 78480,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 19565,
+            "0->-1": 19652,
+            "0->1": 19577,
+            "1->0": 19686
+          }
+        },
+        {
+          "name": "model.layers.13.self_attn.k_proj",
+          "disagreement_fraction": 0.073028564453125,
+          "disagreement_count": 19144,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4766,
+            "-1->1": 5,
+            "0->-1": 4827,
+            "0->1": 4816,
+            "1->-1": 1,
+            "1->0": 4729
+          }
+        },
+        {
+          "name": "model.layers.6.self_attn.q_proj",
+          "disagreement_fraction": 0.07273578643798828,
+          "disagreement_count": 76269,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 19224,
+            "-1->1": 18,
+            "0->-1": 18890,
+            "0->1": 19058,
+            "1->-1": 24,
+            "1->0": 19055
+          }
+        },
+        {
+          "name": "model.layers.15.self_attn.k_proj",
+          "disagreement_fraction": 0.07260513305664062,
+          "disagreement_count": 19033,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4776,
+            "0->-1": 4821,
+            "0->1": 4682,
+            "1->-1": 1,
+            "1->0": 4753
+          }
+        },
+        {
+          "name": "model.layers.15.self_attn.q_proj",
+          "disagreement_fraction": 0.07202339172363281,
+          "disagreement_count": 75522,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18832,
+            "-1->1": 49,
+            "0->-1": 18919,
+            "0->1": 18939,
+            "1->-1": 56,
+            "1->0": 18727
+          }
+        },
+        {
+          "name": "model.layers.7.self_attn.q_proj",
+          "disagreement_fraction": 0.07195186614990234,
+          "disagreement_count": 75447,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18902,
+            "-1->1": 21,
+            "0->-1": 18780,
+            "0->1": 18795,
+            "1->-1": 18,
+            "1->0": 18931
+          }
+        },
+        {
+          "name": "model.layers.0.self_attn.v_proj",
+          "disagreement_fraction": 0.07187652587890625,
+          "disagreement_count": 18842,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4722,
+            "0->-1": 4715,
+            "0->1": 4715,
+            "1->0": 4690
+          }
+        },
+        {
+          "name": "model.layers.14.self_attn.q_proj",
+          "disagreement_fraction": 0.07180404663085938,
+          "disagreement_count": 75292,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18688,
+            "-1->1": 14,
+            "0->-1": 18796,
+            "0->1": 18966,
+            "1->-1": 18,
+            "1->0": 18810
+          }
+        },
+        {
+          "name": "model.layers.17.self_attn.k_proj",
+          "disagreement_fraction": 0.07140731811523438,
+          "disagreement_count": 18719,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4670,
+            "0->-1": 4741,
+            "0->1": 4647,
+            "1->0": 4661
+          }
+        },
+        {
+          "name": "model.layers.2.self_attn.q_proj",
+          "disagreement_fraction": 0.07079505920410156,
+          "disagreement_count": 74234,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18547,
+            "-1->1": 6,
+            "0->-1": 18532,
+            "0->1": 18596,
+            "1->-1": 2,
+            "1->0": 18551
+          }
+        },
+        {
+          "name": "model.layers.1.self_attn.v_proj",
+          "disagreement_fraction": 0.0703582763671875,
+          "disagreement_count": 18444,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4750,
+            "0->-1": 4566,
+            "0->1": 4622,
+            "1->0": 4506
+          }
+        },
+        {
+          "name": "model.layers.11.self_attn.q_proj",
+          "disagreement_fraction": 0.06981086730957031,
+          "disagreement_count": 73202,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18280,
+            "-1->1": 39,
+            "0->-1": 18309,
+            "0->1": 18300,
+            "1->-1": 30,
+            "1->0": 18244
+          }
+        },
+        {
+          "name": "model.layers.5.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06853818893432617,
+          "disagreement_count": 287470,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 71985,
+            "0->-1": 71204,
+            "0->1": 70820,
+            "1->-1": 2,
+            "1->0": 73459
+          }
+        },
+        {
+          "name": "model.layers.18.self_attn.k_proj",
+          "disagreement_fraction": 0.06851959228515625,
+          "disagreement_count": 17962,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4450,
+            "-1->1": 18,
+            "0->-1": 4591,
+            "0->1": 4526,
+            "1->-1": 12,
+            "1->0": 4365
+          }
+        },
+        {
+          "name": "model.layers.1.self_attn.o_proj",
+          "disagreement_fraction": 0.06847000122070312,
+          "disagreement_count": 71796,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18059,
+            "0->-1": 17892,
+            "0->1": 17989,
+            "1->0": 17856
+          }
+        },
+        {
+          "name": "model.layers.4.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06838274002075195,
+          "disagreement_count": 286818,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 72363,
+            "0->-1": 70872,
+            "0->1": 70965,
+            "1->-1": 1,
+            "1->0": 72617
+          }
+        },
+        {
+          "name": "model.layers.6.self_attn.k_proj",
+          "disagreement_fraction": 0.06838226318359375,
+          "disagreement_count": 17926,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4575,
+            "0->-1": 4510,
+            "0->1": 4339,
+            "1->-1": 1,
+            "1->0": 4501
+          }
+        },
+        {
+          "name": "model.layers.1.self_attn.q_proj",
+          "disagreement_fraction": 0.06835079193115234,
+          "disagreement_count": 71671,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18013,
+            "-1->1": 181,
+            "0->-1": 17611,
+            "0->1": 17587,
+            "1->-1": 169,
+            "1->0": 18110
+          }
+        },
+        {
+          "name": "model.layers.3.self_attn.q_proj",
+          "disagreement_fraction": 0.06832504272460938,
+          "disagreement_count": 71644,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18195,
+            "0->-1": 17787,
+            "0->1": 17771,
+            "1->0": 17891
+          }
+        },
+        {
+          "name": "model.layers.4.self_attn.q_proj",
+          "disagreement_fraction": 0.06819534301757812,
+          "disagreement_count": 71508,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 17889,
+            "-1->1": 1,
+            "0->-1": 17865,
+            "0->1": 17800,
+            "1->-1": 2,
+            "1->0": 17951
+          }
+        },
+        {
+          "name": "model.layers.19.self_attn.k_proj",
+          "disagreement_fraction": 0.06808853149414062,
+          "disagreement_count": 17849,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4446,
+            "0->-1": 4456,
+            "0->1": 4433,
+            "1->0": 4514
+          }
+        },
+        {
+          "name": "model.layers.2.self_attn.o_proj",
+          "disagreement_fraction": 0.0680704116821289,
+          "disagreement_count": 71377,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 17686,
+            "0->-1": 17848,
+            "0->1": 17990,
+            "1->0": 17853
+          }
+        },
+        {
+          "name": "model.layers.14.self_attn.k_proj",
+          "disagreement_fraction": 0.0680694580078125,
+          "disagreement_count": 17844,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4551,
+            "0->-1": 4499,
+            "0->1": 4432,
+            "1->0": 4362
+          }
+        },
+        {
+          "name": "model.layers.3.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06803321838378906,
+          "disagreement_count": 285352,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 71929,
+            "0->-1": 70905,
+            "0->1": 70267,
+            "1->0": 72251
+          }
+        },
+        {
+          "name": "model.layers.13.shared_mlp.input_linear",
+          "disagreement_fraction": 0.0679478645324707,
+          "disagreement_count": 284994,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 71088,
+            "-1->1": 10,
+            "0->-1": 71735,
+            "0->1": 70962,
+            "1->-1": 15,
+            "1->0": 71184
+          }
+        },
+        {
+          "name": "model.layers.5.self_attn.k_proj",
+          "disagreement_fraction": 0.06789779663085938,
+          "disagreement_count": 17799,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4392,
+            "0->-1": 4387,
+            "0->1": 4504,
+            "1->0": 4516
+          }
+        },
+        {
+          "name": "model.layers.2.self_attn.v_proj",
+          "disagreement_fraction": 0.06768417358398438,
+          "disagreement_count": 17743,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4479,
+            "0->-1": 4369,
+            "0->1": 4557,
+            "1->0": 4338
+          }
+        },
+        {
+          "name": "model.layers.12.self_attn.q_proj",
+          "disagreement_fraction": 0.06768035888671875,
+          "disagreement_count": 70968,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 18030,
+            "-1->1": 4,
+            "0->-1": 17407,
+            "0->1": 17812,
+            "1->0": 17715
+          }
+        },
+        {
+          "name": "model.layers.17.self_attn.q_proj",
+          "disagreement_fraction": 0.06708145141601562,
+          "disagreement_count": 70340,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 17425,
+            "0->-1": 17550,
+            "0->1": 17717,
+            "1->0": 17648
+          }
+        },
+        {
+          "name": "model.layers.14.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06707334518432617,
+          "disagreement_count": 281326,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 70389,
+            "0->-1": 70158,
+            "0->1": 70050,
+            "1->0": 70729
+          }
+        },
+        {
+          "name": "model.layers.12.shared_mlp.input_linear",
+          "disagreement_fraction": 0.0666658878326416,
+          "disagreement_count": 279617,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 70086,
+            "0->-1": 69492,
+            "0->1": 69937,
+            "1->0": 70102
+          }
+        },
+        {
+          "name": "model.layers.7.self_attn.k_proj",
+          "disagreement_fraction": 0.06656646728515625,
+          "disagreement_count": 17450,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4365,
+            "0->-1": 4300,
+            "0->1": 4294,
+            "1->0": 4491
+          }
+        },
+        {
+          "name": "model.layers.6.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06627988815307617,
+          "disagreement_count": 277998,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 69681,
+            "0->-1": 69330,
+            "0->1": 68732,
+            "1->0": 70255
+          }
+        },
+        {
+          "name": "model.layers.2.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06616377830505371,
+          "disagreement_count": 277511,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 69763,
+            "0->-1": 68736,
+            "0->1": 68733,
+            "1->0": 70279
+          }
+        },
+        {
+          "name": "model.layers.18.self_attn.q_proj",
+          "disagreement_fraction": 0.06609153747558594,
+          "disagreement_count": 69302,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 17199,
+            "0->-1": 17515,
+            "0->1": 17470,
+            "1->0": 17118
+          }
+        },
+        {
+          "name": "model.layers.8.self_attn.q_proj",
+          "disagreement_fraction": 0.06583213806152344,
+          "disagreement_count": 69030,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 17329,
+            "0->-1": 17117,
+            "0->1": 17226,
+            "1->-1": 2,
+            "1->0": 17356
+          }
+        },
+        {
+          "name": "model.layers.3.shared_mlp.output_linear",
+          "disagreement_fraction": 0.06563949584960938,
+          "disagreement_count": 137656,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 34707,
+            "-1->1": 2,
+            "0->-1": 34078,
+            "0->1": 34192,
+            "1->0": 34677
+          }
+        },
+        {
+          "name": "model.layers.11.shared_mlp.input_linear",
+          "disagreement_fraction": 0.0650324821472168,
+          "disagreement_count": 272766,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 68136,
+            "-1->1": 3,
+            "0->-1": 68000,
+            "0->1": 68251,
+            "1->-1": 2,
+            "1->0": 68374
+          }
+        },
+        {
+          "name": "model.layers.4.shared_mlp.output_linear",
+          "disagreement_fraction": 0.06499242782592773,
+          "disagreement_count": 136299,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 34462,
+            "-1->1": 2,
+            "0->-1": 33685,
+            "0->1": 33683,
+            "1->-1": 1,
+            "1->0": 34466
+          }
+        },
+        {
+          "name": "model.layers.9.self_attn.k_proj",
+          "disagreement_fraction": 0.06494140625,
+          "disagreement_count": 17024,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4253,
+            "-1->1": 2,
+            "0->-1": 4283,
+            "0->1": 4182,
+            "1->-1": 9,
+            "1->0": 4295
+          }
+        },
+        {
+          "name": "model.layers.2.shared_mlp.output_linear",
+          "disagreement_fraction": 0.06485605239868164,
+          "disagreement_count": 136013,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 34385,
+            "0->-1": 33520,
+            "0->1": 33828,
+            "1->-1": 1,
+            "1->0": 34279
+          }
+        },
+        {
+          "name": "model.layers.7.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06481575965881348,
+          "disagreement_count": 271857,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 68146,
+            "0->-1": 67742,
+            "0->1": 67718,
+            "1->0": 68251
+          }
+        },
+        {
+          "name": "model.layers.0.shared_mlp.output_linear",
+          "disagreement_fraction": 0.06464147567749023,
+          "disagreement_count": 135563,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 34693,
+            "0->-1": 33247,
+            "0->1": 32882,
+            "1->0": 34741
+          }
+        },
+        {
+          "name": "model.layers.1.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06432580947875977,
+          "disagreement_count": 269802,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 68285,
+            "0->-1": 66678,
+            "0->1": 66333,
+            "1->0": 68506
+          }
+        },
+        {
+          "name": "model.layers.0.self_attn.q_proj",
+          "disagreement_fraction": 0.06429004669189453,
+          "disagreement_count": 67413,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 16992,
+            "-1->1": 77,
+            "0->-1": 16687,
+            "0->1": 16580,
+            "1->-1": 89,
+            "1->0": 16988
+          }
+        },
+        {
+          "name": "model.layers.10.self_attn.k_proj",
+          "disagreement_fraction": 0.06423187255859375,
+          "disagreement_count": 16838,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 4195,
+            "0->-1": 4157,
+            "0->1": 4259,
+            "1->0": 4227
+          }
+        },
+        {
+          "name": "model.layers.0.shared_mlp.input_linear",
+          "disagreement_fraction": 0.0639960765838623,
+          "disagreement_count": 268419,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 68805,
+            "0->-1": 65533,
+            "0->1": 64983,
+            "1->0": 69098
+          }
+        },
+        {
+          "name": "model.layers.3.self_attn.o_proj",
+          "disagreement_fraction": 0.06354808807373047,
+          "disagreement_count": 66635,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 16675,
+            "0->-1": 16658,
+            "0->1": 16644,
+            "1->0": 16658
+          }
+        },
+        {
+          "name": "model.layers.15.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06337547302246094,
+          "disagreement_count": 265816,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 65914,
+            "-1->1": 1,
+            "0->-1": 66833,
+            "0->1": 66254,
+            "1->0": 66814
+          }
+        },
+        {
+          "name": "model.layers.1.shared_mlp.output_linear",
+          "disagreement_fraction": 0.06315994262695312,
+          "disagreement_count": 132456,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 33749,
+            "0->-1": 32469,
+            "0->1": 32721,
+            "1->0": 33517
+          }
+        },
+        {
+          "name": "model.layers.5.shared_mlp.output_linear",
+          "disagreement_fraction": 0.06309175491333008,
+          "disagreement_count": 132313,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 33525,
+            "0->-1": 32723,
+            "0->1": 32665,
+            "1->0": 33400
+          }
+        },
+        {
+          "name": "model.layers.10.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06271529197692871,
+          "disagreement_count": 263047,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 65926,
+            "0->-1": 65806,
+            "0->1": 65252,
+            "1->0": 66063
+          }
+        },
+        {
+          "name": "model.layers.9.shared_mlp.input_linear",
+          "disagreement_fraction": 0.06255936622619629,
+          "disagreement_count": 262393,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 66073,
+            "-1->1": 1,
+            "0->-1": 65459,
+            "0->1": 65195,
+            "1->0": 65665
+          }
+        },
+        {
+          "name": "model.layers.8.shared_mlp.input_linear",
+          "disagreement_fraction": 0.062438249588012695,
+          "disagreement_count": 261885,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 65831,
+            "0->-1": 64945,
+            "0->1": 64988,
+            "1->-1": 3,
+            "1->0": 66118
+          }
+        },
+        {
+          "name": "model.layers.6.shared_mlp.output_linear",
+          "disagreement_fraction": 0.06158876419067383,
+          "disagreement_count": 129161,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 32742,
+            "0->-1": 32226,
+            "0->1": 31827,
+            "1->0": 32366
+          }
+        },
+        {
+          "name": "model.layers.4.self_attn.k_proj",
+          "disagreement_fraction": 0.060863494873046875,
+          "disagreement_count": 15955,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3946,
+            "0->-1": 3946,
+            "0->1": 3997,
+            "1->0": 4066
+          }
+        },
+        {
+          "name": "model.layers.1.self_attn.k_proj",
+          "disagreement_fraction": 0.060680389404296875,
+          "disagreement_count": 15907,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3992,
+            "-1->1": 3,
+            "0->-1": 3916,
+            "0->1": 4008,
+            "1->-1": 1,
+            "1->0": 3987
+          }
+        },
+        {
+          "name": "model.layers.2.self_attn.k_proj",
+          "disagreement_fraction": 0.0601043701171875,
+          "disagreement_count": 15756,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3858,
+            "0->-1": 3956,
+            "0->1": 3879,
+            "1->0": 4063
+          }
+        },
+        {
+          "name": "model.layers.16.shared_mlp.input_linear",
+          "disagreement_fraction": 0.059995174407958984,
+          "disagreement_count": 251638,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 63240,
+            "-1->1": 2,
+            "0->-1": 62888,
+            "0->1": 62895,
+            "1->0": 62613
+          }
+        },
+        {
+          "name": "model.layers.12.self_attn.k_proj",
+          "disagreement_fraction": 0.0593719482421875,
+          "disagreement_count": 15564,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3996,
+            "0->-1": 3874,
+            "0->1": 3834,
+            "1->0": 3860
+          }
+        },
+        {
+          "name": "model.layers.8.self_attn.k_proj",
+          "disagreement_fraction": 0.0592041015625,
+          "disagreement_count": 15520,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3851,
+            "0->-1": 3888,
+            "0->1": 3822,
+            "1->0": 3959
+          }
+        },
+        {
+          "name": "model.layers.7.shared_mlp.output_linear",
+          "disagreement_fraction": 0.059203147888183594,
+          "disagreement_count": 124158,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 30969,
+            "0->-1": 30705,
+            "0->1": 31097,
+            "1->-1": 1,
+            "1->0": 31386
+          }
+        },
+        {
+          "name": "model.layers.17.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05864214897155762,
+          "disagreement_count": 245963,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 61240,
+            "0->-1": 61693,
+            "0->1": 61598,
+            "1->0": 61432
+          }
+        },
+        {
+          "name": "model.layers.11.self_attn.k_proj",
+          "disagreement_fraction": 0.05859375,
+          "disagreement_count": 15360,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3855,
+            "0->-1": 3794,
+            "0->1": 3784,
+            "1->0": 3927
+          }
+        },
+        {
+          "name": "model.layers.18.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05846142768859863,
+          "disagreement_count": 245205,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 61188,
+            "0->-1": 61407,
+            "0->1": 61565,
+            "1->-1": 1,
+            "1->0": 61044
+          }
+        },
+        {
+          "name": "model.layers.20.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05796623229980469,
+          "disagreement_count": 243128,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 60280,
+            "0->-1": 61188,
+            "0->1": 61334,
+            "1->0": 60326
+          }
+        },
+        {
+          "name": "model.layers.9.shared_mlp.output_linear",
+          "disagreement_fraction": 0.057944297790527344,
+          "disagreement_count": 121518,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 30517,
+            "0->-1": 30378,
+            "0->1": 30215,
+            "1->0": 30408
+          }
+        },
+        {
+          "name": "model.layers.21.shared_mlp.input_linear",
+          "disagreement_fraction": 0.057897329330444336,
+          "disagreement_count": 242839,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 60255,
+            "-1->1": 1,
+            "0->-1": 61031,
+            "0->1": 60857,
+            "1->-1": 1,
+            "1->0": 60694
+          }
+        },
+        {
+          "name": "model.layers.5.self_attn.o_proj",
+          "disagreement_fraction": 0.057666778564453125,
+          "disagreement_count": 60468,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 15137,
+            "0->-1": 15187,
+            "0->1": 15021,
+            "1->0": 15123
+          }
+        },
+        {
+          "name": "model.layers.8.shared_mlp.output_linear",
+          "disagreement_fraction": 0.057541847229003906,
+          "disagreement_count": 120674,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 30250,
+            "-1->1": 1,
+            "0->-1": 30109,
+            "0->1": 30243,
+            "1->0": 30071
+          }
+        },
+        {
+          "name": "model.layers.4.self_attn.o_proj",
+          "disagreement_fraction": 0.057491302490234375,
+          "disagreement_count": 60284,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 14983,
+            "0->-1": 15027,
+            "0->1": 15143,
+            "1->0": 15131
+          }
+        },
+        {
+          "name": "model.layers.11.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05744314193725586,
+          "disagreement_count": 120467,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 29994,
+            "0->-1": 30271,
+            "0->1": 30405,
+            "1->0": 29797
+          }
+        },
+        {
+          "name": "model.layers.11.self_attn.o_proj",
+          "disagreement_fraction": 0.057349205017089844,
+          "disagreement_count": 60135,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 15182,
+            "0->-1": 15082,
+            "0->1": 15013,
+            "1->0": 14858
+          }
+        },
+        {
+          "name": "model.layers.12.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05725812911987305,
+          "disagreement_count": 120079,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 29588,
+            "0->-1": 30219,
+            "0->1": 30116,
+            "1->0": 30156
+          }
+        },
+        {
+          "name": "model.layers.9.self_attn.v_proj",
+          "disagreement_fraction": 0.057159423828125,
+          "disagreement_count": 14984,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3807,
+            "0->-1": 3751,
+            "0->1": 3720,
+            "1->0": 3706
+          }
+        },
+        {
+          "name": "model.layers.10.shared_mlp.output_linear",
+          "disagreement_fraction": 0.056920528411865234,
+          "disagreement_count": 119371,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 29469,
+            "0->-1": 30070,
+            "0->1": 29885,
+            "1->0": 29947
+          }
+        },
+        {
+          "name": "model.layers.19.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05665183067321777,
+          "disagreement_count": 237615,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 59360,
+            "0->-1": 59750,
+            "0->1": 59160,
+            "1->0": 59345
+          }
+        },
+        {
+          "name": "model.layers.13.shared_mlp.output_linear",
+          "disagreement_fraction": 0.056557655334472656,
+          "disagreement_count": 118610,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 29334,
+            "0->-1": 29855,
+            "0->1": 30133,
+            "1->0": 29288
+          }
+        },
+        {
+          "name": "model.layers.10.self_attn.v_proj",
+          "disagreement_fraction": 0.056499481201171875,
+          "disagreement_count": 14811,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3828,
+            "0->-1": 3699,
+            "0->1": 3632,
+            "1->0": 3652
+          }
+        },
+        {
+          "name": "model.layers.3.self_attn.k_proj",
+          "disagreement_fraction": 0.05609130859375,
+          "disagreement_count": 14704,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3648,
+            "0->-1": 3617,
+            "0->1": 3688,
+            "1->0": 3751
+          }
+        },
+        {
+          "name": "model.layers.12.self_attn.v_proj",
+          "disagreement_fraction": 0.056041717529296875,
+          "disagreement_count": 14691,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3736,
+            "0->-1": 3561,
+            "0->1": 3636,
+            "1->0": 3758
+          }
+        },
+        {
+          "name": "model.layers.16.self_attn.v_proj",
+          "disagreement_fraction": 0.0558929443359375,
+          "disagreement_count": 14652,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3700,
+            "0->-1": 3640,
+            "0->1": 3684,
+            "1->0": 3628
+          }
+        },
+        {
+          "name": "model.layers.22.shared_mlp.input_linear",
+          "disagreement_fraction": 0.055841922760009766,
+          "disagreement_count": 234218,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 57928,
+            "-1->1": 1,
+            "0->-1": 59024,
+            "0->1": 58984,
+            "1->0": 58281
+          }
+        },
+        {
+          "name": "model.layers.9.self_attn.o_proj",
+          "disagreement_fraction": 0.05581378936767578,
+          "disagreement_count": 58525,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 14559,
+            "0->-1": 14618,
+            "0->1": 14647,
+            "1->0": 14701
+          }
+        },
+        {
+          "name": "model.layers.3.self_attn.v_proj",
+          "disagreement_fraction": 0.055744171142578125,
+          "disagreement_count": 14613,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3593,
+            "0->-1": 3715,
+            "0->1": 3633,
+            "1->0": 3672
+          }
+        },
+        {
+          "name": "model.layers.5.self_attn.v_proj",
+          "disagreement_fraction": 0.055599212646484375,
+          "disagreement_count": 14575,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3634,
+            "0->-1": 3677,
+            "0->1": 3639,
+            "1->0": 3625
+          }
+        },
+        {
+          "name": "model.layers.13.self_attn.v_proj",
+          "disagreement_fraction": 0.055583953857421875,
+          "disagreement_count": 14571,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3563,
+            "0->-1": 3691,
+            "0->1": 3678,
+            "1->0": 3639
+          }
+        },
+        {
+          "name": "model.layers.12.self_attn.o_proj",
+          "disagreement_fraction": 0.055385589599609375,
+          "disagreement_count": 58076,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 14479,
+            "0->-1": 14404,
+            "0->1": 14649,
+            "1->0": 14544
+          }
+        },
+        {
+          "name": "model.layers.6.self_attn.v_proj",
+          "disagreement_fraction": 0.055377960205078125,
+          "disagreement_count": 14517,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3607,
+            "0->-1": 3672,
+            "0->1": 3624,
+            "1->0": 3614
+          }
+        },
+        {
+          "name": "model.layers.15.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05515623092651367,
+          "disagreement_count": 115671,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 28646,
+            "0->-1": 29308,
+            "0->1": 29148,
+            "1->0": 28569
+          }
+        },
+        {
+          "name": "model.layers.11.self_attn.v_proj",
+          "disagreement_fraction": 0.054931640625,
+          "disagreement_count": 14400,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3665,
+            "0->-1": 3492,
+            "0->1": 3546,
+            "1->0": 3697
+          }
+        },
+        {
+          "name": "model.layers.14.shared_mlp.output_linear",
+          "disagreement_fraction": 0.054846763610839844,
+          "disagreement_count": 115022,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 28497,
+            "0->-1": 29139,
+            "0->1": 28818,
+            "1->0": 28568
+          }
+        },
+        {
+          "name": "model.layers.10.self_attn.o_proj",
+          "disagreement_fraction": 0.054839134216308594,
+          "disagreement_count": 57503,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 14240,
+            "0->-1": 14466,
+            "0->1": 14427,
+            "1->0": 14370
+          }
+        },
+        {
+          "name": "model.layers.6.self_attn.o_proj",
+          "disagreement_fraction": 0.05474567413330078,
+          "disagreement_count": 57405,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 14207,
+            "0->-1": 14439,
+            "0->1": 14291,
+            "1->0": 14468
+          }
+        },
+        {
+          "name": "model.layers.13.self_attn.o_proj",
+          "disagreement_fraction": 0.054386138916015625,
+          "disagreement_count": 57028,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 14214,
+            "0->-1": 14309,
+            "0->1": 14242,
+            "1->0": 14263
+          }
+        },
+        {
+          "name": "model.layers.27.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05431842803955078,
+          "disagreement_count": 227828,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 56525,
+            "0->-1": 56992,
+            "0->1": 57032,
+            "1->0": 57279
+          }
+        },
+        {
+          "name": "model.layers.4.self_attn.v_proj",
+          "disagreement_fraction": 0.05425262451171875,
+          "disagreement_count": 14222,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3577,
+            "0->-1": 3539,
+            "0->1": 3526,
+            "1->0": 3580
+          }
+        },
+        {
+          "name": "model.layers.16.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05419158935546875,
+          "disagreement_count": 113648,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 28329,
+            "0->-1": 28707,
+            "0->1": 28556,
+            "1->0": 28056
+          }
+        },
+        {
+          "name": "model.layers.7.self_attn.v_proj",
+          "disagreement_fraction": 0.05374908447265625,
+          "disagreement_count": 14090,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3590,
+            "0->-1": 3585,
+            "0->1": 3466,
+            "1->0": 3449
+          }
+        },
+        {
+          "name": "model.layers.23.shared_mlp.input_linear",
+          "disagreement_fraction": 0.0530858039855957,
+          "disagreement_count": 222658,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 55313,
+            "0->-1": 56035,
+            "0->1": 56392,
+            "1->0": 54918
+          }
+        },
+        {
+          "name": "model.layers.15.self_attn.o_proj",
+          "disagreement_fraction": 0.05209922790527344,
+          "disagreement_count": 54630,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 13449,
+            "0->-1": 13769,
+            "0->1": 13777,
+            "1->0": 13635
+          }
+        },
+        {
+          "name": "model.layers.14.self_attn.o_proj",
+          "disagreement_fraction": 0.05200386047363281,
+          "disagreement_count": 54530,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 13418,
+            "0->-1": 13808,
+            "0->1": 13730,
+            "1->0": 13574
+          }
+        },
+        {
+          "name": "model.layers.18.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05162954330444336,
+          "disagreement_count": 108275,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 26938,
+            "0->-1": 27303,
+            "0->1": 27161,
+            "1->0": 26873
+          }
+        },
+        {
+          "name": "model.layers.17.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05157041549682617,
+          "disagreement_count": 108151,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 26518,
+            "0->-1": 27330,
+            "0->1": 27289,
+            "1->0": 27014
+          }
+        },
+        {
+          "name": "model.layers.20.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05131816864013672,
+          "disagreement_count": 107622,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 26647,
+            "0->-1": 27114,
+            "0->1": 27261,
+            "1->0": 26600
+          }
+        },
+        {
+          "name": "model.layers.26.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05131793022155762,
+          "disagreement_count": 215243,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 53363,
+            "0->-1": 54144,
+            "0->1": 54086,
+            "1->0": 53650
+          }
+        },
+        {
+          "name": "model.layers.24.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05129671096801758,
+          "disagreement_count": 215154,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 53099,
+            "0->-1": 54162,
+            "0->1": 54032,
+            "1->0": 53861
+          }
+        },
+        {
+          "name": "model.layers.25.shared_mlp.input_linear",
+          "disagreement_fraction": 0.05123305320739746,
+          "disagreement_count": 214887,
+          "total": 4194304,
+          "transition_counts": {
+            "-1->0": 52610,
+            "0->-1": 54553,
+            "0->1": 54278,
+            "1->0": 53446
+          }
+        },
+        {
+          "name": "model.layers.19.shared_mlp.output_linear",
+          "disagreement_fraction": 0.05103015899658203,
+          "disagreement_count": 107018,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 26585,
+            "0->-1": 26903,
+            "0->1": 26975,
+            "1->0": 26555
+          }
+        },
+        {
+          "name": "model.layers.8.self_attn.v_proj",
+          "disagreement_fraction": 0.050251007080078125,
+          "disagreement_count": 13173,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3288,
+            "0->-1": 3303,
+            "0->1": 3250,
+            "1->0": 3332
+          }
+        },
+        {
+          "name": "model.layers.7.self_attn.o_proj",
+          "disagreement_fraction": 0.04990959167480469,
+          "disagreement_count": 52334,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 13056,
+            "0->-1": 12967,
+            "0->1": 13195,
+            "1->0": 13116
+          }
+        },
+        {
+          "name": "model.layers.8.self_attn.o_proj",
+          "disagreement_fraction": 0.04944896697998047,
+          "disagreement_count": 51851,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 12921,
+            "0->-1": 12914,
+            "0->1": 12855,
+            "1->0": 13161
+          }
+        },
+        {
+          "name": "model.layers.16.self_attn.o_proj",
+          "disagreement_fraction": 0.049315452575683594,
+          "disagreement_count": 51711,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 12700,
+            "0->-1": 13034,
+            "0->1": 13094,
+            "1->0": 12883
+          }
+        },
+        {
+          "name": "model.layers.21.shared_mlp.output_linear",
+          "disagreement_fraction": 0.04930925369262695,
+          "disagreement_count": 103409,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 25546,
+            "0->-1": 26123,
+            "0->1": 26261,
+            "1->0": 25479
+          }
+        },
+        {
+          "name": "model.layers.20.self_attn.o_proj",
+          "disagreement_fraction": 0.04909706115722656,
+          "disagreement_count": 51482,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 12812,
+            "0->-1": 12916,
+            "0->1": 12921,
+            "1->0": 12833
+          }
+        },
+        {
+          "name": "model.layers.14.self_attn.v_proj",
+          "disagreement_fraction": 0.0482635498046875,
+          "disagreement_count": 12652,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3130,
+            "0->-1": 3197,
+            "0->1": 3148,
+            "1->0": 3177
+          }
+        },
+        {
+          "name": "model.layers.18.self_attn.o_proj",
+          "disagreement_fraction": 0.047814369201660156,
+          "disagreement_count": 50137,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 12521,
+            "0->-1": 12682,
+            "0->1": 12493,
+            "1->0": 12441
+          }
+        },
+        {
+          "name": "model.layers.17.self_attn.v_proj",
+          "disagreement_fraction": 0.047576904296875,
+          "disagreement_count": 12472,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3065,
+            "0->-1": 3167,
+            "0->1": 3157,
+            "1->0": 3083
+          }
+        },
+        {
+          "name": "model.layers.17.self_attn.o_proj",
+          "disagreement_fraction": 0.047496795654296875,
+          "disagreement_count": 49804,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 12333,
+            "0->-1": 12635,
+            "0->1": 12470,
+            "1->0": 12366
+          }
+        },
+        {
+          "name": "model.layers.21.self_attn.o_proj",
+          "disagreement_fraction": 0.04746437072753906,
+          "disagreement_count": 49770,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 12283,
+            "0->-1": 12665,
+            "0->1": 12510,
+            "1->0": 12312
+          }
+        },
+        {
+          "name": "model.layers.0.self_attn.k_proj",
+          "disagreement_fraction": 0.047451019287109375,
+          "disagreement_count": 12439,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3135,
+            "0->-1": 3086,
+            "0->1": 3100,
+            "1->0": 3118
+          }
+        },
+        {
+          "name": "model.layers.20.self_attn.v_proj",
+          "disagreement_fraction": 0.04742431640625,
+          "disagreement_count": 12432,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3113,
+            "0->-1": 3060,
+            "0->1": 3198,
+            "1->0": 3061
+          }
+        },
+        {
+          "name": "model.layers.22.shared_mlp.output_linear",
+          "disagreement_fraction": 0.04740142822265625,
+          "disagreement_count": 99408,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 24340,
+            "0->-1": 25539,
+            "0->1": 25098,
+            "1->0": 24431
+          }
+        },
+        {
+          "name": "model.layers.15.self_attn.v_proj",
+          "disagreement_fraction": 0.04724884033203125,
+          "disagreement_count": 12386,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 3205,
+            "0->-1": 3017,
+            "0->1": 2990,
+            "1->0": 3174
+          }
+        },
+        {
+          "name": "model.layers.19.self_attn.o_proj",
+          "disagreement_fraction": 0.04708671569824219,
+          "disagreement_count": 49374,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 12278,
+            "0->-1": 12191,
+            "0->1": 12527,
+            "1->0": 12378
+          }
+        },
+        {
+          "name": "model.layers.23.shared_mlp.output_linear",
+          "disagreement_fraction": 0.046895503997802734,
+          "disagreement_count": 98347,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 24286,
+            "0->-1": 24697,
+            "0->1": 25003,
+            "1->0": 24361
+          }
+        },
+        {
+          "name": "model.layers.18.self_attn.v_proj",
+          "disagreement_fraction": 0.046520233154296875,
+          "disagreement_count": 12195,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2970,
+            "0->-1": 3177,
+            "0->1": 3029,
+            "1->0": 3019
+          }
+        },
+        {
+          "name": "model.layers.24.shared_mlp.output_linear",
+          "disagreement_fraction": 0.04602622985839844,
+          "disagreement_count": 96524,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 23759,
+            "0->-1": 24219,
+            "0->1": 24549,
+            "1->0": 23997
+          }
+        },
+        {
+          "name": "model.layers.19.self_attn.v_proj",
+          "disagreement_fraction": 0.0457305908203125,
+          "disagreement_count": 11988,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2947,
+            "0->-1": 3007,
+            "0->1": 2997,
+            "1->0": 3037
+          }
+        },
+        {
+          "name": "model.layers.27.shared_mlp.output_linear",
+          "disagreement_fraction": 0.044114112854003906,
+          "disagreement_count": 92514,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 23008,
+            "0->-1": 23250,
+            "0->1": 23371,
+            "1->0": 22885
+          }
+        },
+        {
+          "name": "model.layers.25.shared_mlp.output_linear",
+          "disagreement_fraction": 0.04381608963012695,
+          "disagreement_count": 91889,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 22823,
+            "0->-1": 23135,
+            "0->1": 23157,
+            "1->0": 22774
+          }
+        },
+        {
+          "name": "model.layers.22.self_attn.v_proj",
+          "disagreement_fraction": 0.043487548828125,
+          "disagreement_count": 11400,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2860,
+            "0->-1": 2832,
+            "0->1": 2889,
+            "1->0": 2819
+          }
+        },
+        {
+          "name": "model.layers.26.shared_mlp.output_linear",
+          "disagreement_fraction": 0.042653560638427734,
+          "disagreement_count": 89451,
+          "total": 2097152,
+          "transition_counts": {
+            "-1->0": 22048,
+            "-1->1": 2,
+            "0->-1": 22564,
+            "0->1": 22492,
+            "1->0": 22345
+          }
+        },
+        {
+          "name": "model.layers.22.self_attn.o_proj",
+          "disagreement_fraction": 0.039496421813964844,
+          "disagreement_count": 41415,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 10273,
+            "0->-1": 10357,
+            "0->1": 10513,
+            "1->0": 10272
+          }
+        },
+        {
+          "name": "model.layers.24.self_attn.v_proj",
+          "disagreement_fraction": 0.037708282470703125,
+          "disagreement_count": 9885,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2560,
+            "0->-1": 2405,
+            "0->1": 2441,
+            "1->0": 2479
+          }
+        },
+        {
+          "name": "model.layers.21.self_attn.v_proj",
+          "disagreement_fraction": 0.03759765625,
+          "disagreement_count": 9856,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2422,
+            "0->-1": 2451,
+            "0->1": 2537,
+            "1->0": 2446
+          }
+        },
+        {
+          "name": "model.layers.23.self_attn.v_proj",
+          "disagreement_fraction": 0.03522491455078125,
+          "disagreement_count": 9234,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2381,
+            "0->-1": 2285,
+            "0->1": 2317,
+            "1->0": 2251
+          }
+        },
+        {
+          "name": "model.layers.24.self_attn.o_proj",
+          "disagreement_fraction": 0.033415794372558594,
+          "disagreement_count": 35039,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 8839,
+            "0->-1": 8634,
+            "0->1": 8838,
+            "1->0": 8728
+          }
+        },
+        {
+          "name": "model.layers.27.self_attn.o_proj",
+          "disagreement_fraction": 0.03211021423339844,
+          "disagreement_count": 33670,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 8504,
+            "0->-1": 8518,
+            "0->1": 8305,
+            "1->0": 8343
+          }
+        },
+        {
+          "name": "model.layers.27.self_attn.v_proj",
+          "disagreement_fraction": 0.032070159912109375,
+          "disagreement_count": 8407,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2092,
+            "0->-1": 2142,
+            "0->1": 2022,
+            "1->0": 2151
+          }
+        },
+        {
+          "name": "model.layers.23.self_attn.o_proj",
+          "disagreement_fraction": 0.03068828582763672,
+          "disagreement_count": 32179,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 7964,
+            "0->-1": 7923,
+            "0->1": 8183,
+            "1->0": 8109
+          }
+        },
+        {
+          "name": "model.layers.25.self_attn.v_proj",
+          "disagreement_fraction": 0.030651092529296875,
+          "disagreement_count": 8035,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 2022,
+            "0->-1": 2060,
+            "0->1": 1994,
+            "1->0": 1959
+          }
+        },
+        {
+          "name": "model.layers.26.self_attn.o_proj",
+          "disagreement_fraction": 0.03042316436767578,
+          "disagreement_count": 31901,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 7970,
+            "0->-1": 8056,
+            "0->1": 8034,
+            "1->0": 7841
+          }
+        },
+        {
+          "name": "model.layers.25.self_attn.o_proj",
+          "disagreement_fraction": 0.02960968017578125,
+          "disagreement_count": 31048,
+          "total": 1048576,
+          "transition_counts": {
+            "-1->0": 7689,
+            "0->-1": 7824,
+            "0->1": 8009,
+            "1->0": 7526
+          }
+        },
+        {
+          "name": "model.layers.26.self_attn.v_proj",
+          "disagreement_fraction": 0.026641845703125,
+          "disagreement_count": 6984,
+          "total": 262144,
+          "transition_counts": {
+            "-1->0": 1708,
+            "0->-1": 1803,
+            "0->1": 1700,
+            "1->0": 1773
+          }
+        }
+      ]
+    }
+  },
+  "final_effect": {
+    "loss_gain_d_minus_s": 0.13085628300905228,
+    "ppl_reduction_fraction": 0.12265614545030157,
+    "top1_gain": 0.005126953125,
+    "kl_gain_d_minus_s": 0.10717770457267761
+  },
+  "training_order_head": [
+    221,
+    850,
+    89,
+    747,
+    685,
+    1055,
+    781,
+    170,
+    233,
+    62,
+    421,
+    806,
+    1031,
+    1187,
+    683,
+    619
+  ]
+}
