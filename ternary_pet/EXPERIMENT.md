@@ -1815,3 +1815,39 @@ Do not require Granite to reproduce Smol's exact mask size or effect
 percentages. The cross-family target is the within-model causal pattern.
 
 No G1 compute is launched by this roadmap entry.
+
+
+### G1-0 — Granite 4.0 350M architecture / quantization smoke
+
+**Status before launch: preregistered engineering gate; no scientific result.**
+
+Model:
+`ibm-granite/granite-4.0-350m`
+
+Pinned script:
+`ternary_pet/g1_granite350m_smoke.py`
+
+Pinned commit:
+`1c85fdb1bdccd70c5c925ea2807bf773381739fd`
+
+This job is allowed to answer only whether the established Smol intervention
+ports cleanly enough to proceed. It records:
+
+- loaded architecture/class and total parameter count;
+- every `nn.Linear` target selected by the canonical "all linears except
+  exact `lm_head`" rule;
+- target parameter coverage and the excluded parameter tensors;
+- embedding/output-head weight tying;
+- source held-out WikiText-2 CE/PPL on a small smoke slice;
+- initial Q3 and Q9 code histograms / Q3 zero fraction;
+- one CE35 + teacher-KL65 Q3 update;
+- one CE35 + teacher-KL65 Q9 update;
+- confirmation that non-target parameters remain frozen;
+- peak GPU memory for both smoke arms.
+
+No D-vs-S comparison is made, and no scientific generalization claim may be
+drawn from this job.
+
+**Stop rule:** if the target coverage or model structure shows that "quantize
+all `nn.Linear` weights except `lm_head`" is not a meaningfully comparable
+intervention, stop before G1-1 and preregister an architecture-specific mapping.
