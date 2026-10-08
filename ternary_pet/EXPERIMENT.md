@@ -2339,3 +2339,64 @@ Pinned code:
 This is the single authorized G1-3 mechanism job for seed/order 1729. No
 confirmatory Granite orders and no larger-model jobs are launched by this
 record.
+
+
+### G1-3 outcome — Granite mechanism supported on first order
+
+Job `6ac6fe5fdf2184ac91ac6c1f` completed successfully. All preregistered
+construction assertions passed before continuation.
+
+Final held-out losses:
+
+| Arm | Loss | PPL |
+|---|---:|---:|
+| D | 5.66205 | 287.74 |
+| S | 5.53495 | 253.40 |
+| M-exact | 5.56525 | 261.19 |
+| M-d50 | **5.51134** | **247.48** |
+| Random-d50 | 5.73514 | 309.56 |
+
+Effects relative to D:
+
+- full S gain: **0.12710 nats/token**;
+- M-exact gain: **0.09680**, recovering **76.2%** of full S;
+- M-d50 gain: **0.15071**, recovering **118.6%** of full S and **155.7%**
+  of the exact-M gain;
+- matched Random-d50 gain: **-0.07308** (harmful), equal to **-57.5%**
+  recovery of the full S effect.
+
+The true disagreement mask is **6.0246%** =
+15,035,048 / 249,561,088 targeted positions.
+
+S, M-exact and M-d50 had exactly the same projected Q3 forward model before
+continuation. Therefore their endpoint differences are caused by hidden FP32
+master geometry rather than different starting ternary forward weights.
+
+Interpretation:
+
+> Granite reproduces the broader Smol mechanism qualitatively. Q9 identifies
+> useful which-position/which-code commitments; moderate interior placement of
+> those commitments is sufficient to recover and exceed the full staged gain;
+> and applying the same transition pattern to matched random positions is
+> harmful.
+
+Important quantitative difference: exact-Q9-on-M recovers **76.2%** on Granite,
+not SmolLM2's canonical ~96.4%. Do not claim the localization fraction is
+family-invariant.
+
+Q9-selected-code survival for M-d50:
+- step 100: 99.677%;
+- step 300: 97.977%;
+- step 900: **90.696%** under learned scales and **90.693%** under fixed alpha0.
+
+Scale drift is therefore not a meaningful explanation of survival. Target-zero
+and target-nonzero survival are also similar at step 900.
+
+Canonical files:
+
+- `results/run_g1_3_granite350m_mechanism_seed1729_2026-10-08.json`
+- `results/run_g1_3_granite350m_mechanism_summary.md`
+
+G1-3 is positive and scientifically interpretable. The preregistered condition
+for confirmatory Granite orders is satisfied, but **no G1-4/G1-5 jobs are
+launched by this result**.
