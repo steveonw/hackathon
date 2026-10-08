@@ -1574,3 +1574,39 @@ Practical rescue additionally requires Top50 < D held-out loss.
 
 This is deliberately one development run on the known hard seed. Do not launch
 1729/424242 or larger-model replications until this result is inspected.
+
+
+### ACTIVE G1-7 — Granite port of Smol v10-v13 schedule
+
+Job:
+`6ac722dfdf2184ac91ac75e9`
+
+Pinned code:
+`ab02c7a64a357bf792eee8d361032d2e2310bb1b`
+
+Seed/order:
+271828 only.
+
+Purpose:
+test whether Granite's earlier use of the v7-like constant 1e-4 schedule, rather
+than Smol's later v10-v13 matched schedule, explains the hard-order failure.
+
+Schedule:
+- global steps 1-100 warm linearly to 1e-3;
+- global steps 101-1200 cosine decay to 1e-4;
+- Q9 prep is steps 1-300;
+- continuation uses steps 301-1200 without LR restart.
+
+Granite-specific safety adaptation:
+BF16 autocast/BF16 teacher, no FP16 GradScaler; FP32 masters and clip=1.0 remain.
+
+Arms:
+D, S, M-exact, M-d50, Random-d50, with original Q3 scales and fresh Adam at
+the mechanism continuation exactly as in prior Granite G1-3/G1-4/G1-5.
+
+Important context:
+G1-1 found warm1e-3 worse than constant1e-4 at the *300-step direct-Q3
+calibration checkpoint*. G1-7 intentionally tests the full v10-v13 trajectory
+rather than claiming the transferred schedule is already Granite-optimal.
+
+Do not launch other seeds or larger models until G1-7 is inspected.
