@@ -2696,3 +2696,21 @@ Pinned implementation commit:
 The implementation follows the preregistration above. The alignment ranking is
 performed separately within each layer and D→S transition class, so the top and
 bottom halves are exactly matched for those known structural factors.
+
+
+#### G1-6 launch record
+
+Pinned code:
+`10110ffba0ce9b1069f015cd32b235958e37f6c9`
+
+Hugging Face job:
+`6ac71a23df2184ac91ac73ca`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+75 minutes
+
+This job is the single authorized trajectory-alignment development run on seed
+271828. No replication jobs are authorized by this launch record.
