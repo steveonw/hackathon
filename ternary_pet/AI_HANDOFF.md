@@ -1872,3 +1872,27 @@ mixed original Granite 3-seed results, not retroactively rewrite them.
 
 Earlier handoff's pending/429 text is historical: **G1-9 is now
 complete**. No further jobs launched.
+
+
+### G1-10 ACTIVE — one-line seed-only frozen replication of G1-9
+
+**Job `6ac82c93fee2c900701711db`**, scheduling since
+2026-10-08T23:51:47.315Z; URL:
+https://huggingface.co/jobs/codeflash85/6ac82c93fee2c900701711db
+
+Immutable code `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`,
+`ternary_pet/g1_10_granite350m_gaussian_pull_seed424242.py`,
+identical to G1-9 `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`
+except `SEED=424242` instead of 271828.
+Preregistered in `EXPERIMENT.md` before implementation and launch.
+
+Single A10G-small job; no duplicates found. Four direct-Q3 arms D/G/P/GP,
+1,200 steps each, constant 1e-4 LR, BF16 student/teacher, FP32 masters,
+rowwise Q3 original-scale and fresh Adam reset at step300.
+Gaussian noise in G/GP σu=.04 until900 then annealed to zero;
+P/GP gridward convex 10% pull every100 steps through900.
+Same WikiText-2 8192-token held-out evaluation, hard Q3 inference.
+When complete: verify stage, checks, all arms, D vs historical 424242
+loss5.80192, paired P vs D gain, GP vs P, code movement, sampled flip
+rates; archive full FINAL_JSON and summary, update all reports.
+**No further jobs authorized** beyond this single one.
