@@ -472,3 +472,22 @@ new mask-position random control; independent replication required.
 
 - [Raw JSON](run_g1_9_granite350m_gaussian_pull_seed271828_2026-10-08.json)
 - [Complete summary](run_g1_9_granite350m_gaussian_pull_summary.md)
+
+
+### G1-10 in flight: unchanged gridward-pull factorial, Granite order 424242
+
+Job [`6ac82c93fee2c900701711db`](https://huggingface.co/jobs/codeflash85/6ac82c93fee2c900701711db)
+was accepted 2026-10-08 23:51:47 UTC on A10G-small (90-minute cap),
+initial state **SCHEDULING**. Code SHA `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`,
+script `ternary_pet/g1_10_granite350m_gaussian_pull_seed424242.py`.
+
+This is the frozen one-line seed change from successful G1-9:
+same four direct-Q3 arms D/G/P/GP, constant LR1e-4, BF16 safe path,
+300+900 steps, 9 gridward 10% pulls on P/GP through step900, rowwise
+Gaussian σ_u0.04 on G/GP decaying to 0 by1200, and no noise at inference.
+Preregistered before code or GPU launch in `EXPERIMENT.md`.
+
+Prior G1-9 seed271828 held-out loss D5.726725, G5.743370,
+P5.489709, GP5.487853. Historical Granite constant-LR seed424242
+direct-Q3 held-out loss ~5.80192 for reference. Primary comparison is
+within new job P versus D. **No G1-10 results at initial submission.**
