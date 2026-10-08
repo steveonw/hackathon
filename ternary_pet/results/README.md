@@ -33,6 +33,7 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v13 original / `6ac65927e7a0dae8a277c24c` | SmolLM2-360M-Instruct | A10G small | timed out | monolithic depth/firmness launch; technical failure only |
 | v13A / `6ac6a265df2184ac91ac410d` | SmolLM2-360M-Instruct | A10G small | completed | depth sweep on Q9-selected mask |
 | v13B / `6ac6a272df2184ac91ac412c` | SmolLM2-360M-Instruct | A10G small | completed | direct-firmness controls |
+| G1-0 / `6ac6eacfdf2184ac91ac658a` | Granite-4.0-350M | A10G small | technical gate failed | architecture smoke; FP16 source/teacher path non-finite |
 
 ## Current headline
 
@@ -52,6 +53,17 @@ v13 is an optional one-order refinement: the placement effect saturates around
 direct's own choices does not help.
 
 See `../RESEARCH_REPORT.md` for the living current-state interpretation.
+
+### G1 generalization status
+
+The Family-B small-model phase has started on `ibm-granite/granite-4.0-350m`.
+G1-0 found clean target/freezing behavior but exposed a numerical blocker in the
+inherited FP16 path: even the unquantized source evaluation was non-finite, and
+Q3/Q9 teacher-KL steps produced non-finite loss/gradients. This is a technical
+precision failure, **not** a negative Q9-vs-Q3 result.
+
+G1-1 remains blocked while preregistered G1-0b tests FP32/BF16/FP16 numerics.
+See `run_g1_0_granite350m_smoke_summary.md`.
 
 ### v8 mechanism update
 
