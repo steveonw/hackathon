@@ -2291,3 +2291,32 @@ is clearly weaker or harmful.
 
 No confirmatory Granite orders are launched by this entry. G1-4/G1-5 remain
 separate decisions after G1-3 is inspected.
+
+
+### G1-3 pinned implementation
+
+Script:
+`ternary_pet/g1_granite350m_compressed_mechanism.py`
+
+Pinned commit:
+`c32fbc16f463039257d996a7b32c9eca5eada681`
+
+The implementation follows the preregistered five-arm design exactly:
+
+- D
+- S
+- M-exact
+- M-d50
+- Random-d50
+
+Before any 900-step continuation begins, the script asserts:
+
+- S == M-exact == M-d50 in projected Q3 codes;
+- those equal-forward arms match on pre-continuation diagnostics;
+- Random-d50 exactly realizes its deterministic planned target codes;
+- Random-d50 contains exactly |M| positions;
+- Random-d50 has zero overlap with true M by construction;
+- Random-d50 matches true M's per-layer/source->target transition counts.
+
+Any failed construction assertion terminates the job and counts as a technical
+failure, not a mechanism result.
