@@ -2872,3 +2872,24 @@ held-out G1-7 endpoint exists**.
 
 If a schedule-transfer effect appears, the matched-random specificity control
 must be addressed separately with a newly preregistered feasible subset design.
+
+
+#### G1-7b retry launch
+
+Amended pinned code:
+`808fd4975d16111d9c1c841c44d9038a01995ba3`
+
+Hugging Face retry job:
+`6ac7248adf2184ac91ac768d`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+75 minutes
+
+Arms:
+D, S, M-exact, M-d50.
+
+This retry follows the preregistered amendment above. The omitted random control
+must not be inferred or reconstructed from this run.
