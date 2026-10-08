@@ -36,7 +36,8 @@ Raw machine-readable and summarized results from each remote run belong here.
 | G1-0 / `6ac6eacfdf2184ac91ac658a` | Granite-4.0-350M | A10G small | technical gate failed | architecture smoke; FP16 source/teacher path non-finite |
 | G1-0b / `6ac6eec9df2184ac91ac67ca` | Granite-4.0-350M | A10G small | completed | precision diagnostic; BF16 passed, FP16 failed |
 | G1-1 / `6ac6f18ae7a0dae8a2780246` | Granite-4.0-350M | A10G small | completed | direct-Q3 calibration; constant 1e-4 selected |
-| G1-2 / `6ac6f487df2184ac91ac693e` | Granite-4.0-350M | A10G small | running | one-order direct-Q3 vs Q9→Q3 staging gate |
+| G1-2 / `6ac6f487df2184ac91ac693e` | Granite-4.0-350M | A10G small | completed | positive one-order staging gate; Q9→Q3 +0.1309 nat / 12.27% lower PPL |
+| G1-3 / `6ac6fe5fdf2184ac91ac6c1f` | Granite-4.0-350M | A10G small | running | compressed causal mechanism: D/S/M-exact/M-d50/matched-random-d50 |
 
 ## Current headline
 
@@ -70,7 +71,13 @@ non-finite, and one-step Q3/Q9 BF16 training had finite losses and gradients.
 BF16 is now locked as the Granite compute path before any scientific D-vs-S
 result. G1-1 selected **constant 1e-4** by direct-only validation (loss 5.8128
 vs 6.0827 and 6.7402 for the two higher-LR schedules). That schedule is frozen.
-G1-2 is now the active one-order D-vs-S staging gate.
+G1-2 completed positively on order 1729: Q9→Q3 improves held-out loss by
+**0.1309 nats/token** and lowers PPL by **12.27%**, despite being **1.925 nats
+worse** than direct as an immediate fixed-Q3 checkpoint at step 300. The
+D-vs-S projected-Q3 disagreement set is **6.0246%**.
+
+G1-3 is now active, testing whether that ~6% set carries the benefit and whether
+true-mask d=0.5 placement beats a per-layer/source→target matched random control.
 
 See:
 - `run_g1_0_granite350m_smoke_summary.md`
