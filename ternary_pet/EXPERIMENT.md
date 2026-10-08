@@ -1954,3 +1954,94 @@ Pinned code:
 
 G1-1 remains blocked until this diagnostic satisfies the preregistered BF16
 finite-path checks.
+
+
+### G1-0b outcome — BF16 precision path PASSED
+
+Job `6ac6eec9df2184ac91ac67ca` completed and satisfied every preregistered
+finite-path condition.
+
+Precision probe on the same Granite source slice:
+
+| Path | CE | Finite logits? |
+|---|---:|---|
+| FP32 | 3.23537 | yes |
+| BF16 autocast | 3.24056 | yes |
+| FP16 autocast | NaN | no |
+| BF16 teacher | 3.23373 | yes |
+| FP16 teacher | NaN | no |
+
+One-step BF16 quantized checks:
+
+- Q3: CE 21.5361, KL 18.8207, total loss 19.7711, grad norm 898.63;
+  all trainable gradients finite.
+- Q9: CE 26.6276, KL 25.1715, total loss 25.6811, grad norm 2995.33;
+  all trainable gradients finite.
+
+The BF16 source CE differs from FP32 by only 0.00519 nats/token on this smoke
+slice. The inherited FP16 path fails completely.
+
+**Decision:** for all Granite G1 jobs, freeze the compute convention before any
+scientific D-vs-S result:
+
+- persistent master weights remain FP32;
+- common source is BF16-rounded as in the established protocol;
+- student/teacher forward compute uses BF16 autocast;
+- teacher weights use BF16 on GPU;
+- no FP16 GradScaler;
+- standard backward with the canonical gradient clipping;
+- `use_cache=False`.
+
+The earlier G1-0 NaNs are classified as a technical FP16 incompatibility, not a
+quantization failure.
+
+Canonical files:
+
+- `results/run_g1_0b_granite350m_precision_2026-10-08.json`
+- `results/run_g1_0b_granite350m_precision_summary.md`
+
+G1-1 is now unblocked.
+
+### G1-1 — Granite-350M direct-Q3 schedule calibration
+
+**Status before launch: preregistered direct-only validation screen.**
+
+Seed/order:
+1729.
+
+Pinned script:
+`ternary_pet/g1_granite350m_direct_q3_calibration.py`
+
+Pinned commit:
+`3cb0153be80d5e9fbe112460bde7bc26398d851f`
+
+Purpose:
+select one direct-Q3 global LR schedule before any Granite Q9 result exists.
+
+All candidates:
+- start from the identical BF16-rounded Granite source;
+- use the same first 300 shuffled training chunks;
+- use Q3 forward weights only;
+- use FP32 persistent masters;
+- use the G1-0b-approved BF16 compute path;
+- are evaluated only on the 24 LR-validation chunks;
+- never touch the held-out test evaluator.
+
+Candidates:
+
+1. `const_1e-4`
+2. `warm100_cosine_3e-4`: 100-step warmup to 3e-4, cosine to 1e-4 over
+   the fixed 1200-step horizon
+3. `warm100_cosine_1e-3`: 100-step warmup to 1e-3, cosine to 1e-4 over
+   the fixed 1200-step horizon
+
+Each candidate runs exactly 300 updates. The warmup/cosine LR values are defined
+against the eventual 1200-step horizon, so the first 300 values can be reused
+unchanged in G1-2.
+
+**Selection rule:** lowest validation loss after 300 updates wins. Ties are
+resolved by lower validation KL, then lower peak LR.
+
+The winner becomes frozen for G1-2. Do not retune after any Q9 result is seen.
+
+This is a calibration job, not a cross-family scientific result.
