@@ -2045,3 +2045,21 @@ resolved by lower validation KL, then lower peak LR.
 The winner becomes frozen for G1-2. Do not retune after any Q9 result is seen.
 
 This is a calibration job, not a cross-family scientific result.
+
+
+### G1-1 launch record
+
+Hugging Face job:
+`6ac6f18ae7a0dae8a2780246`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+90 minutes
+
+Pinned code:
+`3cb0153be80d5e9fbe112460bde7bc26398d851f`
+
+This job contains only the preregistered direct-Q3 validation screen. No Q9 arm
+and no held-out test evaluation are present.
