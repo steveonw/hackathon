@@ -3336,3 +3336,91 @@ were tested in G1-9. Future frozen replication needed.
 Raw: `results/run_g1_9_granite350m_gaussian_pull_seed271828_2026-10-08.json`.
 Summary: `results/run_g1_9_granite350m_gaussian_pull_summary.md`.
 No follow-up GPU jobs launched.
+
+
+### G1-10 — frozen G1-9 factorial replication on Granite seed 424242
+
+**Status: preregistered BEFORE producing G1-10 code or launching GPU.**
+User explicitly authorized one next-seed replication of G1-9. Order 424242
+was named prospectively as the next Granite replication in the G1-9
+outcome discussion (2026-10-08). This is another *previously observed*
+Granite order (constant-LR Q9→Q3 advantage +0.06135), not a new blind order.
+
+#### Scientific question
+
+Does the strong periodic gridward latent-weight interpolation result from
+G1-9 on Granite hard order 271828 (within-run D=5.726725, P=5.489709,
+GP=5.487853, Gaussian-only G=5.743370) replicate on historically positive
+Granite order **424242**, or is it development-order-specific?
+
+The primary comparison is **P versus D on seed424242**. Secondary
+comparisons are G versus D, GP versus P and D, deterministic code
+movement, sampled per-step flips and immediate reversals, and top1/KL.
+Every arm and metric is reported, whether positive or negative.
+
+#### Strict frozen protocol (seed-only code change)
+
+Create `ternary_pet/g1_10_granite350m_gaussian_pull_seed424242.py`
+by copying **verbatim** the completed G1-9 script at pinned commit
+`6ce4c4056e8cfd3292c54f34bedc68bf7691688f`, changing **only**
+`SEED=271828` to `SEED=424242`. No parameter, optimizer, dataset,
+architecture, quantizer, measurement, or algorithm changes.
+
+- Model `ibm-granite/granite-4.0-350m`; BF16-rounded original source;
+  FP32 master weights, BF16 student and teacher, same quantized
+  linear-weight target (249,561,088 weights, nonquantized params frozen).
+- Same 1,200 WikiText-2 train chunks, shuffled using the new seed,
+  24 validation chunks and 64 final held-out test chunks (8,192 tokens);
+  teacher objective `0.35*CE+0.65*KL`.
+- Same direct **ternary / Q3** training in every arm; no Q9 phase;
+  300 updates of direct-Q3 preparation + 900 Q3 continuation
+  (original reference Q3 scales and fresh Adam at step300 for all arms).
+- All arms same LR **constant `1e-4`**, AdamW beta(0.9,0.95)
+  no weight decay, clip norm 1, exact same training order and
+  evaluated slices. Same BF16 autocast protocol.
+- D: standard hard ternary STE.
+- G: Gaussian perturbation before **training forward quantization**
+  `sigma_u=0.04` in each row's normalized scale, global steps1–900;
+  linear anneal to sigma0 at step1200; noise off for all validations,
+  code snapshots, grid pulls and held-out evaluation.
+- P: FP32-master gridward step `W <- 0.9W+0.1Q3(W)`
+  after Adam update at global steps100,200,...,900 (nine pulls),
+  current learned row scales, no extra optimizer steps and no
+  Adam reset besides common step300 reset.
+- GP: exactly the combination of G and P.
+- Identical 16 layer × 2048 weight deterministic code monitor,
+  seed-based positions, clean code flips and immediate reversals.
+- No random-mask arm is inserted into this direct-training factorial.
+  Previous matched/random controls are preserved as separate experiments,
+  not discarded or retroactively changed.
+
+#### Validity and stopping rules
+
+Check code equals G1-9 **except one seed assignment** before launch;
+commit and pin immutable SHA. Check current HF job list to avoid duplicate
+job submissions. Startup Q3/no-noise-eval smoke checks and all step,
+arm, finiteness, target-weight, pull-count assertions unchanged.
+For an exception or failed check, report a technical failure rather
+than scientific failure and do not launch an automatic replacement.
+
+Historical constant-LR Granite 424242 D held-out loss **5.80192006**
+is a contextual reproducibility check; paired *within-G1-10* D
+is the primary comparator. Report an unexpected D mismatch without
+silently rerunning/adjusting the held-out evaluator.
+
+A **single four-arm A10G-small Hugging Face Jobs run** is authorized,
+same 90-minute cap as G1-9. No further order 1729, Smol, LR/noise/λ
+calibration, or automatic expansion is authorized by this preregistration.
+Read the final JSON before interpreting any scientific claim.
+
+#### Frozen outcomes and interpretation
+
+- If P and/or GP improves D substantially again, this strengthens
+  **within-Granite cross-order evidence for WinQ-inspired gridward pull**,
+  still short of new-model-family generalization.
+- If G alone is negative/neutral, keep that as a separate conclusion;
+  do not claim Gaussian caused a pull effect.
+- If P fails, disclose order-specific instability; do not retune
+  using the held-out sample.
+- No assertion that code-flip suppression *causes* the improvement
+  without a separate causal control.
