@@ -47,6 +47,16 @@ on **3/3**, and matched-random `d=0.5` is harmful on **3/3**. Thus the
 position/code + interior-placement mechanism appears more robust than the raw
 full-staging trajectory, but even M-d50 fails to beat D on seed 271828.
 
+**Post-confirmation protocol sensitivity.** A deliberately transferred Smol
+v10–v13 LR schedule (100-step warmup to `1e-3`, cosine to `1e-4`) was tested
+on the known-hard Granite order 271828. It **worsened** the held-out direct
+endpoint from 5.7267 to 6.0089 and the staged endpoint from 5.8410 to 6.3692,
+with the D-vs-S disagreement mask expanding from 6.99% to **32.71%**.
+Standardized d=0.5 placement still improved over full S but remained worse
+than D. This is a **one-order negative schedule-transfer result**, not a
+new independent confirmation, and does not overturn the three-order constant-LR
+Granite conclusions.
+
 ---
 
 ## 2. Results at a glance
@@ -71,6 +81,7 @@ BF16 model scores perplexity **39.9**.
 | 13 | Granite staging generalizes on first order | Q9→Q3 −0.1309 nats; 12.27% lower PPL; Q9 is +1.925 nats worse immediately at step 300 | 1 order | G1-2 |
 | 14 | Granite first-order mechanism result | exact-M 76.2%; true-M d=0.5 118.6%; matched-random harmful | order 1729 | G1-3 |
 | 15 | Granite confirmations are mixed | full S wins 2/3; M-d50 > S 3/3; random harmful 3/3; mean mask 6.35% | 3 orders | G1-3/G1-4/G1-5 |
+| 16 | Smol schedule transfer fails on Granite 271828 | D 6.0089 vs 5.7267; S 6.3692 vs 5.8410; M 32.71% vs 6.99%; d50 below D | 1 known-hard order, 4 arms, no new random control | G1-7b |
 
 ---
 
@@ -303,6 +314,62 @@ commitments. This is post-hoc n=3 evidence, not a validated predictor.
 Detailed analysis:
 `replications/g1_granite350m_seed271828_forensics.md`.
 
+### 5.8 Transferring Smol's v10–v13 schedule to Granite (G1-7b)
+
+This was a deliberate protocol-sensitivity test after Granite's three-order
+constant-`1e-4` result, conducted **only on the known-hard order 271828**.
+
+Smol v10–v13 used a 100-step warmup to `1e-3`, followed by global cosine
+decay to `1e-4` at step 1,200. Prior Granite G1 instead used constant
+`1e-4`, chosen by direct-only G1-1 calibration. G1-7 copied the Smol global
+LR curve while preserving Granite's BF16-safe compute, FP32 masters, data,
+300/900 split, original Q3 scale reset and fresh Adam. The first attempt
+(`6ac722dfdf2184ac91ac75e9`) failed technically after 300-step preparation:
+the enlarged disagreement mask made a **full-size layer/source→target matched
+random control impossible**. The amended, preregistered four-arm retry
+(`6ac7248adf2184ac91ac768d`) completed successfully; all equal-forward
+assertions passed.
+
+| Arm | Constant-LR 271828 final loss | Transferred Smol schedule loss |
+|---|---:|---:|
+| D | **5.72673** | **6.00895** |
+| S | 5.84103 | 6.36920 |
+| M-exact | 5.80453 | 6.35442 |
+| M-d50 | 5.78502 | **6.30402** |
+
+The full S deficit versus D worsens from **0.11431** to **0.36025**
+nats/token. D itself gets worse by 0.28222, so the transferred schedule hurts
+both routes, but S more. M-d50 still improves on full S by 0.06517 nats, yet
+remains 0.29508 nats worse than D.
+
+The sharpest change is in the **discrete assignment regime**:
+
+- D moved **27.11%** of source Q3 codes by step 300; S moved **23.43%**,
+  compared with only ~5% movement each at the old constant LR.
+- D/S projected-Q3 disagreement grew from **6.995%** to **32.715%**
+  (81,642,667 of 249,561,088 targeted weights).
+- Native Q9 validation was still 0.38936 nats worse than native D at step 300,
+  with a **5.15×** preclip gradient-norm ratio.
+- Selected Q9 code survival with d=0.5 after 900 further Q3 steps fell from
+  **89.59%** to **60.75%**. Fixed-alpha0 and learned-scale survival still
+  nearly coincide (60.70% vs 60.75%).
+
+The original immediate fixed-Q3 Q9 disadvantage actually *shrinks* under the
+new schedule (0.865 to 0.428 nats), while final staged performance deteriorates.
+This reinforces that **entry quality alone does not predict later trainability**.
+
+**Interpretation:** the Smol-tuned `1e-3` peak does not transfer cleanly
+to this Granite order. The vast mask expansion, different code churn, and weaker
+survival are associated with the worsened endpoint, but do not by themselves
+identify the causal explanation. No random-control specificity claim is made
+under this schedule. This is one development order, not a general negative
+for all Granite seeds. The earlier mixed three-order results remain intact.
+
+Raw:
+`results/run_g1_7b_granite350m_v10schedule_seed271828_2026-10-08.json`.
+Summary:
+`results/run_g1_7b_granite350m_v10schedule_summary.md`.
+
 ---
 
 ## 6. Limitations
@@ -312,6 +379,11 @@ Detailed analysis:
   2/3 orders, with one genuine negative order. The structural d=0.5/random
   intervention pattern is more consistent than full staging, but M-d50 still
   fails to beat D on seed 271828. Both currently use WikiText-2.
+- **Cross-family LR sensitivity.** The Smol v10–v13 warmup-to-1e-3
+  schedule hurts both D and S on the known-hard Granite order 271828,
+  worsening S more; the disagreement set balloons from 6.99% to 32.71%.
+  Neither the Smol-tuned peak nor Granite's original 300-step calibration is
+  proof of a universally optimal schedule. This was one development order.
 - **Short training.** 1,200 steps of single 128-token chunks (~150k tokens). In
   the one longer run (v5: 6,000 steps, old constant-LR schedule, one order) the
   gap **shrank** from ~0.7 to 0.20 nats (ppl 70 vs 85). Whether it persists
@@ -330,10 +402,12 @@ Detailed analysis:
 
 ## 7. Possible next steps
 
-- **Generalization:** Granite confirmation is complete and mixed. The next
-  major decision should be whether to test within-family scale on
-  SmolLM2-1.7B, investigate why Granite seed 271828 reverses sign, or pursue a
-  cheaper predictor of useful Q9-selected commitments.
+- **Generalization and schedule sensitivity:** Granite confirmation is
+  mixed (2/3 positive at constant 1e-4). Copying Smol's higher-peak LR made the
+  hard Granite order worse and drove a 32.71% disagreement mask. A future
+  schedule experiment should use preregistered, model-aware calibration on
+  validation-only data, rather than presuming a Smol-selected LR transfers.
+  The next major phase (more orders/scale/selector) requires a separate decision.
 - **A cheaper recipe:** if the useful ~6% of assignments could be predicted
   without a full 9-state phase, the benefit could be had at lower cost.
 - **Level count:** test other intermediate grids (e.g., 5 or 7 states, or a
