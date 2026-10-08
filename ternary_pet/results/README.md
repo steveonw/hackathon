@@ -417,3 +417,20 @@ result under its own schedule.
 
 Raw: `run_g1_8_granite350m_v10schedule_seed424242_2026-10-08.json`
 Summary: `run_g1_8_granite350m_v10schedule_summary.md`
+
+
+### Pending G1-9: Gaussian × pull 2×2, Granite seed 271828
+
+Preregistered in `EXPERIMENT.md` before code and launch.
+Four equal-budget direct-Q3 arms: D (neither), G (Gaussian), P (gridward
+pull), GP (both), all constant LR `1e-4`, 300+900 steps,
+FP32 masters + Granite-safe BF16, original Q3 scales and fresh Adam at
+step300. Noise is Gaussian `σ=0.04×α_row` through 900, linearly
+annealed to zero at step1200; pull `W ← 0.9W+0.1Q3(W)` every100
+steps through900. Noise-free hard-Q3 evaluation.
+
+Pinned implementation: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`.
+Script: `ternary_pet/g1_9_granite350m_gaussian_pull_seed271828.py`.
+
+**First job launch attempt rate-limited by HF MCP (HTTP 429), no job ID.**
+No results, no seed replication and no result claims at this point.
