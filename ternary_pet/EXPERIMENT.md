@@ -3117,3 +3117,125 @@ the copy of Smol's peak 1e-3 LR hurts D and S absolute endpoints and
 produces roughly 30%-plus D/S disagreement on both orders. The direct
 model's response and the Q9-specific response must still be analyzed
 separately. Do not automatically launch seed 1729 or a new LR sweep.
+
+
+### G1-9 — Granite ternary QAT Gaussian noise × gridward interpolation factorial (pre-registered)
+
+**Status before code / GPU launch: preregistered. User approved one experiment.**
+
+#### Motivation
+
+G1-1 chose constant `1e-4` from direct-Q3 validation after 300 steps.
+G1-7b and G1-8 demonstrated that copying Smol's high-peak `1e-3`
+schedule makes Granite absolute endpoints worse on two chosen orders while
+increasing D/S projected code disagreement to ~30%. The near-boundary
+geometry and WinQ (Li et al., ICML 2026) motivate investigating low-bit
+training *within Granite's better-tested constant LR*.
+
+WinQ applies Gaussian noise to continuous latent weights **before** their
+quantization for the forward/gradient and periodically interpolates latent
+weights toward their own quantized values. The proposed G1-9 is
+**WinQ-inspired**, adapted to per-row scales and a short 1,200-update budget;
+it is not a faithful benchmark of the authors' full long-run recipe.
+
+#### Chosen order and decision status
+
+Use **seed/order 271828** (known hard Granite order) for a **development
+rescue test**, not independent confirmation. No new inference about family
+generalization from this single order. No hyperparameter tuning against the
+8,192-token held-out test. Model: `ibm-granite/granite-4.0-350m`.
+
+#### Frozen common conditions
+
+- BF16-rounded common model source; persistent FP32 masters; BF16
+  student/teacher compute; exactly same target linears excluding lm_head;
+  all other parameters frozen.
+- 1,200 identical seed-shuffled WikiText-2 train chunks of 128 input tokens;
+  identical separate 24-chunk *training-split* validation diagnostic and
+  64-chunk / 8,192-token held-out test; same tokenizer, same fixed teacher.
+- objective: CE35 + teacher KL65; AdamW beta=(0.9,0.95), weight decay zero;
+  gradient clipping at norm 1.0; **constant LR=1e-4 on every update**.
+- every arm starts from the same BF16-rounded weights and initialized row
+  scales and sees the exact same ordered input chunks.
+- each arm runs **300 direct-Q3 preparation + 900 direct-Q3 continuation
+  updates**. At global step300, restore the original per-row Q3 scales,
+  preserve the FP32 masters, and reset Adam (as in historical Granite D).
+  The 1,200-step budget and optimizer reset apply identically to all arms.
+- No Q9 intermediate phase in G1-9; **all arms are three-state ternary**.
+  Inherited quantizer Q3 levels {0, ±(2/3)alpha}, boundaries ±alpha/3.
+
+#### Frozen four-arm 2×2 design
+
+| Arm | Gaussian perturbation before ternary quantization | Periodic gridward master interpolation |
+|---|---|---|
+| D | no | no |
+| G | yes | no |
+| P | no | yes |
+| GP | yes | yes |
+
+- **Noise:** for each *training* forward of targeted FP32 master W,
+  with current rowwise alpha, sample independently
+  `epsilon ~ N(0,1)` and compute the hard Q3 forward from
+  `Q3(W + sigma_u(step)*alpha*epsilon)`; use the **same STE identity
+  gradient wrt W** as the parent Granite code. During validation,
+  code snapshots, pull, and held-out inference, use deterministic
+  **Q3(W)**, with **no injected noise**. Noise is not a relaxation to FP32
+  inference. Seed RNG at each arm creation and switch; no extra optimizer
+  updates.
+- **Noise schedule:** `sigma_u=0.04` normalized per-row for
+  global steps 1–900, then linearly decrease to `0` by global step
+  1200; deterministic zero-noise evaluation throughout. This normalized
+  schedule is an *a priori adaptation* to Granite row scales, not a
+  reported WinQ-optimal setting.
+- **Gridward interpolation (P and GP):** *after* optimizer updates at
+  global steps 100, 200, 300, 400, 500, 600, 700, 800 and 900,
+  apply `W <- 0.90 W + 0.10 Q3(W)`, using each row's **current**
+  learned scale, with no change to Adam states. No gridward pulls during
+  steps 901–1200, to provide a clean recovery window. Original Q3
+  scales are nevertheless restored at step 300 in all arms.
+- No noise or gridward-pull hyperparameter choices may be changed after
+  viewing the held-out result. Both G and GP use exactly the same Gaussian
+  schedule, both P and GP use the same gridward schedule.
+
+#### Hard invariants and diagnostics
+
+- Assert all initial Q3 codes / rowwise scales match the common reference,
+  quantization remains ternary, FP32 masters persist, and that all arms
+  complete the same 1200 updates, with finite loss/gradients.
+- Verify that the D arm reproduces the historical G1 271828 constant-LR
+  direct endpoint to a reasonable numerical tolerance. If it does not,
+  **report the discrepancy**, and treat within-job D as the primary
+  baseline rather than silently correcting the run.
+- Log native deterministic validation at step300 (before reference
+  scale reset), and deterministic fixed-Q3 post-reset validation at
+  step300; log the noised forward training CE/KL and pre-clip grad norm
+  at steps 1/100/200/300/.../1200; log discrete Q3 code movement
+  versus initialization and final held-out CE/PPL, teacher top1 and KL
+  for each arm.
+- Log **per-update quantized-code transition and immediate reversal**
+  estimates on a predetermined, reproducible sample of weights,
+  using noise-free codes even for noise arms. This distinguishes
+  persistent decisions from simple back-and-forth oscillation. All
+  sample positions must be determined from seed without validation/test.
+- For any numerical or shape-construction failure, halt and report a
+  **technical failure**, not a scientific negative.
+- Raw JSON, implementation SHA, job ID, positive/negative outcomes,
+  audit records, and all arms to be written to project reports.
+
+#### Frozen interpretation, not tuned on test
+
+Primary: does the combination GP improve held-out hard ternary CE loss over
+**within-run D**, and does either isolated component explain the effect?
+Secondary: margins/flip/reversal stability and code movement. Report all
+four results even if all modifications are worse. Compare with historical
+G1-4 D=5.72672517, but interpret paired within-job D first.
+
+This factorial isolates the direct-Q3 **training mechanism**; it does **not**
+by itself establish Q9→Q3 rescue, position specificity, new Gaussian
+boundary predictor, or generalization across independent orders. The
+historical random and matched-random controls remain intact and are
+*not replaced*; a new margin-matched random/predictor study requires
+a separate preregistration.
+
+**One A10G-small job with four arms is authorized; no automatic additional
+seeds, tuning, or larger models.**
