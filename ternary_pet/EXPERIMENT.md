@@ -2893,3 +2893,53 @@ D, S, M-exact, M-d50.
 
 This retry follows the preregistered amendment above. The omitted random control
 must not be inferred or reconstructed from this run.
+
+
+#### G1-7b completed outcome — negative schedule transfer (2026-10-08)
+
+Retry job `6ac7248adf2184ac91ac768d` completed successfully at
+2026-10-08T05:26:40.955Z. Frozen amended implementation:
+`808fd4975d16111d9c1c841c44d9038a01995ba3`.
+
+All four retained arms (D, S, M-exact, M-d50) ran their complete 300-step
+preparations / 900-step Q3 continuations. All equal-forward assertions passed;
+S, M-exact and M-d50 had identical projected Q3 codes and initial diagnostics.
+There was **no matched-random arm** in this run.
+
+| Arm | Constant-LR 271828 loss | v10-v13 LR transferred loss | New PPL |
+|---|---:|---:|---:|
+| D | 5.72673 | **6.00895** | **407.05** |
+| S | 5.84103 | 6.36920 | 583.59 |
+| M-exact | 5.80453 | 6.35442 | 575.03 |
+| M-d50 | 5.78502 | **6.30402** | **546.77** |
+
+The S-vs-D deficit is now **0.36025 nats** (versus 0.11431 nats under constant
+1e-4). M-d50 remains **0.29508 nats worse than D** despite improving S by
+0.06517 nats.
+
+At step 300:
+- D and Q9 native validation losses: **6.45034** and **6.83970**.
+- Fixed-Q3 projected D and S/M-exact/M-d50 validation losses:
+  **6.81094** and **7.23919**.
+- D changed **27.107%** of original Q3 codes; S changed **23.432%**.
+- D-vs-S projected disagreement mask grew to **32.7145%**
+  (81,642,667 / 249,561,088 targeted weights), compared with **6.9946%**
+  under historical constant-LR Granite 271828.
+- At prep step 300, Q9 preclip gradient norm was **9.7784**, versus
+  **1.8998** for D (5.15x). These were clipped to norm 1.0 for optimizer steps.
+
+M-d50 Q9-selected code survival at continuation 900: **60.75%**, versus
+**89.59%** under the earlier constant-LR run; fixed-alpha0 code survival was
+60.70%, closely matching learned-scale survival.
+
+**Conclusion:** direct transfer of the Smol v10–v13 warmup-to-1e-3/cosine
+schedule is **harmful for Granite order 271828**, hurting both D and S and
+hurting S more. The large disagreement mask and lower survival mark a very
+different assignment regime; they do not independently prove what causes the
+final loss. This is a known-hard-order development/protocol-sensitivity result,
+not a new confirmatory seed. No inference about matched-random specificity
+under this schedule is possible.
+
+Raw: `results/run_g1_7b_granite350m_v10schedule_seed271828_2026-10-08.json`.
+Summary: `results/run_g1_7b_granite350m_v10schedule_summary.md`.
+No additional jobs launched.
