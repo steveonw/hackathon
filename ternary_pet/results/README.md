@@ -442,3 +442,33 @@ No scientific results or additional GPU jobs exist for this protocol.
 Hugging Face accepted the pinned Granite Gaussian × pull experiment after the two earlier 429 rate limits. Job `6ac821ec095c5780892ff7f9`, submitted 2026-10-08T23:06:20Z, A10G-small, 90-minute max; initial status **SCHEDULING**. Script commit `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`. Monitor: https://huggingface.co/jobs/codeflash85/6ac821ec095c5780892ff7f9
 
 Arms D/G/P/GP; seed271828; no parameter changes or additional jobs. Do not mark as completed until FINAL_JSON and scientific checks are verified.
+
+
+### G1-9 completed: gridward pull improves Granite ternary QAT
+
+Job `6ac821ec095c5780892ff7f9` **COMPLETED**; code
+`6ce4c4056e8cfd3292c54f34bedc68bf7691688f`. All 300+900-step
+arms and 5 construction checks passed. The earlier two 429 errors
+were only submission attempts. These earlier sections' "pending" /
+"not running" labels represent historical status; **the run is now complete**.
+
+| Arm | Holdout loss | PPL | Gain vs D |
+|---|---:|---:|---:|
+| D | 5.726725 | 306.96 | — |
+| G | 5.743370 | 312.11 | −0.016645 |
+| P | **5.489709** | **242.19** | **+0.237016** |
+| GP | **5.487853** | **241.74** | **+0.238872** |
+
+D reproduces historical hard-order direct exactly. P gridward pull
+nine times, at 10% master→current-Q3 interpolation, improves D by
+0.237 nats / lowers perplexity **21.10%**. G noise alone is worse.
+GP is only 0.00186 nats ahead of P, not evidence of an important
+added Gaussian benefit.
+
+Sampled clean-code flip frequency in continuation decreases **87.2%**
+for P vs D; fewer flips and better loss coexist, but the causal reason
+is not proved. Single development seed 271828, no Q9 arm, no
+new mask-position random control; independent replication required.
+
+- [Raw JSON](run_g1_9_granite350m_gaussian_pull_seed271828_2026-10-08.json)
+- [Complete summary](run_g1_9_granite350m_gaussian_pull_summary.md)
