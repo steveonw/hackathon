@@ -4,10 +4,11 @@
 >
 > Repository: `steveonw/hackathon`  
 > Project directory: `ternary_pet/`  
-> Current state: **v8 completed; v7 trainability effect replicated, simple signed-preload mechanism not supported**  
-> Latest mechanism script: `smollm2_v8_signed_preload.py` at `356bff9769c96faa0ca139f9cba088fc1a52c2c8`  
-> Latest completed HF job: `6ac5a0b1404719ba37664653`  
-> Canonical current summaries: `replications/v7_aggregate_summary.md` and `results/run_v8_summary.md`
+> Current state: **SmolLM2-360M mechanism phase complete at v12; Granite-350M G1 generalization phase active**  
+> Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
+> Latest completed HF job: G1-0b precision gate `6ac6eec9df2184ac91ac67ca` — BF16 PASS, FP16 invalid  
+> Active HF job: G1-1 direct-Q3 calibration `6ac6f18ae7a0dae8a2780246`  
+> Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_0b_granite350m_precision_summary.md`
 
 ## 1. What the user is trying to discover
 
@@ -1269,8 +1270,14 @@ Canonical summary:
 
 The next scientific phase is **G1**, not v14.
 
-Current selected Family-B small candidate:
-`ibm-granite/granite-4.0-350m`, subject to the G1-0 architecture audit.
+Selected Family-B small model:
+`ibm-granite/granite-4.0-350m`.
+
+G1-0 architecture/freezing coverage was acceptable. G1-0b established a
+Granite-specific precision rule **before any D-vs-S result**: FP32 and BF16
+source paths are finite and closely matched, while FP16 is non-finite. Granite
+G1 therefore uses FP32 masters + BF16-rounded source + BF16 autocast/BF16
+teacher. Do not revert Granite jobs to FP16.
 
 Canonical roadmap:
 `G1_GENERALIZATION_PLAN.md`.
@@ -1278,11 +1285,12 @@ Canonical roadmap:
 Do not jump directly to large-model scale-up or reopen more
 SmolLM2-360M mechanism work. The gated sequence is:
 
-1. G1-0 architecture / quantization smoke;
-2. G1-1 direct-only schedule calibration;
-3. G1-2 one-order D/S staging gate;
-4. G1-3 compressed mechanism test only if staging is positive;
-5. two fixed-protocol confirmatory orders only if the first-order result is
+1. G1-0 architecture / quantization smoke — complete, exposed FP16 blocker;
+2. G1-0b BF16 precision diagnostic — complete, passed;
+3. G1-1 direct-only schedule calibration — active job `6ac6f18ae7a0dae8a2780246`;
+4. G1-2 one-order D/S staging gate;
+5. G1-3 compressed mechanism test only if staging is positive;
+6. two fixed-protocol confirmatory orders only if the first-order result is
    scientifically interpretable.
 
 If G1 is positive, the intended next quadrant is SmolLM2-1.7B, followed by the
