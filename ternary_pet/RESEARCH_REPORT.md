@@ -43,8 +43,11 @@ the inherited FP16 path was numerically invalid even for the unquantized source.
 A preregistered precision diagnostic showed FP32 CE **3.2354**, BF16 CE
 **3.2406**, and FP16 non-finite on the same probe; one-step Q3 and Q9 training
 were fully finite under BF16. BF16 is therefore locked as Granite's compute
-path. This is an engineering result only; there is **not yet a Granite
-Q9-vs-direct scientific result**.
+path. G1-1 then selected **constant LR 1e-4** by direct-only validation
+(5.8128 loss versus 6.0827 and 6.7402 for the higher-LR schedules), before any
+Granite Q9 result existed. G1-2, the first scientific Granite D-vs-S staging
+gate, is now active. There is **not yet a completed Granite Q9-vs-direct
+scientific result**.
 
 ---
 
@@ -66,6 +69,7 @@ BF16 model scores perplexity **39.9**.
 | 9 | Firmness alone doesn't help direct | Prototyping direct's own codes: −0.03 / −0.01 nats | 1 order | v13 |
 | 10 | Advantage shrinks with longer training (old schedule) | 6,000 steps: ppl 70 vs 85, gap 0.20 nats | 1 order | v5 |
 | 11 | Granite G1 engineering gate only | BF16 source CE 3.2406 vs FP32 3.2354; FP16 non-finite; Q3/Q9 BF16 steps finite | 1 technical smoke, no scientific order | G1-0/G1-0b |
+| 12 | Granite direct schedule frozen before Q9 | const 1e-4 val loss 5.8128 vs 6.0827 / 6.7402 for higher-LR schedules | 1 calibration order; held-out test unused | G1-1 |
 
 ---
 
@@ -228,9 +232,9 @@ advantage, while the same commitment applied to other choices does not.
 ## 6. Limitations
 
 - **One completed scientific model family and one dataset.** SmolLM2-360M,
-  WikiText-2 for both training and evaluation. Granite-350M has passed the
-  engineering/precision gate and entered direct-only calibration, but no
-  cross-family Q9-vs-direct result exists yet.
+  WikiText-2 for both training and evaluation. Granite-350M has passed the engineering/precision gate; direct-only G1-1
+  selected constant 1e-4 and G1-2 is now testing D vs Q9→Q3. No completed
+  cross-family result exists yet.
 - **Short training.** 1,200 steps of single 128-token chunks (~150k tokens). In
   the one longer run (v5: 6,000 steps, old constant-LR schedule, one order) the
   gap **shrank** from ~0.7 to 0.20 nats (ppl 70 vs 85). Whether it persists
@@ -250,8 +254,9 @@ advantage, while the same commitment applied to other choices does not.
 ## 7. Possible next steps
 
 - **Generalization (active):** complete the preregistered Granite-350M G1
-  sequence: direct-only schedule calibration, one-order D/S gate, then the
-  compressed causal mechanism battery only if staging is positive.
+  sequence: constant 1e-4 is now frozen from direct-only calibration; complete
+  the active one-order D/S gate, then run the compressed causal mechanism
+  battery only if staging is positive.
 - **A cheaper recipe:** if the useful ~6% of assignments could be predicted
   without a full 9-state phase, the benefit could be had at lower cost.
 - **Level count:** test other intermediate grids (e.g., 5 or 7 states, or a
