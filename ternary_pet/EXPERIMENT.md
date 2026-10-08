@@ -2830,3 +2830,45 @@ Wall-clock cap:
 This is the single authorized Granite hard-order matched-schedule transfer
 experiment. Do not launch 1729/424242 replicas unless this result is inspected
 first.
+
+
+#### G1-7 first launch technical failure and preregistered amendment
+
+First launch:
+`6ac722dfdf2184ac91ac75e9`
+
+The job completed both 300-step preparation arms successfully, then failed
+before any continuation or held-out endpoint was evaluated while constructing
+the preregistered full-size matched-random control.
+
+Failure:
+`('insufficient_random_candidates',
+'model.layers.0.shared_mlp.input_linear', source_code=0,
+available_outside_M=342644, required=595275)`
+
+Under the transferred v10-v13 schedule, at least one per-layer/source-code
+stratum contains more true-mask transitions than there are distinct outside-M
+positions with the same direct source code. Therefore an exact full-size random
+control matched simultaneously by layer and source→target transition is
+mathematically infeasible without sampling with replacement or relaxing the
+matching constraints.
+
+This is a **technical design failure**, not a scientific outcome.
+
+Before retrying, the G1-7 schedule-transfer protocol is amended as follows:
+
+- keep D, S, M-exact, and M-d50 unchanged;
+- omit Random-d50 from this retry;
+- preserve the exact same model, seed/order 271828, BF16-safe compute path,
+  300/900 split, v10-v13 global LR curve, scale reset, fresh Adam, data, and
+  evaluators;
+- retain all equal-forward assertions among S / M-exact / M-d50;
+- report D/S geometry and M-d50 survival as before;
+- do **not** make any new position-specificity claim from G1-7.
+
+This amendment is made after observing only preparation-stage training logs and
+the random-control construction failure, but **before any continuation or
+held-out G1-7 endpoint exists**.
+
+If a schedule-transfer effect appears, the matched-random specificity control
+must be addressed separately with a newly preregistered feasible subset design.
