@@ -14,9 +14,10 @@ Preregistered development seed/order 271828 arms:
   S          Q9-prepared masters everywhere
   M-exact    S masters only on the true D-vs-S Q3 disagreement mask
   M-d50      S-selected Q3 code on true M at normalized depth d=0.5
-  Random-d50 per-layer/source->target matched random positions outside M
+  Random-d50 omitted in the amended retry because exact full-size matching
+  is infeasible under this schedule.
 
-Every arm receives original Q3 scales, fresh Adam, and the Smol v10-v13
+Every retained arm receives original Q3 scales, fresh Adam, and the Smol v10-v13
 global LR schedule (100-step warmup to 1e-3, cosine to 1e-4 at step 1200),
 continued without LR restart across the step-300 boundary, plus the same
 continuation chunks 301-1200. Granite retains its BF16-safe compute path. No held-out result is used to construct M
@@ -787,7 +788,7 @@ def continue_g1_7(
     cleanup(opt,m,qs,trainable,start_codes,final_codes)
     return out
 
-ARMS=["D","S","M-exact","M-d50","Random-d50"]
+ARMS=["D","S","M-exact","M-d50"]
 
 print(json.dumps({
     "event":"g1_7_start",
@@ -832,8 +833,11 @@ d_codes=projected_q3_codes_from_masters(d_masters,reference_scales)
 s_codes=projected_q3_codes_from_masters(s_masters,reference_scales)
 diff_mask,mask_stats=build_diff_mask(d_codes,s_codes)
 true_transitions=transition_counts_for_mask(d_codes,s_codes,diff_mask)
-random_plan,random_audit=build_matched_random_plan(d_codes,s_codes,diff_mask)
-random_codes=random_expected_codes(d_codes,random_plan)
+random_plan=None
+random_audit={
+    "status":"omitted_after_preregistered_amendment",
+    "reason":"full-size exact layer/source->target matched random control infeasible under this schedule"
+}
 
 print(json.dumps({
     "event":"g1_7_geometry",
@@ -842,7 +846,7 @@ print(json.dumps({
     "S_vs_initial":hamming_codes(initial_codes,s_codes),
     "D_vs_S":hamming_codes(d_codes,s_codes),
     "true_transition_counts":true_transitions["global"],
-    "random_total_selected":random_audit["total_selected"]
+    "random_control":"omitted_in_retry_after_preregistered_technical_amendment"
 }),flush=True)
 
 pre_codes={}
@@ -864,31 +868,13 @@ checks={
     "S_vs_Md50_hamming":hamming_codes(pre_codes["S"],pre_codes["M-d50"]),
     "S_vs_Mexact_diag_close":diag_close(pre_diags["S"],pre_diags["M-exact"]),
     "S_vs_Md50_diag_close":diag_close(pre_diags["S"],pre_diags["M-d50"]),
-    "random_vs_expected_hamming":hamming_codes(
-        pre_codes["Random-d50"],random_codes
-    ),
-    "D_vs_random_hamming":hamming_codes(
-        pre_codes["D"],pre_codes["Random-d50"]
-    ),
-    "random_count_equals_mask":(
-        random_audit["total_selected"]==mask_stats["changed_count"]
-    ),
-    "random_per_layer_transition_match":(
-        random_audit["per_layer_transition_counts"]
-        == true_transitions["per_layer"]
-    )
+    "random_control_omitted":True
 }
 
 assert checks["S_vs_Mexact_hamming"]["fraction"]==0.0, checks
 assert checks["S_vs_Md50_hamming"]["fraction"]==0.0, checks
 assert checks["S_vs_Mexact_diag_close"], checks
 assert checks["S_vs_Md50_diag_close"], checks
-assert checks["random_vs_expected_hamming"]["fraction"]==0.0, checks
-assert abs(
-    checks["D_vs_random_hamming"]["fraction"]-mask_stats["fraction"]
-)<1e-12, checks
-assert checks["random_count_equals_mask"], checks
-assert checks["random_per_layer_transition_match"], checks
 
 print(json.dumps({
     "event":"g1_7_assertions_passed","checks":checks
@@ -911,18 +897,15 @@ L={arm:arms[arm]["final"]["loss"] for arm in ARMS}
 full_gain=L["D"]-L["S"]
 exact_gain=L["D"]-L["M-exact"]
 d50_gain=L["D"]-L["M-d50"]
-random_gain=L["D"]-L["Random-d50"]
 
 effects={
     "D_loss":L["D"],
     "S_loss":L["S"],
     "M_exact_loss":L["M-exact"],
     "M_d50_loss":L["M-d50"],
-    "Random_d50_loss":L["Random-d50"],
     "full_S_gain_vs_D":full_gain,
     "M_exact_gain_vs_D":exact_gain,
     "M_d50_gain_vs_D":d50_gain,
-    "Random_d50_gain_vs_D":random_gain,
     "M_exact_recovery_of_full_S":(
         exact_gain/full_gain if abs(full_gain)>1e-12 else float("nan")
     ),
@@ -931,9 +914,6 @@ effects={
     ),
     "M_d50_recovery_of_M_exact":(
         d50_gain/exact_gain if abs(exact_gain)>1e-12 else float("nan")
-    ),
-    "Random_d50_recovery_of_full_S":(
-        random_gain/full_gain if abs(full_gain)>1e-12 else float("nan")
     )
 }
 
