@@ -37,17 +37,18 @@ quantization in general is not new (§3); the contribution here is the
 ternary-specific result with matched controls and the causal localization of
 the mechanism.
 
-**Current generalization phase.** G1 has begun on
-`ibm-granite/granite-4.0-350m`. The architecture/freezing smoke passed, but
-the inherited FP16 path was numerically invalid even for the unquantized source.
-A preregistered precision diagnostic showed FP32 CE **3.2354**, BF16 CE
-**3.2406**, and FP16 non-finite on the same probe; one-step Q3 and Q9 training
-were fully finite under BF16. BF16 is therefore locked as Granite's compute
-path. G1-1 then selected **constant LR 1e-4** by direct-only validation
-(5.8128 loss versus 6.0827 and 6.7402 for the higher-LR schedules), before any
-Granite Q9 result existed. G1-2, the first scientific Granite D-vs-S staging
-gate, is now active. There is **not yet a completed Granite Q9-vs-direct
-scientific result**.
+**Current generalization phase.** G1 on
+`ibm-granite/granite-4.0-350m` has now produced a positive first-order
+cross-family result. After a preregistered BF16 engineering fix and direct-only
+selection of constant LR 1e-4, Q9→Q3 beats direct by **0.1309 nats/token**
+(**12.27% lower PPL**) on order 1729 despite being **1.925 nats worse** as an
+immediate fixed-Q3 checkpoint at step 300. G1-3 then shows the qualitative
+Smol mechanism transfers: the **6.0246%** D-vs-S disagreement set recovers
+**76.2%** of the full staged gain with exact Q9 masters, true-mask `d=0.5`
+placement recovers **118.6%** and beats full S, while a transition/layer/source-
+matched random `d=0.5` intervention is harmful. These Granite results are
+**one training order only** and require confirmation before a replicated
+cross-family claim.
 
 ---
 
@@ -70,6 +71,8 @@ BF16 model scores perplexity **39.9**.
 | 10 | Advantage shrinks with longer training (old schedule) | 6,000 steps: ppl 70 vs 85, gap 0.20 nats | 1 order | v5 |
 | 11 | Granite G1 engineering gate only | BF16 source CE 3.2406 vs FP32 3.2354; FP16 non-finite; Q3/Q9 BF16 steps finite | 1 technical smoke, no scientific order | G1-0/G1-0b |
 | 12 | Granite direct schedule frozen before Q9 | const 1e-4 val loss 5.8128 vs 6.0827 / 6.7402 for higher-LR schedules | 1 calibration order; held-out test unused | G1-1 |
+| 13 | Granite staging generalizes on first order | Q9→Q3 −0.1309 nats; 12.27% lower PPL; Q9 is +1.925 nats worse immediately at step 300 | 1 order | G1-2 |
+| 14 | Granite mechanism qualitatively generalizes | exact-M recovers 76.2%; true-M d=0.5 recovers 118.6%; matched-random is harmful | 1 order | G1-3 |
 
 ---
 
@@ -222,19 +225,53 @@ changed weights, makes results slightly worse (−0.03 and −0.01 nats).
 
 ### 5.5 Mechanism in one sentence
 
-The 9-state phase selects a specific ~6% of ternary assignments that differ from
-the ones direct training makes; committing those assignments with moderate
-margin keeps them from being undone, and that accounts for essentially the whole
+The 9-state phase selects a specific small set of ternary assignments that differ
+from the ones direct training makes; committing those assignments with moderate
+margin keeps them from being undone, and that accounts for most or all of the
 advantage, while the same commitment applied to other choices does not.
+
+### 5.6 Cross-family Granite result (G1, order 1729)
+
+Granite-4.0-350M reproduces the central trainability signature: after 300 equal
+updates, Q9-prepared masters projected into the common Q3 system are much worse
+than direct (**7.7425 vs 5.8174 loss**), yet Q9→Q3 finishes better
+(**5.5350 vs 5.6658**, 12.27% lower PPL).
+
+The projected D-vs-S disagreement mask is **6.0246%**, again close to the ~6%
+scale seen on SmolLM2.
+
+Under the common fresh-Adam continuation used for G1-3:
+
+| Arm | Held-out loss | Gain vs D | Recovery of full S |
+|---|---:|---:|---:|
+| D | 5.66205 | — | — |
+| S | 5.53495 | 0.12710 | 100% |
+| M-exact | 5.56525 | 0.09680 | **76.2%** |
+| M-d50 | **5.51134** | **0.15071** | **118.6%** |
+| Random-d50 | 5.73514 | −0.07308 | −57.5% |
+
+All S / M-exact / M-d50 arms begin with the same projected ternary forward
+weights and diagnostics. The matched-random arm preserves mask size, layer
+allocation and source→target transition counts but uses different positions.
+
+This supports the **qualitative** cross-family mechanism: Q9's useful information
+is in specific position/code choices plus useful interior placement, not exact
+Q9 continuous values or generic code snapping. But exact-mask localization is
+weaker on Granite (76.2%) than on SmolLM2 (~96.4%), so the quantitative
+partition of the effect appears family-dependent.
+
+For M-d50, Q9-selected-code survival is 99.68% after 100 continuation steps,
+97.98% after 300, and **90.70%** after 900; learned-scale and fixed-alpha0
+survival are nearly identical.
 
 ---
 
 ## 6. Limitations
 
-- **One completed scientific model family and one dataset.** SmolLM2-360M,
-  WikiText-2 for both training and evaluation. Granite-350M has passed the engineering/precision gate; direct-only G1-1
-  selected constant 1e-4 and G1-2 is now testing D vs Q9→Q3. No completed
-  cross-family result exists yet.
+- **One replicated scientific model family plus one first-order cross-family
+  result.** SmolLM2-360M is replicated across three orders. Granite-350M has a
+  positive staging + mechanism result on order 1729 only; cross-family
+  replication is not yet established. Both currently use WikiText-2.
 - **Short training.** 1,200 steps of single 128-token chunks (~150k tokens). In
   the one longer run (v5: 6,000 steps, old constant-LR schedule, one order) the
   gap **shrank** from ~0.7 to 0.20 nats (ppl 70 vs 85). Whether it persists
@@ -253,10 +290,9 @@ advantage, while the same commitment applied to other choices does not.
 
 ## 7. Possible next steps
 
-- **Generalization (active):** complete the preregistered Granite-350M G1
-  sequence: constant 1e-4 is now frozen from direct-only calibration; complete
-  the active one-order D/S gate, then run the compressed causal mechanism
-  battery only if staging is positive.
+- **Generalization (active):** confirm the completed positive Granite-350M
+  G1 staging/mechanism result on the two preregistered training orders before
+  treating it as a replicated cross-family conclusion.
 - **A cheaper recipe:** if the useful ~6% of assignments could be predicted
   without a full 9-state phase, the benefit could be had at lower cost.
 - **Level count:** test other intermediate grids (e.g., 5 or 7 states, or a
