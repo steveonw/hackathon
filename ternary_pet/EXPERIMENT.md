@@ -2177,3 +2177,117 @@ Pinned code:
 This is the first Granite G1 job allowed to contribute a scientific
 cross-family staging result. G1-3 remains blocked until the final D-vs-S
 endpoint is inspected against the preregistered gate.
+
+
+### G1-2 outcome — first Granite staging result is positive
+
+Job `6ac6f487df2184ac91ac693e` completed successfully.
+
+Seed/order 1729 final held-out endpoint:
+
+| Metric | Direct Q3 | Q9→Q3 | Q9 advantage |
+|---|---:|---:|---:|
+| loss | 5.66581 | **5.53495** | **0.13086 nats/token** |
+| PPL | 288.82 | **253.40** | **12.27% lower** |
+| teacher top-1 | 27.53% | **28.04%** | **+0.51 pp** |
+| KL to teacher | 2.49025 | **2.38307** | **0.10718 lower** |
+
+Equal-compute step-300 fixed-Q3 projection:
+
+- direct: loss **5.81745**, PPL **336.11**;
+- Q9-prepared masters projected through the same original Q3 scales:
+  loss **7.74247**, PPL **2304.15**.
+
+Thus the Q9-prepared state is **1.92502 nats/token worse immediately in Q3**
+yet finishes better after the common later Q3 budget. This reproduces the
+Smol-like **trainability-not-entry-quality** signature on the first Granite
+order.
+
+Step-300 geometry:
+
+- direct changed vs source Q3: 5.3242%;
+- Q9-prepared changed vs source Q3: 5.2723%;
+- D-vs-S projected Q3 disagreement: **6.0246%**
+  (15,035,048 / 249,561,088 targeted positions);
+- changed-set Jaccard: 27.53%.
+
+This is a **one-order cross-family staging result only**. It does not yet
+establish that Granite shares the same causal disagreement-mask / interior-
+placement mechanism.
+
+Canonical files:
+
+- `results/run_g1_2_granite350m_staging_seed1729_2026-10-08.json`
+- `results/run_g1_2_granite350m_staging_summary.md`
+
+Per the preregistered G1 gate, G1-3 is now authorized.
+
+### G1-3 — Granite compressed causal mechanism test
+
+**Status before launch: preregistered mechanism test; seed/order 1729 only.**
+
+Purpose:
+test whether Granite's positive staging effect is carried by the same kind of
+small D-vs-S projected-Q3 disagreement set seen on SmolLM2, and whether useful
+interior placement at normalized depth d=0.5 is position-specific rather than a
+generic code-snapping trick.
+
+The run rebuilds D and S independently from the common BF16-rounded source
+using the frozen Granite G1 semantics:
+
+- direct-selected constant LR 1e-4;
+- first 300 identical shuffled training chunks;
+- FP32 persistent masters;
+- BF16 autocast and BF16 teacher;
+- original rowwise Q3 scales define all projected codes and constructions;
+- all continuation arms receive **fresh Adam + original Q3 scales + the same
+  constant 1e-4 + the same steps 301-1200**.
+
+Define M as the positions where D and S masters, projected through the same
+original Q3 scales at step 300, choose different Q3 codes.
+
+Continuation arms:
+
+1. **D** — direct-prepared masters everywhere.
+2. **S** — Q9-prepared masters everywhere.
+3. **M-exact** — Q9-prepared masters only on M; direct masters elsewhere.
+4. **M-d50** — direct masters outside M; on M use S's selected Q3 code placed
+   at normalized depth `d=0.5` inside that target region.
+5. **Random-d50** — direct masters everywhere except an equal-size set outside
+   M, matched per layer and D-source→S-target transition count, placed at the
+   same `d=0.5`.
+
+The d=0.5 coordinate is the already established v13 definition:
+
+- target ±1: normalized u = sign(target) * (1/3 + 0.5 * 1/3) = ±1/2;
+- target 0 from source ±1: normalized u = source_sign * (1/3) * (1-0.5)
+  = ±1/6.
+
+Required pre-continuation assertions:
+
+- S, M-exact and M-d50 must have exactly the same projected Q3 codes globally;
+- their pre-continuation validation diagnostics must match within numerical
+  evaluation tolerance;
+- Random-d50 must reproduce the planned random target codes exactly;
+- Random-d50 must contain exactly |M| positions and must not overlap M;
+- its per-layer/source→target transition counts must match M exactly.
+
+Required outputs:
+
+- final held-out loss/PPL/top-1/KL for all five arms;
+- full S-vs-D gain;
+- recovery of the full S gain by M-exact;
+- recovery by M-d50 relative to M-exact and to full S;
+- Random-d50 effect versus D;
+- Q9-selected-code survival on true M for M-d50 after 100, 300 and 900 Q3
+  continuation steps using both learned current Q3 scales and fixed original
+  alpha0.
+
+Interpretation remains qualitative/within-model. Do not require Granite to
+match Smol's exact 96.4% localization or 106.9% prototype recovery. The
+mechanism is supported if the true disagreement set carries most of the staging
+benefit, d=0.5 retains substantial benefit, and the matched random intervention
+is clearly weaker or harmful.
+
+No confirmatory Granite orders are launched by this entry. G1-4/G1-5 remain
+separate decisions after G1-3 is inspected.
