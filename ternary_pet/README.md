@@ -13,6 +13,18 @@ space more effectively after adapting on an intermediate discrete grid.
 Matched-schedule **Q9→Q3 beats tuned direct Q3 in 3/3 training orders**: mean held-out loss improves by **0.672 nats/token** and PPL by **48.94%**.
 The benefit localizes to the **~6.3%** of weights where Q9 and direct choose different Q3 codes; that subset recovers **96.4%** of the full gain across 3/3 orders.
 A standardized interior placement for those Q9-selected codes recovers **106.9%** across 3/3 orders; v13 further shows the depth effect saturates around **d≈0.5** on seed 1729.
+**New G1-9 development result (2026-10-08):** a preregistered
+Gaussian × periodic-gridward-pull direct-Q3 factorial on Granite's
+known-hard seed271828 found that **gridward master-weight interpolation
+by itself** reduced held-out loss from **5.72673 to 5.48971 nats**
+(21.10% lower PPL) at matched constant-`1e-4` LR and 1,200 steps.
+Gaussian noise alone was slightly worse; adding it to gridward pull
+changed loss only from 5.48971 to 5.48785. Clean per-update sampled
+ternary-code flip frequency was ~87% lower under pull. **This is a
+one-order result, not replication or a proven causal explanation of
+flip dynamics.** These core interventions also have published prior art
+(e.g., WinQ). [G1-9 summary](results/run_g1_9_granite350m_gaussian_pull_summary.md).
+
 **Living current-state report:** [RESEARCH_REPORT.md](RESEARCH_REPORT.md) · **Chronological log:** [SHAREABLE_RESEARCH_REPORT.md](SHAREABLE_RESEARCH_REPORT.md)
 
 ## Current interpretation
