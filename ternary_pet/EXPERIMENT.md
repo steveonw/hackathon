@@ -2560,3 +2560,126 @@ This is **mixed cross-family evidence**, not a clean replication of the Smol
 
 Canonical aggregate:
 `replications/g1_granite350m_mechanism_aggregate_summary.md`.
+
+
+### G1-6 — seed-conditioned trajectory-alignment selector (development order 271828)
+
+**Status before launch: preregistered development experiment.**
+
+This is one deliberate follow-up on the already-observed negative Granite order
+271828. It is not a new confirmation seed and must not be presented as such.
+
+#### Question
+
+Does the usefulness of a Q9-selected ternary commitment depend on whether that
+commitment **meshes with the local Q3 optimization trajectory induced by this
+training order**?
+
+The motivating observation is that order 271828 has a larger/more disjoint Q9
+disagreement set, native Q9 remains under-settled during preparation, and
+true-mask d=0.5 barely beats the matched-random control.
+
+#### Frozen preparation
+
+- model: `ibm-granite/granite-4.0-350m`
+- seed/order: **271828**
+- same BF16 compute path and FP32 masters as G1
+- same direct-only-selected constant LR `1e-4`
+- same first 300 shuffled chunks
+- D = Q3 for 300 updates
+- S = Q9 for 300 updates
+- original Q3 scales define projected D/S codes
+- M = positions where projected D and S Q3 codes disagree
+
+No held-out test data is used for selection.
+
+#### Trajectory-alignment score
+
+At the completed D@300 state, restore the **original Q3 scales** and accumulate
+the same CE35/KL65 Q3 gradient over the **last 24 already-consumed preparation
+chunks** (training chunks 277–300 in this seed order). No optimizer step is
+taken during this selector pass.
+
+For each position `i` in M:
+
+- `w_D[i]` is the direct-prepared FP32 master;
+- `w_d50[i]` is the standard d=0.5 interior point for Q9's selected target
+  ternary code;
+- `g[i]` is the accumulated Q3 master-weight gradient on the selector window.
+
+Define:
+
+`alignment_score[i] = -g[i] * (w_d50[i] - w_D[i])`
+
+Positive / larger score means the local first-order Q3 objective predicts that
+moving D toward the Q9-selected d=0.5 commitment is helpful. Negative / smaller
+score means the local trajectory opposes that commitment.
+
+The selector window uses only training data already consumed during preparation,
+so it does not look ahead into chunks 301–1200.
+
+#### Matched alignment split
+
+To control for layer and transition composition, M is split **within every
+layer and every D-code→S-code transition class**.
+
+For each such class with `n` positions:
+
+- top `floor(n/2)` by alignment score → **AlignTop50**
+- bottom `floor(n/2)` → **AlignBottom50**
+- if `n` is odd, the one middle-ranked position is dropped from both halves
+
+Thus AlignTop50 and AlignBottom50 must have exactly matched per-layer
+source→target transition counts and equal total size. They must be disjoint and
+subsets of M.
+
+#### Continuation arms
+
+All arms use D masters outside their selected mask, original Q3 scales, fresh
+Adam, constant LR `1e-4`, and the exact same chunks 301–1200 for 900 Q3
+updates.
+
+1. **D** — D masters everywhere.
+2. **All-d50** — all true-M Q9-selected codes placed at d=0.5.
+3. **AlignTop50-d50** — only the matched top-half trajectory-aligned proposals
+   placed at d=0.5.
+4. **AlignBottom50-d50** — only the matched bottom-half proposals placed at
+   d=0.5.
+
+The historical full-S arm is not needed for this development question; D and
+All-d50 are rebuilt in the same job as reproducibility anchors.
+
+#### Hard construction assertions
+
+Before continuation:
+
+- AlignTop50 and AlignBottom50 have equal total size;
+- they have exactly equal per-layer D→S transition counts;
+- they are disjoint;
+- both are strict subsets of M;
+- All-d50 exactly realizes S's projected Q3 codes on all of M;
+- each half-arm realizes S's projected Q3 code exactly on its selected half and
+  D's projected Q3 code elsewhere.
+
+Any assertion failure is a **technical failure**, not a scientific result.
+
+#### Primary interpretation
+
+This is a development experiment, so the outcomes are descriptive rather than
+confirmatory.
+
+Evidence for a seed/Q9 trajectory-mesh signal requires:
+
+1. `AlignTop50-d50` finishes better than the exactly matched
+   `AlignBottom50-d50` arm; and
+2. the top-half selector improves meaningfully over the unfiltered
+   `All-d50` arm.
+
+A **practical rescue** additionally requires AlignTop50-d50 to beat D on the
+held-out endpoint.
+
+If top and bottom are similar, the gradient-alignment concept is not supported.
+If All-d50 remains best, filtering by this score is counterproductive.
+
+No 1729/424242 replication and no larger-model job is authorized by this
+preregistration.
