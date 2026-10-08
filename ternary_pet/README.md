@@ -29,6 +29,11 @@ beats direct on **2/3** orders, not 3/3. However, the ~6% disagreement geometry
 persists, true-mask **d=0.5 beats full S on 3/3**, and matched-random d=0.5 is
 harmful on **3/3**. The reusable position/code signal appears more stable than
 the full staged trajectory itself.
+A direct **Smol v10–v13 LR schedule transfer** on Granite's negative order
+271828 made **both** direct and staged QAT worse: final losses became 6.009
+and 6.369 (vs historical 5.727 and 5.841), and the D-vs-S disagreement mask
+grew from ~7% to **32.7%**. This is a one-order schedule-sensitivity negative,
+not a new Granite confirmation; [G1-7b details](results/run_g1_7b_granite350m_v10schedule_summary.md).
 
 ## Evidence hierarchy
 
