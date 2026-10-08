@@ -6,10 +6,10 @@
 > Project directory: `ternary_pet/`  
 > Current state: **SmolLM2-360M mechanism phase complete at v12; Granite-350M G1 generalization phase active**  
 > Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
-> Latest completed HF job: G1-1 direct-Q3 calibration `6ac6f18ae7a0dae8a2780246` — constant 1e-4 selected  
-> Active HF job: G1-2 Granite staging gate `6ac6f487df2184ac91ac693e`  
+> Latest completed HF job: G1-2 staging gate `6ac6f487df2184ac91ac693e` — positive on order 1729 (+0.1309 nat; 12.27% lower PPL)  
+> Active HF job: G1-3 Granite mechanism test `6ac6fe5fdf2184ac91ac6c1f`  
 > Granite compute rule: FP32 masters + BF16-rounded source + BF16 autocast/BF16 teacher; never FP16  
-> Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_1_granite350m_calibration_summary.md`
+> Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_2_granite350m_staging_summary.md`
 
 ## 1. What the user is trying to discover
 
@@ -1289,8 +1289,8 @@ SmolLM2-360M mechanism work. The gated sequence is:
 1. G1-0 architecture / quantization smoke — complete, exposed FP16 blocker;
 2. G1-0b BF16 precision diagnostic — complete, passed;
 3. G1-1 direct-only schedule calibration — complete; constant 1e-4 selected by validation and frozen;
-4. G1-2 one-order D/S staging gate — active job `6ac6f487df2184ac91ac693e`;
-5. G1-3 compressed mechanism test only if staging is positive;
+4. G1-2 one-order D/S staging gate — complete and positive on order 1729;
+5. G1-3 compressed mechanism test — active job `6ac6fe5fdf2184ac91ac6c1f`;
 6. two fixed-protocol confirmatory orders only if the first-order result is
    scientifically interpretable.
 
@@ -1327,3 +1327,53 @@ G1-2 pinned script:
 
 G1-2 job:
 `6ac6f487df2184ac91ac693e`.
+
+
+### G1-2 positive staging result
+
+Granite-350M seed/order 1729:
+
+| Metric | Direct Q3 | Q9→Q3 | Q9 advantage |
+|---|---:|---:|---:|
+| held-out loss | 5.66581 | **5.53495** | **0.13086 nats** |
+| PPL | 288.82 | **253.40** | **12.27% lower** |
+| teacher top-1 | 27.53% | **28.04%** | **+0.51 pp** |
+| KL | 2.49025 | **2.38307** | **0.10718 lower** |
+
+At equal 300-step compute, fixed-Q3 direct is 5.81745 loss while the
+Q9-prepared masters projected through the same original Q3 scales are 7.74247
+loss: Q9 is **1.92502 nats worse immediately**, yet later finishes better.
+
+Step-300 projected geometry:
+- D changed vs source: 5.3242%;
+- S changed vs source: 5.2723%;
+- D-vs-S disagreement mask: **6.0246%**;
+- changed-set Jaccard: 27.53%.
+
+Interpretation: first cross-family order reproduces the key
+trainability-not-entry-quality signature. This is **one order only**, not yet a
+replicated Granite conclusion.
+
+Canonical summary:
+`results/run_g1_2_granite350m_staging_summary.md`.
+
+### ACTIVE G1-3 mechanism job
+
+HF job:
+`6ac6fe5fdf2184ac91ac6c1f`
+
+Pinned script:
+`g1_granite350m_compressed_mechanism.py`
+
+Pinned commit:
+`c32fbc16f463039257d996a7b32c9eca5eada681`
+
+Arms:
+D, S, M-exact, M-d50, Random-d50.
+
+All arms use original Q3 scales + fresh Adam + constant 1e-4 for steps
+301-1200. Construction assertions must pass before continuation. The job asks
+whether Granite's ~6.02% disagreement set carries the staging gain and whether
+true-position d=0.5 placement beats a matched random reassignment.
+
+Do not launch confirmatory orders or larger-model jobs until G1-3 is inspected.
