@@ -2798,3 +2798,16 @@ For order 271828 under the transferred Smol schedule:
 This is a **development/protocol-sensitivity** test on a known negative order,
 not an independent confirmation. No other seed or larger-model job is
 authorized by this preregistration.
+
+
+#### G1-7 pinned implementation
+
+Script:
+`ternary_pet/g1_granite350m_v10_schedule_mechanism_seed271828.py`
+
+Pinned implementation commit:
+`ab02c7a64a357bf792eee8d361032d2e2310bb1b`
+
+This is the Granite BF16-safe port of the Smol v10-v13 global schedule. The
+five mechanism arms and construction assertions are otherwise inherited from
+the established Granite G1-3 design.
