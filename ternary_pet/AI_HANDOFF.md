@@ -1792,3 +1792,25 @@ Future research direction: boundary-margin/row-column-coupled Q3 code
 predictor with *retained* original random baseline, an audited
 margin-matched feasible subset, and proper no-heldout-leak evaluation.
 Do not alter G1-8 retrospectively.
+
+
+### G1-9 protocol and launch status
+
+User approved one 4-arm Gaussian noise × gridward interpolation factorial
+on Granite known-hard order **271828**, constant LR `1e-4`. All
+settings frozen in `EXPERIMENT.md` before code. Code is on main at
+pinned commit `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`,
+file `ternary_pet/g1_9_granite350m_gaussian_pull_seed271828.py`.
+
+Arms D, G, P, GP. Each has 300+900 direct-Q3 updates with historical
+Granite BF16 compute and original row-scale/fresh Adam switch at300.
+Gaussian σ normalized to row α: 0.04 until step900, decays to 0 at1200;
+gridward λ=0.10 at steps100..900 every100. A deterministic
+32,768-weight stratified subsample measures per-update Q3 clean-code
+flips and immediate two-step reversals. Final heldout is hard noise-free
+Q3, no threshold tuning or test-driven selection.
+
+First attempt to launch on A10G-small returned **HTTP 429 at HF MCP login**.
+It did not return a job ID. No G1-9 GPU run has been verified.
+Check actual job submission outcome before claiming progress, and
+do not launch more seeds or tweak hyperparameters automatically.
