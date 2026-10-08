@@ -107,3 +107,37 @@ than the raw staged trajectory itself: Q9 can identify useful commitments even
 on an order where carrying the full Q9-prepared master state is ultimately
 counterproductive. This is a hypothesis-level interpretation, not yet a proven
 mechanism for why seed 271828 reverses sign.
+
+
+## Post-hoc forensics of the negative order
+
+A no-new-compute comparison of all three raw runs finds that seed 271828 already
+looks different **during Q9 preparation**.
+
+- native Q9 minus native D loss at step 300:
+  −0.1604 / **+0.2780** / −0.1378 for 1729 / 271828 / 424242;
+- Q9/D grad-norm ratio at prep step 100:
+  0.82× / **3.33×** / 0.76×;
+- mask size:
+  6.025% / **6.995%** / 6.030%;
+- implied changed-set Jaccard proxy:
+  ~27.5% / **~19.7%** / ~27.5%;
+- true-M d50 advantage over matched random:
+  +0.2238 / **+0.0077** / +0.1097 nats.
+
+The negative order also has a harmful off-mask Q9 contribution (−0.0365 nats),
+whereas off-mask state is neutral/helpful on the positive orders.
+
+Global Q9 histograms, row-scale statistics, continuation code churn and d50 code
+survival are nearly unchanged across orders.
+
+Working hypothesis: seed 271828 is a **Q9 assignment-discovery failure**, not
+merely a bad final evaluation or shallow placement problem. Q9 never settles as
+well natively during its 300-step prep, selects a larger/more disjoint mask, and
+its true selected positions barely outperform matched random positions.
+
+This is post-hoc n=3 evidence only. Do not turn native-Q9 prep quality into a
+stopping rule without preregistered validation.
+
+Detailed forensic note:
+`g1_granite350m_seed271828_forensics.md`.
