@@ -3424,3 +3424,14 @@ Read the final JSON before interpreting any scientific claim.
   using the held-out sample.
 - No assertion that code-flip suppression *causes* the improvement
   without a separate causal control.
+
+
+#### G1-10 immutable implementation pin (before GPU launch)
+
+- Frozen script: `ternary_pet/g1_10_granite350m_gaussian_pull_seed424242.py`
+- Code commit: `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`
+- Parent G1-9: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`
+- Verified difference: exactly `SEED=271828` → `SEED=424242`;
+  *no other changes*.
+- One job to run on `a10g-small`, 90-minute cap, detached;
+  arm order D/G/P/GP, 300+900, same tests.
