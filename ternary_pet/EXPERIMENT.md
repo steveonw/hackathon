@@ -2063,3 +2063,98 @@ Pinned code:
 
 This job contains only the preregistered direct-Q3 validation screen. No Q9 arm
 and no held-out test evaluation are present.
+
+
+### G1-1 outcome — direct schedule frozen
+
+Job `6ac6f18ae7a0dae8a2780246` completed successfully.
+
+Validation-only 300-step direct-Q3 ranking:
+
+| Candidate | Validation loss | PPL | Q3 code movement vs source |
+|---|---:|---:|---:|
+| **constant 1e-4** | **5.81281** | **334.56** | 5.323% |
+| warm100 -> 3e-4, cosine -> 1e-4 | 6.08270 | 438.21 | 11.616% |
+| warm100 -> 1e-3, cosine -> 1e-4 | 6.74016 | 845.70 | 27.231% |
+
+All candidates were numerically finite under BF16. Per the preregistered
+selection rule, **constant LR 1e-4 wins and is frozen for G1-2**.
+
+No Q9 arm and no held-out test metric informed this choice.
+
+Canonical files:
+
+- `results/run_g1_1_granite350m_calibration_2026-10-08.json`
+- `results/run_g1_1_granite350m_calibration_summary.md`
+
+### G1-2 — Granite-350M one-order D/S staging gate
+
+**Status before launch: preregistered scientific comparison.**
+
+Seed/order:
+1729.
+
+Pinned script:
+`ternary_pet/g1_granite350m_staging_gate.py`
+
+Pinned commit:
+`f3a1f88890d1b70264f25f1be8c4d23d84594825`
+
+Frozen compute/training semantics:
+
+- model: `ibm-granite/granite-4.0-350m`;
+- common BF16-rounded source;
+- persistent FP32 master weights;
+- BF16 autocast and BF16 teacher from the passed G1-0b gate;
+- all `nn.Linear` weights except exact `lm_head` quantized;
+- non-quantized parameters frozen;
+- learnable rowwise scales;
+- CE35 + teacher-KL65;
+- AdamW beta=(0.9,0.95), no weight decay;
+- gradient clipping 1.0;
+- same 1200 shuffled chunks and order;
+- **constant LR 1e-4**, selected by G1-1 direct-only validation.
+
+Arms:
+
+1. **D:** 1200 direct-Q3 updates with continuous Adam state.
+2. **S:** 300 Q9 updates, then retain FP32 masters, restore the original Q3
+   scales, create fresh Adam, and run 900 Q3 updates at the same constant LR.
+
+Required equal-compute step-300 diagnostics:
+
+- D native Q3 validation metrics;
+- S native Q9 validation metrics;
+- D masters projected through the original Q3 scales;
+- S masters projected through the exact same original Q3 scales;
+- projected D-vs-S Q3 Hamming/disagreement fraction;
+- D and S projected-code movement versus source Q3;
+- changed-set overlap/Jaccard;
+- layer and source->target transition counts for the D-vs-S disagreement mask.
+
+Required final held-out metrics:
+
+- loss;
+- PPL;
+- teacher top-1 agreement;
+- KL to teacher;
+- fixed generation probes as descriptive output only.
+
+### G1-2 interpretation gate
+
+The strongest Smol-like mechanism signature would be:
+
+1. S is no better, or is worse, than D as an immediate fixed-Q3 projection at
+   step 300; and
+2. S nevertheless finishes better after its 900-step Q3 continuation.
+
+But immediate inferiority is **not required** for staging itself to generalize.
+If S is better both immediately and finally, report a positive staging result
+with a different mechanism signature.
+
+**Proceed to G1-3 only if the final S endpoint has a material and technically
+clean held-out advantage over D.** Do not retune the direct schedule or Q9
+schedule after observing this result.
+
+This is the first Granite G1 job allowed to support a cross-family scientific
+claim.
