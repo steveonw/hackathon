@@ -4,9 +4,9 @@
 >
 > Repository: `steveonw/hackathon`  
 > Project directory: `ternary_pet/`  
-> Current state: **SmolLM2-360M mechanism phase complete at v12; Granite-350M G1 generalization phase active**  
+> Current state: **SmolLM2-360M mechanism complete; Granite-350M 3-order G1 mixed (2/3 positive), G1-6/G1-7b development negatives**  
 > Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
-> Latest completed HF job: G1-2 staging gate `6ac6f487df2184ac91ac693e` — positive on order 1729 (+0.1309 nat; 12.27% lower PPL)  
+> Latest completed HF job: **G1-7b `6ac7248adf2184ac91ac768d` — negative Smol v10–v13 LR transfer on Granite order 271828**  
 > Latest completed HF jobs: G1-4/G1-5 Granite confirmations `6ac70af0df2184ac91ac6ffc` / `6ac70af2df2184ac91ac7000`  
 > Granite compute rule: FP32 masters + BF16-rounded source + BF16 autocast/BF16 teacher; never FP16  
 > Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_2_granite350m_staging_summary.md`
@@ -1538,7 +1538,7 @@ Potential future predictor: native Q9 vs native D validation at step 300 plus
 prep gradient settling. **Do not use as a validated gate yet; n=3 and post-hoc.**
 
 
-### ACTIVE G1-6 — trajectory-aligned commitments on hard seed 271828
+### COMPLETED G1-6 — trajectory-aligned commitments on hard seed 271828
 
 Job:
 `6ac71a23df2184ac91ac73ca`
@@ -1576,7 +1576,7 @@ This is deliberately one development run on the known hard seed. Do not launch
 1729/424242 or larger-model replications until this result is inspected.
 
 
-### ACTIVE G1-7 — Granite port of Smol v10-v13 schedule
+### G1-7 initial attempt — technical failure only
 
 Job:
 `6ac722dfdf2184ac91ac75e9`
@@ -1612,7 +1612,7 @@ rather than claiming the transferred schedule is already Granite-optimal.
 Do not launch other seeds or larger models until G1-7 is inspected.
 
 
-### ACTIVE G1-7b — Granite v10-v13 schedule retry
+### COMPLETED G1-7b — Granite v10-v13 schedule retry
 
 Original G1-7 job:
 `6ac722dfdf2184ac91ac75e9` — **technical failure only**.
@@ -1636,3 +1636,61 @@ D, S, M-exact, M-d50.
 
 Do not make a new random-position specificity claim from G1-7b. No other seed
 or larger-model job is authorized automatically.
+
+
+### G1-7b FINAL — aggressive Smol schedule does not transfer to Granite 271828
+
+Job:
+`6ac7248adf2184ac91ac768d` — completed successfully.
+
+Pinned amended code:
+`808fd4975d16111d9c1c841c44d9038a01995ba3`.
+
+Raw:
+`results/run_g1_7b_granite350m_v10schedule_seed271828_2026-10-08.json`
+
+Summary:
+`results/run_g1_7b_granite350m_v10schedule_summary.md`
+
+Four continuation arms and all equal-forward assertions passed. Random-d50
+was **not** run due to the preregistered control-feasibility amendment.
+
+| Arm | Constant-LR 271828 loss | Transferred Smol v10–v13 loss |
+|---|---:|---:|
+| D | 5.72673 | **6.00895** |
+| S | 5.84103 | 6.36920 |
+| M-exact | 5.80453 | 6.35442 |
+| M-d50 | 5.78502 | **6.30402** |
+
+Staged deficit vs D grows from 0.11431 to **0.36025 nats**; M-d50 still
+loses to D by 0.29508 nats.
+
+Preparation with the 100-step warmup-to-1e-3 / global cosine schedule is
+qualitatively different:
+- D code movement vs initial: **27.107%**
+- S code movement vs initial: **23.432%**
+- D/S projected-Q3 disagreement: **32.7145%** = 81,642,667 positions, versus
+  6.9946% under constant 1e-4.
+- Native Q9−D validation loss @300 is **+0.38936**.
+- Preclip Q9/D grad-norm ratio @300 is **5.15×**.
+- M-d50 code survival @900 is **60.75%** learned / 60.70% fixed alpha0,
+  versus **89.59%** under constant 1e-4.
+
+Meaning: copying the Smol v10–v13 peak LR to Granite does not cure the known
+hard order; it destabilizes the discrete commitment geometry and degrades both
+D and S. This *does not prove* the mask growth alone caused the loss.
+
+The original G1-7 job `6ac722dfdf2184ac91ac75e9` failed *technically*
+before any continuation because exact matching of full random mask became
+infeasible: 595,275 required vs 342,644 available outside M for one stratum.
+Do not treat it as a scientific negative or claim a new matched-random result.
+
+This is one known-hard-order development test. No new seeds or larger-model
+jobs have been launched. Do not override the earlier preregistered Granite
+G1-1 direct calibration: constant 1e-4 remains the better tested schedule
+for this order.
+
+Potential future direction (no authorization to run): if investigating a
+family-aware LR, preregister intermediate peak-LR candidates and diagnostics
+*before* new held-out comparisons. Or return to assignment-level mechanism
+tests under the established constant-LR regime.
