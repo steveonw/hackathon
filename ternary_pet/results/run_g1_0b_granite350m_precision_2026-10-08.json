@@ -1,0 +1,43 @@
+{
+  "kind": "g1_0b_granite350m_precision_smoke",
+  "date": "2026-10-08",
+  "model": "ibm-granite/granite-4.0-350m",
+  "job": "6ac6eec9df2184ac91ac67ca",
+  "pinned_commit": "3b217e11853ac062ef187ee163291ac6138163c5",
+  "scientific_result": false,
+  "decision": {
+    "bf16_path_pass": true,
+    "source_fp32_finite": true,
+    "source_bf16_finite": true,
+    "source_fp16_finite": false,
+    "teacher_bf16_finite": true,
+    "teacher_fp16_finite": false,
+    "q3_bf16_step_finite": true,
+    "q9_bf16_step_finite": true
+  },
+  "source_ce": {
+    "fp32": 3.235370635986328,
+    "bf16": 3.2405591011047363,
+    "fp16": "non-finite"
+  },
+  "teacher_ce": {
+    "bf16": 3.2337288856506348,
+    "fp16": "non-finite"
+  },
+  "q3_bf16_step": {
+    "ce": 21.5361328125,
+    "kl": 18.820724487304688,
+    "loss": 19.7711181640625,
+    "grad_norm": 898.6295776367188,
+    "all_trainable_grads_finite": true,
+    "peak_cuda_gib": 7.725124359130859
+  },
+  "q9_bf16_step": {
+    "ce": 26.627647399902344,
+    "kl": 25.171489715576172,
+    "loss": 25.68114471435547,
+    "grad_norm": 2995.330810546875,
+    "all_trainable_grads_finite": true,
+    "peak_cuda_gib": 9.586589813232422
+  }
+}
