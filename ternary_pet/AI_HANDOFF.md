@@ -6,9 +6,10 @@
 > Project directory: `ternary_pet/`  
 > Current state: **SmolLM2-360M mechanism phase complete at v12; Granite-350M G1 generalization phase active**  
 > Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
-> Latest completed HF job: G1-0b precision gate `6ac6eec9df2184ac91ac67ca` — BF16 PASS, FP16 invalid  
-> Active HF job: G1-1 direct-Q3 calibration `6ac6f18ae7a0dae8a2780246`  
-> Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_0b_granite350m_precision_summary.md`
+> Latest completed HF job: G1-1 direct-Q3 calibration `6ac6f18ae7a0dae8a2780246` — constant 1e-4 selected  
+> Active HF job: G1-2 Granite staging gate `6ac6f487df2184ac91ac693e`  
+> Granite compute rule: FP32 masters + BF16-rounded source + BF16 autocast/BF16 teacher; never FP16  
+> Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_1_granite350m_calibration_summary.md`
 
 ## 1. What the user is trying to discover
 
@@ -1287,8 +1288,8 @@ SmolLM2-360M mechanism work. The gated sequence is:
 
 1. G1-0 architecture / quantization smoke — complete, exposed FP16 blocker;
 2. G1-0b BF16 precision diagnostic — complete, passed;
-3. G1-1 direct-only schedule calibration — active job `6ac6f18ae7a0dae8a2780246`;
-4. G1-2 one-order D/S staging gate;
+3. G1-1 direct-only schedule calibration — complete; constant 1e-4 selected by validation and frozen;
+4. G1-2 one-order D/S staging gate — active job `6ac6f487df2184ac91ac693e`;
 5. G1-3 compressed mechanism test only if staging is positive;
 6. two fixed-protocol confirmatory orders only if the first-order result is
    scientifically interpretable.
@@ -1302,3 +1303,27 @@ SmolLM2-1.7B within-family scale test.
 Before any conclusion, inspect every completed order individually. Preserve the
 existing documentation workflow and chat-reporting format already recorded in
 this handoff.
+
+
+### G1-1 calibration result
+
+Direct-Q3-only validation screen, seed/order 1729:
+
+| Schedule | val loss | PPL | code movement @300 |
+|---|---:|---:|---:|
+| constant 1e-4 | **5.8128** | **334.56** | 5.323% |
+| warm100 -> 3e-4, cosine -> 1e-4 | 6.0827 | 438.21 | 11.616% |
+| warm100 -> 1e-3, cosine -> 1e-4 | 6.7402 | 845.70 | 27.231% |
+
+The held-out test set was not used and no Q9 arm was present. Constant 1e-4 is
+therefore frozen for all G1-2 treatments. Do not retune after seeing Q9.
+
+Canonical summary:
+`results/run_g1_1_granite350m_calibration_summary.md`.
+
+G1-2 pinned script:
+`g1_granite350m_staging_gate.py` at
+`f3a1f88890d1b70264f25f1be8c4d23d84594825`.
+
+G1-2 job:
+`6ac6f487df2184ac91ac693e`.
