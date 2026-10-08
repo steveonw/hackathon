@@ -37,6 +37,15 @@ quantization in general is not new (§3); the contribution here is the
 ternary-specific result with matched controls and the causal localization of
 the mechanism.
 
+**Current generalization phase.** G1 has begun on
+`ibm-granite/granite-4.0-350m`. The architecture/freezing smoke passed, but
+the inherited FP16 path was numerically invalid even for the unquantized source.
+A preregistered precision diagnostic showed FP32 CE **3.2354**, BF16 CE
+**3.2406**, and FP16 non-finite on the same probe; one-step Q3 and Q9 training
+were fully finite under BF16. BF16 is therefore locked as Granite's compute
+path. This is an engineering result only; there is **not yet a Granite
+Q9-vs-direct scientific result**.
+
 ---
 
 ## 2. Results at a glance
@@ -56,6 +65,7 @@ BF16 model scores perplexity **39.9**.
 | 8 | "Firm enough" is reached early | Depth 0.25 → 95%, 0.5 → 100%; code survival tracks it | 1 order | v13 |
 | 9 | Firmness alone doesn't help direct | Prototyping direct's own codes: −0.03 / −0.01 nats | 1 order | v13 |
 | 10 | Advantage shrinks with longer training (old schedule) | 6,000 steps: ppl 70 vs 85, gap 0.20 nats | 1 order | v5 |
+| 11 | Granite G1 engineering gate only | BF16 source CE 3.2406 vs FP32 3.2354; FP16 non-finite; Q3/Q9 BF16 steps finite | 1 technical smoke, no scientific order | G1-0/G1-0b |
 
 ---
 
@@ -217,8 +227,10 @@ advantage, while the same commitment applied to other choices does not.
 
 ## 6. Limitations
 
-- **One model and one dataset.** SmolLM2-360M, WikiText-2 for both training and
-  evaluation. Generalization to other models, sizes and data is untested.
+- **One completed scientific model family and one dataset.** SmolLM2-360M,
+  WikiText-2 for both training and evaluation. Granite-350M has passed the
+  engineering/precision gate and entered direct-only calibration, but no
+  cross-family Q9-vs-direct result exists yet.
 - **Short training.** 1,200 steps of single 128-token chunks (~150k tokens). In
   the one longer run (v5: 6,000 steps, old constant-LR schedule, one order) the
   gap **shrank** from ~0.7 to 0.20 nats (ppl 70 vs 85). Whether it persists
@@ -237,9 +249,9 @@ advantage, while the same commitment applied to other choices does not.
 
 ## 7. Possible next steps
 
-- **Generalization:** repeat the v10 comparison on a second model and dataset
-  (e.g., FineWeb-Edu), and run longer under the tuned schedule to see whether
-  the gap persists.
+- **Generalization (active):** complete the preregistered Granite-350M G1
+  sequence: direct-only schedule calibration, one-order D/S gate, then the
+  compressed causal mechanism battery only if staging is positive.
 - **A cheaper recipe:** if the useful ~6% of assignments could be predicted
   without a full 9-state phase, the benefit could be had at lower cost.
 - **Level count:** test other intermediate grids (e.g., 5 or 7 states, or a
