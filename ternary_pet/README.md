@@ -24,12 +24,11 @@ optimization. Exact Q9 continuous values are unnecessary, and generic
 prototype snapping does not help direct Q3.
 
 The mechanism phase on SmolLM2-360M / WikiText-2 has reached its stop condition.
-**Granite-4.0-350M now gives a positive first-order cross-family result.**
-Q9→Q3 beats direct by **0.1309 nats / 12.27% PPL**, while the true ~6.02%
-disagreement mask recovers **76.2%** of the staged gain with exact Q9 masters.
-Placing the Q9-selected codes at **d=0.5** on that true mask recovers
-**118.6%** and beats full Q9; the matched-random control is harmful. Granite is
-still **one order only**, so replication is the next gate.
+**Granite-4.0-350M gives a mixed three-order cross-family result.** Full Q9→Q3
+beats direct on **2/3** orders, not 3/3. However, the ~6% disagreement geometry
+persists, true-mask **d=0.5 beats full S on 3/3**, and matched-random d=0.5 is
+harmful on **3/3**. The reusable position/code signal appears more stable than
+the full staged trajectory itself.
 
 ## Evidence hierarchy
 
@@ -41,9 +40,9 @@ still **one order only**, so replication is the next gate.
 - **Important negative result:** generic FP32 warm-up does not reproduce Q9,
   but it is **not worse than direct in every order**; order 271828 gives FP32 a
   small 0.0292-nat improvement over direct.
-- **Cross-family first order:** Granite-4.0-350M reproduces the staging effect
-  and qualitative position/code + interior-placement mechanism on order 1729,
-  but is not yet replicated.
+- **Cross-family Granite:** full staging is mixed (2/3 positive); the worse-entry
+  signature is 3/3, M-d50 beats full S 3/3, and matched-random is harmful 3/3.
+  Seed 271828 is a real negative and remains part of the conclusion.
 - **Scope:** WikiText-2 so far; free-running generation remains poor, and
   longer-run asymptotics are unresolved.
 
