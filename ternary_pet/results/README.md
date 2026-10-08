@@ -35,7 +35,8 @@ Raw machine-readable and summarized results from each remote run belong here.
 | v13B / `6ac6a272df2184ac91ac412c` | SmolLM2-360M-Instruct | A10G small | completed | direct-firmness controls |
 | G1-0 / `6ac6eacfdf2184ac91ac658a` | Granite-4.0-350M | A10G small | technical gate failed | architecture smoke; FP16 source/teacher path non-finite |
 | G1-0b / `6ac6eec9df2184ac91ac67ca` | Granite-4.0-350M | A10G small | completed | precision diagnostic; BF16 passed, FP16 failed |
-| G1-1 / `6ac6f18ae7a0dae8a2780246` | Granite-4.0-350M | A10G small | running | direct-Q3 validation-only schedule calibration |
+| G1-1 / `6ac6f18ae7a0dae8a2780246` | Granite-4.0-350M | A10G small | completed | direct-Q3 calibration; constant 1e-4 selected |
+| G1-2 / `6ac6f487df2184ac91ac693e` | Granite-4.0-350M | A10G small | running | one-order direct-Q3 vs Q9→Q3 staging gate |
 
 ## Current headline
 
@@ -67,7 +68,9 @@ precision failure, **not** a negative Q9-vs-Q3 result.
 G1-0b resolved the blocker cleanly: FP32 and BF16 were finite, FP16 was
 non-finite, and one-step Q3/Q9 BF16 training had finite losses and gradients.
 BF16 is now locked as the Granite compute path before any scientific D-vs-S
-result. G1-1 direct-Q3 calibration is active.
+result. G1-1 selected **constant 1e-4** by direct-only validation (loss 5.8128
+vs 6.0827 and 6.7402 for the two higher-LR schedules). That schedule is frozen.
+G1-2 is now the active one-order D-vs-S staging gate.
 
 See:
 - `run_g1_0_granite350m_smoke_summary.md`
