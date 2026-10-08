@@ -1010,3 +1010,54 @@ placement helps preserve those assignments during later Q3 optimization.
 
 This v13 result is seed 1729 only and should be presented as an optional
 refinement. The v12 three-order result remains the replicated mechanism claim.
+
+
+---
+
+## 30. G1 begins: Granite-350M engineering gate and precision resolution
+
+The cross-family phase began with
+`ibm-granite/granite-4.0-350m`, chosen as the small Family-B cell before any
+larger-model scale-up.
+
+G1-0 first audited the canonical intervention on Granite. The target/freezing
+mapping looked clean: 249,561,088 weight parameters across 168 linear modules
+were selected, non-quantized parameters remained frozen, and no unexpected
+trainable tensors appeared. But the inherited Smol FP16 compute path failed
+numerically even on the unquantized Granite source. The source evaluator became
+non-finite, and Q3/Q9 teacher-KL training steps had non-finite loss and
+gradients.
+
+This was retained as a **technical failure only**, not interpreted as evidence
+against ternary or Q9 staging.
+
+A preregistered G1-0b precision diagnostic then compared FP32, BF16 and FP16 on
+the same source before any D-vs-S experiment:
+
+| Path | CE | Finite? |
+|---|---:|---|
+| FP32 source | 3.23537 | yes |
+| BF16 source | 3.24056 | yes |
+| FP16 source | NaN | no |
+| BF16 teacher | 3.23373 | yes |
+| FP16 teacher | NaN | no |
+
+One-step BF16 Q3 and Q9 training also produced finite CE, KL, total loss and
+gradients. BF16 source CE differed from FP32 by only 0.00519 nats/token on the
+smoke slice.
+
+Therefore Granite G1 now locks:
+FP32 persistent masters + BF16-rounded common source + BF16 autocast/BF16
+teacher. FP16 is not used.
+
+This precision choice was frozen **before any Granite Q9-vs-direct scientific
+result existed**, preserving the fairness of the generalization phase.
+
+Jobs:
+- G1-0: `6ac6eacfdf2184ac91ac658a`
+- G1-0b: `6ac6eec9df2184ac91ac67ca`
+
+G1-1 direct-Q3 schedule calibration was then launched as
+`6ac6f18ae7a0dae8a2780246`, screening only the preregistered direct schedules
+on the LR-validation split. It contains no Q9 arm and does not touch the held-out
+test set.
