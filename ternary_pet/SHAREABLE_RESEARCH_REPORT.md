@@ -1231,3 +1231,94 @@ being used predictively.
 
 Detailed note:
 `replications/g1_granite350m_seed271828_forensics.md`.
+
+
+---
+
+## 35. Granite 271828: seed-conditioned gradient alignment did not rescue the hard order (G1-6)
+
+A deliberate development experiment on the known-negative order 271828
+tested whether Q9-proposed code changes could be selected by their alignment
+with the Q3 gradient over already-seen training chunks 277–300.
+
+Within each layer and direct→Q9 source/target transition, the disagreement set
+was split into equal, exactly transition-matched top and bottom halves by the
+first-order score `−gradient × (w_d50 − w_direct)`. Both halves had 8,727,709
+positions; all construction assertions passed.
+
+| Arm | Held-out loss |
+|---|---:|
+| Direct | **5.72673** |
+| All-mask d=0.5 | 5.78502 |
+| Top50 aligned d=0.5 | **5.76870** |
+| Bottom50 aligned d=0.5 | 5.77363 |
+
+The selector ordered the arms weakly in the predicted direction: Top50 improved
+over Bottom50 by **0.00494 nats** and over unfiltered All-d50 by **0.01632**.
+But Top50 still lost to D by **0.04197**. Thus the alignment selector is not
+a successful practical rescue.
+
+A striking unplanned observation was that the step-300 fixed-Q3 validation loss
+was much worse for *either individual half* (Top50 **13.697**, Bottom50
+**18.004**) than for the all-mask arm (**6.515**). This suggests network-level
+interactions between Q9-selected commitments, but did **not** prove a
+specific synergy mechanism.
+
+Job: `6ac71a23df2184ac91ac73ca`.
+Pinned code: `10110ffba0ce9b1069f015cd32b235958e37f6c9`.
+
+---
+
+## 36. Granite 271828: the successful Smol LR schedule does not transfer (G1-7/G1-7b)
+
+Following the user's observation that the canonical Smol mechanism used
+a v10–v13 matched LR schedule while Granite used the older constant-`1e-4`
+schedule, we directly transferred Smol's curve:
+
+- 100-step linear warmup to `1e-3`;
+- cosine decay to `1e-4` over steps 101–1200;
+- D and Q9 prep both use the first 300 steps;
+- 900 Q3 continuation steps follow the global curve without restarting it.
+
+Granite kept its BF16-safe pathway. The original five-arm attempt
+(`6ac722dfdf2184ac91ac75e9`) failed *technically* after preparation,
+before continuation, when a full-size layer/source→target matched random
+control became impossible: one stratum required **595,275** outside-mask
+positions but had only **342,644**. A preregistered amendment removed that
+control; the four-arm retry completed with all equal-forward assertions.
+
+| Arm | Earlier constant-1e-4 Granite 271828 | Smol v10–v13 schedule transferred |
+|---|---:|---:|
+| Direct D | **5.72673** | **6.00895** |
+| Full Q9→Q3 S | 5.84103 | 6.36920 |
+| M-exact | 5.80453 | 6.35442 |
+| M-d50 | 5.78502 | **6.30402** |
+
+Full staging's deficit grew from 0.11431 to **0.36025 nats/token**. D itself
+also deteriorated. Most notably, after 300 steps, D changed **27.11%** of
+initial projected codes, Q9 changed **23.43%**, and their disagreement mask
+expanded from about **6.99% to 32.71%** (81.6 million positions).
+At 900 continuation steps the d=0.5 Q9-selected-code survival was only
+**60.75%**, compared with 89.59% under constant LR.
+
+Q9's native validation loss at step 300 remained worse than direct's by
+0.3894 nats and its gradient norm was 5.15× larger. The immediate ternary
+projection gap was actually smaller under the higher-LR schedule, even though
+the final staging disadvantage grew.
+
+The direct transfer of a Smol-tuned `1e-3` peak therefore failed to rescue
+the known-hard Granite order; the same nominal 300/900 steps corresponded to
+vastly different code-selection dynamics. The large mask and poor survival
+are correlates of this failure, not separately proven causes. Since the
+matched-random arm could not be run in this schedule, no new position-specificity
+claim is made.
+
+Completed job: `6ac7248adf2184ac91ac768d`.
+Pinned code: `808fd4975d16111d9c1c841c44d9038a01995ba3`.
+
+Canonical result:
+`results/run_g1_7b_granite350m_v10schedule_summary.md`.
+Raw:
+`results/run_g1_7b_granite350m_v10schedule_seed271828_2026-10-08.json`.
+
+No additional replication or scale job was launched.
