@@ -1061,3 +1061,33 @@ G1-1 direct-Q3 schedule calibration was then launched as
 `6ac6f18ae7a0dae8a2780246`, screening only the preregistered direct schedules
 on the LR-validation split. It contains no Q9 arm and does not touch the held-out
 test set.
+
+
+---
+
+## 31. G1-1 — Granite direct-Q3 schedule calibration
+
+After the BF16 precision gate passed, Granite's direct ternary schedule was
+selected **before any Q9 scientific result existed**.
+
+Job: `6ac6f18ae7a0dae8a2780246`  
+Pinned code: `3cb0153be80d5e9fbe112460bde7bc26398d851f`
+
+All candidates used seed/order 1729, the same first 300 shuffled chunks,
+direct-Q3 only, FP32 masters, and the locked BF16 compute path. Selection used
+only the 24-chunk LR-validation set; the held-out test evaluator was not used.
+
+| Schedule | validation loss | PPL | Q3 code movement @300 |
+|---|---:|---:|---:|
+| **constant 1e-4** | **5.8128** | **334.56** | 5.323% |
+| warm100 -> 3e-4, cosine -> 1e-4 | 6.0827 | 438.21 | 11.616% |
+| warm100 -> 1e-3, cosine -> 1e-4 | 6.7402 | 845.70 | 27.231% |
+
+The conservative constant schedule won clearly. Larger LR schedules moved many
+more ternary assignments but generalized worse on the validation slice.
+
+Per preregistration, **constant 1e-4 is now frozen** for both direct and staged
+Granite treatments. No retuning is allowed after observing Q9.
+
+G1-2, the first scientific Granite D-vs-S gate, was launched as
+`6ac6f487df2184ac91ac693e`.
