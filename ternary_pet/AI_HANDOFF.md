@@ -465,6 +465,38 @@ answer the question.
 External AI reviews are advisory. Adopt a suggestion only when it improves the
 scientific test; do not let outside reviewers silently redefine the experiment.
 
+### Documentation and reporting protocol going forward
+
+Keep the existing audit trail exactly: preregister each experiment in
+`EXPERIMENT.md`, record job IDs, save raw JSON plus a human-readable run
+summary, update the results registry, update `AI_HANDOFF.md`, and maintain
+replication aggregates when a claim is tested across orders.
+
+Treat `RESEARCH_REPORT.md` as the **living current-state document**. After each
+experiment, edit it in place: refresh the Summary, the "Results at a glance"
+table (claim, effect size, number of orders, run), and the relevant Findings
+section. Move superseded interpretations or obsolete headline numbers to the
+appendix rather than leaving conflicting current claims in the main text.
+
+Keep `SHAREABLE_RESEARCH_REPORT.md` as the **append-only chronological log**.
+Do not rewrite old entries there merely because the interpretation changed.
+
+Keep the README headline current with a concise 3–4 line summary of the main
+finding and a link to `RESEARCH_REPORT.md`.
+
+When reporting results in chat:
+1. start with one table of the key held-out numbers;
+2. follow with 2–3 plain-language sentences explaining what they mean;
+3. list caveats, including seed/order count and what remains untested;
+4. give exactly one recommended next step;
+5. avoid boxed equations unless a formula is genuinely necessary.
+
+Before writing any replicated conclusion, inspect **every seed/order
+individually**, not only the average. State plainly when a claim is mixed across
+orders. Example: the FP32 warm-up control does not reproduce Q9 overall, but it
+is not worse than direct in every order; seed 271828 gives FP32 a small
+0.0292-nat improvement over direct.
+
 ## 12. One-sentence state of the project
 
 > Across three training orders, Q9 preparation creates a worse immediate Q3
