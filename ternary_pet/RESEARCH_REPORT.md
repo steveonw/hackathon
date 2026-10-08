@@ -37,18 +37,15 @@ quantization in general is not new (§3); the contribution here is the
 ternary-specific result with matched controls and the causal localization of
 the mechanism.
 
-**Current generalization phase.** G1 on
-`ibm-granite/granite-4.0-350m` has now produced a positive first-order
-cross-family result. After a preregistered BF16 engineering fix and direct-only
-selection of constant LR 1e-4, Q9→Q3 beats direct by **0.1309 nats/token**
-(**12.27% lower PPL**) on order 1729 despite being **1.925 nats worse** as an
-immediate fixed-Q3 checkpoint at step 300. G1-3 then shows the qualitative
-Smol mechanism transfers: the **6.0246%** D-vs-S disagreement set recovers
-**76.2%** of the full staged gain with exact Q9 masters, true-mask `d=0.5`
-placement recovers **118.6%** and beats full S, while a transition/layer/source-
-matched random `d=0.5` intervention is harmful. These Granite results are
-**one training order only** and require confirmation before a replicated
-cross-family claim.
+**Current generalization phase.** Granite-4.0-350M is now complete across the
+three preregistered orders, and the result is **mixed**. Full Q9→Q3 staging beats
+direct on **2/3** orders (+0.1271, −0.1143, +0.0613 nats), so Granite does not
+replicate Smol's 3/3 staging superiority. Yet several structural signals are
+stable: Q9 is a worse immediate fixed-Q3 checkpoint on **3/3**, the D-vs-S
+disagreement mask remains ~6% (mean **6.35%**), true-mask `d=0.5` beats full S
+on **3/3**, and matched-random `d=0.5` is harmful on **3/3**. Thus the
+position/code + interior-placement mechanism appears more robust than the raw
+full-staging trajectory, but even M-d50 fails to beat D on seed 271828.
 
 ---
 
@@ -72,7 +69,8 @@ BF16 model scores perplexity **39.9**.
 | 11 | Granite G1 engineering gate only | BF16 source CE 3.2406 vs FP32 3.2354; FP16 non-finite; Q3/Q9 BF16 steps finite | 1 technical smoke, no scientific order | G1-0/G1-0b |
 | 12 | Granite direct schedule frozen before Q9 | const 1e-4 val loss 5.8128 vs 6.0827 / 6.7402 for higher-LR schedules | 1 calibration order; held-out test unused | G1-1 |
 | 13 | Granite staging generalizes on first order | Q9→Q3 −0.1309 nats; 12.27% lower PPL; Q9 is +1.925 nats worse immediately at step 300 | 1 order | G1-2 |
-| 14 | Granite mechanism qualitatively generalizes | exact-M recovers 76.2%; true-M d=0.5 recovers 118.6%; matched-random is harmful | 1 order | G1-3 |
+| 14 | Granite first-order mechanism result | exact-M 76.2%; true-M d=0.5 118.6%; matched-random harmful | order 1729 | G1-3 |
+| 15 | Granite confirmations are mixed | full S wins 2/3; M-d50 > S 3/3; random harmful 3/3; mean mask 6.35% | 3 orders | G1-3/G1-4/G1-5 |
 
 ---
 
@@ -268,10 +266,11 @@ survival are nearly identical.
 
 ## 6. Limitations
 
-- **One replicated scientific model family plus one first-order cross-family
-  result.** SmolLM2-360M is replicated across three orders. Granite-350M has a
-  positive staging + mechanism result on order 1729 only; cross-family
-  replication is not yet established. Both currently use WikiText-2.
+- **One clean replicated family plus one mixed cross-family result.**
+  SmolLM2-360M is positive 3/3. Granite-350M is positive for full staging on
+  2/3 orders, with one genuine negative order. The structural d=0.5/random
+  intervention pattern is more consistent than full staging, but M-d50 still
+  fails to beat D on seed 271828. Both currently use WikiText-2.
 - **Short training.** 1,200 steps of single 128-token chunks (~150k tokens). In
   the one longer run (v5: 6,000 steps, old constant-LR schedule, one order) the
   gap **shrank** from ~0.7 to 0.20 nats (ppl 70 vs 85). Whether it persists
@@ -290,9 +289,10 @@ survival are nearly identical.
 
 ## 7. Possible next steps
 
-- **Generalization (active):** confirm the completed positive Granite-350M
-  G1 staging/mechanism result on the two preregistered training orders before
-  treating it as a replicated cross-family conclusion.
+- **Generalization:** Granite confirmation is complete and mixed. The next
+  major decision should be whether to test within-family scale on
+  SmolLM2-1.7B, investigate why Granite seed 271828 reverses sign, or pursue a
+  cheaper predictor of useful Q9-selected commitments.
 - **A cheaper recipe:** if the useful ~6% of assignments could be predicted
   without a full 9-state phase, the benefit could be had at lower cost.
 - **Level count:** test other intermediate grids (e.g., 5 or 7 states, or a
