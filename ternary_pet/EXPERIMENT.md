@@ -1774,3 +1774,44 @@ Canonical files:
 The preregistered "clear pattern" condition is met, so replication on orders
 271828 and 424242 is scientifically justified but remains optional because v12
 already established the three-order canonical mechanism.
+
+
+## G1 — cross-family small-model generalization roadmap
+
+**Status: preregistered plan; no G1 scientific result yet.**
+
+The SmolLM2-360M mechanism phase stopped canonically at v12, with v13 retained
+as an optional one-order refinement. The next phase is therefore named **G1**
+rather than v14.
+
+Current Family-B small candidate:
+`ibm-granite/granite-4.0-350m`.
+
+The detailed gated protocol, stopping rules, architecture audit, direct-only
+schedule calibration, D/S staging gate, compressed mechanism intervention,
+replication rules, and later small/large x family-A/family-B matrix are frozen
+in:
+
+`G1_GENERALIZATION_PLAN.md`
+
+Planned sequence:
+
+1. **G1-0:** architecture / quantization smoke test;
+2. **G1-1:** direct-Q3 validation-only schedule calibration;
+3. **G1-2:** seed-1729 D-vs-S staging gate with equal-compute step-300
+   projection diagnostics;
+4. **G1-3:** only if staging is positive, compressed
+   D/S/M-exact/M-d50/matched-random-d50 mechanism test;
+5. **G1-4/G1-5:** only if the first-order result is interpretable, exact
+   confirmatory orders 271828 and 424242 with no retuning.
+
+Preregistered interpretation rule: a successful staging result does **not**
+require Q9 to be worse at the immediate step-300 Q3 projection. If Granite wins
+immediately and finally, report staging generalization with a different
+mechanism signature. If the final S-vs-D effect is absent, do not rescue the
+result by retuning after seeing Q9.
+
+Do not require Granite to reproduce Smol's exact mask size or effect
+percentages. The cross-family target is the within-model causal pattern.
+
+No G1 compute is launched by this roadmap entry.
