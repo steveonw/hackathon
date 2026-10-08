@@ -252,3 +252,16 @@ The transition is sharply saturating:
 d=0.03 gives 16.4% recovery, d=0.25 gives 94.8%, and d=0.50 gives 100.5%.
 
 B1/B2 firmness-only controls are both slightly worse than direct.
+
+
+### Active Granite confirmation jobs
+
+| Job | Seed/order | Status | Purpose |
+|---|---:|---|---|
+| G1-4 / `6ac70af0df2184ac91ac6ffc` | 271828 | running/scheduling | exact G1-3 mechanism confirmation |
+| G1-5 / `6ac70af2df2184ac91ac7000` | 424242 | running/scheduling | exact G1-3 mechanism confirmation |
+
+Shared pinned commit:
+`6ed697a0ca5d0d19ed5ebff04b81a2ed0d259230`.
+
+Only the seed/order differs from G1-3.
