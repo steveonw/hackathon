@@ -1536,3 +1536,41 @@ and selects a larger, more disjoint, lower-quality set of ternary commitments.
 
 Potential future predictor: native Q9 vs native D validation at step 300 plus
 prep gradient settling. **Do not use as a validated gate yet; n=3 and post-hoc.**
+
+
+### ACTIVE G1-6 — trajectory-aligned commitments on hard seed 271828
+
+Job:
+`6ac71a23df2184ac91ac73ca`
+
+Pinned code:
+`10110ffba0ce9b1069f015cd32b235958e37f6c9`
+
+Development question:
+Does Q9 help when its proposed d=0.5 commitments are aligned with the local
+seed-conditioned Q3 gradient field?
+
+Selector:
+- build D300 and S300 as before;
+- at D300/original-Q3 scales, accumulate Q3 master gradients over the last 24
+  already-consumed prep chunks (277–300);
+- score each true-M position as
+  `-grad * (w_d50 - w_D)`;
+- within every layer and D→S transition class, split positions into exactly
+  matched top and bottom halves by score.
+
+Arms:
+- D
+- All-d50
+- AlignTop50-d50
+- AlignBottom50-d50
+
+All arms get fresh Adam, original Q3 scales, constant 1e-4 and the same
+900-step continuation.
+
+Primary signal:
+Top50 better than matched Bottom50 and better than All-d50.
+Practical rescue additionally requires Top50 < D held-out loss.
+
+This is deliberately one development run on the known hard seed. Do not launch
+1729/424242 or larger-model replications until this result is inspected.
