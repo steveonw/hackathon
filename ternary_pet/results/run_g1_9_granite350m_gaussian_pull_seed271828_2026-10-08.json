@@ -1,0 +1,2791 @@
+{
+  "kind": "g1_9_granite350m_gaussian_pull_factorial",
+  "model": "ibm-granite/granite-4.0-350m",
+  "seed": 271828,
+  "precision": "BF16 compute + FP32 masters",
+  "lr": 0.0001,
+  "train_steps": 1200,
+  "prep_steps": 300,
+  "continuation_steps": 900,
+  "noise": {
+    "type": "per_row_scale_normal_gaussian_in_hard_quantizer",
+    "normalized_sigma_u": 0.04,
+    "plateau_through": 900,
+    "anneal_to_zero_at": 1200,
+    "deterministic_validation_and_inference": true
+  },
+  "pull": {
+    "type": "master_gridward_interpolation",
+    "lambda": 0.1,
+    "every_steps": 100,
+    "last_step": 900,
+    "resets_optimizer_state": false
+  },
+  "arms": {
+    "D": {
+      "arm": "D",
+      "final": {
+        "loss": 5.726725168526173,
+        "ppl": 306.9623705346049,
+        "top1_agreement": 0.276611328125,
+        "kl_to_teacher": 2.490706665441394,
+        "tokens": 8192
+      },
+      "prep": {
+        "trace": [
+          {
+            "global_step": 1,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 18.823043823242188,
+            "ce": 20.955078125,
+            "kl": 17.675025939941406,
+            "grad_norm_preclip": 730.9815063476562,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0.00384521484375,
+              "immediate_reversals_per_flip": 0,
+              "flips": 126,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 100,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 4.6748199462890625,
+            "ce": 6.411468505859375,
+            "kl": 3.739701509475708,
+            "grad_norm_preclip": 12.165365219116211,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.0007657137784090909,
+              "immediate_reversals_per_flip": 0.046296296296296294,
+              "flips": 2484,
+              "immediate_reversals": 115
+            }
+          },
+          {
+            "global_step": 200,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 3.928471803665161,
+            "ce": 5.71466064453125,
+            "kl": 2.9666781425476074,
+            "grad_norm_preclip": 8.409477233886719,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00069854736328125,
+              "immediate_reversals_per_flip": 0.025338575797291395,
+              "flips": 2289,
+              "immediate_reversals": 58
+            }
+          },
+          {
+            "global_step": 300,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 4.200611114501953,
+            "ce": 6.074554443359375,
+            "kl": 3.1915650367736816,
+            "grad_norm_preclip": 10.142431259155273,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.000689697265625,
+              "immediate_reversals_per_flip": 0.031415929203539826,
+              "flips": 2260,
+              "immediate_reversals": 71
+            }
+          }
+        ],
+        "pulls": 0,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 300,
+          "flips": 7159,
+          "immediate_reversals": 244,
+          "flip_rate_per_sampled_update": 0.0007282511393229167,
+          "immediate_reversals_per_flip": 0.03408297248219025
+        },
+        "native_validation": {
+          "loss": 5.645391186078389,
+          "ppl": 282.9842340663244,
+          "top1_agreement": 0.2613932291666667,
+          "kl_to_teacher": 2.886368383963903,
+          "tokens": 3072
+        },
+        "learned_scales": {
+          "mean": 0.023447861894965172,
+          "std": 0.005722368601709604,
+          "min": 0.002110548783093691,
+          "max": 0.569362461566925
+        },
+        "projected_move_vs_initial": {
+          "fraction": 0.053389965987005156,
+          "changed": 13324058,
+          "total": 249561088,
+          "top_layers": [
+            {
+              "name": "model.layers.26.self_attn.k_proj",
+              "fraction": 0.14741134643554688,
+              "changed": 38643,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.26.self_attn.q_proj",
+              "fraction": 0.10767555236816406,
+              "changed": 112906,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.25.self_attn.k_proj",
+              "fraction": 0.10710906982421875,
+              "changed": 28078,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.23.self_attn.k_proj",
+              "fraction": 0.09824752807617188,
+              "changed": 25755,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.k_proj",
+              "fraction": 0.09312057495117188,
+              "changed": 24411,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.q_proj",
+              "fraction": 0.09152030944824219,
+              "changed": 95966,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.25.self_attn.q_proj",
+              "fraction": 0.09044075012207031,
+              "changed": 94834,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.27.self_attn.k_proj",
+              "fraction": 0.087005615234375,
+              "changed": 22808,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.23.self_attn.q_proj",
+              "fraction": 0.08250617980957031,
+              "changed": 86514,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.22.self_attn.k_proj",
+              "fraction": 0.08034896850585938,
+              "changed": 21063,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.27.self_attn.q_proj",
+              "fraction": 0.0784463882446289,
+              "changed": 82257,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.20.self_attn.k_proj",
+              "fraction": 0.07465362548828125,
+              "changed": 19570,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.21.self_attn.k_proj",
+              "fraction": 0.0745391845703125,
+              "changed": 19540,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.21.self_attn.q_proj",
+              "fraction": 0.07437801361083984,
+              "changed": 77991,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.16.self_attn.k_proj",
+              "fraction": 0.0741119384765625,
+              "changed": 19428,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.16.self_attn.q_proj",
+              "fraction": 0.07369327545166016,
+              "changed": 77273,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.20.self_attn.q_proj",
+              "fraction": 0.07232475280761719,
+              "changed": 75838,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.22.self_attn.q_proj",
+              "fraction": 0.07116985321044922,
+              "changed": 74627,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.19.self_attn.q_proj",
+              "fraction": 0.06902217864990234,
+              "changed": 72375,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.10.self_attn.q_proj",
+              "fraction": 0.06743526458740234,
+              "changed": 70711,
+              "total": 1048576
+            }
+          ]
+        }
+      },
+      "pre_continuation_validation": {
+        "loss": 5.649448196093242,
+        "ppl": 284.1346359560674,
+        "top1_agreement": 0.2620442708333333,
+        "kl_to_teacher": 2.8935010035832724,
+        "tokens": 3072
+      },
+      "continuation": {
+        "trace": [
+          {
+            "global_step": 301,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 3.593470811843872,
+            "ce": 5.987480163574219,
+            "kl": 2.304388999938965,
+            "grad_norm_preclip": 8.569750785827637,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0.00390625,
+              "immediate_reversals_per_flip": 0,
+              "flips": 128,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 400,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 4.292912483215332,
+            "ce": 6.299095153808594,
+            "kl": 3.212660789489746,
+            "grad_norm_preclip": 8.853741645812988,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.0008517178622159091,
+              "immediate_reversals_per_flip": 0.03727832066594282,
+              "flips": 2763,
+              "immediate_reversals": 103
+            }
+          },
+          {
+            "global_step": 500,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 3.6544556617736816,
+            "ce": 5.131309509277344,
+            "kl": 2.859226703643799,
+            "grad_norm_preclip": 9.092564582824707,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00071624755859375,
+              "immediate_reversals_per_flip": 0.033233915636983385,
+              "flips": 2347,
+              "immediate_reversals": 78
+            }
+          },
+          {
+            "global_step": 600,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.7641990184783936,
+            "ce": 4.3854522705078125,
+            "kl": 1.891216516494751,
+            "grad_norm_preclip": 6.226619720458984,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00071746826171875,
+              "immediate_reversals_per_flip": 0.022968949383241174,
+              "flips": 2351,
+              "immediate_reversals": 54
+            }
+          },
+          {
+            "global_step": 700,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 3.027672529220581,
+            "ce": 4.881669044494629,
+            "kl": 2.0293667316436768,
+            "grad_norm_preclip": 6.130527019500732,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.000728759765625,
+              "immediate_reversals_per_flip": 0.024288107202680067,
+              "flips": 2388,
+              "immediate_reversals": 58
+            }
+          },
+          {
+            "global_step": 800,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 3.457848310470581,
+            "ce": 5.5161590576171875,
+            "kl": 2.349527359008789,
+            "grad_norm_preclip": 6.0139970779418945,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00074493408203125,
+              "immediate_reversals_per_flip": 0.0282671036460467,
+              "flips": 2441,
+              "immediate_reversals": 69
+            }
+          },
+          {
+            "global_step": 900,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 4.219683647155762,
+            "ce": 5.670733451843262,
+            "kl": 3.4383492469787598,
+            "grad_norm_preclip": 9.446958541870117,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.000716552734375,
+              "immediate_reversals_per_flip": 0.030664395229982964,
+              "flips": 2348,
+              "immediate_reversals": 72
+            }
+          },
+          {
+            "global_step": 1000,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 3.041656017303467,
+            "ce": 4.198153495788574,
+            "kl": 2.418926954269409,
+            "grad_norm_preclip": 7.828625679016113,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00070404052734375,
+              "immediate_reversals_per_flip": 0.036410923276983094,
+              "flips": 2307,
+              "immediate_reversals": 84
+            }
+          },
+          {
+            "global_step": 1100,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.920799493789673,
+            "ce": 4.780426025390625,
+            "kl": 1.9194622039794922,
+            "grad_norm_preclip": 6.156237602233887,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00073577880859375,
+              "immediate_reversals_per_flip": 0.02986312733305682,
+              "flips": 2411,
+              "immediate_reversals": 72
+            }
+          },
+          {
+            "global_step": 1200,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.950133800506592,
+            "ce": 5.00840950012207,
+            "kl": 1.8418316841125488,
+            "grad_norm_preclip": 5.871222496032715,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0006756591796875,
+              "immediate_reversals_per_flip": 0.02710027100271003,
+              "flips": 2214,
+              "immediate_reversals": 60
+            }
+          }
+        ],
+        "pulls": 0,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 900,
+          "flips": 21698,
+          "immediate_reversals": 650,
+          "flip_rate_per_sampled_update": 0.0007357449001736111,
+          "immediate_reversals_per_flip": 0.02995667803484192
+        }
+      },
+      "final_movement_vs_initial": {
+        "fraction": 0.10335460630785517,
+        "changed": 25793288,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.22583389282226562,
+            "changed": 59201,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.18511486053466797,
+            "changed": 194107,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.18339920043945312,
+            "changed": 48077,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.17132186889648438,
+            "changed": 44911,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.16483402252197266,
+            "changed": 172841,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.1630401611328125,
+            "changed": 42740,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.16042423248291016,
+            "changed": 168217,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.1515655517578125,
+            "changed": 39732,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.15155410766601562,
+            "changed": 39729,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.1504812240600586,
+            "changed": 157791,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.14644336700439453,
+            "changed": 153557,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.14272212982177734,
+            "changed": 149655,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.14130020141601562,
+            "changed": 148164,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.13783645629882812,
+            "changed": 144532,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.13762283325195312,
+            "changed": 36077,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.135772705078125,
+            "changed": 142368,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.13451766967773438,
+            "changed": 35263,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.13215923309326172,
+            "changed": 138579,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.129638671875,
+            "changed": 135936,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.k_proj",
+            "fraction": 0.12912368774414062,
+            "changed": 33849,
+            "total": 262144
+          }
+        ]
+      },
+      "continuation_start_vs_final": {
+        "fraction": 0.08116529368552841,
+        "changed": 20255699,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.140289306640625,
+            "changed": 36776,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.1244363784790039,
+            "changed": 130481,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.12003707885742188,
+            "changed": 31467,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.11971187591552734,
+            "changed": 125527,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.11626434326171875,
+            "changed": 30478,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.1130533218383789,
+            "changed": 118545,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.11237716674804688,
+            "changed": 29459,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.11184978485107422,
+            "changed": 117283,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.11160659790039062,
+            "changed": 29257,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.10930061340332031,
+            "changed": 114610,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.10913562774658203,
+            "changed": 114437,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.10877037048339844,
+            "changed": 114054,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.10772228240966797,
+            "changed": 112955,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.1043252944946289,
+            "changed": 109393,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.10391616821289062,
+            "changed": 27241,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.10376739501953125,
+            "changed": 27202,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.1022796630859375,
+            "changed": 107248,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.10121440887451172,
+            "changed": 106131,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.15.self_attn.q_proj",
+            "fraction": 0.0982503890991211,
+            "changed": 103023,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.09773635864257812,
+            "changed": 25621,
+            "total": 262144
+          }
+        ]
+      },
+      "seconds": 342.31424021720886
+    },
+    "G": {
+      "arm": "G",
+      "final": {
+        "loss": 5.743370272219181,
+        "ppl": 312.1145513595488,
+        "top1_agreement": 0.27099609375,
+        "kl_to_teacher": 2.5104175619781017,
+        "tokens": 8192
+      },
+      "prep": {
+        "trace": [
+          {
+            "global_step": 1,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 18.529037475585938,
+            "ce": 20.84375,
+            "kl": 17.28265380859375,
+            "grad_norm_preclip": 843.3038940429688,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0.00396728515625,
+              "immediate_reversals_per_flip": 0,
+              "flips": 130,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 100,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 4.728902816772461,
+            "ce": 6.460479736328125,
+            "kl": 3.796515941619873,
+            "grad_norm_preclip": 11.469770431518555,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.0007472182765151515,
+              "immediate_reversals_per_flip": 0.036303630363036306,
+              "flips": 2424,
+              "immediate_reversals": 88
+            }
+          },
+          {
+            "global_step": 200,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 3.955256938934326,
+            "ce": 5.7767791748046875,
+            "kl": 2.9744372367858887,
+            "grad_norm_preclip": 8.137174606323242,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00072662353515625,
+              "immediate_reversals_per_flip": 0.03569928601427971,
+              "flips": 2381,
+              "immediate_reversals": 85
+            }
+          },
+          {
+            "global_step": 300,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 4.117192268371582,
+            "ce": 6.0052337646484375,
+            "kl": 3.1005544662475586,
+            "grad_norm_preclip": 9.336186408996582,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.000714111328125,
+              "immediate_reversals_per_flip": 0.02863247863247863,
+              "flips": 2340,
+              "immediate_reversals": 67
+            }
+          }
+        ],
+        "pulls": 0,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 300,
+          "flips": 7275,
+          "immediate_reversals": 240,
+          "flip_rate_per_sampled_update": 0.00074005126953125,
+          "immediate_reversals_per_flip": 0.032989690721649485
+        },
+        "native_validation": {
+          "loss": 5.674105068047841,
+          "ppl": 291.2275930096323,
+          "top1_agreement": 0.2431640625,
+          "kl_to_teacher": 2.8910902440547943,
+          "tokens": 3072
+        },
+        "learned_scales": {
+          "mean": 0.023447202518582344,
+          "std": 0.005722257774323225,
+          "min": 0.0021130344830453396,
+          "max": 0.5699111223220825
+        },
+        "projected_move_vs_initial": {
+          "fraction": 0.05389149048749138,
+          "changed": 13449219,
+          "total": 249561088,
+          "top_layers": [
+            {
+              "name": "model.layers.26.self_attn.k_proj",
+              "fraction": 0.145416259765625,
+              "changed": 38120,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.26.self_attn.q_proj",
+              "fraction": 0.10652446746826172,
+              "changed": 111699,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.25.self_attn.k_proj",
+              "fraction": 0.10565948486328125,
+              "changed": 27698,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.23.self_attn.k_proj",
+              "fraction": 0.10493850708007812,
+              "changed": 27509,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.k_proj",
+              "fraction": 0.09387588500976562,
+              "changed": 24609,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.q_proj",
+              "fraction": 0.09179973602294922,
+              "changed": 96259,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.25.self_attn.q_proj",
+              "fraction": 0.0900421142578125,
+              "changed": 94416,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.27.self_attn.k_proj",
+              "fraction": 0.0886383056640625,
+              "changed": 23236,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.23.self_attn.q_proj",
+              "fraction": 0.08463478088378906,
+              "changed": 88746,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.27.self_attn.q_proj",
+              "fraction": 0.07864761352539062,
+              "changed": 82468,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.22.self_attn.k_proj",
+              "fraction": 0.07731246948242188,
+              "changed": 20267,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.21.self_attn.k_proj",
+              "fraction": 0.07638168334960938,
+              "changed": 20023,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.21.self_attn.q_proj",
+              "fraction": 0.0751028060913086,
+              "changed": 78751,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.16.self_attn.k_proj",
+              "fraction": 0.072906494140625,
+              "changed": 19112,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.20.self_attn.k_proj",
+              "fraction": 0.07278060913085938,
+              "changed": 19079,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.16.self_attn.q_proj",
+              "fraction": 0.07222175598144531,
+              "changed": 75730,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.20.self_attn.q_proj",
+              "fraction": 0.07221126556396484,
+              "changed": 75719,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.22.self_attn.q_proj",
+              "fraction": 0.06997966766357422,
+              "changed": 73379,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.19.self_attn.q_proj",
+              "fraction": 0.0696706771850586,
+              "changed": 73055,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.10.self_attn.q_proj",
+              "fraction": 0.06789302825927734,
+              "changed": 71191,
+              "total": 1048576
+            }
+          ]
+        }
+      },
+      "pre_continuation_validation": {
+        "loss": 5.677193025747935,
+        "ppl": 292.1282814261037,
+        "top1_agreement": 0.244140625,
+        "kl_to_teacher": 2.897019545237223,
+        "tokens": 3072
+      },
+      "continuation": {
+        "trace": [
+          {
+            "global_step": 301,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 3.5849428176879883,
+            "ce": 5.926017761230469,
+            "kl": 2.324364185333252,
+            "grad_norm_preclip": 6.220689296722412,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0.004180908203125,
+              "immediate_reversals_per_flip": 0,
+              "flips": 137,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 400,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 4.265377998352051,
+            "ce": 6.268608093261719,
+            "kl": 3.1867153644561768,
+            "grad_norm_preclip": 7.837420463562012,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.000823049834280303,
+              "immediate_reversals_per_flip": 0.038202247191011236,
+              "flips": 2670,
+              "immediate_reversals": 102
+            }
+          },
+          {
+            "global_step": 500,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 3.704554557800293,
+            "ce": 5.1811981201171875,
+            "kl": 2.9094390869140625,
+            "grad_norm_preclip": 8.49144172668457,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00068817138671875,
+              "immediate_reversals_per_flip": 0.020842572062084258,
+              "flips": 2255,
+              "immediate_reversals": 47
+            }
+          },
+          {
+            "global_step": 600,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 2.7802274227142334,
+            "ce": 4.40228271484375,
+            "kl": 1.906813144683838,
+            "grad_norm_preclip": 6.013926029205322,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00070892333984375,
+              "immediate_reversals_per_flip": 0.030994403788204908,
+              "flips": 2323,
+              "immediate_reversals": 72
+            }
+          },
+          {
+            "global_step": 700,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 3.0214273929595947,
+            "ce": 4.844544410705566,
+            "kl": 2.0397491455078125,
+            "grad_norm_preclip": 6.553664684295654,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00067413330078125,
+              "immediate_reversals_per_flip": 0.022634676324128564,
+              "flips": 2209,
+              "immediate_reversals": 50
+            }
+          },
+          {
+            "global_step": 800,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 3.4404897689819336,
+            "ce": 5.529266357421875,
+            "kl": 2.3157639503479004,
+            "grad_norm_preclip": 6.136952877044678,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00072174072265625,
+              "immediate_reversals_per_flip": 0.023678646934460888,
+              "flips": 2365,
+              "immediate_reversals": 56
+            }
+          },
+          {
+            "global_step": 900,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 4.015702247619629,
+            "ce": 5.46116828918457,
+            "kl": 3.2373743057250977,
+            "grad_norm_preclip": 8.433903694152832,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00074981689453125,
+              "immediate_reversals_per_flip": 0.027676027676027677,
+              "flips": 2457,
+              "immediate_reversals": 68
+            }
+          },
+          {
+            "global_step": 1000,
+            "noise_sigma_u": 0.02666666666666667,
+            "gridward_pull": false,
+            "loss": 3.0933241844177246,
+            "ce": 4.278608322143555,
+            "kl": 2.455094575881958,
+            "grad_norm_preclip": 9.006195068359375,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0007415771484375,
+              "immediate_reversals_per_flip": 0.026748971193415638,
+              "flips": 2430,
+              "immediate_reversals": 65
+            }
+          },
+          {
+            "global_step": 1100,
+            "noise_sigma_u": 0.013333333333333334,
+            "gridward_pull": false,
+            "loss": 2.964435577392578,
+            "ce": 4.864837646484375,
+            "kl": 1.941142201423645,
+            "grad_norm_preclip": 6.176144123077393,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00077911376953125,
+              "immediate_reversals_per_flip": 0.028985507246376812,
+              "flips": 2553,
+              "immediate_reversals": 74
+            }
+          },
+          {
+            "global_step": 1200,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.9834866523742676,
+            "ce": 5.00310754776001,
+            "kl": 1.895998239517212,
+            "grad_norm_preclip": 6.065086841583252,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.000751953125,
+              "immediate_reversals_per_flip": 0.028814935064935064,
+              "flips": 2464,
+              "immediate_reversals": 71
+            }
+          }
+        ],
+        "pulls": 0,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 900,
+          "flips": 21863,
+          "immediate_reversals": 605,
+          "flip_rate_per_sampled_update": 0.0007413397894965278,
+          "immediate_reversals_per_flip": 0.027672323102959338
+        }
+      },
+      "final_movement_vs_initial": {
+        "fraction": 0.10376535944578026,
+        "changed": 25895796,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.2232208251953125,
+            "changed": 58516,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.1840963363647461,
+            "changed": 193039,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.18053817749023438,
+            "changed": 47327,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.17502212524414062,
+            "changed": 45881,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.16392898559570312,
+            "changed": 42973,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.16374683380126953,
+            "changed": 171701,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.1598052978515625,
+            "changed": 167568,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.15349578857421875,
+            "changed": 160952,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.14911270141601562,
+            "changed": 39089,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.14884185791015625,
+            "changed": 39018,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.14608192443847656,
+            "changed": 153178,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.1423206329345703,
+            "changed": 149234,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.14207077026367188,
+            "changed": 148972,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.13663673400878906,
+            "changed": 143274,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.13578414916992188,
+            "changed": 35595,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.13506221771240234,
+            "changed": 141623,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.13396835327148438,
+            "changed": 35119,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.1328754425048828,
+            "changed": 139330,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.k_proj",
+            "fraction": 0.12872314453125,
+            "changed": 33744,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.12847042083740234,
+            "changed": 134711,
+            "total": 1048576
+          }
+        ]
+      },
+      "continuation_start_vs_final": {
+        "fraction": 0.08167338170925108,
+        "changed": 20382498,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.14164352416992188,
+            "changed": 37131,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.12590980529785156,
+            "changed": 132026,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.11948013305664062,
+            "changed": 31321,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.11890697479248047,
+            "changed": 124683,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.11442947387695312,
+            "changed": 29997,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.11369705200195312,
+            "changed": 29805,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.11363983154296875,
+            "changed": 29790,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.11362648010253906,
+            "changed": 119146,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.11088275909423828,
+            "changed": 116269,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.11004257202148438,
+            "changed": 115388,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.10964679718017578,
+            "changed": 114973,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.1093902587890625,
+            "changed": 114704,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.10893726348876953,
+            "changed": 114229,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.10495281219482422,
+            "changed": 110051,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.10340499877929688,
+            "changed": 27107,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.1025238037109375,
+            "changed": 26876,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.10206127166748047,
+            "changed": 107019,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.10037803649902344,
+            "changed": 105254,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.15.self_attn.q_proj",
+            "fraction": 0.09897804260253906,
+            "changed": 103786,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.0968170166015625,
+            "changed": 25380,
+            "total": 262144
+          }
+        ]
+      },
+      "seconds": 352.8820323944092
+    },
+    "P": {
+      "arm": "P",
+      "final": {
+        "loss": 5.489709295332432,
+        "ppl": 242.1867917926584,
+        "top1_agreement": 0.310791015625,
+        "kl_to_teacher": 2.2559853941202164,
+        "tokens": 8192
+      },
+      "prep": {
+        "trace": [
+          {
+            "global_step": 1,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 18.823043823242188,
+            "ce": 20.955078125,
+            "kl": 17.675025939941406,
+            "grad_norm_preclip": 730.9815063476562,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0.00384521484375,
+              "immediate_reversals_per_flip": 0,
+              "flips": 126,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 100,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 4.6748199462890625,
+            "ce": 6.411468505859375,
+            "kl": 3.739701509475708,
+            "grad_norm_preclip": 12.165365219116211,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.0007657137784090909,
+              "immediate_reversals_per_flip": 0.046296296296296294,
+              "flips": 2484,
+              "immediate_reversals": 115
+            }
+          },
+          {
+            "global_step": 200,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 3.8601338863372803,
+            "ce": 5.698638916015625,
+            "kl": 2.8701696395874023,
+            "grad_norm_preclip": 11.30273723602295,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00026031494140625,
+              "immediate_reversals_per_flip": 0.01875732708089097,
+              "flips": 853,
+              "immediate_reversals": 16
+            }
+          },
+          {
+            "global_step": 300,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 3.820058822631836,
+            "ce": 5.672554016113281,
+            "kl": 2.822561740875244,
+            "grad_norm_preclip": 13.453744888305664,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00016632080078125,
+              "immediate_reversals_per_flip": 0.031192660550458717,
+              "flips": 545,
+              "immediate_reversals": 17
+            }
+          }
+        ],
+        "pulls": 3,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 300,
+          "flips": 4008,
+          "immediate_reversals": 148,
+          "flip_rate_per_sampled_update": 0.00040771484375,
+          "immediate_reversals_per_flip": 0.036926147704590816
+        },
+        "native_validation": {
+          "loss": 5.504806121190389,
+          "ppl": 245.87078192298833,
+          "top1_agreement": 0.2526041666666667,
+          "kl_to_teacher": 2.752167284488678,
+          "tokens": 3072
+        },
+        "learned_scales": {
+          "mean": 0.02345283143222332,
+          "std": 0.005720609333366156,
+          "min": 0.002113595139235258,
+          "max": 0.5694400668144226
+        },
+        "projected_move_vs_initial": {
+          "fraction": 0.04008295956779929,
+          "changed": 10003147,
+          "total": 249561088,
+          "top_layers": [
+            {
+              "name": "model.layers.26.self_attn.k_proj",
+              "fraction": 0.13645553588867188,
+              "changed": 35771,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.26.self_attn.q_proj",
+              "fraction": 0.09062385559082031,
+              "changed": 95026,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.25.self_attn.k_proj",
+              "fraction": 0.08935546875,
+              "changed": 23424,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.23.self_attn.k_proj",
+              "fraction": 0.0867767333984375,
+              "changed": 22748,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.k_proj",
+              "fraction": 0.07785797119140625,
+              "changed": 20410,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.q_proj",
+              "fraction": 0.07489204406738281,
+              "changed": 78530,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.27.self_attn.k_proj",
+              "fraction": 0.07457351684570312,
+              "changed": 19549,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.25.self_attn.q_proj",
+              "fraction": 0.07284736633300781,
+              "changed": 76386,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.22.self_attn.k_proj",
+              "fraction": 0.06754684448242188,
+              "changed": 17707,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.23.self_attn.q_proj",
+              "fraction": 0.06633949279785156,
+              "changed": 69562,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.27.self_attn.q_proj",
+              "fraction": 0.06479072570800781,
+              "changed": 67938,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.21.self_attn.k_proj",
+              "fraction": 0.06367874145507812,
+              "changed": 16693,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.20.self_attn.k_proj",
+              "fraction": 0.061794281005859375,
+              "changed": 16199,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.16.self_attn.k_proj",
+              "fraction": 0.060199737548828125,
+              "changed": 15781,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.21.self_attn.q_proj",
+              "fraction": 0.059604644775390625,
+              "changed": 62500,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.16.self_attn.q_proj",
+              "fraction": 0.05815410614013672,
+              "changed": 60979,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.20.self_attn.q_proj",
+              "fraction": 0.057575225830078125,
+              "changed": 60372,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.22.self_attn.q_proj",
+              "fraction": 0.05722236633300781,
+              "changed": 60002,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.10.self_attn.q_proj",
+              "fraction": 0.05562877655029297,
+              "changed": 58331,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.0.self_attn.v_proj",
+              "fraction": 0.053592681884765625,
+              "changed": 14049,
+              "total": 262144
+            }
+          ]
+        }
+      },
+      "pre_continuation_validation": {
+        "loss": 5.504036406675975,
+        "ppl": 245.68160442914333,
+        "top1_agreement": 0.2532552083333333,
+        "kl_to_teacher": 2.7543521026770272,
+        "tokens": 3072
+      },
+      "continuation": {
+        "trace": [
+          {
+            "global_step": 301,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 3.4604568481445312,
+            "ce": 5.81658935546875,
+            "kl": 2.191770553588867,
+            "grad_norm_preclip": 9.921319007873535,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0,
+              "immediate_reversals_per_flip": 0,
+              "flips": 0,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 400,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 4.031620025634766,
+            "ce": 6.01025390625,
+            "kl": 2.9662015438079834,
+            "grad_norm_preclip": 13.578848838806152,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.00014827227351641415,
+              "immediate_reversals_per_flip": 0.02079002079002079,
+              "flips": 481,
+              "immediate_reversals": 10
+            }
+          },
+          {
+            "global_step": 500,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 3.7485342025756836,
+            "ce": 5.295743942260742,
+            "kl": 2.915421485900879,
+            "grad_norm_preclip": 13.558156967163086,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0000933837890625,
+              "immediate_reversals_per_flip": 0.026143790849673203,
+              "flips": 306,
+              "immediate_reversals": 8
+            }
+          },
+          {
+            "global_step": 600,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 2.6786575317382812,
+            "ce": 4.2621307373046875,
+            "kl": 1.8260184526443481,
+            "grad_norm_preclip": 10.639277458190918,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00008331298828125,
+              "immediate_reversals_per_flip": 0.018315018315018316,
+              "flips": 273,
+              "immediate_reversals": 5
+            }
+          },
+          {
+            "global_step": 700,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 2.7971572875976562,
+            "ce": 4.725563049316406,
+            "kl": 1.7587848901748657,
+            "grad_norm_preclip": 12.31935977935791,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0000787353515625,
+              "immediate_reversals_per_flip": 0.01937984496124031,
+              "flips": 258,
+              "immediate_reversals": 5
+            }
+          },
+          {
+            "global_step": 800,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 3.1954421997070312,
+            "ce": 5.1941986083984375,
+            "kl": 2.1191890239715576,
+            "grad_norm_preclip": 11.146672248840332,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00006256103515625,
+              "immediate_reversals_per_flip": 0.00975609756097561,
+              "flips": 205,
+              "immediate_reversals": 2
+            }
+          },
+          {
+            "global_step": 900,
+            "noise_sigma_u": 0,
+            "gridward_pull": true,
+            "loss": 3.681806802749634,
+            "ce": 5.077288627624512,
+            "kl": 2.930393695831299,
+            "grad_norm_preclip": 15.507302284240723,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00005859375,
+              "immediate_reversals_per_flip": 0.046875,
+              "flips": 192,
+              "immediate_reversals": 9
+            }
+          },
+          {
+            "global_step": 1000,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.795555591583252,
+            "ce": 3.9925537109375,
+            "kl": 2.1510181427001953,
+            "grad_norm_preclip": 18.0881404876709,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0000518798828125,
+              "immediate_reversals_per_flip": 0.023529411764705882,
+              "flips": 170,
+              "immediate_reversals": 4
+            }
+          },
+          {
+            "global_step": 1100,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.647238254547119,
+            "ce": 4.5397491455078125,
+            "kl": 1.6281940937042236,
+            "grad_norm_preclip": 12.986181259155273,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0001202392578125,
+              "immediate_reversals_per_flip": 0.03553299492385787,
+              "flips": 394,
+              "immediate_reversals": 14
+            }
+          },
+          {
+            "global_step": 1200,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.5775277614593506,
+            "ce": 4.512660980224609,
+            "kl": 1.5355331897735596,
+            "grad_norm_preclip": 10.789440155029297,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00015472412109375,
+              "immediate_reversals_per_flip": 0.02564102564102564,
+              "flips": 507,
+              "immediate_reversals": 13
+            }
+          }
+        ],
+        "pulls": 6,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 900,
+          "flips": 2786,
+          "immediate_reversals": 70,
+          "flip_rate_per_sampled_update": 0.00009446885850694444,
+          "immediate_reversals_per_flip": 0.02512562814070352
+        }
+      },
+      "final_movement_vs_initial": {
+        "fraction": 0.05281246810400186,
+        "changed": 13179937,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.17264556884765625,
+            "changed": 45258,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.12076950073242188,
+            "changed": 126636,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.11743927001953125,
+            "changed": 30786,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.11737060546875,
+            "changed": 30768,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.10834884643554688,
+            "changed": 28403,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.10310649871826172,
+            "changed": 108115,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.09914970397949219,
+            "changed": 103966,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.09842300415039062,
+            "changed": 25801,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.09691238403320312,
+            "changed": 25405,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.09351634979248047,
+            "changed": 98059,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.08982467651367188,
+            "changed": 94188,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.08928203582763672,
+            "changed": 93619,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.08802127838134766,
+            "changed": 92297,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.08742904663085938,
+            "changed": 22919,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.08565998077392578,
+            "changed": 89821,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.08498382568359375,
+            "changed": 22278,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.08440685272216797,
+            "changed": 88507,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.07976150512695312,
+            "changed": 20909,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.07830142974853516,
+            "changed": 82105,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.07715702056884766,
+            "changed": 80905,
+            "total": 1048576
+          }
+        ]
+      },
+      "continuation_start_vs_final": {
+        "fraction": 0.020576000213623047,
+        "changed": 5134969,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.08681488037109375,
+            "changed": 22758,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.058800697326660156,
+            "changed": 61657,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.055515289306640625,
+            "changed": 14553,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.055156707763671875,
+            "changed": 14459,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.0550079345703125,
+            "changed": 14420,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.05488014221191406,
+            "changed": 57546,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.05159568786621094,
+            "changed": 54102,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.05057048797607422,
+            "changed": 53027,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.050079345703125,
+            "changed": 13128,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.0480194091796875,
+            "changed": 50352,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.04696464538574219,
+            "changed": 49246,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.046210289001464844,
+            "changed": 48455,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.04559135437011719,
+            "changed": 47806,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.044849395751953125,
+            "changed": 11757,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.041408538818359375,
+            "changed": 10855,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.040889739990234375,
+            "changed": 42876,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.03924560546875,
+            "changed": 41152,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.9.self_attn.q_proj",
+            "fraction": 0.037056922912597656,
+            "changed": 38857,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.03655242919921875,
+            "changed": 9582,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.036487579345703125,
+            "changed": 9565,
+            "total": 262144
+          }
+        ]
+      },
+      "seconds": 340.5310878753662
+    },
+    "GP": {
+      "arm": "GP",
+      "final": {
+        "loss": 5.4878531992435455,
+        "ppl": 241.73768675561755,
+        "top1_agreement": 0.3104248046875,
+        "kl_to_teacher": 2.2384954504668713,
+        "tokens": 8192
+      },
+      "prep": {
+        "trace": [
+          {
+            "global_step": 1,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 18.529037475585938,
+            "ce": 20.84375,
+            "kl": 17.28265380859375,
+            "grad_norm_preclip": 843.3038940429688,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0.00396728515625,
+              "immediate_reversals_per_flip": 0,
+              "flips": 130,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 100,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 4.728902816772461,
+            "ce": 6.460479736328125,
+            "kl": 3.796515941619873,
+            "grad_norm_preclip": 11.469770431518555,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.0007472182765151515,
+              "immediate_reversals_per_flip": 0.036303630363036306,
+              "flips": 2424,
+              "immediate_reversals": 88
+            }
+          },
+          {
+            "global_step": 200,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 3.980022430419922,
+            "ce": 5.803558349609375,
+            "kl": 2.9981184005737305,
+            "grad_norm_preclip": 10.18869686126709,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0002020263671875,
+              "immediate_reversals_per_flip": 0.012084592145015106,
+              "flips": 662,
+              "immediate_reversals": 8
+            }
+          },
+          {
+            "global_step": 300,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 3.8989641666412354,
+            "ce": 5.735883712768555,
+            "kl": 2.90985369682312,
+            "grad_norm_preclip": 11.895938873291016,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.000133056640625,
+              "immediate_reversals_per_flip": 0.02522935779816514,
+              "flips": 436,
+              "immediate_reversals": 11
+            }
+          }
+        ],
+        "pulls": 3,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 300,
+          "flips": 3652,
+          "immediate_reversals": 107,
+          "flip_rate_per_sampled_update": 0.0003715006510416667,
+          "immediate_reversals_per_flip": 0.029299014238773274
+        },
+        "native_validation": {
+          "loss": 5.608577787876129,
+          "ppl": 272.756045069683,
+          "top1_agreement": 0.2561848958333333,
+          "kl_to_teacher": 2.8463069597880044,
+          "tokens": 3072
+        },
+        "learned_scales": {
+          "mean": 0.023449093103408813,
+          "std": 0.005720600951462984,
+          "min": 0.002113059861585498,
+          "max": 0.5694448947906494
+        },
+        "projected_move_vs_initial": {
+          "fraction": 0.039079385645249314,
+          "changed": 9752694,
+          "total": 249561088,
+          "top_layers": [
+            {
+              "name": "model.layers.26.self_attn.k_proj",
+              "fraction": 0.13069915771484375,
+              "changed": 34262,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.23.self_attn.k_proj",
+              "fraction": 0.09128952026367188,
+              "changed": 23931,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.26.self_attn.q_proj",
+              "fraction": 0.08736324310302734,
+              "changed": 91607,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.25.self_attn.k_proj",
+              "fraction": 0.08531951904296875,
+              "changed": 22366,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.k_proj",
+              "fraction": 0.07855224609375,
+              "changed": 20592,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.24.self_attn.q_proj",
+              "fraction": 0.07328224182128906,
+              "changed": 76842,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.27.self_attn.k_proj",
+              "fraction": 0.07126235961914062,
+              "changed": 18681,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.25.self_attn.q_proj",
+              "fraction": 0.07007312774658203,
+              "changed": 73477,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.23.self_attn.q_proj",
+              "fraction": 0.06696414947509766,
+              "changed": 70217,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.27.self_attn.q_proj",
+              "fraction": 0.062432289123535156,
+              "changed": 65465,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.21.self_attn.k_proj",
+              "fraction": 0.062038421630859375,
+              "changed": 16263,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.22.self_attn.k_proj",
+              "fraction": 0.05991363525390625,
+              "changed": 15706,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.21.self_attn.q_proj",
+              "fraction": 0.05954933166503906,
+              "changed": 62442,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.20.self_attn.k_proj",
+              "fraction": 0.059169769287109375,
+              "changed": 15511,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.16.self_attn.k_proj",
+              "fraction": 0.058162689208984375,
+              "changed": 15247,
+              "total": 262144
+            },
+            {
+              "name": "model.layers.20.self_attn.q_proj",
+              "fraction": 0.05580425262451172,
+              "changed": 58515,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.16.self_attn.q_proj",
+              "fraction": 0.05512714385986328,
+              "changed": 57805,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.10.self_attn.q_proj",
+              "fraction": 0.05473899841308594,
+              "changed": 57398,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.22.self_attn.q_proj",
+              "fraction": 0.0545501708984375,
+              "changed": 57200,
+              "total": 1048576
+            },
+            {
+              "name": "model.layers.0.self_attn.v_proj",
+              "fraction": 0.0516204833984375,
+              "changed": 13532,
+              "total": 262144
+            }
+          ]
+        }
+      },
+      "pre_continuation_validation": {
+        "loss": 5.606304506460826,
+        "ppl": 272.13669806325635,
+        "top1_agreement": 0.2565104166666667,
+        "kl_to_teacher": 2.846799780925115,
+        "tokens": 3072
+      },
+      "continuation": {
+        "trace": [
+          {
+            "global_step": 301,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": false,
+            "loss": 3.511735200881958,
+            "ce": 5.859649658203125,
+            "kl": 2.24747371673584,
+            "grad_norm_preclip": 8.187800407409668,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 1,
+              "flip_rate_per_sampled_update": 0,
+              "immediate_reversals_per_flip": 0,
+              "flips": 0,
+              "immediate_reversals": 0
+            }
+          },
+          {
+            "global_step": 400,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 4.026106834411621,
+            "ce": 5.9829559326171875,
+            "kl": 2.972418785095215,
+            "grad_norm_preclip": 10.907809257507324,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 99,
+              "flip_rate_per_sampled_update": 0.00011528862847222222,
+              "immediate_reversals_per_flip": 0.02406417112299465,
+              "flips": 374,
+              "immediate_reversals": 9
+            }
+          },
+          {
+            "global_step": 500,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 3.684979200363159,
+            "ce": 5.204564094543457,
+            "kl": 2.866741180419922,
+            "grad_norm_preclip": 14.188817024230957,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00009002685546875,
+              "immediate_reversals_per_flip": 0.023728813559322035,
+              "flips": 295,
+              "immediate_reversals": 7
+            }
+          },
+          {
+            "global_step": 600,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 2.7034528255462646,
+            "ce": 4.2937469482421875,
+            "kl": 1.8471406698226929,
+            "grad_norm_preclip": 10.899699211120605,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00008697509765625,
+              "immediate_reversals_per_flip": 0.031578947368421054,
+              "flips": 285,
+              "immediate_reversals": 9
+            }
+          },
+          {
+            "global_step": 700,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 2.7537002563476562,
+            "ce": 4.605276584625244,
+            "kl": 1.756697654724121,
+            "grad_norm_preclip": 11.014100074768066,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0000567626953125,
+              "immediate_reversals_per_flip": 0.016129032258064516,
+              "flips": 186,
+              "immediate_reversals": 3
+            }
+          },
+          {
+            "global_step": 800,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 3.20237135887146,
+            "ce": 5.2401275634765625,
+            "kl": 2.1051182746887207,
+            "grad_norm_preclip": 10.970561981201172,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.000062255859375,
+              "immediate_reversals_per_flip": 0.029411764705882353,
+              "flips": 204,
+              "immediate_reversals": 6
+            }
+          },
+          {
+            "global_step": 900,
+            "noise_sigma_u": 0.04,
+            "gridward_pull": true,
+            "loss": 3.682738780975342,
+            "ce": 5.055756092071533,
+            "kl": 2.9434220790863037,
+            "grad_norm_preclip": 15.964515686035156,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0000537109375,
+              "immediate_reversals_per_flip": 0.011363636363636364,
+              "flips": 176,
+              "immediate_reversals": 2
+            }
+          },
+          {
+            "global_step": 1000,
+            "noise_sigma_u": 0.02666666666666667,
+            "gridward_pull": false,
+            "loss": 2.8318710327148438,
+            "ce": 4.0033111572265625,
+            "kl": 2.2010955810546875,
+            "grad_norm_preclip": 18.26826286315918,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00005706787109375,
+              "immediate_reversals_per_flip": 0.03208556149732621,
+              "flips": 187,
+              "immediate_reversals": 6
+            }
+          },
+          {
+            "global_step": 1100,
+            "noise_sigma_u": 0.013333333333333334,
+            "gridward_pull": false,
+            "loss": 2.650925874710083,
+            "ce": 4.541404724121094,
+            "kl": 1.6329758167266846,
+            "grad_norm_preclip": 12.258995056152344,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.0001190185546875,
+              "immediate_reversals_per_flip": 0.023076923076923078,
+              "flips": 390,
+              "immediate_reversals": 9
+            }
+          },
+          {
+            "global_step": 1200,
+            "noise_sigma_u": 0,
+            "gridward_pull": false,
+            "loss": 2.616347312927246,
+            "ce": 4.561370849609375,
+            "kl": 1.5690269470214844,
+            "grad_norm_preclip": 10.899007797241211,
+            "sampled_transitions": {
+              "sampled_weights": 32768,
+              "sampled_updates": 100,
+              "flip_rate_per_sampled_update": 0.00016357421875,
+              "immediate_reversals_per_flip": 0.022388059701492536,
+              "flips": 536,
+              "immediate_reversals": 12
+            }
+          }
+        ],
+        "pulls": 6,
+        "sampled_transitions": {
+          "sampled_weights": 32768,
+          "steps": 900,
+          "flips": 2633,
+          "immediate_reversals": 63,
+          "flip_rate_per_sampled_update": 0.00008928087022569444,
+          "immediate_reversals_per_flip": 0.023927079377136347
+        }
+      },
+      "final_movement_vs_initial": {
+        "fraction": 0.05182188899577165,
+        "changed": 12932727,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.17031478881835938,
+            "changed": 44647,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.11894702911376953,
+            "changed": 124725,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.11767959594726562,
+            "changed": 30849,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.11478805541992188,
+            "changed": 30091,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.11067962646484375,
+            "changed": 29014,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.10110092163085938,
+            "changed": 106012,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.09807872772216797,
+            "changed": 102843,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.094818115234375,
+            "changed": 24856,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.0937042236328125,
+            "changed": 24564,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.09129714965820312,
+            "changed": 95732,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.09014320373535156,
+            "changed": 94522,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.0878152847290039,
+            "changed": 92081,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.08696269989013672,
+            "changed": 91187,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.08684921264648438,
+            "changed": 22767,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.08446598052978516,
+            "changed": 88569,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.083770751953125,
+            "changed": 21960,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.08191967010498047,
+            "changed": 85899,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.07949066162109375,
+            "changed": 20838,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.16.self_attn.q_proj",
+            "fraction": 0.07580852508544922,
+            "changed": 79491,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.07562541961669922,
+            "changed": 79299,
+            "total": 1048576
+          }
+        ]
+      },
+      "continuation_start_vs_final": {
+        "fraction": 0.019648968672552027,
+        "changed": 4903618,
+        "total": 249561088,
+        "top_layers": [
+          {
+            "name": "model.layers.26.self_attn.k_proj",
+            "fraction": 0.086334228515625,
+            "changed": 22632,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.26.self_attn.q_proj",
+            "fraction": 0.05799388885498047,
+            "changed": 60811,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.25.self_attn.q_proj",
+            "fraction": 0.054427146911621094,
+            "changed": 57071,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.k_proj",
+            "fraction": 0.053363800048828125,
+            "changed": 13989,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.25.self_attn.k_proj",
+            "fraction": 0.0523681640625,
+            "changed": 13728,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.k_proj",
+            "fraction": 0.051910400390625,
+            "changed": 13608,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.24.self_attn.k_proj",
+            "fraction": 0.051868438720703125,
+            "changed": 13597,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.10.self_attn.q_proj",
+            "fraction": 0.04929161071777344,
+            "changed": 51686,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.q_proj",
+            "fraction": 0.04899406433105469,
+            "changed": 51374,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.22.self_attn.q_proj",
+            "fraction": 0.04683876037597656,
+            "changed": 49114,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.q_proj",
+            "fraction": 0.04616737365722656,
+            "changed": 48410,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.24.self_attn.q_proj",
+            "fraction": 0.04459095001220703,
+            "changed": 46757,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.20.self_attn.k_proj",
+            "fraction": 0.04437255859375,
+            "changed": 11632,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.27.self_attn.q_proj",
+            "fraction": 0.04420280456542969,
+            "changed": 46350,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.0408477783203125,
+            "changed": 10708,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.23.self_attn.q_proj",
+            "fraction": 0.040554046630859375,
+            "changed": 42524,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.19.self_attn.q_proj",
+            "fraction": 0.03798675537109375,
+            "changed": 39832,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.03780364990234375,
+            "changed": 9910,
+            "total": 262144
+          },
+          {
+            "name": "model.layers.9.self_attn.q_proj",
+            "fraction": 0.03589153289794922,
+            "changed": 37635,
+            "total": 1048576
+          },
+          {
+            "name": "model.layers.21.self_attn.k_proj",
+            "fraction": 0.035884857177734375,
+            "changed": 9407,
+            "total": 262144
+          }
+        ]
+      },
+      "seconds": 354.09851241111755
+    }
+  },
+  "effects": {
+    "D_loss": 5.726725168526173,
+    "G_loss": 5.743370272219181,
+    "P_loss": 5.489709295332432,
+    "GP_loss": 5.4878531992435455,
+    "noise_gain_D_minus_G": -0.016645103693008423,
+    "pull_gain_D_minus_P": 0.23701587319374084,
+    "combined_gain_D_minus_GP": 0.2388719692826271,
+    "factorial_interaction": 0.018501199781894684,
+    "historic_D_loss_271828": 5.726725168526173,
+    "D_minus_historic_D_loss": 0
+  },
+  "checks": {
+    "all_four_arms_present": true,
+    "all_arms_have_300_plus_900_updates": true,
+    "pulled_arms_have_nine_gridward_updates": true,
+    "all_final_losses_finite": true,
+    "initial_target_weights": true
+  },
+  "initial_reference": {
+    "diag": {
+      "loss": 19.296687364578247,
+      "ppl": 240129126.70971093,
+      "top1_agreement": 0.008138020833333334,
+      "kl_to_teacher": 16.309547980626423,
+      "tokens": 3072
+    },
+    "hist": {
+      "fractions": {
+        "0": 0.31993676033340585,
+        "1": 0.34018035295630705,
+        "-1": 0.33988288671028716
+      },
+      "zero_fraction": 0.31993676033340585,
+      "total": 249561088
+    },
+    "scale": {
+      "mean": 0.02343546599149704,
+      "std": 0.005720184184610844,
+      "min": 0.002112763933837414,
+      "max": 0.5697644352912903
+    }
+  },
+  "training_order_head": [
+    834,
+    47,
+    981,
+    79,
+    679,
+    330,
+    210,
+    787,
+    378,
+    125,
+    66,
+    977,
+    640,
+    922,
+    219,
+    1156
+  ]
+}
