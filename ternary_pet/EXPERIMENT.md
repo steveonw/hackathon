@@ -3239,3 +3239,19 @@ a separate preregistration.
 
 **One A10G-small job with four arms is authorized; no automatic additional
 seeds, tuning, or larger models.**
+
+
+#### G1-9 implementation pin before launch
+
+- Immutable script: `ternary_pet/g1_9_granite350m_gaussian_pull_seed271828.py`
+- Pinned commit: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`
+- Origin: same Granite G1-3 BF16 source/quantizer/optimizer/data/score
+  utilities; only direct-Q3 factorial experimental harness added.
+- Startup smoke asserts zero-noise Q3 equivalence, deterministic
+  noise-free eval, correct sigma annealing, and a fixed 249,561,088
+  quantized-weight target count before scientific endpoints.
+- 16 stratified layers × 2048 sampled weights each (32,768 positions)
+  monitor clean per-step ternary-code flips and immediate reversals;
+  sampled indices depend only on seed.
+- **No pilot/parameter sweep**, one fixed factorial run; first arm is
+  within-job D, followed by G, P, GP.
