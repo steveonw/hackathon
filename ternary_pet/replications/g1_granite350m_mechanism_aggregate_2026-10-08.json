@@ -1,0 +1,49 @@
+{
+  "kind": "g1_granite350m_three_order_aggregate",
+  "model": "ibm-granite/granite-4.0-350m",
+  "orders": [
+    1729,
+    271828,
+    424242
+  ],
+  "full_staging_positive_orders": 2,
+  "full_staging_total_orders": 3,
+  "mean_full_S_gain_vs_D": 0.024713719884554546,
+  "mean_full_S_ppl_reduction_fraction": 0.019253919072477643,
+  "md50_positive_vs_D_orders": 2,
+  "md50_beats_full_S_orders": 3,
+  "md50_beats_random_orders": 3,
+  "random_harmful_vs_D_orders": 3,
+  "mean_M_exact_gain_vs_D": 0.025404420991738636,
+  "mean_M_d50_gain_vs_D": 0.06139122198025385,
+  "mean_M_d50_ppl_reduction_fraction": 0.05584998000446617,
+  "mean_Random_d50_gain_vs_D": -0.05232187360525131,
+  "mean_mask_fraction": 0.06349585904460661,
+  "mean_md50_code_survival_step900": 0.9028457074317289,
+  "per_order": {
+    "1729": {
+      "D": 5.66205457597971,
+      "S": 5.534950591623783,
+      "M_exact": 5.565251499414444,
+      "M_d50": 5.511343255639076,
+      "Random_d50": 5.7351388707757,
+      "mask_fraction": 0.06024596270392923
+    },
+    "271828": {
+      "D": 5.726725168526173,
+      "S": 5.841034449636936,
+      "M_exact": 5.80452586710453,
+      "M_d50": 5.785019792616367,
+      "Random_d50": 5.792682036757469,
+      "mask_fraction": 0.06994602459819377
+    },
+    "424242": {
+      "D": 5.801920056343079,
+      "S": 5.740573599934578,
+      "M_exact": 5.744709171354771,
+      "M_d50": 5.710163086652756,
+      "Random_d50": 5.819844514131546,
+      "mask_fraction": 0.06029558983169684
+    }
+  }
+}
