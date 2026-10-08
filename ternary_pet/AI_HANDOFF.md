@@ -7,7 +7,7 @@
 > Current state: **SmolLM2-360M mechanism phase complete at v12; Granite-350M G1 generalization phase active**  
 > Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
 > Latest completed HF job: G1-2 staging gate `6ac6f487df2184ac91ac693e` — positive on order 1729 (+0.1309 nat; 12.27% lower PPL)  
-> Latest completed HF job: G1-3 Granite mechanism test `6ac6fe5fdf2184ac91ac6c1f` — positive on order 1729  
+> Latest completed HF jobs: G1-4/G1-5 Granite confirmations `6ac70af0df2184ac91ac6ffc` / `6ac70af2df2184ac91ac7000`  
 > Granite compute rule: FP32 masters + BF16-rounded source + BF16 autocast/BF16 teacher; never FP16  
 > Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_2_granite350m_staging_summary.md`
 
@@ -1471,3 +1471,39 @@ historical Smol regimes. Preserve these distinctions:
    On Granite seed 1729, M-d50 beats full S by ~**0.0236 nats**.
 
 These are interpretation guardrails, not new experiment results.
+
+
+### Granite three-order result — mixed
+
+All three Granite mechanism orders are now complete.
+
+| Seed | D | S | S gain | M-d50 | Random |
+|---:|---:|---:|---:|---:|---:|
+| 1729 | 5.66205 | 5.53495 | +0.12710 | **5.51134** | 5.73514 |
+| 271828 | **5.72673** | 5.84103 | **−0.11431** | 5.78502 | 5.79268 |
+| 424242 | 5.80192 | 5.74057 | +0.06135 | **5.71016** | 5.81984 |
+
+Interpretation boundary:
+- Full S > D only 2/3. **Do not claim 3/3 Granite staging replication.**
+- Q9 immediate fixed-Q3 entry is worse than D 3/3.
+- Mean D-vs-S mask is 6.35%.
+- M-d50 beats full S 3/3.
+- M-d50 beats matched-random 3/3.
+- matched-random is harmful vs D 3/3.
+- M-d50 beats D only 2/3.
+- seed 271828 is a real negative and must remain visible.
+
+The best current cross-family wording is:
+
+> Granite reproduces the ~6% disagreement geometry and worse-entry signature,
+> but the final staging advantage is order-sensitive. Standardized d=0.5
+> placement of Q9-selected commitments is more robust than the full staged
+> master state, while matched random placement is consistently harmful.
+
+Canonical aggregate:
+`replications/g1_granite350m_mechanism_aggregate_summary.md`.
+
+Deferred idea only, **not an active experiment**: compare the Q9 disagreement
+mask with AWQ-style activation-salient channels/weights to test whether Q9 is
+discovering static quantization saliency or a distinct optimization-path
+saliency. Do not launch this before the next phase is deliberately chosen.
