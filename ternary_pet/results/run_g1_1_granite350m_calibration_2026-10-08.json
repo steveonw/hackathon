@@ -1,0 +1,45 @@
+{
+  "kind": "g1_1_granite350m_direct_q3_schedule_calibration",
+  "date": "2026-10-08",
+  "model": "ibm-granite/granite-4.0-350m",
+  "job": "6ac6f18ae7a0dae8a2780246",
+  "pinned_commit": "3cb0153be80d5e9fbe112460bde7bc26398d851f",
+  "seed": 1729,
+  "precision": "bf16",
+  "scientific_result": false,
+  "heldout_test_used": false,
+  "selection_rule": "lowest validation loss after 300 direct-Q3 updates",
+  "candidates": [
+    {
+      "name": "const_1e-4",
+      "validation_loss": 5.812806864579518,
+      "validation_ppl": 334.5568648192047,
+      "top1_agreement": 0.22981770833333334,
+      "kl_to_teacher": 3.011625508467356,
+      "different_from_start": 0.05323326687852876,
+      "peak_cuda_gib": 8.166435241699219
+    },
+    {
+      "name": "warm100_cosine_3e-4",
+      "validation_loss": 6.082698206106822,
+      "validation_ppl": 438.2099818475863,
+      "top1_agreement": 0.21321614583333334,
+      "kl_to_teacher": 3.302446891864141,
+      "different_from_start": 0.1161579765191599,
+      "peak_cuda_gib": 10.027412414550781
+    },
+    {
+      "name": "warm100_cosine_1e-3",
+      "validation_loss": 6.74016398191452,
+      "validation_ppl": 845.699403888559,
+      "top1_agreement": 0.20540364583333334,
+      "kl_to_teacher": 3.8733752270539603,
+      "different_from_start": 0.2723095356917181,
+      "peak_cuda_gib": 10.027900695800781
+    }
+  ],
+  "winner": {
+    "name": "const_1e-4",
+    "lr": 0.0001
+  }
+}
