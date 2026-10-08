@@ -805,7 +805,7 @@ def selector_backward(m,teacher,chunks):
 
     grad_sq=0.0
     finite=True
-    for _,mod,_ in target_linears(m):
+    for _,mod in target_linears(m):
         # target_linears yields parametrized Linear modules too.
         w=mod.parametrizations.weight.original
         if w.grad is not None:
