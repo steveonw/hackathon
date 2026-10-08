@@ -1322,3 +1322,62 @@ Raw:
 `results/run_g1_7b_granite350m_v10schedule_seed271828_2026-10-08.json`.
 
 No additional replication or scale job was launched.
+
+
+---
+
+## 37. Granite seed 424242: Smol's stronger learning-rate schedule also harms a formerly positive order (G1-8)
+
+The prior schedule-transfer test on Granite's known-negative order 271828
+showed that copying Smol's 100-step warmup to 1e-3 plus cosine decay to 1e-4
+made both Q3 direct and full Q9→Q3 worse, inflating code disagreements to
+32.7%. To test whether that effect was isolated to the bad seed, we ran
+**424242**, chosen as the *weaker positive* of the two remaining historical
+Granite orders. Unlike an independent blind seed, this was a deliberate
+post-confirmation choice using known outcomes.
+
+The G1-8 script changed **only the seed** relative to G1-7b; it kept
+Granite's BF16 compute path, FP32 masters, the 300+900 split, original scales,
+fresh Adam, and all four arms D, S, M-exact, and M-d50. No random arm was run
+under the aggressive schedule because the previously specified full-size
+outside-M matched-random control became infeasible.
+
+| Arm | Previous Granite 424242 constant-1e-4 loss | Smol-schedule Granite 424242 loss |
+|---|---:|---:|
+| Direct D | **5.80192** | 6.05708 |
+| Full Q9→Q3 S | 5.74057 | 6.06241 |
+| M-exact | 5.74471 | 6.04609 |
+| M-d50 | **5.71016** | **6.02857** |
+
+All four arms worsen under the transferred high-peak schedule. Full staging's
+old **+0.06135-nat advantage** becomes **−0.00534 nats**, essentially a
+near-tie. But **M-d50 still beats D by 0.02850 nats** under the new LR and
+beats full S by 0.03384 nats. Therefore high LR degrades Granite globally
+while retaining at least some useful code-placement signal on this seed.
+
+The D-vs-S disagreement mask grows from **6.03%** to **29.49%**
+(15.05 million to 73.60 million weights), Q3 and Q9 code movement both
+reach ~27% from initialization, and true-mask code survival at the
+900th Q3 step drops from **90.57%** to **57.14%**. This reproduces the
+large-disagreement and low-survival phenomenon seen on 271828, but not
+the exact Q9 preparation failure: on 424242 Q9 native step300 validation
+was *better* than D (6.21319 vs 6.30551) and Q9 gradient norm was
+*smaller* than D (1.257 vs 1.941), whereas on 271828 Q9 prep remained
+worse with much larger gradients.
+
+This distinction matters. The results suggest a **cross-seed schedule
+mismatch** with Granite, not an explanation that all failures follow
+the same Q9-specific preparation path. Nor do they prove that margin growth
+itself causes worse validation, or that the ternary code-change mechanism
+is false. The original three-order constant-1e-4 Granite evidence
+remains 2/3 positive for full staging and 3/3 positive for d50 vs full S.
+The replicated Smol v10 results also remain unchanged.
+
+G1-8 job: `6ac79551e7a0dae8a2788f0b`, completed 2026-10-08 13:30 UTC.
+Frozen code: `39399baff38b15f961e9571f142e193a783c925b`.
+Raw: `results/run_g1_8_granite350m_v10schedule_seed424242_2026-10-08.json`.
+Analysis: `results/run_g1_8_granite350m_v10schedule_summary.md`.
+
+No further GPU jobs were launched.
+
+---
