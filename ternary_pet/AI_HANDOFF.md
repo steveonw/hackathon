@@ -1507,3 +1507,32 @@ Deferred idea only, **not an active experiment**: compare the Q9 disagreement
 mask with AWQ-style activation-salient channels/weights to test whether Q9 is
 discovering static quantization saliency or a distinct optimization-path
 saliency. Do not launch this before the next phase is deliberately chosen.
+
+
+### Granite negative-order forensics
+
+No-new-compute comparison of 1729 / 271828 / 424242 is now in:
+`replications/g1_granite350m_seed271828_forensics.md`.
+
+Strongest clue: the negative seed is already abnormal during Q9 preparation.
+
+- native Q9−D val loss @300: −0.160 / **+0.278** / −0.138;
+- Q9/D grad ratio @100: 0.82 / **3.33** / 0.76;
+- D-vs-S mask: 6.02% / **6.99%** / 6.03%;
+- changed-set Jaccard proxy: ~27.5% / **~19.7%** / ~27.5%;
+- M-d50 minus matched-random advantage:
+  0.224 / **0.0077** / 0.110 nats.
+
+On 271828, Q9's off-mask state is harmful too. Replacing off-mask S masters
+with D masters recovers 0.0365 nats. d=0.5 then repairs another 0.0195, but the
+true-M arm still loses to D and barely beats matched random.
+
+Global code histograms/scales, late code churn and d50 survival are not strong
+outliers.
+
+Current hypothesis (post-hoc, not proven): Q9 benefit depends on successful
+native-Q9 preparation / assignment discovery. Seed 271828 appears under-settled
+and selects a larger, more disjoint, lower-quality set of ternary commitments.
+
+Potential future predictor: native Q9 vs native D validation at step 300 plus
+prep gradient settling. **Do not use as a validated gate yet; n=3 and post-hoc.**
