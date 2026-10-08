@@ -364,3 +364,20 @@ Summary: `run_g1_7b_granite350m_v10schedule_summary.md`
 This is a one-known-order development negative. The full-size matched-random
 control could not be performed under this schedule; do not make a new
 position-specificity claim or extrapolate to other Granite orders.
+
+
+### G1-8 — Granite schedule transfer on remaining weaker positive order 424242
+
+| Job | Seed/order | Status at launch | Purpose |
+|---|---:|---|---|
+| G1-8 / `6ac79551e7a0dae8a2788f0b` | 424242 | SCHEDULING | Test whether Smol v10-v13 high-peak schedule degrades an originally positive Granite order |
+
+Code pin: `39399baff38b15f961e9571f142e193a783c925b`. This script differs from the completed G1-7b
+four-arm schedule-transfer harness by **only** `SEED=424242` in place of
+`SEED=271828`. Because event names are inherited from G1-7b, identify runs
+by **job ID and seed** when ingesting logs.
+
+Four arms: D, S, M-exact, M-d50; 300 prep and 900 Q3 continuation steps;
+Granite BF16-safe compute; v10-v13 global warmup+cosine schedule.
+No matched-random arm. Original constant-LR 424242 baselines:
+D 5.80192, S 5.74057, M-exact 5.74471, M-d50 5.71016.
