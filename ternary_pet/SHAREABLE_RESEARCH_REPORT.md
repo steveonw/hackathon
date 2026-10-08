@@ -1381,3 +1381,78 @@ Analysis: `results/run_g1_8_granite350m_v10schedule_summary.md`.
 No further GPU jobs were launched.
 
 ---
+
+
+## 38. G1-9: Direct ternary QAT improves dramatically using nine gridward master-weight pulls
+
+We returned to the known-hard Granite-4.0-350M order **271828** for a
+pre-registered training-method test inspired by published WinQ techniques.
+Unlike the earlier Q9→Q3 mechanism tests, **every arm trained direct Q3**
+for 1,200 optimizer steps using the same BF16-safe Granite path and
+constant `1e-4` learning rate. A 2×2 design separated Gaussian
+latent-weight perturbation from periodic interpolation toward the
+current ternary code's quantized value.
+
+| Direct ternary training arm | Holdout CE loss | PPL | D−arm gain |
+|---|---:|---:|---:|
+| D — direct baseline | 5.726725 | 306.96 | — |
+| G — Gaussian only | 5.743370 | 312.11 | −0.016645 |
+| **P — gridward pull only** | **5.489709** | **242.19** | **+0.237016** |
+| GP — Gaussian plus pull | **5.487853** | **241.74** | **+0.238872** |
+
+The nine **post-optimizer** gridward interventions at global steps
+100,200,...,900 used
+`W ← 0.90W + 0.10 Q3(W)`; only the full-precision master
+weights were adjusted, with the current trainable rowwise Q3 scale and no
+optimizer-step advantage. The Gaussian arms used training-only
+`σ=0.04×α_row` through step900, linearly annealing to zero by step1200.
+Every held-out and validation forward was *hard ternary, noise free*.
+
+**The historical hard-order D loss was reproduced exactly**, not just
+approximately, and all four arms and hard checks completed. Gridward-only
+P cut perplexity **21.10%** and improved teacher-top1 from
+27.66% to 31.08% versus direct. GP edged P by a negligible 0.001856
+nats; Gaussian alone was actually worse than D. This supports a
+strong **pull effect**, not a confirmed Gaussian smoothing effect.
+
+Sampled clean-code transitions (32,768 deterministic positions, each
+observed after every optimizer step) during 900 Q3 continuation updates:
+
+- D: 0.000735745 flips/weight/update;
+- G: 0.000741340;
+- P: 0.000094469 (**87.2% lower than D**);
+- GP: 0.000089281.
+
+D changed 10.335% of initial source Q3 codes by the final checkpoint;
+P changed 5.281%. The immediate reversal fraction conditional on a
+flip only decreased modestly, so the evidence is better characterized
+as **reduced code-transition activity** than as a proven solution
+specifically to two-step oscillation. The intervention also alters the
+location of FP32 masters inside their quantization cells, making
+causal attribution to flips alone premature.
+
+**Interpretation boundary:** one deliberately selected hard development
+order, one fixed interpolation strength/noise schedule and a single
+8192-token held-out slice. No Q9 stage or new matched-random
+position-control was present. This does not invalidate prior
+Smol/Granite staged conclusions. Related methods of Gaussian latent
+noise and periodic gridward interpolation were already published in
+WinQ (ICML 2026), so this outcome validates an adaptation rather than
+establishing invention of the intervention. A replication with frozen
+P/GP settings on a separate Granite order and another architecture
+would be scientifically more valuable than immediately tuning more
+hyperparameters on 271828.
+
+The original two failed submissions were Hugging Face HTTP 429
+infrastructure responses **without any job IDs**. The successful
+third accepted job was `6ac821ec095c5780892ff7f9`,
+completed **2026-10-08 23:32:17 UTC**.
+
+- Pinned code: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`
+- [Raw JSON](results/run_g1_9_granite350m_gaussian_pull_seed271828_2026-10-08.json)
+- [Mechanism and result summary](results/run_g1_9_granite350m_gaussian_pull_summary.md)
+- Protocol: `EXPERIMENT.md`
+
+No further GPU jobs launched in response to this result.
+
+---
