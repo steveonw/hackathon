@@ -6,275 +6,71 @@
 > experiment or launching compute.
 
 Experiments on whether a pretrained language model can enter ternary weight
-space more gracefully through an intermediate representation.
-
-**Research report:** [RESEARCH_REPORT.md](RESEARCH_REPORT.md) — concise public-facing summary of the current findings and mechanism results.
+space more effectively after adapting on an intermediate discrete grid.
 
 ## Current headline
 
-**The v7 trainability effect now replicates across three independent training
-orders (1729, 271828, 424242).**
+Matched-schedule **Q9→Q3 beats tuned direct Q3 in 3/3 training orders**, with a
+mean held-out loss advantage of **0.672 nats/token** and **48.94% lower PPL**.
+The Q9-prepared state is actually a **worse immediate Q3 checkpoint**, so the
+effect is better later trainability rather than better entry quality.
 
-At equal 300-step preparation, Q9 is a *worse* immediate Q3 checkpoint than
-direct Q3 in all three orders. Yet after the identical fresh-Adam 900-step Q3
-continuation, Q9 finishes substantially better in all three.
+The dominant benefit localizes to the **~6.3% of weights** where Q9 and direct
+choose different Q3 codes: transferring only those choices recovers **96.4%**
+of the full gain, and standardized interior placement recovers **106.9%** across
+3/3 orders while transition-matched random positions are harmful.
 
-Across the three v7 orders:
+A seed-1729 depth sweep further shows that the placement effect is
+**threshold-like and saturating**: about (d=0.25) recovers ~95% and
+(d=0.5) reaches the plateau, with Q9-code survival rising to ~97%.
+This v13 depth refinement is **one order only**; the canonical mechanism result
+remains the three-order v12 replication.
 
-- mean immediate Q9-vs-direct Q3 disadvantage at step 300:
-  **+2.588 nats/token**;
-- mean final Q9 advantage:
-  **0.688 nats/token**;
-- mean paired PPL reduction:
-  **49.69%**;
-- mean teacher top-1 gain:
-  **+6.86 percentage points**.
-
-The weight-selection geometry also replicates:
-
-- direct and Q9 each change about **0.68%** of future ternary codes by step 300;
-- the changed-position sets overlap only about **19.66% Jaccard** on average;
-- when both change the same weight, they choose the same resulting ternary code
-  **100%** of the time;
-- global distance-to-Q3-threshold distributions remain effectively identical.
-
-The FP32 control does **not** reproduce Q9's large advantage, although it is not
-universally worse than direct: seed 271828 gives FP32 a tiny 0.029-nat edge over
-direct. The safe claim is that generic FP32 warmup is insufficient to explain
-Q9.
+**Living current-state report:** [RESEARCH_REPORT.md](RESEARCH_REPORT.md)  
+**Append-only chronological research log:** [SHAREABLE_RESEARCH_REPORT.md](SHAREABLE_RESEARCH_REPORT.md)
 
 ## Current interpretation
 
-> Q9's intermediate discrete constraint produces a reproducible
-> **trainability / weight-selection geometry** effect. It moves a mostly
-> different subset of continuous master weights than direct Q3 does, and the
-> resulting master state responds much better to later ternary optimization
-> despite being a worse immediate ternary model.
+Q9 does not simply preserve more information or create a better ternary model at
+the switch. It discovers a small, specific set of useful position/code
+assignments; those assignments need enough interior margin to survive later Q3
+optimization. Exact Q9 continuous values are unnecessary, and generic
+prototype snapping does not help direct Q3.
 
-v8 tested a more specific explanation: that Q9 uniquely moves later-flipping
-weights in their eventual ternary-transition direction during preparation.
-That explanation was **not supported**. Each arm was more aligned on its own
-future-flip set by a similar margin, which is consistent with post-selection /
-generic trajectory alignment rather than Q9-specific directional pre-loading.
+The mechanism phase on SmolLM2-360M / WikiText-2 has reached its stop condition.
+The next phase is **cross-model generalization**, followed by scale-up only if
+the cheaper second-family test justifies it.
 
-So the Q9 trainability effect remains replicated, but its mechanism is deeper
-than simple "point the future-flipping weights toward their next threshold."
+## Evidence hierarchy
 
-v9 strengthened the direct-Q3 baseline with a 100-step warmup to 1e-3 followed
-by cosine decay to 1e-4. v10 then applied that **same global LR schedule** to
-Q9 -> Q3 on all three training orders, with the v7 transition semantics
-(original Q3 scales + fresh Adam at step 300, no LR restart).
+- **Replicated across 3/3 orders:** matched-schedule staging advantage (v10),
+  disagreement-mask localization (v11), code-choice/interior-placement result
+  and matched-random failure (v12).
+- **One-order supporting mechanism:** master-weight carryover (v6), v13 depth
+  saturation and firmness controls.
+- **Important negative result:** generic FP32 warm-up does not reproduce Q9,
+  but it is **not worse than direct in every order**; order 271828 gives FP32 a
+  small 0.0292-nat improvement over direct.
+- **Scope:** one 360M model and WikiText-2 so far; free-running generation remains
+  poor, and longer-run asymptotics are unresolved.
 
-Schedule-matched Q9 remains better than tuned direct in **3/3 orders**:
+## Repository map
 
-- held-out loss advantage: **0.695, 0.672, 0.650 nats/token**;
-- mean advantage: **0.672 nats/token**;
-- mean paired PPL reduction: **48.94%**;
-- mean teacher top-1 gain: **+6.82 pp**.
+- [RESEARCH_REPORT.md](RESEARCH_REPORT.md) — **living current state**; edit in
+  place after each experiment
+- [SHAREABLE_RESEARCH_REPORT.md](SHAREABLE_RESEARCH_REPORT.md) — append-only
+  chronological narrative
+- [AI_HANDOFF.md](AI_HANDOFF.md) — operational handoff, current protocol and
+  claim boundaries
+- [EXPERIMENT.md](EXPERIMENT.md) — preregistrations and chronological
+  experiment record
+- `results/` — raw JSON and per-run summaries
+- `replications/` — replication scripts and aggregate summaries
+- `smollm2_v*.py` — experiment scripts
 
-The central trainability pattern also survives: after equal 300-step compute,
-the schedule-matched Q9 masters are still a **worse immediate Q3 checkpoint**
-than tuned direct by **0.512 nats/token on average**, yet they finish much
-better after the next 900 Q3 updates.
+## Research workflow
 
-This closes the equal-global-schedule loophole. It is still not a
-best-tuned-vs-best-tuned comparison because Q9 has not received an independent
-equal-budget hyperparameter search.
+`preregister → pin code → launch job → record job ID → save raw JSON → write run summary → update aggregates → update RESEARCH_REPORT.md → update AI_HANDOFF.md / README as needed`
 
-This remains a finite-budget result on one model/data setup. v5 shows direct Q3
-catches up substantially with more training, and free-running generation remains
-poor.
-
-## Repository layout
-
-- `AI_HANDOFF.md` — start here
-- `EXPERIMENT.md` — chronological protocol/outcomes
-- `SHAREABLE_RESEARCH_REPORT.md` — external-review narrative
-- `smollm2_v7_equal_compute_geometry.py` — v7 protocol
-- `replications/v7_aggregate_summary.md` — **three-order v7 aggregate**
-- `results/run_v7_summary.md` — original seed 1729 v7 result
-- `results/run_v7_2026-10-07.json` — original raw v7
-- `results/run_v7_seed271828_2026-10-07.json` — replication raw
-- `results/run_v7_seed424242_2026-10-07.json` — replication raw
-- `results/run_v8_summary.md` — signed-preload diagnostic
-- `results/run_v8_2026-10-07.json` — v8 raw result
-- `results/run_v9_summary.md` — tuned direct-Q3 baseline result
-- `results/run_v9_2026-10-07.json` — v9 raw result
-- `replications/v9_tuned_direct_aggregate_summary.md` — canonical tuned-direct three-order comparison
-- `results/run_v9_tuned_direct_seed271828_2026-10-07.json` — tuned-direct replication raw
-- `results/run_v9_tuned_direct_seed424242_2026-10-07.json` — tuned-direct replication raw
-- `replications/v10_schedule_matched_q9_aggregate_summary.md` — equal-schedule Q9 aggregate
-- `results/run_v10_schedule_matched_q9_seed1729_2026-10-07.json` — v10 raw
-- `results/run_v10_schedule_matched_q9_seed271828_2026-10-07.json` — v10 raw
-- `results/run_v10_schedule_matched_q9_seed424242_2026-10-07.json` — v10 raw
-- `replications/` — replication scripts and summaries
-- `results/` — all run records
-
-
-## v11 mechanism result — seed 1729
-
-The matched-schedule hybrid-master factorial gives a clear causal split.
-
-The direct-vs-Q9 step-300 projected-Q3 disagreement mask contains **6.458%** of
-quantized weights.
-
-After an identical fresh-Adam/original-Q3-scale continuation:
-
-| Arm | Composition | Final loss |
-|---|---|---:|
-| 00 | direct masters everywhere | 5.6136 |
-| 10 | Q9 masters only on code-disagreement positions | **4.9329** |
-| 01 | Q9 masters only on same-code positions | 5.5020 |
-| 11 | Q9 masters everywhere | **4.9010** |
-
-Transferring Q9 masters only on the 6.458% disagreement mask recovers
-**95.5%** of the full 00->11 loss gain. Same-code hidden geometry alone recovers
-a much smaller **0.1116 nats** on the direct background.
-
-The equal-forward pair assertions passed exactly before training:
-Q3(00)==Q3(01) and Q3(10)==Q3(11), with zero Hamming distance and identical
-diagnostic losses.
-
-This strongly localizes the seed-1729 trainability benefit to the positions
-where direct and Q9 choose different ternary assignments at step 300. It does
-**not** yet prove that the discrete code labels alone are causal, because arm 10
-transfers the full continuous Q9 master values on those positions.
-
-See `results/run_v11_hybrid_factorial_summary.md`.
-
-
-## v11 replicated mechanism result
-
-The hybrid-master factorial now replicates across all three established
-training orders.
-
-Across seeds 1729, 271828, and 424242:
-
-- D-vs-S projected-Q3 disagreement mask size: **6.46%, 6.18%, 6.30%**;
-- mean mask size: **6.31%**;
-- mask-only recovery of the full Q9 trainability gain:
-  **95.5%, 97.1%, 96.6%**;
-- mean recovery: **96.4%**;
-- mean full 00->11 gain: **0.6938 nats/token**;
-- mean mask-only gain: **0.6688 nats/token**.
-
-Thus the dominant causal carrier is robustly localized to the ~6.3% of
-positions where direct-Q3 and Q9 preparation choose different projected
-ternary codes after 300 updates.
-
-The same-code majority contributes a smaller secondary effect (mean
-**0.1092 nats** on the direct background), but after the disagreement mask is
-already from Q9, the remaining same-code contribution averages only
-**0.0250 nats**.
-
-This is a strong replicated **where** result, not yet a complete **what**
-result: the mask-only intervention transfers the full continuous Q9 master
-values on those positions, so discrete ternary code identity has not yet been
-isolated from continuous within-bin geometry.
-
-See `replications/v11_hybrid_factorial_aggregate_summary.md`.
-
-
-## v12 seed-1729 result — code identity vs continuous position
-
-v12 holds the ternary forward model fixed while changing only the hidden FP32
-master position on the replicated Q9 disagreement mask.
-
-Final losses:
-
-| Arm | Construction | Loss |
-|---|---|---:|
-| D | direct masters | 5.6136 |
-| exact | exact Q9 masters on M | 4.9329 |
-| proto | Q3 prototype for Q9-selected code on M | **4.8884** |
-| minimal | just inside Q9-selected code region | 5.4979 |
-| random | matched transitions at different positions | 5.6793 |
-
-The exact/prototype/minimal arms have zero projected-Q3 Hamming and identical
-pre-continuation diagnostics.
-
-Interpretation on seed 1729:
-
-- exact Q9 within-region values are **not required**; the standardized Q3
-  prototype is slightly better than exact Q9;
-- Q9 code identity **alone is not sufficient**; barely crossing into the same
-  selected region recovers only ~17% of the exact-S gain;
-- the specific positions selected by Q9 matter: a layer/source/target-matched
-  random reassignment is worse than direct.
-
-Thus the strongest current mechanism is: Q9 discovers useful **which
-position/code** decisions, and later Q3 optimization benefits when the
-corresponding masters are placed well inside those target regions rather than
-barely across the boundary.
-
-This is seed 1729 only; replicate v12 before canonicalizing this finer
-code-vs-position result.
-
-See `results/run_v12_code_identity_position_summary.md`.
-
-
-## v12 replicated mechanism — canonical three-order result
-
-The code-identity-vs-position intervention now replicates across all three
-training orders.
-
-| Seed | Exact Q9 on M | Q3 prototype on M | Minimal crossing | Matched random | Prototype recovery |
-|---:|---:|---:|---:|---:|---:|
-| 1729 | 4.9329 | **4.8884** | 5.4979 | 5.6793 | 106.5% |
-| 271828 | 4.9711 | **4.9187** | 5.5406 | 5.7208 | 107.7% |
-| 424242 | 4.9791 | **4.9373** | 5.4911 | 5.7031 | 106.5% |
-
-All exact/prototype/minimal arms begin with exactly the same projected Q3
-forward model.
-
-Aggregate:
-
-- prototype recovery of exact-Q9 gain: **106.9%**;
-- minimal-crossing recovery: **18.0%**;
-- matched-random recovery: **-10.7%**;
-- prototype beats exact Q9 by **0.0463 nats/token on average**;
-- matched-random is worse than direct in **3/3 orders**.
-
-Canonical interpretation:
-
-> Q9 discovers useful **which-position / which-code** assignments. Exact Q9
-> within-region FP32 coordinates are unnecessary, but merely crossing into the
-> chosen Q3 region is insufficient. The masters need useful depth/placement
-> inside that region; the standard Q3 reconstruction prototype is sufficient
-> and slightly better than exact Q9 in all three orders.
-
-This completes the current mechanism sequence for this setup.
-
-See `replications/v12_code_identity_position_aggregate_summary.md`.
-
-
-## v13 optional closing result — seed 1729
-
-A depth sweep on the replicated Q9 disagreement mask finds a sharp
-boundary-to-interior transition:
-
-| Depth | Loss | Recovery vs d=1 | Q9-code survival @900 |
-|---:|---:|---:|---:|
-| 0.03 | 5.4948 | 16.4% | 51.76% |
-| 0.25 | 4.9262 | 94.8% | 86.48% |
-| 0.50 | **4.8850** | 100.5% | 97.32% |
-| 0.75 | 4.8876 | 100.1% | 99.13% |
-| 1.00 | 4.8884 | 100.0% | 99.45% |
-
-Direct baseline: 5.6136.
-
-The effect saturates by about d=0.5; deeper is not materially better. Survival
-measured with the current learned scale and fixed original alpha0 is nearly
-identical.
-
-Firmness-only controls are non-beneficial:
-
-- direct codes prototyped on M: 5.6403
-- direct codes prototyped on D's own changed set: 5.6195
-
-Thus the useful recipe is not generic "snap weights to prototypes." It is
-Q9's specific position/code selection plus enough interior depth for those
-assignments to persist during later Q3 training.
-
-This is an optional seed-1729 refinement. The three-order v12 mechanism remains
-the canonical replicated result.
+Before making a replicated conclusion, inspect **every seed/order individually**,
+not only the mean, and say plainly when a result is mixed.
