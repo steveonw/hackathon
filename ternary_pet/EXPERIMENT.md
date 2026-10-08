@@ -3049,3 +3049,14 @@ model families or automatic reruns are authorized as part of G1-8.
 - Code delta: **exactly one line**, `SEED=271828` → `SEED=424242`
 - Arms: D, S, M-exact, M-d50 (no Random-d50)
 - Runtime: A10G-small, one detached job; no auto-replication.
+
+
+#### G1-8 actual launch record
+
+- HF Job: `6ac79551e7a0dae8a2788f0b`
+- URL: `https://huggingface.co/jobs/codeflash85/6ac79551e7a0dae8a2788f0b`
+- Status at submission: SCHEDULING (2026-10-08 13:06:25 UTC)
+- A10G-small, 75-minute wall-clock cap, detached
+- Pinned code: `39399baff38b15f961e9571f142e193a783c925b`
+- The run was authorized as **one order 424242 test**. No 1729 launch, tuning,
+  or other trial has been requested.
