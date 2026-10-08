@@ -1610,3 +1610,29 @@ calibration checkpoint*. G1-7 intentionally tests the full v10-v13 trajectory
 rather than claiming the transferred schedule is already Granite-optimal.
 
 Do not launch other seeds or larger models until G1-7 is inspected.
+
+
+### ACTIVE G1-7b — Granite v10-v13 schedule retry
+
+Original G1-7 job:
+`6ac722dfdf2184ac91ac75e9` — **technical failure only**.
+
+Failure happened after D300 and S300 preparation, before continuation/endpoints:
+the exact full-size per-layer/source→target matched-random control was
+mathematically infeasible in at least one stratum
+(342,644 available outside-M positions vs 595,275 required).
+
+Preregistered amendment:
+omit Random-d50 and keep the schedule-transfer scientific core unchanged.
+
+Retry:
+`6ac7248adf2184ac91ac768d`
+
+Pinned amended code:
+`808fd4975d16111d9c1c841c44d9038a01995ba3`
+
+Arms:
+D, S, M-exact, M-d50.
+
+Do not make a new random-position specificity claim from G1-7b. No other seed
+or larger-model job is authorized automatically.
