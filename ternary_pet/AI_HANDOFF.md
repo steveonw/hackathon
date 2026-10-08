@@ -1440,3 +1440,34 @@ Both are A10G-small with 75-minute caps and differ from seed 1729 only in
 
 Do not aggregate until both complete and each order is inspected individually.
 Do not launch any larger-model jobs from this state.
+
+
+### Cross-model comparison guardrails
+
+External/secondary reviews may compare the Granite G1 result against different
+historical Smol regimes. Preserve these distinctions:
+
+1. **Granite's ~5.3% step-300 Q3 code movement is ~8x the old Smol v7
+   constant-1e-4 regime (~0.68%), but not ~8x the canonical tuned Smol v10
+   regime.** Under v10's direct-selected warmup/cosine schedule, Smol direct
+   moves about **4.41%** and Q9 about **4.88%** of projected Q3 codes at step
+   300. Therefore "Granite direct explores ~8x more" is a valid same-LR
+   historical comparison, but not a schedule-independent cross-family fact.
+   Treat "more direct exploration leaves less for Q9 to add" as a hypothesis,
+   not a finding.
+
+2. **G1-2 direct 5.66581 vs G1-3 D 5.66205 is not a clean BF16
+   run-to-run-noise estimate.** G1-2 direct uses continuous direct-Q3 training
+   through 1200 steps, whereas G1-3's mechanism baseline deliberately rebuilds
+   the 300-step D state and gives the common continuation **original Q3 scales
+   + fresh Adam**. The endpoints are close, which is reassuring, but their
+   ~0.0038-nat difference should not be attributed purely to BF16 noise.
+
+3. **"Firm placement beats full staging" is directionally true, but quote the
+   correct comparator.** On Smol seed 1729, the v12 prototype is 4.8884 versus
+   full staged S 4.9010, only ~**0.0126 nats** better; its ~0.0445-nat edge is
+   versus the **exact-S-on-M** arm (4.9329), not versus full S. Across the three
+   Smol orders, prototype beats full S by only about **0.02 nats on average**.
+   On Granite seed 1729, M-d50 beats full S by ~**0.0236 nats**.
+
+These are interpretation guardrails, not new experiment results.
