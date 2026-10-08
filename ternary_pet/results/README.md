@@ -284,3 +284,19 @@ are more useful than the full Q9-prepared state itself.
 
 Canonical aggregate:
 `../replications/g1_granite350m_mechanism_aggregate_summary.md`.
+
+
+### Active G1-6 trajectory-alignment development job
+
+| Job | Seed/order | Status | Purpose |
+|---|---:|---|---|
+| G1-6 / `6ac71a23df2184ac91ac73ca` | 271828 | running/scheduling | test seed-conditioned trajectory alignment of Q9 commitments |
+
+Pinned implementation:
+`10110ffba0ce9b1069f015cd32b235958e37f6c9`.
+
+Arms:
+D, All-d50, AlignTop50-d50, AlignBottom50-d50.
+
+The top/bottom selector halves are exactly matched within every layer and
+D→S transition class.
