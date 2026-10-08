@@ -286,11 +286,11 @@ Canonical aggregate:
 `../replications/g1_granite350m_mechanism_aggregate_summary.md`.
 
 
-### Active G1-6 trajectory-alignment development job
+### Completed G1-6 trajectory-alignment development job
 
 | Job | Seed/order | Status | Purpose |
 |---|---:|---|---|
-| G1-6 / `6ac71a23df2184ac91ac73ca` | 271828 | running/scheduling | test seed-conditioned trajectory alignment of Q9 commitments |
+| G1-6 / `6ac71a23df2184ac91ac73ca` | 271828 | completed — no rescue | trajectory alignment ranks weakly in expected direction, but Top50 remains worse than D |
 
 Pinned implementation:
 `10110ffba0ce9b1069f015cd32b235958e37f6c9`.
@@ -317,11 +317,11 @@ same global LR curve continues through Q3 steps 301-1200. Granite retains BF16
 autocast/BF16 teacher. Arms: D, S, M-exact, M-d50, Random-d50.
 
 
-### Active G1-7b retry — amended four-arm schedule transfer
+### Completed G1-7b retry — amended four-arm schedule transfer
 
 | Job | Seed/order | Status | Purpose |
 |---|---:|---|---|
-| G1-7b / `6ac7248adf2184ac91ac768d` | 271828 | running/scheduling | complete the Smol v10-v13 schedule transfer without the infeasible full-size random arm |
+| G1-7b / `6ac7248adf2184ac91ac768d` | 271828 | completed — negative | schedule transfer hurts D and Q9; 32.71% disagreement, d50 below D |
 
 Pinned code:
 `808fd4975d16111d9c1c841c44d9038a01995ba3`.
@@ -333,3 +333,34 @@ stratum required 595,275 distinct outside-mask positions but only 342,644
 existed.
 
 G1-7b retains D, S, M-exact and M-d50 unchanged and omits Random-d50.
+
+
+### G1-7b outcome — Smol v10–v13 schedule transfer fails on Granite 271828
+
+G1-7b job `6ac7248adf2184ac91ac768d` completed successfully, with all
+four-arm equal-forward assertions passed. The originally planned fifth
+matched-random arm was omitted after the infeasible-control technical failure
+in G1-7 (`6ac722dfdf2184ac91ac75e9`), as recorded in `EXPERIMENT.md`.
+
+| Arm | Historical constant-1e-4 loss | Transferred schedule loss |
+|---|---:|---:|
+| D | **5.72673** | **6.00895** |
+| S | 5.84103 | 6.36920 |
+| M-exact | 5.80453 | 6.35442 |
+| M-d50 | **5.78502** | **6.30402** |
+
+The Smol-matched 100-step warmup to `1e-3` followed by cosine decay to
+`1e-4` hurts **both** Granite direct and staged runs, but harms staged more:
+full-S deficit grows from 0.11431 to **0.36025 nats/token**.
+
+At the Q3 projection, D-vs-S disagreement rises from 6.99% to **32.71%**;
+D movement reaches 27.11%, S movement 23.43% (from initial projected ternary
+codes). At 900 Q3 continuation steps, true-mask d50 code survival falls from
+89.59% to **60.75%**. M-d50 still improves on S, but cannot beat D.
+
+Raw: `run_g1_7b_granite350m_v10schedule_seed271828_2026-10-08.json`
+Summary: `run_g1_7b_granite350m_v10schedule_summary.md`
+
+This is a one-known-order development negative. The full-size matched-random
+control could not be performed under this schedule; do not make a new
+position-specificity claim or extrapolate to other Granite orders.
