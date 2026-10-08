@@ -1936,3 +1936,21 @@ precision becomes the preregistered Granite compute setting for G1 before any
 scientific staging result is seen.
 
 No scientific conclusion may be drawn from G1-0b.
+
+
+### G1-0b launch record
+
+Hugging Face job:
+`6ac6eec9df2184ac91ac67ca`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+30 minutes
+
+Pinned code:
+`3b217e11853ac062ef187ee163291ac6138163c5`
+
+G1-1 remains blocked until this diagnostic satisfies the preregistered BF16
+finite-path checks.
