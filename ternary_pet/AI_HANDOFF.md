@@ -7,7 +7,7 @@
 > Current state: **SmolLM2-360M mechanism phase complete at v12; Granite-350M G1 generalization phase active**  
 > Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
 > Latest completed HF job: G1-2 staging gate `6ac6f487df2184ac91ac693e` — positive on order 1729 (+0.1309 nat; 12.27% lower PPL)  
-> Active HF job: G1-3 Granite mechanism test `6ac6fe5fdf2184ac91ac6c1f`  
+> Latest completed HF job: G1-3 Granite mechanism test `6ac6fe5fdf2184ac91ac6c1f` — positive on order 1729  
 > Granite compute rule: FP32 masters + BF16-rounded source + BF16 autocast/BF16 teacher; never FP16  
 > Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_2_granite350m_staging_summary.md`
 
@@ -1290,7 +1290,7 @@ SmolLM2-360M mechanism work. The gated sequence is:
 2. G1-0b BF16 precision diagnostic — complete, passed;
 3. G1-1 direct-only schedule calibration — complete; constant 1e-4 selected by validation and frozen;
 4. G1-2 one-order D/S staging gate — complete and positive on order 1729;
-5. G1-3 compressed mechanism test — active job `6ac6fe5fdf2184ac91ac6c1f`;
+5. G1-3 compressed mechanism test — complete and positive on order 1729;
 6. two fixed-protocol confirmatory orders only if the first-order result is
    scientifically interpretable.
 
@@ -1377,3 +1377,50 @@ whether Granite's ~6.02% disagreement set carries the staging gain and whether
 true-position d=0.5 placement beats a matched random reassignment.
 
 Do not launch confirmatory orders or larger-model jobs until G1-3 is inspected.
+
+
+### G1-3 Granite mechanism result
+
+Job:
+`6ac6fe5fdf2184ac91ac6c1f`
+
+Pinned code:
+`c32fbc16f463039257d996a7b32c9eca5eada681`
+
+All construction assertions passed.
+
+Final losses:
+- D 5.66205
+- S 5.53495
+- M-exact 5.56525
+- M-d50 **5.51134**
+- Random-d50 5.73514
+
+Key effects:
+- full S gain vs D: 0.12710 nats;
+- exact true-M gain: 0.09680 = **76.2%** of full S;
+- true-M d=0.5 gain: 0.15071 = **118.6%** of full S;
+- matched-random d=0.5: -0.07308 = harmful.
+
+The true mask is 6.0246% of targeted positions.
+
+This is qualitatively consistent with the Smol mechanism:
+specific Q9-selected positions/codes matter, moderate interior placement is
+sufficient, exact Q9 continuous coordinates are not required, and applying the
+same transitions elsewhere is harmful.
+
+Quantitative difference: exact-M localization is only 76.2% on Granite versus
+~96.4% canonical Smol. Preserve that heterogeneity.
+
+M-d50 Q9-code survival:
+- step100 99.677%
+- step300 97.977%
+- step900 90.696%
+with fixed-alpha0 almost identical.
+
+This is **one Granite order only**. No confirmatory order has been run yet.
+Canonical summary:
+`results/run_g1_3_granite350m_mechanism_summary.md`.
+
+Next gated action is G1-4/G1-5 confirmation on orders 271828 and 424242, with
+the exact frozen G1 protocol. Do not launch without a separate user decision.
