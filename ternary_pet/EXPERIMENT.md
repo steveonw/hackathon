@@ -2943,3 +2943,99 @@ under this schedule is possible.
 Raw: `results/run_g1_7b_granite350m_v10schedule_seed271828_2026-10-08.json`.
 Summary: `results/run_g1_7b_granite350m_v10schedule_summary.md`.
 No additional jobs launched.
+
+
+### G1-8 — Granite Smol v10–v13 schedule transfer on the weaker positive order 424242
+
+**Status: preregistered before launch. One additional GPU experiment authorized
+by user.**
+
+#### Scientific motivation and selection rule
+
+The v10–v13 Smol LR schedule was transferred to Granite on order 271828 in
+G1-7b, with a negative result: D=6.00895, S=6.36920, M-d50=6.30402, mask
+32.7145%. The earlier Granite constant-1e-4 confirmation gave mixed staging
+effects across orders:
+
+| Training order | D loss | S loss | D-S gain |
+|---|---:|---:|---:|
+| 1729 | 5.66205 | 5.53495 | +0.12710 |
+| 271828 | 5.72673 | 5.84103 | -0.11431 |
+| **424242** | **5.80192** | **5.74057** | **+0.06135** |
+
+**424242 is selected prospectively as the harder of the remaining two positive
+orders**: its historical staging gain (+0.06135) is smaller than 1729's
+(+0.12710). This is a choice using *known outcomes*, not an unseen random
+selection. It is therefore a targeted robustness/protocol-sensitivity test,
+not fully independent confirmation.
+
+Question: does the destructive response to the Smol v10–v13 learning-rate
+schedule occur beyond the historically negative order 271828, or does
+order-specific heterogeneity dominate even under the transferred schedule?
+
+#### Frozen protocol — exact G1-7b harness, seed only changes
+
+Use the exact G1-7b successful four-arm implementation, change **only**
+`SEED=271828` to `SEED=424242`, and commit/pin the resulting separate script
+before any GPU launch. No algorithmic tuning, gradient-selector logic, or
+data/evaluator changes.
+
+- model: `ibm-granite/granite-4.0-350m`
+- source BF16 rounded; persistent FP32 master weights
+- BF16 autocast/student and BF16 teacher (Granite-safe; no FP16)
+- same WikiText-2 tokenizer, training chunks and evaluation slices
+- same CE 0.35 + teacher KL 0.65 objective, rowwise trainable scales
+- same quantized target modules, nonquantized parameters frozen
+- AdamW betas (0.9,0.95), weight decay 0, clip norm 1
+- 1200 chunks of length 128, shuffled by order 424242
+- 100-step linear LR warmup to `1e-3`, then cosine decline to `1e-4` at
+  global step 1200; no LR restart at switch
+- prep: 300 Q3 updates (D) and independently 300 Q9 updates (S)
+- continuation: 900 Q3 updates over the same remaining ordered chunks,
+  fresh Adam and original Q3 scales
+- same 8192-token held-out test, same validation setup
+
+#### Four arms, as G1-7b
+
+1. **D** — direct-prepared Q3 master state.
+2. **S** — full 300-step Q9-prepared master state.
+3. **M-exact** — D off the D/S disagreement mask; exact S master inside mask.
+4. **M-d50** — D off mask; S-selected projected Q3 target codes set at
+   normalized interior depth 0.5 on the true mask.
+
+**No Random-d50.** The full-size exactly matched random control became
+mathematically infeasible under this schedule on 271828. Keeping the exact
+four-arm G1-7b design means G1-8 tests schedule transfer without claiming
+new position-specificity evidence. Do not secretly substitute a weaker random
+matching scheme.
+
+#### Hard checks and diagnostics
+
+Assert identical ternary projected codes and identical pre-continuation
+validation diagnostics among S, M-exact, and M-d50. Abort as a technical failure
+if any construction or numerical assertion fails.
+
+Log native validation and preclip gradient norms at step 300, projected D
+and S movement relative to original ternary codes, full D-vs-S disagreement
+mask, M-d50 code survival after 100/300/900 Q3 continuation steps, final
+8192-token held-out CE/PPL/top1/KL for all four arms, and the complete JSON.
+
+#### Interpretation frozen before seeing results
+
+- Compare within-order D vs S and D vs M-d50; compare all four absolute
+  endpoints, mask fraction, and survival against the historical **constant-LR
+  424242** run.
+- If D and S both degrade and the mask grows substantially on 424242, that
+  supports **general Granite schedule sensitivity** beyond the hard 271828
+  order; it does **not** prove all Granite seeds fail at `1e-3`.
+- If 424242 instead retains a staged advantage or similar mask/survival to
+  the constant schedule, that favors a seed-by-schedule interaction over a
+  simple family-wide explanation.
+- If full S loses but M-d50 wins, report that distinction honestly.
+- These are targeted, historically informed trials, not an unbiased
+  population estimate; do not re-label old 2/3 constant-LR results.
+- This cannot by itself invalidate the independently replicated Smol v10
+  result, which holds under its own family-specific schedule and setup.
+
+No 1729 test, intermediate-LR tuning, adaptive LR, additional seeds, new
+model families or automatic reruns are authorized as part of G1-8.
