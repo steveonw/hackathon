@@ -6,7 +6,7 @@
 > Project directory: `ternary_pet/`  
 > Current state: **SmolLM2-360M mechanism complete; Granite-350M 3-order G1 mixed (2/3 positive), G1-6/G1-7b development negatives**  
 > Canonical Smol mechanism: `replications/v12_code_identity_position_aggregate_summary.md`  
-> Latest completed HF job: **G1-7b `6ac7248adf2184ac91ac768d` — negative Smol v10–v13 LR transfer on Granite order 271828**  
+> Latest completed HF job: **G1-8 `6ac79551e7a0dae8a2788f0b` — negative Smol LR schedule transfer on Granite order 424242, with surviving positive d50 intervention**  
 > Latest completed HF jobs: G1-4/G1-5 Granite confirmations `6ac70af0df2184ac91ac6ffc` / `6ac70af2df2184ac91ac7000`  
 > Granite compute rule: FP32 masters + BF16-rounded source + BF16 autocast/BF16 teacher; never FP16  
 > Canonical current docs: `RESEARCH_REPORT.md`, `G1_GENERALIZATION_PLAN.md`, `results/run_g1_2_granite350m_staging_summary.md`
@@ -1696,7 +1696,7 @@ family-aware LR, preregister intermediate peak-LR candidates and diagnostics
 tests under the established constant-LR regime.
 
 
-### ACTIVE G1-8 — Granite 424242, Smol v10-v13 LR schedule
+### COMPLETED G1-8 — Granite 424242, Smol v10-v13 LR schedule
 
 HF job: `6ac79551e7a0dae8a2788f0b` (submitted 2026-10-08 13:06 UTC; A10G-small;
 75-minute cap; detached).
@@ -1735,3 +1735,60 @@ effect on staging gap, then update living report, chronology and handoff.
 Do not claim a family-universal effect or new matched-random control.
 
 No further new seed or model jobs authorized.
+
+
+### G1-8 COMPLETED — Granite 424242 confirms schedule sensitivity, but d50 still helps
+
+HF job:
+`6ac79551e7a0dae8a2788f0b` — **COMPLETED** 2026-10-08 13:30 UTC.
+
+Pinned code:
+`39399baff38b15f961e9571f142e193a783c925b`.
+The one-line-only change from successful G1-7b is `SEED=271828` →
+`SEED=424242`. The result JSON retains inherited `kind=g1_7...`
+and log event `g1_7`; identify it by actual `seed=424242` and job ID.
+
+Raw:
+`results/run_g1_8_granite350m_v10schedule_seed424242_2026-10-08.json`
+Summary:
+`results/run_g1_8_granite350m_v10schedule_summary.md`
+
+| Arm | Historical constant-LR 424242 | Transferred Smol LR 424242 |
+|---|---:|---:|
+| D | 5.80192 | 6.05708 |
+| S | 5.74057 | 6.06241 |
+| M-exact | 5.74471 | 6.04609 |
+| M-d50 | **5.71016** | **6.02857** |
+
+All four endpoints worsen, but **M-d50 remains better than D by
+0.02850 nats**, whereas full S loses to D by 0.00534 nats (near tie).
+All construction assertions passed; no Random-d50 arm (as preregistered).
+Old full S gain +0.06135; new full S gain -0.00534.
+
+Native Q9 was still **better than D** at step300 by 0.09232 nats under
+transferred Smol LR (S 6.21319; D 6.30551). On 271828 Q9 native
+was worse by 0.38936 under the same schedule. Therefore two Granite
+orders share *aggressive LR schedule sensitivity* but not identical
+Q9 prep failure dynamics.
+
+D/S projected Q3 disagreement increases from **6.0296%**
+(15,047,433 positions) to **29.4904%** (73,596,548 positions).
+Direct and Q9 code movements from initial reach 27.280% and 27.124%
+respectively. M-d50 selected-code survival after 900 Q3 steps declines
+from 90.57% to **57.14%** (learned scales; fixed-alpha0 57.12%).
+
+Together with completed G1-7b (271828: D=6.00895, S=6.36920,
+M-d50=6.30402, mask 32.7145%), this supports the statement
+**Smol v10-v13 high peak 1e-3 is not a good direct transfer to Granite
+under the current 1200-step recipe on either tested order**.
+This does **not** prove the same outcome for untested 1729, a
+model-family universal statement, or a causal role for mask inflation.
+Seed 424242 was selected using the historical weaker positive
+staging benefit; treat as a targeted development follow-up.
+
+Do not launch seed 1729 or other jobs without a separate authorization.
+
+Future research direction: boundary-margin/row-column-coupled Q3 code
+predictor with *retained* original random baseline, an audited
+margin-matched feasible subset, and proper no-heldout-leak evaluation.
+Do not alter G1-8 retrospectively.
