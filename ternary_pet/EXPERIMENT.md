@@ -3269,3 +3269,13 @@ A single detached `uv run` submission was attempted for the pinned script
 on that attempt.** This is an infrastructure submission failure and is
 not a scientific result. It authorizes no change to arms, seed,
 hyperparameters or held-out interpretation.
+
+
+#### G1-9 second GPU submission attempt: same rate limit
+
+A single subsequent retry with **identical** pinned script and identical
+A10G-small `uv run` parameters also returned
+`429 Too Many Requests` from Hugging Face MCP login. Again no HF job ID.
+**G1-9 is prepared but NOT RUNNING.** No automatic further submission
+attempts should be made in this turn; do not interpret lack of results as
+experimental failure.
