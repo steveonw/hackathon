@@ -300,3 +300,18 @@ D, All-d50, AlignTop50-d50, AlignBottom50-d50.
 
 The top/bottom selector halves are exactly matched within every layer and
 D→S transition class.
+
+
+### Active G1-7 — Granite v10-v13 matched-schedule port
+
+| Job | Seed/order | Status | Purpose |
+|---|---:|---|---|
+| G1-7 / `6ac722dfdf2184ac91ac75e9` | 271828 | running/scheduling | test Smol v10-v13 LR schedule on the known hard Granite order |
+
+Pinned code:
+`ab02c7a64a357bf792eee8d361032d2e2310bb1b`.
+
+Protocol:
+100-step warmup to 1e-3, cosine to 1e-4 by global step 1200; Q9 steps 1-300;
+same global LR curve continues through Q3 steps 301-1200. Granite retains BF16
+autocast/BF16 teacher. Arms: D, S, M-exact, M-d50, Random-d50.
