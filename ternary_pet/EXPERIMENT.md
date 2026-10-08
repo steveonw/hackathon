@@ -3060,3 +3060,60 @@ model families or automatic reruns are authorized as part of G1-8.
 - Pinned code: `39399baff38b15f961e9571f142e193a783c925b`
 - The run was authorized as **one order 424242 test**. No 1729 launch, tuning,
   or other trial has been requested.
+
+
+#### G1-8 completed result — Granite 424242 schedule transfer (2026-10-08)
+
+G1-8 job `6ac79551e7a0dae8a2788f0b` finished successfully at
+2026-10-08T13:30:40.325Z. Code:
+`39399baff38b15f961e9571f142e193a783c925b`.
+Four arms D, S, M-exact, M-d50 completed 900 Q3 continuation steps each
+after 300-step preparation. All code identity and pre-continuation
+equal-forward assertions passed.
+
+| Arm | Constant-1e-4 424242 held-out loss | Transferred Smol LR held-out loss |
+|---|---:|---:|
+| D | 5.80192 | **6.05708** |
+| S | 5.74057 | 6.06241 |
+| M-exact | 5.74471 | 6.04609 |
+| M-d50 | **5.71016** | **6.02857** |
+
+The transfer worsens **every arm**. Full S vs D moves from a +0.06135-nat
+advantage to a -0.00534-nat disadvantage (a near-tie on this one run).
+M-d50 **still beats D by 0.02850 nats**, but its original constant-LR
+advantage was 0.09176 nats.
+
+At step 300, projected D and S changed **27.280%** and **27.124%**,
+respectively, of original Q3 codes (compared with ~5.34% and ~5.27% at
+constant 1e-4). D/S disagreement grows from **6.0296% to 29.4904%**:
+15,047,433 to **73,596,548** targeted weight positions.
+
+The M-d50 Q9-selected-code survival at Q3 step 900 drops from **90.57%**
+(constant-LR) to **57.14%** (Smol schedule).
+
+**Important distinction from the prior negative seed**: Q9 native prep at
+step 300 remains *better* than direct on 424242, by **0.09232 nats**,
+and Q9 preclip gradient norm is **1.257** vs D **1.941** at step 300.
+Under the transferred schedule on 271828, native Q9 was 0.38936 nats
+worse than direct and Q9/D gradient ratio 5.15x. The high-peak
+schedule is harmful to both seed orders, but their preparation dynamics
+are not identical.
+
+The transferred-Smol results therefore support **schedule sensitivity in
+Granite beyond seed 271828**, not the strong claim that Q9 always loses to
+direct under this schedule. On 424242, the M-d50 intervention retains a
+modest within-run benefit even though all absolute endpoint losses are worse.
+
+Random-d50 was NOT run in this four-arm protocol. Seed 424242 was selected
+using the historical smaller positive staging gain of the two remaining
+positive Granite orders, not independently sampled. No causal claim that
+mask expansion alone produces the final loss is established.
+
+Raw: `results/run_g1_8_granite350m_v10schedule_seed424242_2026-10-08.json`
+Summary: `results/run_g1_8_granite350m_v10schedule_summary.md`
+
+G1-7b and G1-8 now show two-order negative schedule sensitivity:
+the copy of Smol's peak 1e-3 LR hurts D and S absolute endpoints and
+produces roughly 30%-plus D/S disagreement on both orders. The direct
+model's response and the Q9-specific response must still be analyzed
+separately. Do not automatically launch seed 1729 or a new LR sweep.
