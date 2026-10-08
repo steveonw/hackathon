@@ -1263,3 +1263,34 @@ Do not launch 271828/424242 v13 replications without explicit user approval.
 
 Canonical summary:
 `results/run_v13_depth_firmness_summary.md`.
+
+
+## ACTIVE NEXT PHASE — G1 cross-family generalization
+
+The next scientific phase is **G1**, not v14.
+
+Current selected Family-B small candidate:
+`ibm-granite/granite-4.0-350m`, subject to the G1-0 architecture audit.
+
+Canonical roadmap:
+`G1_GENERALIZATION_PLAN.md`.
+
+Do not jump directly to large-model scale-up or reopen more
+SmolLM2-360M mechanism work. The gated sequence is:
+
+1. G1-0 architecture / quantization smoke;
+2. G1-1 direct-only schedule calibration;
+3. G1-2 one-order D/S staging gate;
+4. G1-3 compressed mechanism test only if staging is positive;
+5. two fixed-protocol confirmatory orders only if the first-order result is
+   scientifically interpretable.
+
+If G1 is positive, the intended next quadrant is SmolLM2-1.7B, followed by the
+larger Granite sibling.
+
+A Family-B-small negative result does **not** by itself cancel the
+SmolLM2-1.7B within-family scale test.
+
+Before any conclusion, inspect every completed order individually. Preserve the
+existing documentation workflow and chat-reporting format already recorded in
+this handoff.
