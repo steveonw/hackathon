@@ -1810,7 +1810,8 @@ gridward λ=0.10 at steps100..900 every100. A deterministic
 flips and immediate two-step reversals. Final heldout is hard noise-free
 Q3, no threshold tuning or test-driven selection.
 
-First attempt to launch on A10G-small returned **HTTP 429 at HF MCP login**.
-It did not return a job ID. No G1-9 GPU run has been verified.
+Two identical attempts to launch on A10G-small returned **HTTP 429
+at HF MCP login**. Neither returned a job ID. G1-9 is **NOT RUNNING**,
+and no GPU run has been verified. No more automatic attempts in that turn.
 Check actual job submission outcome before claiming progress, and
 do not launch more seeds or tweak hyperparameters automatically.
