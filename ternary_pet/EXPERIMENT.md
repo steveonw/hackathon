@@ -3279,3 +3279,15 @@ A10G-small `uv run` parameters also returned
 **G1-9 is prepared but NOT RUNNING.** No automatic further submission
 attempts should be made in this turn; do not interpret lack of results as
 experimental failure.
+
+
+#### G1-9 successful GPU resubmission
+
+On 2026-10-08T23:06:20.440Z, after the previous two 429 failures, Hugging Face accepted exactly one detached G1-9 run on A10G-small (90-minute cap).
+
+- Job ID: `6ac821ec095c5780892ff7f9`
+- Job URL: `https://huggingface.co/jobs/codeflash85/6ac821ec095c5780892ff7f9`
+- Status at submission: **SCHEDULING**, not scientifically complete
+- Script pin unchanged: `6ce4c4056e8cfd3292c54f34bedc68bf7691688f`
+- Arms/settings/seed unchanged; no duplicate jobs found in HF job list before launch.
+- Previous two 429 responses remain documented as infrastructure failures, not jobs.
