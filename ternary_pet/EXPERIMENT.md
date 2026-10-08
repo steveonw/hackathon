@@ -2158,3 +2158,22 @@ schedule after observing this result.
 
 This is the first Granite G1 job allowed to support a cross-family scientific
 claim.
+
+
+### G1-2 launch record
+
+Hugging Face job:
+`6ac6f487df2184ac91ac693e`
+
+Hardware:
+A10G-small
+
+Wall-clock cap:
+75 minutes
+
+Pinned code:
+`f3a1f88890d1b70264f25f1be8c4d23d84594825`
+
+This is the first Granite G1 job allowed to contribute a scientific
+cross-family staging result. G1-3 remains blocked until the final D-vs-S
+endpoint is inspected against the preregistered gate.
