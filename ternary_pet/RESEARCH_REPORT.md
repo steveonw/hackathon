@@ -77,6 +77,21 @@ replication, **not cross-architecture confirmation** or proof that
 reduced flips causally mediate improvement. Basic gridward interpolation
 and Gaussian latent perturbation have published WinQ prior art.
 
+**S1-1 cross-family negative (SmolLM2-360M).** The **same nine
+10%-gridward pulls** were applied to Smol seed1729 under its previously
+tuned continuous-Adam warmup-to-`1e-3`/cosine-to-`1e-4`
+direct-Q3 schedule. **D held-out loss 5.595722, P 5.845746:
+gridward makes Smol worse by 0.250024 nats and raises PPL
+28.41%.** D exactly reproduces its historical tuned baseline,
+all recorded tests pass and both arms had the same six AMP-skipped
+updates. Yet P reduces sampled per-step code flips 78.41%;
+thus suppressing transitions alone is **not a universal indicator
+of better low-bit learning**. At step300/600 P is slightly better
+on validation; by 900/1200 it is worse. These tests differ in
+*architecture and training schedule*, not just model architecture.
+Smol's previously replicated 3/3 positive **Q9→Q3 staging**
+results are unaffected because this was a direct-Q3 gridward test.
+
 ---
 
 ## 2. Results at a glance
@@ -105,6 +120,7 @@ BF16 model scores perplexity **39.9**.
 | 17 | Smol schedule transfer also degrades previously positive Granite 424242 | D 6.0571 vs 5.8019; S 6.0624 vs 5.7406; mask 29.49% vs 6.03%; d50 still beats D by 0.0285 | 1 selected weaker positive order, 4 arms, no new random control | G1-8 |
 | 18 | Gridward latent-weight interpolation substantially improves direct Granite Q3 | D 5.72673; P **5.48971** (−0.23702 nat, −21.10% PPL); GP 5.48785; G-only 5.74337; sampled flips P ~87.2% lower | single historically hard order, four equal-budget arms, validation held out for diagnostics, no new random arm | G1-9 |
 | 19 | Gridward pull effect replicates on second targeted Granite order | Seed424242 D 5.80192, **P 5.52811** (+0.27381 nat / −23.95% PPL); G 5.75636; GP 5.53534; sampled flips ~86.9% lower for P | two selected Granite orders (271828,424242), 4 equal-budget arms each, no independent family transfer | G1-9/G1-10 |
+| 20 | Fixed gridward pull FAILS cross-family on Smol tuned direct ternary | Smol seed1729 D **5.59572**, P **5.84575** (P +0.25002 nats WORSE, +28.41% PPL); yet sampled code-flip frequency falls **78.41%**; within-job D matches historical D exactly | single previously known Smol order, two direct-Q3 arms, Smol LR1e-3 warmup/cosine and continuous Adam, architecture and protocol differences confounded | S1-1 |
 
 ---
 
@@ -593,6 +609,100 @@ Raw: `results/run_g1_10_granite350m_gaussian_pull_seed424242_2026-10-08.json`.
 Full summary: `results/run_g1_10_granite350m_gaussian_pull_seed424242_summary.md`.
 No new GPU jobs started after G1-10.
 
+### 5.12 S1-1: fixed gridward-pull rule does not transfer to Smol's tuned direct Q3
+
+After both targeted Granite orders benefited from nine periodic
+10%-gridward pulls, the cross-family **S1-1** test was
+preregistered before implementation or GPU use. We held the
+**pull rule** fixed but used the independently validated
+**SmolLM2-360M-Instruct direct-Q3 baseline**, not Granite's
+optimizer. Seed1729 is a previously studied development order,
+so the test is not a blind new-order draw.
+
+Arms: **D** ordinary direct Q3 and **P** identical direct Q3
+plus `W←0.9W+0.1Q3(W)` after optimizer steps100,200,...900.
+Both use continuous AdamW for all 1,200 step opportunities,
+Smol's global warmup100 peak `1e-3` followed by cosine decay
+to `1e-4`, FP32 master weights and Smol FP16 AMP,
+the same CE/KL distillation and ordered WikiText-2 train
+chunks, with no Gaussian and no Q9 prep. Unlike Granite,
+there is **no scale restoration/Adam reset at step300**.
+
+| Smol direct-Q3 method | Final heldout NLL | Perplexity | Teacher top-1 | Teacher KL |
+|---|---:|---:|---:|---:|
+| **D, tuned direct** | **5.595722** | **269.27** | **29.87%** | **2.66403** |
+| P, tuned direct + gridward | 5.845746 | 345.76 | 27.28% | 2.93324 |
+
+**Primary result: P is worse by 0.250024 nats/token,
+perplexity +28.41%.** The D control exactly reproduced
+the independent v9 tuned-direct seed1729 endpoint
+`5.595722187310457`. All nine recorded structural
+and schedule checks passed. Both arms took 1,200
+step opportunities with **six AMP-skipped optimizer
+updates each** (1,194 effective Adam updates apiece),
+and P executed all nine gridward pulls after successful
+optimizer steps.
+
+**Code-transition diagnostics:** a fixed 32,768-position
+sample across 16 layers, monitored after each step,
+changed ternary codes with probability **0.000435054**
+per weight/step for D versus **0.000093918** for P.
+Gridward suppressed sampled per-step transitions by
+**78.41%**, while the final full-network fraction
+of ternary codes differing from initialization
+decreased from **6.960% (D)** to **3.445% (P)**.
+**This is a useful counterexample to the claim that
+reducing quantized-code changes alone improves quality.**
+
+The validation timeline reveals a reversal in relative
+performance (these are training-heldout diagnostics,
+not checkpoint choices from test data):
+
+| Global step | D validation NLL | P validation NLL | Relative P−D |
+|---|---:|---:|---:|
+| 300 | 5.98809 | 5.97667 | −0.01142 (P slightly better) |
+| 600 | 5.74032 | 5.67064 | −0.06968 (P better) |
+| 900 | **5.41510** | 5.58253 | +0.16743 (P worse) |
+| 1200 | **5.25594** | 5.57738 | +0.32144 (P worse) |
+
+Sampled code-flip frequency in the P arm approaches
+zero during the final few hundred steps while
+the clean D arm continues improving and retaining
+some assignment changes. **Premature commitment is
+a plausible hypothesis, not a mechanism proof**;
+the pull also shifts the location of FP32 masters
+and changes downstream STE dynamics.
+
+**Interpretation boundary:** Prior G1-9/G1-10
+Granite +0.237/+0.274-nat gains at constant
+`1e-4`, with a step300 optimizer/scale reset,
+remain valid but do **not** translate into a
+universal direct-Q3 recipe. The cross-model comparison
+changes architecture **and** family-specific LR/reset
+trajectory, and does not identify which difference
+drives opposite effects. It also does not test
+Gaussian smoothing or Q9→Q3, so the earlier replicated
+Smol staged-Q9 advantages remain intact.
+
+G1-9/G1-10 and S1-1 are **WinQ-inspired
+adaptations of published gridward concepts**, not
+proof of a new method. Next hypothesis would be to
+**stabilize selectively** according to boundary
+margins, consistent useful code motion and training
+phase, while avoiding hard commitment of uncertain
+weights. Any adaptive-pull tuning must be
+preregistered and validated independently, not
+retuned against the examined Smol held-out test.
+
+Completed job: `6ac83c3bfee2c90070171b1a`,
+2026-10-09 01:18:20 UTC.
+Code pin: `a5634bce459092a503e7534e6b89b6d3a019548b`.
+Raw JSON:
+`results/run_s1_1_smol360m_gridward_direct_q3_seed1729_2026-10-09.json`.
+Summary:
+`results/run_s1_1_smol360m_gridward_direct_q3_seed1729_summary.md`.
+No additional GPU jobs launched.
+
 ---
 
 ## 6. Limitations
@@ -618,6 +728,15 @@ No new GPU jobs started after G1-10.
   with ~87% fewer sampled per-update code flips, but do not prove
   boundary-transition suppression caused the loss gain. The core
   interpolation method already has prior art (WinQ).
+- **Cross-model gridward negative (S1-1).** The same nine 10% pulls
+  improve tuned direct ternary on two selected Granite orders under
+  Granite's constant 1e-4/step300-reset protocol, but **harm** tuned
+  direct Smol (loss +0.250 nats, PPL +28.41%) under Smol's
+  warmup1e-3/cosine continuous-Adam protocol. Smol monitored
+  78.41% fewer code transitions despite degradation, directly
+  contradicting the naive "fewer flips always better" rule.
+  Architecture vs LR/reset interactions are not isolated;
+  all tests are short and historically observed orders.
 - **Short training.** 1,200 steps of single 128-token chunks (~150k tokens). In
   the one longer run (v5: 6,000 steps, old constant-LR schedule, one order) the
   gap **shrank** from ~0.7 to 0.20 nats (ppl 70 vs 85). Whether it persists
@@ -636,15 +755,19 @@ No new GPU jobs started after G1-10.
 
 ## 7. Possible next steps
 
-- **Next verify cross-model transfer of P, not another Granite tune:**
-  The frozen nine 10%-pull setting improved direct Q3 on both selected
-  Granite orders (G1-9 and G1-10). A preregistered, equal-budget
-  **SmolLM2 direct-Q3 vs P** (or a full four-arm factorial if budget
-  allows) would test whether this direct ternary stabilization extends
-  beyond Granite, using that family's established schedule rather
-  than importing Granite's LR uncritically. Keep independent
-  confirmation data unavailable during hyperparameter selection.
-  Do not retune Gaussian σ or λ using these held-out results.
+- **Investigate selective or time-limited commitment, not flip minimization:**
+  S1-1 has now tested the identical nine 10%-gridward pulls on
+  Smol's tuned direct-Q3 training. It **failed badly** despite
+  78.41% fewer sampled code transitions. Before further GPU
+  runs, compare existing boundary-margin distributions,
+  cross-phase transition stability, gradient directions and
+  checkpoint validation trajectories of Granite G1-9/G1-10
+  versus Smol S1-1. Consider preregistered
+  confidence- or schedule-conditioned pulls that permit
+  beneficial late code changes. Do not choose λ or
+  early-stop rules based on the already-viewed Smol test.
+  Independent validation and new seeds are required for
+  any tuned method.
 - **Generalization and schedule sensitivity:** Granite confirmation is
   mixed (2/3 positive at constant 1e-4). Copying Smol's higher-peak LR made
   both tested orders substantially worse and drove ~30–33% disagreement
