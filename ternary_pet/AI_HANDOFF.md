@@ -1,5 +1,18 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## Latest research-history note — Q9 assignment discovery and timing (2026-10-08 EDT)
+
+**Read:** [Q9 assignment-discovery findings and gated test plan](research_log/2026-10-08_q9_assignment_discovery_timing.md). This is an evidence-labeled **discussion record / draft plan**, not a completed experiment or frozen preregistration.
+
+The user's guiding intuition is **"a rough 9, but a better 3 afterwards"**: Q9 as an assignment-selection/search process, not the final objective. v11 raw overlap statistics, decomposed retrospectively at step 300, show approximately **3.385–3.398% Q9-only Q3-code changes** versus source and **2.785–3.070% direct-only changes that Q9 avoids** over the three established Smol seeds; together they explain nearly all of the ~6.18–6.46% disagreement mask. The **combined mask** is causally useful (v11/v12), but the two categories' **individual causal contributions remain untested**.
+
+The existing Q9 code-movement traces at steps 50–300 are **native Q9-state** changes, not projected Q3 assignment trajectories. Therefore **the timing when useful ternary selections emerge remains unknown**. Draft plan: matched Q9/direct Q3 checkpoint snapshots projected through fixed initial Q3 scales at 0/50/100/150/200/250/300; retrospective stability analysis; then selectively test Q9-only versus direct-only masks with paired Q3 continuation, before proposing shorter Q9 phases. Avoid future-information leakage for online predictors. The prior v12 three-order and v13 one-order depth findings justify **moderate interior placement** of selected assignments, not indiscriminate gridward commitment.
+
+**State:** Documentation only; no new GPU job or experimental results from this discussion. Any launch needs a separately frozen protocol and explicit compute authorization. Preserve S1-1 negative unchanged. Earlier "ACTIVE" status blocks below are historical; the S1-1 job completed.
+
+---
+
+
 > **START HERE if you are a new AI taking over this project.**
 >
 > Repository: `steveonw/hackathon`  
