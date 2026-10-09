@@ -3733,3 +3733,23 @@ Three equal-budget arms on identical seed-shuffled WikiText-2 chunks and origina
 Same warmup+cosine global LR, FP32 masters/FP16 autocast, 35% CE+65% KL, fixed teacher, original Q3 scales after switching. Log same-train-chunk validation at switch before/after resetting scales, fixed validation checkpoints, optimizer skipped-step counts, final heldout 8192-token CE/PPL/top1/KL and code movement. **Predefined exploratory thresholds:** `L250-L300 <= 0.07` and 90% or more of `(LD-L300)` gain retained. D and S300 reproducibility checks each at 0.06 nats absolute against historical heldout.
 
 **No results available as of submission.** On completion archive raw JSON and report both positive and negative outcomes. No additional seeds or follow-on studies authorized by this experiment.
+
+### C1 result — switch250 preserved 95.75% of switch300 benefit (COMPLETED; 2026-10-08 EDT)
+
+The **C1 run completed successfully** 2026-10-09 03:24:11 UTC; [HF job `6ac8597afee2c90070172c79`](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79), pinned code `5577a771ed57409283690097a58bae0c8966fdb1`. Scientific construction checks passed, `valid_for_science=true`, no duplicate or follow-up job launched.
+
+Raw, unchanged scientific FINAL_JSON values with provenance: [C1 full JSON](results/run_c1_smol360m_q9_switch250_vs300_seed1729_2026-10-08.json). Detailed findings: [C1 result summary](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md). Before-job prereg: [Phase C protocol](research_log/phase_c_q9_switch250_vs300_seed1729_prereg_2026-10-08.md). **This is exploratory seed/order1729**, with step250 chosen in response to already-viewed T1 and prior v10 data.
+
+| Arm | Q9/Q3 schedule | Actual optimizer updates / 1200 opportunities | Held-out loss | Held-out PPL | Train-split dev loss @1200 |
+|---|---|---:|---:|---:|---:|
+| D | Q3 for 1200 | 1194 (6 skipped) | 5.595722 | 269.272 | 5.255937 |
+| S250 | Q9 250 then Q3 950 | 1190 (10 skipped) | 4.930515 | 138.451 | 4.575021 |
+| S300 | Q9 300 then Q3 900 | 1190 (10 skipped) | **4.900985** | **134.422** | **4.521716** |
+
+Both historical endpoints **reproduced exactly**: D test loss `5.595722187310457`, S300 `4.9009853675961494`. S250 is **+0.0295298882 nats** worse than S300, but retains **95.7495%** of S300's gain over D. Both prospectively set **exploratory** thresholds PASS: `L250-L300 <= 0.07`, and `(LD-L250)/(LD-L300) >= 0.90`. S250's absolute gain over D = **0.6652069315 nats/token**.
+
+At switch S250 Q9 native validation loss was **5.390830** and immediate original-Q3-scale projection loss **6.542107**. At switch S300 native Q9 loss **5.182719** and immediate projected Q3 loss **6.542292**; the two Q3 immediate projection losses are almost equal although Q9 native improves in the extra 50 preparation steps. This does NOT prove equal downstream trainability; their final held-out NLL differs by +0.02953 nats.
+
+T1 diagnostic observed just **69.40%** step300 disagreement-mask recall at step250. Thus C1 demonstrates that **most benefit survives a 50-step shift from Q9 into Q3**, not that all late Q9 assignments were redundant. Earlier switch receives 50 extra Q3 updates, and learned optimizer states are reset at different times as defined in recipe. Do not claim pure assignment-geometry causal inference from this intervention.
+
+**Next gate:** Freeze this 250-vs-300 comparison on fresh orders without retuning for confirmation, OR isolate causal contributions of Q9-only code changes and the direct-only changes Q9 avoids. No added GPU jobs until separate authorization. Preserve all previous negative reports.
