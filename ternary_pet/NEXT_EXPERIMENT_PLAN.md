@@ -1,17 +1,17 @@
 # Ternary Pet — next experiment plan and handoff contract
 
 **Prepared:** 2026-10-08, US Eastern (jobs may be dated 2026-10-09 UTC).  
-**Status:** Active working plan, with **one bounded next experiment** specified. This is a persistent plan for handoff; an experiment's execution status is tracked in [CURRENT_STATE.md](CURRENT_STATE.md) and [AI_HANDOFF.md](AI_HANDOFF.md).  
+**Status:** M1 finished and archived. The M1 method below is an **unchanged historical plan**, followed by still-unrun research priorities. The authoritative execution state is [CURRENT_STATE.md](CURRENT_STATE.md).  
 **Repo:** `steveonw/hackathon`, project `ternary_pet/`.  
 **Context:** [research discussion](research_log/2026-10-08_q9_assignment_discovery_timing.md), [T1 timing](results/run_t1_q9_discovery_timing_seed1729_summary.md), [C1 shorter-switch](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md).
 
-## M1 execution record (after frozen plan)
+## M1 execution record — COMPLETED (plan preserved below)
 
-- **GPU job submitted** October 9, 2026 UTC as [codeflash85/6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb); **last inspected: SCHEDULING**, outcomes pending.
-- **Immutable code SHA**: `cad64c009209a924be89b523e6a1e184a4f4137b` with [M1 script](m1_smol360m_equal_q3_continuation_seed1729.py).
-- **Frozen scientific preregistration**: [M1 protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md). CPU static test `6ac86709fee2c900701734b2` passed (`M1_STATIC_CHECK_OK`).
-- **Compute:** exactly one A10G-small GPU job, max 90m; two Q3 continuations within the same job, seed1729. **Do not resubmit** unless status and raw logs show a true failure and user decides to retry.
-- **At handoff:** inspect the live HF job; capture and verify FINAL_JSON markers and `valid_for_science`; archive to `results/` and update [CURRENT_STATE.md](CURRENT_STATE.md), [AI_HANDOFF.md](AI_HANDOFF.md), [EXPERIMENT.md](EXPERIMENT.md), [RESEARCH_REPORT.md](RESEARCH_REPORT.md), [README.md](README.md). No scientific outcome known at submission.
+**Finished:** 2026-10-09 04:15:27 UTC on HF [codeflash85/6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb); A10G-small, original pinned script SHA `cad64c009209a924be89b523e6a1e184a4f4137b`. Frozen prereg [M1 protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md); original CPU static check `6ac86709fee2c900701734b2` passed.
+
+**Completed data:** [Full raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json) · [M1 detailed findings](results/run_m1_equal_q3_continuation_seed1729_summary.md). Seven of seven numerical/design checks passed. Same 900 Q3 batches/LR values produced **P250+900 loss 4.950432**, **P300+900 loss 4.900985** (**+0.049447** early-prep disadvantage). The late prep starts differed from early prep on **6,245,131** ternary codes. The earlier arm's final Q3 code matched the late-prep code on **44.16%** of those positions; the final two arms agreed on **60.00%** there. This is partial code adoption and incomplete convergence; no causal assignment-importance metric.
+
+**Important:** The subsequent research phases in section 3 below remain **proposals only**, not authorized or launched experiments. M1 is finished; do not submit duplicate. The next recommended decision is an independently preregistered longer-horizon and fresh-evaluation study, with equal-cost recipe controls, or confirmatory new orders. See [CURRENT_STATE.md](CURRENT_STATE.md) for authoritative status. The pre-M1 reasoning below is retained as its historical frozen plan and should not be interpreted as pending work.
 
 ---
 
