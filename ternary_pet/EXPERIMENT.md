@@ -3792,3 +3792,25 @@ The user requested the next jobs and suggested using some of the data SmolLM2 wa
 **F1** freeze: [preregistration](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md), [script](f1_fineweb_edu_qat_seed1729.py) pinned `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`; dataset access/static QA and full document partition CPU preflight `6ac86e0d095c578089301e45` all **PASSED**. F1 GPU [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd) submitted with initial status SCHEDULING, A10G-small max90m, results pending. Paired1200 Q3 vs Q9→Q3 on public FineWeb-Edu sample of SmolLM2's pretraining-type corpus; exact model/dataset revisions and SHA256 document partition fixed. Separate FineWeb source documents train/dev/test and WikiText validation; pretrained source-model exposure of FineWeb documents unknown.
 
 **Handoff:** [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md). **Status:** no new results at submission; archive raw outcome including failures. No other seeds/retries authorized without new decision.
+
+### F1 RESULT — FineWeb-Edu heldout Q3 vs Q9→Q3, seed1729 (COMPLETED, 2026-10-09 UTC)
+
+**Full scientific results:** [F1 raw FINAL_JSON](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_2026-10-09.json). **Interpretation:** [F1 summary](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_summary.md). **Frozen prereg:** [F1 protocol](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md), source SHA `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`, [HF job `6ac86eb0fee2c900701738dd`](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd), completed 2026-10-09 04:48:30 UTC, A10G-small.
+
+**Question:** Does the original v10 paired 1200-step direct-Q3 vs Q9(300)→Q3(900) advantage survive when QAT uses **public FineWeb-Edu sample-10BT**, a source distribution from SmolLM2's pretraining mixture, rather than WikiText2? The entire original model pretraining mixture and instruction-tuning data were not reconstructed.
+
+**Controlled setup:** Same SmolLM2-360M-Instruct BF16-rounded source, frozen non-quantized modules, FP32 master + rowwise learned scales, 35% CE /65% teacher KL, AdamW, FP16 autocast, v10 matched LR, common deterministic seed1729 shuffled 1200 chunks. D direct Q3 continuous, S Q9 first300 with original-scale Q3 projection + fresh Adam for remaining900. Source/dataset pinned SHAs; both arms equal **1200 scheduled** opportunities, AMP effective steps D **1194** (6 skips), S **1192** (8 skips).
+
+| Metric | Direct Q3 | Q9(300)→Q3(900) | D−S staged advantage |
+|---|---:|---:|---:|
+| FineWeb-Edu document-heldout NLL ↓ | 5.766660 | **4.996255** | **+0.770405** |
+| FineWeb-Edu document-heldout PPL ↓ | 319.469 | **147.858** | 53.72% relative reduction |
+| WikiText2 validation NLL ↓ | 6.558239 | **5.695225** | **+0.863013** |
+| WikiText2 validation PPL ↓ | 705.029 | **297.444** | 57.81% relative reduction |
+| FineWeb heldout top1 teacher agreement ↑ | 28.11% | **36.02%** | +7.91 percentage points |
+
+**All 5/5 frozen checks passed** (`valid_for_science=true`): both1200 opportunities, QAT train/dev/eval FineWeb document ID sets disjoint, exact chunk counts, finite final losses, identical order. The FineWeb sample involved **180 train docs / 1200 chunks**, **3 dev docs /24 chunks**, and **21 document-heldout docs /128 chunks** (16384 tokens), from first 340 scanned documents. The heldout WikiText validation also comprised 128 chunks (16384 tokens). Within-document chunks are correlated; don't treat token count as independent document sample size. The QAT document split is disjoint but the pretrained language model might have seen some of these FineWeb source documents in pretraining; do **not** claim a novel unseen test distribution.
+
+**Scientific outcome:** One positive *paired* adaptation result on pretraining-style QAT data, including secondary WikiText validation improvement. It is **not** cross-family confirmation or evidence for full 4T-token mixture behavior. Strong effect size, but **one familiar seed/order**, very small dev/eval documents, no formal uncertainty. S Q9 native train-dev loss at step300 5.428179 vs immediate original-Q3-scale projection 6.942240 (shock +1.514062), then Q3 recovery, consistent with earlier trainability observations but not mechanistic proof.
+
+**Independent still-running job:** [L1 6000-step WikiText2 durability](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53) RUNNING at last check. Do not conflate F1 result with L1 longer-horizon evidence, do not stop or duplicate the separate L1 job. No new GPU jobs launched in F1 archival. The next action is to inspect L1 and archive its own raw results at completion.
