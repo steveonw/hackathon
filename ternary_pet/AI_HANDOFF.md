@@ -1,16 +1,20 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
-## T1 Phase A Q9 assignment timing — LIVE HF job (2026-10-08 22:45 EDT)
+## LATEST COMPLETED HF JOB: T1 Q9 assignment timing (2026-10-08 evening EDT)
 
-**Status at submission:** SCHEDULING. **Job:** [codeflash85/6ac85534fee2c90070172a41](https://huggingface.co/jobs/codeflash85/6ac85534fee2c90070172a41).  
+**Status:** COMPLETED; completed **2026-10-09 02:51:49 UTC**.  
+**HF job:** [codeflash85/6ac85534fee2c90070172a41](https://huggingface.co/jobs/codeflash85/6ac85534fee2c90070172a41)  
 **Pinned code:** `2a982be6910d99eaf53d74f6e3ec3dae5807de17`  
 **Script:** `ternary_pet/t1_q9_discovery_timing_seed1729.py`  
-**Preregistration:** [Phase A timing diagnostic pilot](research_log/phase_a_q9_timing_seed1729_prereg_2026-10-08.md)  
-**Reasoning/history:** [Q9 discovery hypothesis and plan](research_log/2026-10-08_q9_assignment_discovery_timing.md)
+**Preregistration:** [Phase A diagnostic](research_log/phase_a_q9_timing_seed1729_prereg_2026-10-08.md).  
+**Full original parsed FINAL_JSON archive:** [T1 raw result](results/run_t1_q9_discovery_timing_seed1729_2026-10-08.json).  
+**Full interpretation:** [T1 summary](results/run_t1_q9_discovery_timing_seed1729_summary.md).
 
-The user authorized proceeding with the proposed Hugging Face tests. First bounded **A10G-small 1-hour timeout**, **seed1729**, **one GPU job only**. A preliminary CPU-basic HF syntax smoke (`6ac85511095c57808930127c`) emitted `PHASE_A_SMOKE_OK` before launch. This is a *diagnostic* two-arm paired 300-step Q9 vs Q3 preparation only, with projected Q3 snapshots at 0/50/100/150/200/250/300 using original row scales and two-bit packed memory; no held-out test, no Q3 continuation, no Gaussian, no gridward. Final in-job JSON computes early-mask overlap with step-300 D/S mask, Q9-only vs direct-only decomposition, and layer summaries; compares historical step-300 validation/mask to determine technical validity. **No result is yet known.**
+Seed1729, two paired 300-step-only preparation arms D(Q3) and S(Q9), shared v10 global LR and original Q3 scales for code snapshots at 0,50,100,150,200,250,300. One A10G-small job, no held-out model test, Q3 continuation, Gaussian, or gridward. Two-bit packed snapshots analyzed in job memory and not uploaded. Successful `valid_for_science=true` and **exact** reproduction of D native loss **5.9880944689**, S native loss **5.1827188333**, S fixed-Q3 loss **6.5422919790**, and step300 D/S projected mask **6.458076477%**. The D fixed-original-scale validation was **6.0043244561** versus historical native D **5.9880944689** (small +0.01623 nats, within preregistered 0.035 tolerance; *do not claim bitwise equality of these two distinct diagnostics*).
 
-**Next AI:** inspect the job, do not duplicate submission, read its `FINAL_JSON_BEGIN...FINAL_JSON_END`, verify numerical baselines and scientific-validity flag, archive raw outcome and failures, then update experimental logs. Do **not** automatically launch Phase B/C or other seeds without a follow-up decision. GPU cost is incurred by the scheduled job; historical files unchanged.
+**Timing: step100 M300 recall 18.61% (precision 53.88%), step150 recall 35.42% (precision 60.71%), step200 recall 51.35% (precision 68.02%), step250 recall 69.40% (precision 77.77%); step300 by definition 100%.** M300 is 6.458% of all targeted weights: Q9-only 3.3849%, D-only 3.0701%, tiny both-changed/different 0.0031%. At step250 eventual Q9-only recall 67.60%, D-only recall 68.97%. No sharp early plateau: ~30.60% of M300 is still missing at step250. All overlaps are retrospective oracle comparisons with t=300, NOT an online feature or causal demonstration of when final downstream Q3 quality becomes available.
+
+**Decision:** Phase A one-seed pilot positive as a *descriptive timing measurement*, not a demonstrated shorter training recipe. Phase B causal split of Q9-only vs D-only groups and Phase C 200/250/300 Q9→Q3 switch-time test are unrun. Next AI should start from archived raw and summary, freeze controls before any further GPU, obtain user authorization for compute, and log negative results. **No other GPU jobs launched with this analysis.**
 
 ---
 
