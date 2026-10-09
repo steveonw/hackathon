@@ -2,17 +2,19 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** T1, C1 and M1 completed; **no active scientific GPU job**. Read [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md) for archived M1 design, alternative hypotheses and subsequent research gates.
+**Status:** **F1 FineWeb-Edu completed with positive one-order result; L1 6000-step WikiText job remains running.** No other new scientific GPU jobs have been launched. See [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md) for details.
 
-## NEW ACTIVE STUDY — L1 durability and F1 FineWeb-Edu
+## CURRENT: L1 WikiText durability running; F1 FineWeb-Edu completed
 
-**2026-10-09 UTC / October 8 EDT.** **L1 GPU submitted / RUNNING at last check**: [HF 6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53), A10G-small, <=2h, pinned script SHA `841e0ab948991a24b7397b34d90d28c38f749879`. Paired **6000-step direct Q3 vs Q9(300)→Q3** on WikiText2, preserving first1200 historic steps; subsequent 4800 are fresh QAT train chunks and LR is fixed 1e-4. New WikiText2 validation curve measured at five horizons. **Results unknown until job completion.**
+**Last checked 2026-10-09 UTC:** **L1 still RUNNING** on Hugging Face: [L1 6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53), A10G-small, 2-hour maximum, pinned script SHA `841e0ab948991a24b7397b34d90d28c38f749879`. Matched direct Q3 versus Q9(300)→Q3 extended to **6000** WikiText training opportunities with new QAT training chunks and an independent WikiText validation curve. **L1 scientific outcome remains pending. Do not interrupt or duplicate this job.**
 
-**F1 FineWeb-Edu GPU SUBMITTED** as [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd) (A10G-small max90m; initial status SCHEDULING). Preregistered and implemented, pinned script SHA `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`; initial source streaming and both static checks passed. The complete CPU dataset-partition preflight [6ac86e0d095c578089301e45](https://huggingface.co/jobs/codeflash85/6ac86e0d095c578089301e45) **PASSED** with train1200/dev24/eval128 chunks and disjoint source document IDs. One F1 GPU job was accepted; results pending. F1 changes only QAT corpus under a matched 1200-step paired trial. Train/dev/eval FineWeb documents partitioned by hash; potential overlap with *source model* pretraining explicitly unknown.
+**F1 FineWeb-Edu COMPLETE**: [F1 6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd), completed **2026-10-09 04:48:30 UTC**, A10G-small, pinned script SHA `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`. All five frozen checks passed (`valid_for_science=true`). [F1 detailed summary](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_summary.md) · [raw JSON](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_2026-10-09.json) · [frozen protocol](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md).
 
-**Frozen protocols:** [L1 durability](research_log/l1_6000_step_durability_wikitext_seed1729_prereg_2026-10-09.md), [F1 FineWeb-Edu](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md). **Copyable handoff plan:** [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md).
+**F1 primary FineWeb-Edu document-held-out NLL:** D direct Q3(1200) **5.766660** (PPL319.469) versus S300 Q9(300)→Q3(900) **4.996255** (PPL147.858), staged advantage **+0.770405 nats/token**. **Secondary WikiText-2 validation:** D **6.558239** vs S **5.695225**, staged advantage **+0.863013 nats/token**. F1 trained on public `FineWeb-Edu sample-10BT`, an ingredient of SmolLM2's pretraining mix, not the full original mixture. QAT document-ID sets were disjoint (train **180 docs /1200 chunks**, dev **3 docs/24 chunks**, held-out **21 docs/128 chunks**). Only one seed/order1729; possible prior source-model pretraining exposure to sampled documents unknown. Do not claim broad independent generalization, a production model, or zero contamination.
 
-**Handoff:** check both job stages, do not submit duplicates, verify `FINAL_JSON` and scientific validity, archive raw JSON, record negative results. **T1/C1/M1 remain completed** and are untouched.
+**L1/F1 frozen protocols:** [L1](research_log/l1_6000_step_durability_wikitext_seed1729_prereg_2026-10-09.md) · [F1](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md). **Durable current job plan:** [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md). The older M1 and T1/C1 jobs are all completed. No additional GPU jobs launched for F1 analysis.
+
+**Next AI:** inspect L1, not F1, for pending scientific results. At completion fetch its `FINAL_JSON` and checks, archive all outcomes and update this state. Do not resubmit F1, silently change hyperparameters, or launch extra seeds without a new decision.
 
 ---
 
