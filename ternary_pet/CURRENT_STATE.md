@@ -4,6 +4,18 @@
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
 **Status:** T1 and C1 completed; **M1 next experiment is documented in [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md)**. Check this page and [AI_HANDOFF.md](AI_HANDOFF.md) for latest execution status before launching compute.
 
+## Latest live execution — M1 equal-Q3 continuation
+
+**M1 job submitted** on Hugging Face as [codeflash85/6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb). **Status at submission: SCHEDULING; results pending.**  
+**Pinned Git commit:** `cad64c009209a924be89b523e6a1e184a4f4137b`  
+**Script:** [`m1_smol360m_equal_q3_continuation_seed1729.py`](m1_smol360m_equal_q3_continuation_seed1729.py).  
+**Frozen pre-job preregistration:** [M1 protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md).  
+**GPU:** one A10G-small, 90-minute maximum, seed 1729. **CPU-only syntax smoke:** `6ac86709fee2c900701734b2`, `M1_STATIC_CHECK_OK`. No second M1 job launched.
+
+**Do not duplicate.** The M1 arm states are Q9 preparation after 250 vs 300 steps, both followed by **identical 900-Q3-step** data/LR sequences. P250 totals **1150** vs P300 **1200** step opportunities. In-job outputs include held-out NLL, final-code positional agreement and whether P250 Q3 continuation moves toward Q9's later code choices. Interpret only after checking `FINAL_JSON` and `valid_for_science`, preserving null and technical failures. Any subsequent run needs a new decision.
+
+---
+
 ## What is established (and scoped)
 
 - On SmolLM2-360M / WikiText-2, matched-schedule Q9(300)→Q3(900) outperforms tuned direct-Q3(1200) by mean **0.6723 nats/token** (about 49% lower PPL) across **3/3 training orders**. This is a **finite-budget** quantization-aware-training optimization result, not a usable ternary generation model, better asymptotic basin, or deployed memory/speed win.
