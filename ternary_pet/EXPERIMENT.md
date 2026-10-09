@@ -3598,3 +3598,22 @@ All original Q9 mask/random controls remain unchanged in prior scripts.
 (90-minute cap) is authorized.** Code must be pinned immutably
 before launch; avoid duplicates. Archive complete JSON regardless of
 sign and update the reports.
+
+
+#### S1-1 implementation pin before GPU launch
+
+- Script: `ternary_pet/s1_1_smol360m_gridward_direct_q3_seed1729.py`
+- Immutable GitHub commit: `a5634bce459092a503e7534e6b89b6d3a019548b`
+- Historical Smol tuned-direct v9 source parent pin:
+  `5c088e58539b2dede93df57ac3f72dbe0480a028`
+- Verified that the v9 data, quantizer, optimizer, loss, FP16 AMP,
+  model loading, schedule logic and original direct training helpers
+  are **byte-for-byte the original pinned source after its docstring**;
+  S1-1 adds a new two-arm harness without modifying those helpers.
+- S1-1 arms `D,P`; chosen existing v9
+  `warm100_cosine_1e-3` schedule; no step300 reset. Same nine
+  10%-pull events as Granite. Independent CPU-RNG-sampled
+  weight-transition logging should not perturb global training RNG.
+- Baseline reproducibility target: original v9 seed1729 tuned
+  direct Q3 test loss `5.595722187310457`.
+- One accepted HF job ID to be appended below; no duplicate launch.
