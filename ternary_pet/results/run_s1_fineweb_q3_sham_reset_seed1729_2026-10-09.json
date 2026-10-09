@@ -1,0 +1,612 @@
+{
+  "kind": "s1_fineweb_direct_q3_sham_reset_seed1729",
+  "seed": 1729,
+  "model_revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+  "fineweb_revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+  "wikitext_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "prereg": "ternary_pet/research_log/s1_fineweb_direct_q3_sham_reset_seed1729_prereg_2026-10-09.md",
+  "dataset_audit": {
+    "dataset": "HuggingFaceFW/fineweb-edu",
+    "config": "sample-10BT",
+    "revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+    "partition": "sha256(doc_id) 8-byte leading digest mod20",
+    "partition_buckets": {
+      "eval": [
+        0
+      ],
+      "dev": [
+        1
+      ],
+      "train": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "docs_scanned": 340,
+    "docs_used": {
+      "train": 180,
+      "dev": 3,
+      "eval": 21
+    },
+    "chunks": {
+      "train": 1200,
+      "dev": 24,
+      "eval": 128
+    },
+    "first_hashed_id_digests": {
+      "train": [
+        "064ec0237ed8d64d",
+        "07f470a6c5adc467",
+        "085e136d4d71be6b",
+        "0a62e58a80dbad0e",
+        "0b283982ea828237"
+      ],
+      "dev": [
+        "1442b86c353cf555",
+        "a010bb0697285821",
+        "ba3a0907531e9315"
+      ],
+      "eval": [
+        "12b2eef2f1524a0c",
+        "2b34e6006f74fd3c",
+        "3a7267e23f189184",
+        "555b6a7fa7e63038",
+        "557009a021af52b8"
+      ]
+    },
+    "document_id_partition_disjoint": true
+  },
+  "order_head": [
+    221,
+    850,
+    89,
+    747,
+    685,
+    1055,
+    781,
+    170,
+    233,
+    62,
+    421,
+    806,
+    1031,
+    1187,
+    683,
+    619
+  ],
+  "arms": {
+    "D_continuous": {
+      "arm": "D_continuous",
+      "q9_prep_steps": 0,
+      "sham_switch": false,
+      "scheduled_steps": 1200,
+      "actual_updates": 1194,
+      "amp_skips": 6,
+      "switches": [],
+      "train_dev": {
+        "300": {
+          "loss": 6.563584129015605,
+          "ppl": 708.8076052696924,
+          "top1_agreement": 0.19303385416666666,
+          "kl_to_teacher": 3.8714579343795776,
+          "tokens": 3072
+        },
+        "600": {
+          "loss": 6.053543190161387,
+          "ppl": 425.618408506311,
+          "top1_agreement": 0.244140625,
+          "kl_to_teacher": 3.3389062881469727,
+          "tokens": 3072
+        },
+        "900": {
+          "loss": 5.78368482987086,
+          "ppl": 324.95438865177215,
+          "top1_agreement": 0.2705078125,
+          "kl_to_teacher": 3.0886785089969635,
+          "tokens": 3072
+        },
+        "1200": {
+          "loss": 5.652595400810242,
+          "ppl": 285.0302744622099,
+          "top1_agreement": 0.2747395833333333,
+          "kl_to_teacher": 2.957105040550232,
+          "tokens": 3072
+        }
+      },
+      "trace": [
+        {
+          "step": 1,
+          "lr": 0.00001,
+          "loss": 10.727948188781738,
+          "ce": 12.239303588867188,
+          "kl": 9.914141654968262,
+          "levels": 3,
+          "updates": 0,
+          "skips": 1
+        },
+        {
+          "step": 100,
+          "lr": 0.001,
+          "loss": 5.821110725402832,
+          "ce": 8.027873992919922,
+          "kl": 4.6328535079956055,
+          "levels": 3,
+          "updates": 94,
+          "skips": 6
+        },
+        {
+          "step": 200,
+          "lr": 0.000981771838126524,
+          "loss": 4.58050537109375,
+          "ce": 6.647918701171875,
+          "kl": 3.467282772064209,
+          "levels": 3,
+          "updates": 194,
+          "skips": 6
+        },
+        {
+          "step": 300,
+          "lr": 0.0009285640897740315,
+          "loss": 4.709505081176758,
+          "ce": 6.157292366027832,
+          "kl": 3.9299278259277344,
+          "levels": 3,
+          "updates": 294,
+          "skips": 6
+        },
+        {
+          "step": 400,
+          "lr": 0.0008446873302753783,
+          "loss": 4.613658428192139,
+          "ce": 6.6021318435668945,
+          "kl": 3.5429420471191406,
+          "levels": 3,
+          "updates": 394,
+          "skips": 6
+        },
+        {
+          "step": 500,
+          "lr": 0.000736936755850849,
+          "loss": 4.11722469329834,
+          "ce": 5.9005351066589355,
+          "kl": 3.1569812297821045,
+          "levels": 3,
+          "updates": 494,
+          "skips": 6
+        },
+        {
+          "step": 600,
+          "lr": 0.0006140416772229784,
+          "loss": 5.290506362915039,
+          "ce": 7.007328033447266,
+          "kl": 4.366064548492432,
+          "levels": 3,
+          "updates": 594,
+          "skips": 6
+        },
+        {
+          "step": 700,
+          "lr": 0.00048595832277702173,
+          "loss": 4.534271240234375,
+          "ce": 6.284032821655273,
+          "kl": 3.5920917987823486,
+          "levels": 3,
+          "updates": 694,
+          "skips": 6
+        },
+        {
+          "step": 800,
+          "lr": 0.00036306324414915115,
+          "loss": 3.95941162109375,
+          "ce": 5.571375846862793,
+          "kl": 3.091430902481079,
+          "levels": 3,
+          "updates": 794,
+          "skips": 6
+        },
+        {
+          "step": 900,
+          "lr": 0.00025531266972462173,
+          "loss": 3.969503879547119,
+          "ce": 5.265561103820801,
+          "kl": 3.2716269493103027,
+          "levels": 3,
+          "updates": 894,
+          "skips": 6
+        },
+        {
+          "step": 1000,
+          "lr": 0.0001714359102259684,
+          "loss": 3.2151219844818115,
+          "ce": 4.948668479919434,
+          "kl": 2.2816739082336426,
+          "levels": 3,
+          "updates": 994,
+          "skips": 6
+        },
+        {
+          "step": 1100,
+          "lr": 0.00011822816187347625,
+          "loss": 4.409265995025635,
+          "ce": 6.014078140258789,
+          "kl": 3.5451364517211914,
+          "levels": 3,
+          "updates": 1094,
+          "skips": 6
+        },
+        {
+          "step": 1200,
+          "lr": 0.0001,
+          "loss": 3.746070384979248,
+          "ce": 5.396001815795898,
+          "kl": 2.8576459884643555,
+          "levels": 3,
+          "updates": 1194,
+          "skips": 6
+        }
+      ],
+      "final_heldout_fineweb": {
+        "loss": 5.7666598074138165,
+        "ppl": 319.46886100152227,
+        "top1_agreement": 0.2811279296875,
+        "kl_to_teacher": 2.880933507345617,
+        "tokens": 16384
+      },
+      "final_wikitext_validation": {
+        "loss": 6.558238908648491,
+        "ppl": 705.0289802101605,
+        "top1_agreement": 0.24945068359375,
+        "kl_to_teacher": 3.513345491141081,
+        "tokens": 16384
+      },
+      "final_source_q3_code_movement": {
+        "fraction": 0.06788558642069499,
+        "top_layers": [
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.22188802083333334
+          },
+          {
+            "name": "model.layers.0.self_attn.o_proj",
+            "fraction": 0.1982248263888889
+          },
+          {
+            "name": "model.layers.29.self_attn.k_proj",
+            "fraction": 0.160849609375
+          },
+          {
+            "name": "model.layers.28.self_attn.k_proj",
+            "fraction": 0.15859700520833334
+          },
+          {
+            "name": "model.layers.0.self_attn.k_proj",
+            "fraction": 0.155859375
+          },
+          {
+            "name": "model.layers.30.self_attn.k_proj",
+            "fraction": 0.151083984375
+          },
+          {
+            "name": "model.layers.0.self_attn.q_proj",
+            "fraction": 0.148759765625
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.14843424479166667
+          }
+        ]
+      },
+      "final_code_hist": {
+        "0": 0.3158230559031169,
+        "1": 0.34222972551981606,
+        "-1": 0.34194721857706706
+      },
+      "final_scales": {
+        "mean": 0.20752309262752533,
+        "std": 0.04244860261678696,
+        "min": 0.022577932104468346,
+        "max": 1.3601949214935303
+      },
+      "elapsed_seconds": 398.6914563179016
+    },
+    "D_sham": {
+      "arm": "D_sham",
+      "q9_prep_steps": 0,
+      "sham_switch": true,
+      "scheduled_steps": 1200,
+      "actual_updates": 1192,
+      "amp_skips": 8,
+      "switches": [
+        {
+          "at_step": 300,
+          "native_before_reset_dev": {
+            "loss": 6.563584129015605,
+            "ppl": 708.8076052696924,
+            "top1_agreement": 0.19303385416666666,
+            "kl_to_teacher": 3.8714579343795776,
+            "tokens": 3072
+          },
+          "original_q3_scale_dev": {
+            "loss": 6.555334031581879,
+            "ppl": 702.9839294428523,
+            "top1_agreement": 0.18977864583333334,
+            "kl_to_teacher": 3.85950975616773,
+            "tokens": 3072
+          },
+          "transition_shock": -0.008250097433726289
+        }
+      ],
+      "train_dev": {
+        "300": {
+          "loss": 6.563584129015605,
+          "ppl": 708.8076052696924,
+          "top1_agreement": 0.19303385416666666,
+          "kl_to_teacher": 3.8714579343795776,
+          "tokens": 3072
+        },
+        "600": {
+          "loss": 6.088695387045543,
+          "ppl": 440.84590254423046,
+          "top1_agreement": 0.2275390625,
+          "kl_to_teacher": 3.369895726442337,
+          "tokens": 3072
+        },
+        "900": {
+          "loss": 5.808284362157186,
+          "ppl": 333.047246786278,
+          "top1_agreement": 0.2662760416666667,
+          "kl_to_teacher": 3.1142527063687644,
+          "tokens": 3072
+        },
+        "1200": {
+          "loss": 5.666244149208069,
+          "ppl": 288.9472510711513,
+          "top1_agreement": 0.2799479166666667,
+          "kl_to_teacher": 2.9678046802679696,
+          "tokens": 3072
+        }
+      },
+      "trace": [
+        {
+          "step": 1,
+          "lr": 0.00001,
+          "loss": 10.727948188781738,
+          "ce": 12.239303588867188,
+          "kl": 9.914141654968262,
+          "levels": 3,
+          "updates": 0,
+          "skips": 1
+        },
+        {
+          "step": 100,
+          "lr": 0.001,
+          "loss": 5.821110725402832,
+          "ce": 8.027873992919922,
+          "kl": 4.6328535079956055,
+          "levels": 3,
+          "updates": 94,
+          "skips": 6
+        },
+        {
+          "step": 200,
+          "lr": 0.000981771838126524,
+          "loss": 4.58050537109375,
+          "ce": 6.647918701171875,
+          "kl": 3.467282772064209,
+          "levels": 3,
+          "updates": 194,
+          "skips": 6
+        },
+        {
+          "step": 300,
+          "lr": 0.0009285640897740315,
+          "loss": 4.709505081176758,
+          "ce": 6.157292366027832,
+          "kl": 3.9299278259277344,
+          "levels": 3,
+          "updates": 294,
+          "skips": 6
+        },
+        {
+          "step": 400,
+          "lr": 0.0008446873302753783,
+          "loss": 4.68129825592041,
+          "ce": 6.67479133605957,
+          "kl": 3.607879400253296,
+          "levels": 3,
+          "updates": 392,
+          "skips": 8
+        },
+        {
+          "step": 500,
+          "lr": 0.000736936755850849,
+          "loss": 4.157209873199463,
+          "ce": 5.9539594650268555,
+          "kl": 3.189729690551758,
+          "levels": 3,
+          "updates": 492,
+          "skips": 8
+        },
+        {
+          "step": 600,
+          "lr": 0.0006140416772229784,
+          "loss": 5.302657127380371,
+          "ce": 7.0126800537109375,
+          "kl": 4.381875991821289,
+          "levels": 3,
+          "updates": 592,
+          "skips": 8
+        },
+        {
+          "step": 700,
+          "lr": 0.00048595832277702173,
+          "loss": 4.56728458404541,
+          "ce": 6.323579788208008,
+          "kl": 3.6215877532958984,
+          "levels": 3,
+          "updates": 692,
+          "skips": 8
+        },
+        {
+          "step": 800,
+          "lr": 0.00036306324414915115,
+          "loss": 3.9381706714630127,
+          "ce": 5.574153900146484,
+          "kl": 3.0572566986083984,
+          "levels": 3,
+          "updates": 792,
+          "skips": 8
+        },
+        {
+          "step": 900,
+          "lr": 0.00025531266972462173,
+          "loss": 4.032513618469238,
+          "ce": 5.345439910888672,
+          "kl": 3.3255536556243896,
+          "levels": 3,
+          "updates": 892,
+          "skips": 8
+        },
+        {
+          "step": 1000,
+          "lr": 0.0001714359102259684,
+          "loss": 3.1775598526000977,
+          "ce": 4.895471572875977,
+          "kl": 2.252530574798584,
+          "levels": 3,
+          "updates": 992,
+          "skips": 8
+        },
+        {
+          "step": 1100,
+          "lr": 0.00011822816187347625,
+          "loss": 4.467986106872559,
+          "ce": 6.065195083618164,
+          "kl": 3.6079509258270264,
+          "levels": 3,
+          "updates": 1092,
+          "skips": 8
+        },
+        {
+          "step": 1200,
+          "lr": 0.0001,
+          "loss": 3.7902610301971436,
+          "ce": 5.428123474121094,
+          "kl": 2.9083352088928223,
+          "levels": 3,
+          "updates": 1192,
+          "skips": 8
+        }
+      ],
+      "final_heldout_fineweb": {
+        "loss": 5.789199110120535,
+        "ppl": 326.7512278034013,
+        "top1_agreement": 0.27789306640625,
+        "kl_to_teacher": 2.907678933814168,
+        "tokens": 16384
+      },
+      "final_wikitext_validation": {
+        "loss": 6.5608398132026196,
+        "ppl": 706.8650800207054,
+        "top1_agreement": 0.24432373046875,
+        "kl_to_teacher": 3.5325223710387945,
+        "tokens": 16384
+      },
+      "final_source_q3_code_movement": {
+        "fraction": 0.06847813924153646,
+        "top_layers": [
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.22048502604166667
+          },
+          {
+            "name": "model.layers.0.self_attn.o_proj",
+            "fraction": 0.20026258680555556
+          },
+          {
+            "name": "model.layers.29.self_attn.k_proj",
+            "fraction": 0.16196940104166666
+          },
+          {
+            "name": "model.layers.28.self_attn.k_proj",
+            "fraction": 0.16101236979166667
+          },
+          {
+            "name": "model.layers.0.self_attn.k_proj",
+            "fraction": 0.15774739583333333
+          },
+          {
+            "name": "model.layers.30.self_attn.k_proj",
+            "fraction": 0.15078125
+          },
+          {
+            "name": "model.layers.0.self_attn.q_proj",
+            "fraction": 0.14860243055555555
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.145478515625
+          }
+        ]
+      },
+      "final_code_hist": {
+        "0": 0.31539493560791015,
+        "1": 0.3424372895558675,
+        "-1": 0.34216777483622235
+      },
+      "final_scales": {
+        "mean": 0.20723532140254974,
+        "std": 0.04218719154596329,
+        "min": 0.02212200127542019,
+        "max": 1.3663041591644287
+      },
+      "elapsed_seconds": 403.25700783729553
+    }
+  },
+  "archived_f1_references": {
+    "D_fineweb": 5.7666598074138165,
+    "D_wikitext": 6.558238908648491,
+    "S300_fineweb": 4.996255073696375,
+    "S300_wikitext": 5.695225466042757
+  },
+  "effects": {
+    "fineweb_D_continuous_minus_D_sham": -0.022539302706718445,
+    "fineweb_D_sham_minus_historical_staged": 0.79294403642416,
+    "wikitext_D_continuous_minus_D_sham": -0.002600904554128647,
+    "wikitext_D_sham_minus_historical_staged": 0.8656143471598625
+  },
+  "checks": {
+    "same_initial_q3_dev_at300": true,
+    "historical_continuous_fineweb": true,
+    "historical_continuous_wikitext": true,
+    "same_1200_scheduled": true,
+    "one_sham_reset": true,
+    "document_split_disjoint": true,
+    "correct_chunks": true,
+    "all_finite": true,
+    "same_original_order_head": true
+  },
+  "valid_for_science": true,
+  "exploratory_single_seed": true,
+  "job_provenance": {
+    "hf_id": "6ac96a82fee2c9007017ea6b",
+    "finished_utc": "2026-10-09T23:08:23.803Z",
+    "pinned_sha": "4cdab8ee73ddd804e96fac43992f91ab9a54c1b9"
+  }
+}
