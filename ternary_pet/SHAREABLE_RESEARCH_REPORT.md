@@ -1653,3 +1653,22 @@ The **250-step** staged preparation recovered **95.75% of S300's improvement ove
 **Scientific next question, not yet tested:** test the exact switch250 method on fresh orders without parameter changes, or isolate the causal contribution of **Q9-only changes** versus **direct-only changes Q9 prevents**. No automatic follow-up GPU jobs or retuning authorized.
 
 ---
+
+## M1 — identical 900-step Q3 continuation after 250 vs 300 Q9 steps (October 9, 2026 UTC)
+
+The C1 equal-total-budget result raised a clean confound: Q9(250) had **950** subsequent Q3 training steps, while Q9(300) had **900**. M1 instead takes snapshots from a **single shared Q9 seed1729 preparation trajectory** at steps250 and300 and gives both states **identical** Q3 training batches, learning-rate sequence, optimizer reset and original-source Q3 scales for **900 steps**. This isolates the downstream Q3 operator, **not total training compute** (1150 vs1200 opportunities).
+
+| Arm | Q9 prep | Common Q3 continuation | Held-out NLL | PPL |
+|---|---:|---:|---:|---:|
+| P250_900 | 250 | 900 | 4.950432 | 141.236 |
+| P300_900 | 300 | 900 | **4.900985** | **134.422** |
+
+**Observed gap:** the shorter Q9 preparation is **0.0494467 nats/token worse** when Q3 continuation is held fixed. Both arms had **897 successful Q3 updates and 3 AMP skips**, all preregistered construction/reproducibility checks passed, and P300 reproduces the historical endpoint exactly. The Q9 difference is therefore associated with better downstream quality beyond any advantage from giving the early-switch model extra Q3 steps. The comparison remains exploratory (same familiar order/test).
+
+M1 further compares individual ternary weights: after Q9 prep, t250 and t300 have **6.245M differing projected Q3 codes (1.9853% of the 314.57M targeted weights)**. After the identical continuation, early-prepared Q3 **adopts the t300 Q9-preparation choice at 44.16%** of these locations; both final models **agree at 60.0%** of these original disagreement sites and **93.86%** of all sites. P300 itself retains the t300-prep code only **59.30%** at those contested positions. These are **per-position descriptive comparisons**; code matches do not prove causal importance, and the t300-preparation code is not guaranteed to be optimal.
+
+Combined with C1, the defensible conclusion is: **some additional Q9 preparation improves quality at matched subsequent Q3 effort, but switching earlier with more Q3 effort retains much of the finite-budget benefit**. No conclusion about best asymptotic solution, truly unseen evaluation, cross-family portability or healthy generation follows. New evaluation data, independent training orders and a substantial paired longer-horizon test remain priorities. Do not treat the C1-vs-M1 difference as the isolated marginal value of 50 Q3 steps because their Q3 continuation begins with different data/LR indices.
+
+**M1 evidence:** [full raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json) · [summary](results/run_m1_equal_q3_continuation_seed1729_summary.md) · [pre-registered protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md) · [HF job 6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb). Job completed with `valid_for_science=true`. No new jobs launched.
+
+---
