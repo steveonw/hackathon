@@ -1,6 +1,16 @@
 # G1 + S1 — active 2026-10-09 falsification-control jobs
 
-**This is the authoritative cross-session handoff for the two newly launched jobs.** Check [CURRENT_STATE.md](CURRENT_STATE.md) for newer execution status. **R1 range-matched Q9 is not approved/launched.**
+**This is the completed cross-session handoff for G1 and S1.** Check [CURRENT_STATE.md](CURRENT_STATE.md) for newer execution status. **R1 range-matched Q9 is not approved/launched.**
+
+## Final execution record — both jobs COMPLETED
+
+- **G1 [HF 6ac96a7efee2c9007017ea64](https://huggingface.co/jobs/codeflash85/6ac96a7efee2c9007017ea64)** completed **2026-10-09 23:16:07 UTC** with `valid_for_science=true` and 6/6 checks passed. [Raw JSON](results/run_g1_depth_by_scale_freeze_seed1729_2026-10-09.json) · [Summary](results/run_g1_depth_by_scale_freeze_seed1729_summary.md). Frozen scales retain **+0.620468** depth benefit, learned scales **+0.609848** nats/token; interaction +0.010620. Scale-gradient training NOT required for depth gain in this setting.
+- **S1 [HF 6ac96a82fee2c9007017ea6b](https://huggingface.co/jobs/codeflash85/6ac96a82fee2c9007017ea6b)** completed **2026-10-09 23:08:23 UTC** with `valid_for_science=true` and 9/9 checks passed. [Raw JSON](results/run_s1_fineweb_q3_sham_reset_seed1729_2026-10-09.json) · [Summary](results/run_s1_fineweb_q3_sham_reset_seed1729_summary.md). Direct Q3 NLL 5.766660 continuous vs5.789199 sham reset (slightly WORSE); historic Q9 staged4.996255. Reset alone cannot explain the Q9 advantage in this seed.
+- No new follow-up GPU jobs were launched to analyze these results. **R1 range-matched Q9 still unrun** and requires a separate engineering/protocol/compute decision.
+
+**Notice:** the rest of this document is the ORIGINAL job plan with statuses *as of submission*. The authoritative updated execution status is [CURRENT_STATE.md](CURRENT_STATE.md); do not confuse archived `SCHEDULING` text with live state.
+
+---
 
 ## Live jobs and exact source
 
