@@ -2,9 +2,21 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** **F1/F2/F3 FineWeb and L1 WikiText6000 completed**, with final results and original protocols archived below. No new GPU jobs launched after their verification. See [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md) for original plans.
+**Status:** **G1 and S1 scientific GPU jobs submitted, awaiting results**. Previously completed F1/F2/F3 FineWeb and L1 WikiText6000 remain archived. Read [G1_S1_ACTIVE_JOB_PLAN.md](G1_S1_ACTIVE_JOB_PLAN.md) for exact job IDs and procedures.
 
-## LATEST VERIFIED — F1/F2/F3 and L1 COMPLETED (2026-10-09 UTC)
+## NOW ACTIVE — G1 and S1 mechanism-control jobs (2026-10-09 EDT)
+
+**Two bounded GPU jobs submitted**, with preregistrations committed before launch; **results not available at submission**:
+
+- **G1 depth × scale trainability**: [HF job 6ac96a7efee2c9007017ea64](https://huggingface.co/jobs/codeflash85/6ac96a7efee2c9007017ea64), one A10G-small max **2h**, pinned Git SHA `059a0bb91aa55fea99ed56b1d0d980eb21fd31ae`, [G1 source](g1_depth_by_scale_freeze_seed1729.py). Seed1729 WikiText familiar v13A preparation, four Q3 continuation arms d003/d050 × learned/frozen Q3 row scales, common global 900-step continuation. [G1 frozen prereg](research_log/g1_frozen_vs_learned_q3_scale_depth_prereg_2026-10-09.md).
+- **S1 FineWeb Q3 sham-switch**: [HF job 6ac96a82fee2c9007017ea6b](https://huggingface.co/jobs/codeflash85/6ac96a82fee2c9007017ea6b), one A10G-small max **90m**, pinned Git SHA `4cdab8ee73ddd804e96fac43992f91ab9a54c1b9`, [S1 source](s1_fineweb_q3_sham_reset_seed1729.py). Seed1729 one original direct-Q3 continuous arm and one Q3 step300 sham Adam/GradScaler/original-scale reset, with unchanged FineWeb QAT document partition/1200-step LR and historical Q9 comparison. [S1 frozen prereg](research_log/s1_fineweb_direct_q3_sham_reset_seed1729_prereg_2026-10-09.md).
+- **Static preflight:** HF CPU job `6ac96a6f095c57808930b267` emitted `G1_S1_STATIC_PREFLIGHT_OK`; script Python AST and invariants checked.
+
+**Full permanent handoff:** [G1_S1_ACTIVE_JOB_PLAN.md](G1_S1_ACTIVE_JOB_PLAN.md). **Do not relaunch these jobs, change scripts, launch additional seeds, or start R1 range-matched Q9 until new user authorization.** Inspect job statuses and exact `FINAL_JSON`, archive raw findings even nulls/technical failures, then update research reports. F1/F2/F3 and L1 historical findings stay completed and preserved.
+
+---
+
+## HISTORICAL VERIFIED — F1/F2/F3 and L1 COMPLETED (2026-10-09 UTC)
 
 **No currently active scientific GPU jobs in the verified HF job list.** The four most recent studies are completed (F1 seed1729, F2 seed271828, F3 seed424242, L1 WikiText 6000 steps). Each finished successfully with all preregistered technical checks passing. No new GPU trials were launched in this archival/review action.
 
