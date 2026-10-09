@@ -1896,3 +1896,63 @@ When complete: verify stage, checks, all arms, D vs historical 424242
 loss5.80192, paired P vs D gain, GP vs P, code movement, sampled flip
 rates; archive full FINAL_JSON and summary, update all reports.
 **No further jobs authorized** beyond this single one.
+
+
+### LATEST COMPLETED: G1-10 Granite 424242 replicates gridward pull
+
+HF job `6ac82c93fee2c900701711db` completed
+**2026-10-09 00:21:46 UTC**, pinned
+`e08659a51fd0d72ed85f01f8e7ce739283ca6c61`.
+New script `ternary_pet/g1_10_granite350m_gaussian_pull_seed424242.py`
+differs **only in the SEED line** from completed G1-9.
+
+Preregistered experiment D/G/P/GP; 1200 equal-budget
+direct Q3 steps at constant LR1e-4; sigma_u0.04 training-noise
+for G/GP; 10% gridward pulls nine times for P/GP; same BF16/FP32
+Granite path, scale and Adam reset at step300. All arms/checks passed.
+G1-10 complete, NOT active.
+
+Seed424242 held-out loss:
+- D **5.8019200563** PPL330.9344 (exact reproducibility of historic 424242 D)
+- G **5.7563617378** PPL316.1958 (gain +0.045558)
+- P **5.5281120539** PPL251.6683 (gain **+0.273808**, PPL −23.95%)
+- GP **5.5353403389** PPL253.4940 (gain +0.266580; worse than P).
+
+Seed271828 prior:
+D5.726725, G5.743370, P5.489709, GP5.487853.
+**P-only wins in BOTH selected Granite training orders**,
++0.237016 and +0.273808 nats; average +0.255412.
+GP increment vs P changed sign, G alone also changed sign.
+Only P method can currently be called cross-order robust
+within Granite. It remains a WinQ-inspired published-method
+adaptation, not original invention and not independently
+confirmed in Smol.
+
+Sampled 32768-weight continuation Q3 flip rates D .000728421,
+P .000095486 on 424242 (86.89% fewer sampled flips).
+This does not establish oscillation suppression as sole cause.
+No Q9 arm or random-mask controls tested in these direct Q3
+factorials. Preserve mixed Q9 cross-seed results and all
+negative findings.
+
+**Critical inherited script metadata:** Raw seed424242 JSON
+still reports `kind=g1_9...`, `event=g1_9...`,
+`historic_D_loss_271828=5.726725`,
+`D_minus_historic_D_loss=0.075195`.
+Those latter two values compare **different seeds** and
+must NOT be used to assess within-G1-10 reproducibility.
+Correct seed424242 historical D=5.8019200563, exactly
+same as paired D in G1-10. Full raw data deliberately
+unchanged, interpret with seed/job/code pin.
+
+Results:
+`results/run_g1_10_granite350m_gaussian_pull_seed424242_2026-10-08.json`
+`results/run_g1_10_granite350m_gaussian_pull_seed424242_summary.md`.
+
+Prior G1-9 result:
+`results/run_g1_9_granite350m_gaussian_pull_summary.md`.
+
+No further GPU jobs launched; next scientific request
+could authorize frozen-setting cross-model replication
+on Smol, or independent new Granite seeds. No
+automatic expansion permitted.
