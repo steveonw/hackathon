@@ -2,9 +2,28 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** **G1 and S1 scientific GPU jobs submitted, awaiting results**. Previously completed F1/F2/F3 FineWeb and L1 WikiText6000 remain archived. Read [G1_S1_ACTIVE_JOB_PLAN.md](G1_S1_ACTIVE_JOB_PLAN.md) for exact job IDs and procedures.
+**Status:** **G1 and S1 scientific GPU jobs COMPLETED, both valid for science.** All F1/F2/F3 FineWeb and L1 WikiText6000 prior studies completed. Next R1 range-matched Q9 is a proposal only. See the latest-result section here and [G1_S1_ACTIVE_JOB_PLAN.md](G1_S1_ACTIVE_JOB_PLAN.md).
 
-## NOW ACTIVE — G1 and S1 mechanism-control jobs (2026-10-09 EDT)
+## NEWEST RESULTS — G1 and S1 COMPLETED (2026-10-09 UTC)
+
+**Both mechanism-control HF jobs COMPLETED with all prespecified scientific-technical checks passing. No active scientific GPU jobs were found in this pair.** [G1 full summary](results/run_g1_depth_by_scale_freeze_seed1729_summary.md) · [G1 raw JSON](results/run_g1_depth_by_scale_freeze_seed1729_2026-10-09.json) · [S1 full summary](results/run_s1_fineweb_q3_sham_reset_seed1729_summary.md) · [S1 raw JSON](results/run_s1_fineweb_q3_sham_reset_seed1729_2026-10-09.json). Both planned jobs were authorized and executed once each; **R1 range-matched Q9 remains UNRUN**.
+
+**G1 — Q3 within-bin depth vs trainability of row scales:** [HF job 6ac96a7efee2c9007017ea64](https://huggingface.co/jobs/codeflash85/6ac96a7efee2c9007017ea64), source SHA `059a0bb91aa55fea99ed56b1d0d980eb21fd31ae`, completed **2026-10-09 23:16:07 UTC**, **6/6 checks passed**. Four 900-step continuations seeded from identically projected Q3 forward states, with 0.03 vs 0.50 in-bin depth on the D-vs-Q9 projected-code disagreement mask, learned vs exactly frozen original Q3 row scales:
+
+| Scale policy | Depth 0.03 final WikiText test NLL | Depth 0.50 final WikiText test NLL | Shallow-minus-deep improvement |
+|---|---:|---:|---:|
+| Learned row scales | 5.494818 | **4.884970** | +0.609848 |
+| Frozen row scales | 5.516548 | **4.896080** | +0.620468 |
+
+**Primary frozen−learned depth-gain interaction = +0.010620 nats/token**. Every arm had 898 successful Q3 updates and 2 AMP skips, initial code projection/forward score identical. Frozen scales remained numerically unchanged and optimizer-excluded. **Conclusion: trainable Q3 row scales are NOT necessary for the large depth effect in this recipe**; stronger support for interior placement/assignment stability, without proving exact causal mediation or removing Q9 range confound.
+
+**S1 — FineWeb Q3 sham switch:** [HF job 6ac96a82fee2c9007017ea6b](https://huggingface.co/jobs/codeflash85/6ac96a82fee2c9007017ea6b), source SHA `4cdab8ee73ddd804e96fac43992f91ab9a54c1b9`, completed **2026-10-09 23:08:23 UTC**, **9/9 checks passed**. Same seed1729 public FineWeb 1200-step corpus, document partition and LR. Direct Q3 continuous NLL **5.766660**; direct Q3 with step300 original-scale + AdamW/GradScaler reset NLL **5.789199**, **0.022539 worse**; archived Q9(300)→Q3(900) NLL **4.996255**, **0.792944 better than sham**. WikiText validation likewise sham slightly worse (6.560840 vs6.558239) while Q9 staged 5.695225. The direct-Q3 continuous anchor reproduced original F1 exactly. **Conclusion: the reset alone does not explain the FineWeb Q9 staging gain** in this seed. The data do not prove resets have no interactions with Q9 prep.
+
+**Next research gate:** implement a fully **range-matched nine-state Q9 versus historical wide Q9** with exact clipping/STE gradients and integer-code checks (see [technical review](research_log/2026-10-09_external_technical_review_scale_range_sham_controls.md)). Then boundary-margin-matched site controls and common-original-scale final-code readouts; fresh-document evaluation and retained checkpoints. **No R1 job launched**. [Original G1/S1 frozen protocols and job information](G1_S1_ACTIVE_JOB_PLAN.md).
+
+---
+
+## HISTORICAL AT SUBMISSION — G1 and S1 mechanism-control jobs (2026-10-09 EDT)
 
 **Two bounded GPU jobs submitted**, with preregistrations committed before launch; **results not available at submission**:
 
