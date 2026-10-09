@@ -5,6 +5,8 @@
 **Repo:** `steveonw/hackathon`, project `ternary_pet/`.  
 **Context:** [research discussion](research_log/2026-10-08_q9_assignment_discovery_timing.md), [T1 timing](results/run_t1_q9_discovery_timing_seed1729_summary.md), [C1 shorter-switch](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md).
 
+**CURRENT NEW JOBS (2026-10-09 UTC):** The post-M1 research priorities were activated by user request. **L1** long-horizon 6000-step WikiText paired job [6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53) and **F1** FineWeb-Edu pretraining-style corpus paired job [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd) are both submitted/running. Full frozen protocols, model/data revision pins and handoff: [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md) and [CURRENT_STATE.md](CURRENT_STATE.md). The original M1 plan below remains a historical record; do not infer these two new jobs have already yielded results.
+
 ## M1 execution record — COMPLETED (plan preserved below)
 
 **Finished:** 2026-10-09 04:15:27 UTC on HF [codeflash85/6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb); A10G-small, original pinned script SHA `cad64c009209a924be89b523e6a1e184a4f4137b`. Frozen prereg [M1 protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md); original CPU static check `6ac86709fee2c900701734b2` passed.
