@@ -1672,3 +1672,24 @@ Combined with C1, the defensible conclusion is: **some additional Q9 preparation
 **M1 evidence:** [full raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json) · [summary](results/run_m1_equal_q3_continuation_seed1729_summary.md) · [pre-registered protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md) · [HF job 6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb). Job completed with `valid_for_science=true`. No new jobs launched.
 
 ---
+
+## F1 — FineWeb-Edu pretraining-style QAT data: paired Q9→Q3 gain survives (October 9, 2026 UTC)
+
+The user proposed evaluating our staged quantization method with data closer to SmolLM2's original pretraining distribution. We tested **FineWeb-Edu sample-10BT**, a public subset of **one ingredient** in SmolLM2 pretraining, without claiming to reconstruct the original multi-dataset pretraining or Instruct tuning. **F1 is an exploratory one-seed test of QAT-data distribution transfer, not cross-architecture transfer or full pretraining-data replication.**
+
+One paired job compared direct Q3 all1200 training opportunities with Q9 for300 then Q3 for900. Both used the same BF16-rounded SmolLM2-360M-Instruct source, trainable target linear master weights/rowwise scales, frozen other modules, fixed teacher, 35% CE+65% KL, AdamW and same v10 global LR schedule. Training chunks were fixed and paired between treatments.
+
+| Final evaluation | Direct Q3 NLL ↓ | Staged Q9→Q3 NLL ↓ | Advantage D−S ↑ | Direct PPL | Staged PPL |
+|---|---:|---:|---:|---:|---:|
+| FineWeb-Edu doc-heldout (primary) | 5.766660 | **4.996255** | **+0.770405** | 319.469 | **147.858** |
+| WikiText2 validation (secondary) | 6.558239 | **5.695225** | **+0.863013** | 705.029 | **297.444** |
+
+**HF job [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd) COMPLETED on 2026-10-09 04:48:30 UTC**, scientific `valid_for_science=true` with **5/5 design checks passed**. Pinned source commit `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`. D actual training updates1194 (6 skipped), S1192 (8 skipped), from 1200 scheduled each.
+
+**Evaluation split caution:** FineWeb sample used first 340 streamed docs, with hash-bucket document-disjoint sets: **180 QAT train docs** supplying1200 chunks, **3 train-dev docs** supplying24 chunks, **21 heldout docs** supplying128 chunks. The QAT train and heldout data did not share source document IDs, but the pretrained language model **may have already encountered some sampled FineWeb documents during pretraining**. Token chunks within a document are correlated. This is a positive signal on a small source-distribution sample, not comprehensive evidence on independently unseen pretraining content. WikiText2 validation data were not used to choose F1 hyperparameters and were distinct from prior WikiText test samples.
+
+The stage transition incurs a large one-step Q3 projection shock on the tiny FineWeb train-split dev set (native Q9 NLL5.428179; initial-scale Q3 NLL6.942240); staged Q3 then recovers strongly. This is consistent with the earlier optimization-path hypothesis, but does **not** prove code assignment causality, model quality after generation or permanence of the gain at long horizons.
+
+**L1 longer-horizon WikiText job is separate** ([job 6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53)) and was still running during F1 archival. Results here neither imply nor predict whether direct Q3 catches up by6000 steps.
+
+[F1 full result JSON](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_2026-10-09.json) · [F1 detailed scientific summary](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_summary.md) · [frozen preregistration](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md) · [live state](CURRENT_STATE.md). No additional GPU jobs were launched to analyze F1.
