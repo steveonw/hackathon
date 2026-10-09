@@ -1,5 +1,20 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## T1 Phase A Q9 assignment timing — LIVE HF job (2026-10-08 22:45 EDT)
+
+**Status at submission:** SCHEDULING. **Job:** [codeflash85/6ac85534fee2c90070172a41](https://huggingface.co/jobs/codeflash85/6ac85534fee2c90070172a41).  
+**Pinned code:** `2a982be6910d99eaf53d74f6e3ec3dae5807de17`  
+**Script:** `ternary_pet/t1_q9_discovery_timing_seed1729.py`  
+**Preregistration:** [Phase A timing diagnostic pilot](research_log/phase_a_q9_timing_seed1729_prereg_2026-10-08.md)  
+**Reasoning/history:** [Q9 discovery hypothesis and plan](research_log/2026-10-08_q9_assignment_discovery_timing.md)
+
+The user authorized proceeding with the proposed Hugging Face tests. First bounded **A10G-small 1-hour timeout**, **seed1729**, **one GPU job only**. A preliminary CPU-basic HF syntax smoke (`6ac85511095c57808930127c`) emitted `PHASE_A_SMOKE_OK` before launch. This is a *diagnostic* two-arm paired 300-step Q9 vs Q3 preparation only, with projected Q3 snapshots at 0/50/100/150/200/250/300 using original row scales and two-bit packed memory; no held-out test, no Q3 continuation, no Gaussian, no gridward. Final in-job JSON computes early-mask overlap with step-300 D/S mask, Q9-only vs direct-only decomposition, and layer summaries; compares historical step-300 validation/mask to determine technical validity. **No result is yet known.**
+
+**Next AI:** inspect the job, do not duplicate submission, read its `FINAL_JSON_BEGIN...FINAL_JSON_END`, verify numerical baselines and scientific-validity flag, archive raw outcome and failures, then update experimental logs. Do **not** automatically launch Phase B/C or other seeds without a follow-up decision. GPU cost is incurred by the scheduled job; historical files unchanged.
+
+---
+
+
 ## Latest research-history note — Q9 assignment discovery and timing (2026-10-08 EDT)
 
 **Read:** [Q9 assignment-discovery findings and gated test plan](research_log/2026-10-08_q9_assignment_discovery_timing.md). This is an evidence-labeled **discussion record / draft plan**, not a completed experiment or frozen preregistration.
