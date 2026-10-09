@@ -995,7 +995,7 @@ print(json.dumps({"event":"f1_start","model":MODEL_ID,
   "model_revision":MODEL_REVISION,"seed":SEED,"gpu":torch.cuda.get_device_name(0),
   "dataset_info":_data_audit,"order_head":_order[:16],
   "q3_schedule":"direct(1200) versus staged(300Q9+900Q3)",
-  "prereg":"ternary_pet/research_log/f1_fineweb_edu_qat_seed271828_prereg_2026-10-09.md"}),flush=True)
+  "prereg":"ternary_pet/research_log/f2_f3_fineweb_edu_seed271828_424242_replication_prereg_2026-10-09.md"}),flush=True)
 teacher=load_model(torch.float16 if DEVICE=="cuda" else torch.float32)
 teacher.requires_grad_(False)
 teacher.eval()
@@ -1012,8 +1012,8 @@ checks={
  "same_order":_order[:16]==[834,47,981,79,679,330,210,787,378,125,66,977,640,922,219,1156]
 }
 out={
- "kind":"f1_fineweb_edu_direct_vs_staged_seed271828",
- "prereg":"ternary_pet/research_log/f1_fineweb_edu_qat_seed271828_prereg_2026-10-09.md",
+ "kind":"f2_fineweb_edu_direct_vs_staged_seed271828",
+ "prereg":"ternary_pet/research_log/f2_f3_fineweb_edu_seed271828_424242_replication_prereg_2026-10-09.md",
  "model_revision":MODEL_REVISION,
  "wikitext_revision":WIKITEXT_REVISION,
  "fineweb_data_audit":_data_audit,
