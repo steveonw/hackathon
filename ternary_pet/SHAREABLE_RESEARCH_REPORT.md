@@ -1633,3 +1633,23 @@ code changes should be suppressed.
 viewed heldout Smol result was undertaken.**
 
 ---
+
+## T1 and C1 follow-up: timing and earlier transition (October 8, 2026 EDT)
+
+**T1 diagnostic** ([summary](results/run_t1_q9_discovery_timing_seed1729_summary.md), [raw JSON](results/run_t1_q9_discovery_timing_seed1729_2026-10-08.json)) compared Q9 vs direct Q3 **projected ternary assignment masks** at equal preparation steps 0,50,100,150,200,250,300, on seed/order1729 under matched v10 training. The eventual step300 disagreement mask (6.4581% of weights) was reproduced exactly; only **51.35%** of its locations were already in the step200 disagreement mask and **69.40%** at step250 (precision **77.77%** at 250). This is **retrospective descriptive geometry**; knowing the future mask is not a viable online selection policy. Both types of disagreement emerged progressively: Q9-specific moves versus direct-Q3 moves that Q9 avoids. The experiment did not determine their individual downstream causal value.
+
+**C1 switch experiment** ([frozen exploratory prereg](research_log/phase_c_q9_switch250_vs300_seed1729_prereg_2026-10-08.md), [summary](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md), [raw JSON](results/run_c1_smol360m_q9_switch250_vs300_seed1729_2026-10-08.json)) actually trained all three equal-1200-scheduled-step arms on seed1729:
+
+| Arm | Global training path | Held-out NLL | PPL |
+|---|---|---:|---:|
+| D | Direct Q3 for all 1200 | 5.595722 | 269.272 |
+| S250 | Q9 steps 1–250, Q3 steps 251–1200 | 4.930515 | 138.451 |
+| S300 | Q9 steps 1–300, Q3 steps 301–1200 | **4.900985** | **134.422** |
+
+The **250-step** staged preparation recovered **95.75% of S300's improvement over D**, with a modest **+0.02953 nats** extra loss relative to S300. It passed both criteria specified before launching the C1 job: loss penalty <=0.07 and benefit retention >=90%. Historical D and S300 held-out results reproduced *exactly*, and the job's construction checks passed. Successful HF C1 job `6ac8597afee2c90070172c79`, pinned script SHA `5577a771ed57409283690097a58bae0c8966fdb1`, completed 2026-10-09 03:24:11 UTC.
+
+**Narrow interpretation:** changing 50 late Q9 steps into 50 extra Q3 steps kept nearly all the original finite-budget advantage on this studied seed. This does not imply all useful assignment decisions were discovered by step250, that fewer than 250 Q9 steps are equally good, or that switch250 is globally optimal. C1 was **informed by observed T1 masks on seed1729**, the same familiar evaluation slice was used as before, and other seeds/datasets remain untested. The additional Q3 training and different optimizer reset time are part of the recipe change, not isolated causally. Actual optimizer updates were D1194 and S250/S3001190 after recorded AMP skips.
+
+**Scientific next question, not yet tested:** test the exact switch250 method on fresh orders without parameter changes, or isolate the causal contribution of **Q9-only changes** versus **direct-only changes Q9 prevents**. No automatic follow-up GPU jobs or retuning authorized.
+
+---
