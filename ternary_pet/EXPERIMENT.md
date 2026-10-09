@@ -3716,3 +3716,20 @@ One bounded GPU job: matched 300-step D(Q3) and S(Q9) preparation under v10 glob
 The Q9-only and direct-only components both emerge gradually. By step250, **67.60% of final Q9-only** and **68.97% of final direct-only** disagreement positions are present. Early comparisons use *hindsight* step300 labels; this is not a predictor available online. A descriptive result with one seed, **not** proof that Q9 can transition at 200/250 with unchanged final quality. Roughly **30.60%** of final disagreement positions remain absent at step250. Which subgroup causally matters more, final optimal transition time, and cross-seed timing are unknown. This work did **not** test shorter Q9→Q3 training or improve the model.
 
 **Next gate:** preregister either a causal split of the two disagreement categories (Phase B) or a matched-total-update Q9 switch-time experiment (Phase C) on a bounded GPU budget; seek explicit approval before more compute. Historical negative experiments preserved.
+
+### C1 — Smol Q9 switch 250 versus 300, seed1729 (GPU SUBMITTED)
+
+**Date:** 2026-10-08 EDT; **scientific status:** pending completion, not a result.
+
+User requested a test of whether 250 Q9 prep steps can preserve the downstream benefit of the established 300-step Q9→Q3 switch, while fixing total training budget. [Frozen preregistration](research_log/phase_c_q9_switch250_vs300_seed1729_prereg_2026-10-08.md) committed **before GPU submission**. Step250 was selected after inspecting the T1 single-order timing masks; therefore the test is explicitly exploratory.
+
+**HF job:** [codeflash85/6ac8597afee2c90070172c79](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79), submitted with initial status SCHEDULING. Hardware A10G-small, timeout 90m. **Pinned script commit:** `5577a771ed57409283690097a58bae0c8966fdb1`; **script:** `ternary_pet/c1_smol360m_q9_switch250_vs300_seed1729.py`. Static Hugging Face syntax smoke passed, job `6ac85970095c578089301448`.
+
+Three equal-budget arms on identical seed-shuffled WikiText-2 chunks and original BF16-rounded model:
+- D, direct Q3 for 1,200 step opportunities (continuous optimizer/scales; tuned v9 baseline).
+- S250, Q9 global steps 1–250, restore original ternary scales/reset Adam and GradScaler, then Q3 steps 251–1200 (950 continuation opportunities).
+- S300, Q9 global steps 1–300, same reset, then Q3 steps 301–1200 (900 continuation opportunities; replicate v10 positive arm).
+
+Same warmup+cosine global LR, FP32 masters/FP16 autocast, 35% CE+65% KL, fixed teacher, original Q3 scales after switching. Log same-train-chunk validation at switch before/after resetting scales, fixed validation checkpoints, optimizer skipped-step counts, final heldout 8192-token CE/PPL/top1/KL and code movement. **Predefined exploratory thresholds:** `L250-L300 <= 0.07` and 90% or more of `(LD-L300)` gain retained. D and S300 reproducibility checks each at 0.06 nats absolute against historical heldout.
+
+**No results available as of submission.** On completion archive raw JSON and report both positive and negative outcomes. No additional seeds or follow-on studies authorized by this experiment.
