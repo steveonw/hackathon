@@ -819,3 +819,15 @@ in `replications/*_aggregate_summary.md`. Runs used single T4 or A10G GPUs.
 
 Experiments were designed, run and reviewed with the help of AI assistants;
 the original hypothesis and research direction are the author's.
+
+## T1 update — how early are the Q9-selected future ternary decisions visible? (October 8, 2026 EDT)
+
+A preregistered **single-order timing diagnostic**, T1 (seed1729), completed on Hugging Face (job [6ac85534fee2c90070172a41](https://huggingface.co/jobs/codeflash85/6ac85534fee2c90070172a41), pinned code `2a982be6910d99eaf53d74f6e3ec3dae5807de17`). D and S were trained with matched v10 Q3/Q9 preparation conditions for 300 steps each, without Q3 continuation; their FP32 masters were projected through original Q3 scales at checkpoints 0/50/100/150/200/250/300. No held-out test set was evaluated.
+
+The projected Q3 **D/S disagreement mask grows gradually**. Recall of the final step300 mask is **18.61% at step100**, **35.42% at150**, **51.35% at200**, and **69.40% at250**. The step250 mask precision against step300 is **77.77%**; it is thus still missing **30.60%** of final step300 disagreements. The same progressive timing applies to both the **Q9-only changes** and the **direct-only changes that Q9 avoids**. The job passed numerical reproducibility checks and exactly reproduces the prior **6.45808%** step300 mask on seed1729. The fixed-original-scale direct validation loss was 0.01623 higher than direct native loss, within the frozen tolerance; diagnostics are distinct.
+
+**What it does not establish:** earlier mask overlap is not the final Q3 loss advantage, an online prediction rule, or a demonstration that earlier switches are sufficient. The precision/recall values use hindsight knowledge of the step300 disagreement set; one seed does not establish generality. The separate contributions of Q9-only and direct-only code assignments remain causally unresolved.
+
+**Next experiment decision:** choose and preregister a bounded causal-split study at step300, or a 200/250/300 Q9→Q3 continuation study that holds total training opportunities fixed. No follow-up GPU job was launched by T1 analysis.
+
+Records: [T1 raw JSON](results/run_t1_q9_discovery_timing_seed1729_2026-10-08.json), [T1 detailed summary](results/run_t1_q9_discovery_timing_seed1729_summary.md), [preregistration](research_log/phase_a_q9_timing_seed1729_prereg_2026-10-08.md), and [research-history motivation](research_log/2026-10-08_q9_assignment_discovery_timing.md).
