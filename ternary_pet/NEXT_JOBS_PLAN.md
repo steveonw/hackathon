@@ -18,7 +18,7 @@ Direct Q3 vs Q9(300)→Q3, both **6000** scheduled updates on WikiText2 seed1729
 
 **Pre-job frozen protocol:** [F1 preregistration](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md).  
 **Pinned script:** [f1_fineweb_edu_qat_seed1729.py](f1_fineweb_edu_qat_seed1729.py); code SHA `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`.  
-**HF submission state:** planned after a CPU dataset-integrity preflight. Check current state below before assuming launched.
+**HF GPU job submitted:** [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd), A10G-small, max 90m, initial status SCHEDULING. Scientific outcome not yet known. CPU dataset-partition integrity test `6ac86e0d095c578089301e45` **COMPLETED**, producing train1200/dev24/heldout128 chunks from 340 scanned documents with disjoint document IDs.
 
 Same *original 1200-step* Q9/Q3 recipe, but WikiText2 QAT training replaced by public `HuggingFaceFW/fineweb-edu` `sample-10BT` sample. FineWeb-Edu was part of the pretraining mixture of `SmolLM2-360M` according to its official model card. This experiment does **not** recreate SmolLM2's entire 4-trillion-token mixed pretraining or Instruct fine-tuning recipe. Keep model/objective/quantizer/training budget fixed **within F1**.
 
@@ -33,7 +33,7 @@ Train/dev/heldout FineWeb-Edu sets are drawn from deterministic **SHA256(documen
 - FineWeb-Edu revision `87f09149ef4734204d70ed1d046ddc9ca3f2b8f9`.
 - CPU source-access preflight `6ac86d5e095c578089301e06` confirmed metadata, tokenizer and source documents (`DATA_SOURCE_PREFLIGHT_OK`).
 - Static checks `6ac86e01fee2c900701738a9` printed `BOTH_STATIC_QA_OK` from pinned scripts.
-- Full FineWeb document-partition preflight (CPU-basic) `6ac86e0d095c578089301e45` was submitted; inspect its status and logs before claiming pass or launching/retrying F1.
+- Full FineWeb document-partition preflight (CPU-basic) `6ac86e0d095c578089301e45` **COMPLETED** with `F1_PARTITION_PREFLIGHT_OK` and document-disjoint chunk counts train1200/dev24/eval128. F1 GPU was submitted once; do not duplicate.
 
 ## Required after completion
 
