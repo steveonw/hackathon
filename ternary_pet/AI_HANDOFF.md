@@ -1,5 +1,21 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## C1 COMPLETED — 250-step Q9 switch retains 95.75% of staged benefit (2026-10-08 EDT)
+
+**COMPLETED:** 2026-10-09 03:24:11 UTC. HF job [`6ac8597afee2c90070172c79`](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79), A10G-small. **Pinned code:** `5577a771ed57409283690097a58bae0c8966fdb1`, `ternary_pet/c1_smol360m_q9_switch250_vs300_seed1729.py`.  
+**Prereg:** [C1 frozen plan](research_log/phase_c_q9_switch250_vs300_seed1729_prereg_2026-10-08.md). **Raw parsed FINAL_JSON:** [C1 JSON](results/run_c1_smol360m_q9_switch250_vs300_seed1729_2026-10-08.json). **Detailed results:** [C1 summary](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md).
+
+**SEED1729 HELD-OUT TEST LOSS:** D direct Q3(1200) **5.5957221873** (PPL269.272), S250 Q9(250)+Q3(950) **4.9305152558** (PPL138.451), S300 Q9(300)+Q3(900) **4.9009853676** (PPL134.422). Both D and S300 reproduced historical results **exactly**, all scheduled steps matched (1200 each); `valid_for_science=true`. AMP skipped opportunities D **6** vs S250/S300 **10** (1194 vs1190 actual optimizer steps). All transitions restored initial original Q3 scales and reset optimizer, with the full global LR schedule continuous.
+
+**Prespecified exploratory tests:** S250 - S300 = **+0.0295298882 nats** (S250 slightly worse; <0.07 threshold) and S250 retained **95.7495%** of S300's absolute loss gain over D (>90% threshold). **Both PASS.** Relative to direct Q3, S250 still improves held-out loss by **0.6652069315 nats**. Transition fixed-Q3 losses are nearly equal at switch: S250 step250 **6.5421072443**, S300 step300 **6.5422919790**, though native Q9 differs. Train-split final dev D5.255937, S2504.575021, S3004.521716.
+
+**Interpretation:** 250 Q9 steps plus 950 Q3 steps preserve most of the established staged benefit **under this one order and previously viewed WikiText heldout**. It does **not** show full mask formation by 250: T1 saw only 69.4% M300 recall. Extra 50 Q3 steps compensate for some effect but mechanism undetermined. Step250 was **chosen after T1**; positive criteria are pre-job but scientific conclusion remains **exploratory, not independent confirmation**. S250 is modestly worse than S300. Do not call 250 universally optimal or claim healthy generation.
+
+**NEXT AI:** C1 job is done; do NOT launch duplicates. Preserve result archives, S1-1 negative, old v10 baseline. For a new study either preregister **independent seeds/orders for fixed 250 vs 300** (confirmatory) or test the **Q9-only vs direct-only causal mask split** (new mechanism). Neither is authorized automatically; user approval needed for additional paid GPU. Earlier submission-status blocks below are historical.
+
+---
+
+
 ## C1 Phase C Q9→Q3 early switch — HF GPU job submitted (2026-10-08 EDT)
 
 **Status at launch:** SCHEDULING; results **not yet known**.  
