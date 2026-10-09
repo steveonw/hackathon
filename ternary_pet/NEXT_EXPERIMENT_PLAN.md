@@ -5,6 +5,16 @@
 **Repo:** `steveonw/hackathon`, project `ternary_pet/`.  
 **Context:** [research discussion](research_log/2026-10-08_q9_assignment_discovery_timing.md), [T1 timing](results/run_t1_q9_discovery_timing_seed1729_summary.md), [C1 shorter-switch](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md).
 
+## M1 execution record (after frozen plan)
+
+- **GPU job submitted** October 9, 2026 UTC as [codeflash85/6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb); **last inspected: SCHEDULING**, outcomes pending.
+- **Immutable code SHA**: `cad64c009209a924be89b523e6a1e184a4f4137b` with [M1 script](m1_smol360m_equal_q3_continuation_seed1729.py).
+- **Frozen scientific preregistration**: [M1 protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md). CPU static test `6ac86709fee2c900701734b2` passed (`M1_STATIC_CHECK_OK`).
+- **Compute:** exactly one A10G-small GPU job, max 90m; two Q3 continuations within the same job, seed1729. **Do not resubmit** unless status and raw logs show a true failure and user decides to retry.
+- **At handoff:** inspect the live HF job; capture and verify FINAL_JSON markers and `valid_for_science`; archive to `results/` and update [CURRENT_STATE.md](CURRENT_STATE.md), [AI_HANDOFF.md](AI_HANDOFF.md), [EXPERIMENT.md](EXPERIMENT.md), [RESEARCH_REPORT.md](RESEARCH_REPORT.md), [README.md](README.md). No scientific outcome known at submission.
+
+---
+
 ## 0. Read this first: the precise scientific claim
 
 Staged Q9→Q3 training offers a **finite-budget, recipe-specific improvement in ternary QAT** on SmolLM2-360M/WikiText-2 relative to tuned direct Q3. Existing interventions show that selected Q3 **positions, code identity, and interior placement** matter. These experiments do **not** yet establish a usable low-bit language model, asymptotically superior basin, cross-model transfer, or a broadly deployable algorithm.
