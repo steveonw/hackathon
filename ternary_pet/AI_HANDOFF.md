@@ -1,5 +1,23 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## ACTIVE: FineWeb-Edu F2/F3 seed replications (2026-10-09 UTC)
+
+**User-authorized two new-seed GPU jobs, now RUNNING:**
+
+- **F2, seed 271828:** [F2 seed271828](https://huggingface.co/jobs/codeflash85/6ac87415fee2c90070173baf); A10G-small, 90-minute maximum; immutable source SHA `64d171a225ba2781c83148a4235272c91939f9c9`, [script](f2_fineweb_edu_qat_seed271828.py).
+- **F3, seed 424242:** [F3 seed424242](https://huggingface.co/jobs/codeflash85/6ac87417095c5780893020c2); A10G-small, 90-minute maximum; immutable source SHA `a20c4cc66ae16026bb90969d1160294b3f5826e9`, [script](f3_fineweb_edu_qat_seed424242.py).
+
+[F2/F3 frozen preregistration](research_log/f2_f3_fineweb_edu_seed271828_424242_replication_prereg_2026-10-09.md) was committed **before compute**. HF CPU static smoke `6ac87407fee2c90070173b9d` emitted `F2_F3_PREFLIGHT_OK`; normalized source-code comparison passed: only seed, seed-expected permutation assertion, and provenance identifiers changed from the successful F1 seed1729 script. Exact same source-model/dataset SHAs, same FineWeb QAT document-based train/dev/eval partition and same 1200-step matched arms. **No F2/F3 scientific outcomes available yet.**
+
+**Original F1 seed1729 result (already completed):** [summary](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_summary.md) and [raw](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_2026-10-09.json): staged improves held-out FineWeb NLL by **0.770405 nats** and WikiText validation NLL by **0.863013 nats**. Three-seed aggregate must wait for F2 and F3 `FINAL_JSON` and scientific checks. The heldout 21 FineWeb documents are **shared across seeds**, not independent datasets.
+
+**Also still RUNNING at last check:** [L1 6000-step WikiText durability](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53). **Do not cancel or resubmit L1.** There are exactly two *new* scientific GPU jobs in this replication request.
+
+**Next AI:** inspect these three HF job IDs, never duplicate them. For F2/F3 parse `FINAL_JSON_BEGIN`/`FINAL_JSON_END`; verify all five checks and source-doc partition hashes match F1. Archive per-seed raw JSON, summary and three-seed aggregate (mean/median/min-max/positive count). Clearly label whether any failure was technical versus a negative staged effect; update this page, `AI_HANDOFF.md`, `EXPERIMENT.md`, README and both research reports. No additional GPU or data-search sweep authorized.
+
+---
+
+
 ## NEW STATUS: F1 FineWeb-Edu COMPLETED; L1 WikiText 6000 RUNNING (2026-10-09 UTC)
 
 **F1 complete** — Hugging Face [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd), 2026-10-09 04:48:30 UTC; script SHA `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`. **5/5 checks PASSED**, `valid_for_science=true`. [F1 full raw JSON](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_2026-10-09.json) · [Detailed summary](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_summary.md) · [pre-job protocol](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md). FineWeb-Edu public sample seed1729, fixed QAT 1200 scheduled opportunities each. **FineWeb doc-disjoint heldout NLL:** D direct Q3 **5.766660**, S Q9(300)→Q3(900) **4.996255** (D-S **+0.770405**). **Secondary WikiText2 validation:** D **6.558239**, S **5.695225** (D-S **+0.863013**). Both positive. FineWeb doc sets disjoint: train180 documents, dev3, eval21; only seed1729 and small sample, pretrained-model document overlap unknown. Do NOT generalize to full SmolLM2 pretraining mixture or unseen-by-source corpus. Equal scheduled but AMP actual optimizer updates D1194 vs S1192. Preserve all caveats, no automatic repetition.
