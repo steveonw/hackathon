@@ -1536,3 +1536,100 @@ Pinned script commit: `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`.
 No additional jobs launched.
 
 ---
+
+
+## 40. S1-1: Gridward interpolation fails its Smol cross-family transfer despite much lower code-flip rate
+
+Following two preregistered positive direct-Q3 gridward-pull results on
+Granite orders 271828 and 424242, we used an independently established,
+validation-selected **SmolLM2-360M-Instruct** training protocol to test
+the same **nine 10% toward-current-ternary-grid master-weight pulls**.
+
+The frozen S1-1 setup, approved before implementing or launching,
+had **two direct-ternary arms**: tuned **D** versus **P** with the
+additional `W ← 0.9W+0.1Q3(W)` after steps100,200,...,900.
+Smol seed **1729**, the historical v9 direct-tuning seed, received
+its proven **100-step warmup to 1e-3 and cosine decay to 1e-4** over
+1,200 steps. Unlike Granite, Smol's direct baseline uses *continuous*
+Adam without a step300 reference-scale restoration or optimizer reset.
+Identical pretrained BF16-rounded FP32 master weights, Smol FP16
+autocast/AMP GradScaler, teacher, CE/KL objective, same train chunks,
+and hard ternary validation/test were used in both arms. No Gaussian
+or intermediate Q9 phase was tested.
+
+The Hugging Face A10G job **COMPLETED** successfully on
+2026-10-09 01:18:20 UTC. All structural checks passed; each arm
+received 1,200 training-step opportunities, **six identical
+AMP-skipped optimizer updates** (hence 1,194 actual updates),
+and P performed nine valid pulls. The new D arm exactly
+reproduced the v9 historical tuned direct-Q3 test endpoint,
+`5.595722187310457`.
+
+| Smol training arm | 8192-token heldout loss | PPL | Teacher top-1 | KL |
+|---|---:|---:|---:|---:|
+| **D — tuned direct** | **5.595722** | **269.27** | **29.87%** | **2.66403** |
+| P — identical + gridward | 5.845746 | 345.76 | 27.28% | 2.93324 |
+
+**P is 0.250024 nats worse**; perplexity increases
+**28.41%**. This is a genuine *negative cross-family
+result for the exact previously Granite-positive rule*,
+not a problem with the baseline, run completion, or seed labels.
+
+The code-transition telemetry makes the negative result more
+informative. A dedicated deterministic monitor examined
+32,768 weights in 16 layers after each update. Sampled
+per-weight-per-step clean-Q3 flip rate decreased from
+**0.000435054 (D)** to **0.000093918 (P)**:
+**78.41% fewer code flips** with gridward.
+Final exact source-code movement fell from
+**6.960% (D)** to **3.445% (P)**.
+
+Why the striking difference? The 24-chunk *training-validation*
+time course supplies one important clue, without proving causation:
+
+| Checkpoint | D validation NLL | P validation NLL | What happened? |
+|---|---:|---:|---|
+| 300 | 5.98809 | **5.97667** | P narrowly ahead |
+| 600 | 5.74032 | **5.67064** | P ahead |
+| 900 | **5.41510** | 5.58253 | D overtakes P |
+| 1200 | **5.25594** | 5.57738 | D finishes strongly ahead |
+
+At the final training stage, P's sampled code-change counts
+were almost zero, whereas D still changed some ternary
+codes and improved much more on validation. This pattern
+is **compatible with premature overcommitment** under
+Smol's high-peak schedule. But the experiment does not
+isolate whether *the model architecture*, *the LR/optimizer
+reset*, *the pull strength/timing* or their interaction
+causes the cross-family sign reversal.
+
+This result is a counterexample to a universal theory
+that "stabilizing more weight codes must improve
+ternary training." It also reconciles with previous
+negative Smol v13 direct-code prototype firming:
+more confident commitments can be harmful when
+current codes are not the right ones. Those older
+interventions were not the same as S1-1 and must
+not be treated as exact replications.
+
+Importantly, S1-1 was **direct ternary training**:
+the earlier Smol Q9→Q3 **three-of-three** matched-schedule
+staging gains are unaffected, and the Granite G1-9/G1-10
+two-order gridward benefits remain valid only within
+their original conditions. Published WinQ-related
+gridward interpolation has prior art; simply transferring
+it is not original invention. The increasingly interesting
+hypothesis is **when and for which boundary margins a
+commitment should be made**, not whether all ternary
+code changes should be suppressed.
+
+- Completed HF job: `6ac83c3bfee2c90070171b1a`.
+- Script pin: `a5634bce459092a503e7534e6b89b6d3a019548b`.
+- [Full raw JSON](results/run_s1_1_smol360m_gridward_direct_q3_seed1729_2026-10-09.json).
+- [S1-1 scientific summary](results/run_s1_1_smol360m_gridward_direct_q3_seed1729_summary.md).
+- Preregistration and run audit in `EXPERIMENT.md`.
+
+**No follow-up GPU jobs were launched; no retuning against the
+viewed heldout Smol result was undertaken.**
+
+---
