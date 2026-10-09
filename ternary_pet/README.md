@@ -13,6 +13,8 @@
 
 **LIVE STUDY:** [G1/S1 mechanism-control plan](G1_S1_ACTIVE_JOB_PLAN.md): frozen-vs-learned-scale Q3 depth (G1, HF `6ac96a7efee2c9007017ea64`, SHA `059a0bb91aa55fea99ed56b1d0d980eb21fd31ae`) and FineWeb direct-Q3 sham reset (S1, HF `6ac96a82fee2c9007017ea6b`, SHA `4cdab8ee73ddd804e96fac43992f91ab9a54c1b9`). **Submitted; results pending.** Both frozen preregs and pinned scripts linked in active plan. R1 not launched. Older job statuses are historical, use [CURRENT_STATE.md](CURRENT_STATE.md).
 
+**G1/S1 completed:** [G1 frozen-scale depth](results/run_g1_depth_by_scale_freeze_seed1729_summary.md) found deep-vs-shallow gain **+0.620468 nats** with frozen scales vs **+0.609848** with trainable scales; row-scale training is not needed for depth benefit. [S1 FineWeb sham switch](results/run_s1_fineweb_q3_sham_reset_seed1729_summary.md) found direct Q3 reset at300 **5.789199** versus continuous **5.766660**, both far worse than historical Q9 staged **4.996255**. All G1 (6/6) and S1 (9/9) checks passed. [Current status](CURRENT_STATE.md). R1 range-matched Q9 not yet launched.
+
 Experiments on whether a pretrained language model can enter ternary weight
 space more effectively after adapting on an intermediate discrete grid.
 
