@@ -3814,3 +3814,14 @@ The user requested the next jobs and suggested using some of the data SmolLM2 wa
 **Scientific outcome:** One positive *paired* adaptation result on pretraining-style QAT data, including secondary WikiText validation improvement. It is **not** cross-family confirmation or evidence for full 4T-token mixture behavior. Strong effect size, but **one familiar seed/order**, very small dev/eval documents, no formal uncertainty. S Q9 native train-dev loss at step300 5.428179 vs immediate original-Q3-scale projection 6.942240 (shock +1.514062), then Q3 recovery, consistent with earlier trainability observations but not mechanistic proof.
 
 **Independent still-running job:** [L1 6000-step WikiText2 durability](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53) RUNNING at last check. Do not conflate F1 result with L1 longer-horizon evidence, do not stop or duplicate the separate L1 job. No new GPU jobs launched in F1 archival. The next action is to inspect L1 and archive its own raw results at completion.
+
+### F2/F3 FineWeb-Edu exact replication at two further seeds (SUBMITTED 2026-10-09 UTC)
+
+User approved the two additional seeds **271828** and **424242** after F1's positive seed1729 result. [F2/F3 frozen preregistration](research_log/f2_f3_fineweb_edu_seed271828_424242_replication_prereg_2026-10-09.md); base F1 source code and data SHA unchanged, frozen matched arms D direct Q3 all1200 versus S Q9(300)→Q3(900), 1200 shared scheduled opportunities, same hashed FineWeb train/dev/eval source-doc partition and same heldout FineWeb/WikiText validation chunks. ONLY seed/permutation-check/provenance change; no retuning or fresh evaluation docs.
+
+- **F2 seed271828:** [F2 seed271828](https://huggingface.co/jobs/codeflash85/6ac87415fee2c90070173baf), source SHA `64d171a225ba2781c83148a4235272c91939f9c9`, A10G-small, max90m. Last status RUNNING.
+- **F3 seed424242:** [F3 seed424242](https://huggingface.co/jobs/codeflash85/6ac87417095c5780893020c2), source SHA `a20c4cc66ae16026bb90969d1160294b3f5826e9`, A10G-small, max90m. Last status RUNNING.
+- **QA:** HF CPU job `6ac87407fee2c90070173b9d` passed, `F2_F3_PREFLIGHT_OK`; expected seed-specific `torch.randperm(1200)` first16 entries frozen in code; normalized script diff verifies only allowed changes.
+- **Outcomes:** NOT YET KNOWN. Future: archive both raw `FINAL_JSON` and full three-seed paired gap on the **shared 21 FineWeb heldout docs**, plus wiki validation. Report all negatives/technical mismatches. Do not claim new documents or independent dataset replication.
+- **Independent job:** L1 WikiText6k [6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53) remains RUNNING; do not interrupt/duplicate.
+
