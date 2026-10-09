@@ -41,3 +41,15 @@ Train/dev/heldout FineWeb-Edu sets are drawn from deterministic **SHA256(documen
 2. Validate the frozen checks, including L1 step1200 historical control reproduction and F1 document disjointness; distinguish technical failure from scientific null.
 3. Archive exact result JSON + provenance in `ternary_pet/results/`, add concise descriptive summary, update `CURRENT_STATE.md`, `AI_HANDOFF.md`, `EXPERIMENT.md`, `RESEARCH_REPORT.md`, `SHAREABLE_RESEARCH_REPORT.md` and `README.md`.
 4. Preserve all null or negative findings; do not quietly relaunch failed jobs, adjust LR, choose new datasets, add seeds or treat results as a paper-ready replication.
+
+## Active follow-up F2/F3 — replicate FineWeb-Edu on two other seeds
+
+**Frozen prereg:** [F2/F3 frozen preregistration](research_log/f2_f3_fineweb_edu_seed271828_424242_replication_prereg_2026-10-09.md).
+
+- F2: seed **271828**, [F2 seed271828](https://huggingface.co/jobs/codeflash85/6ac87415fee2c90070173baf), pinned source `64d171a225ba2781c83148a4235272c91939f9c9`.
+- F3: seed **424242**, [F3 seed424242](https://huggingface.co/jobs/codeflash85/6ac87417095c5780893020c2), pinned source `a20c4cc66ae16026bb90969d1160294b3f5826e9`.
+- Both one A10G-small each, 90m timeout, last inspected **RUNNING**. CPU preflight `6ac87407fee2c90070173b9d` passed.
+- Seed1729 historical F1 remains [here](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_summary.md). The same FineWeb document split and evaluation data are used for **all three seeds**; test only training-order and RNG robustness.
+- At completion validate all F1 protocol invariants; save raw files and summarize paired FineWeb and WikiText-validation NLL and PPL by seed, mean, median, range, positive counts. Avoid independent dataset claims.
+- L1 WikiText6k still running; do not submit duplicates or auto-launch further jobs.
+
