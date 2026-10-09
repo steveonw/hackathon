@@ -1984,3 +1984,65 @@ AMP skipped-step opportunities, deterministic code movement
 and flip/reversal diagnostics. Raw JSON and reports to be
 archived, *including negatives*. Do not launch other seeds
 or hyperparameter tuning without separate request.
+
+
+### LATEST COMPLETED: S1-1 — GRIDWARD TRANSFER FAILS ON SMOL
+
+**Job COMPLETED**, `6ac83c3bfee2c90070171b1a`,
+2026-10-09 01:18:20 UTC.
+Code pin `a5634bce459092a503e7534e6b89b6d3a019548b`,
+`ternary_pet/s1_1_smol360m_gridward_direct_q3_seed1729.py`.
+Frozen prereg in `EXPERIMENT.md`. No job error.
+
+Direct ternary Smol v9 schedule (warmup100 to1e-3,
+cosine to1e-4 at step1200, continuous Adam without
+scale/optimizer reset at300). Two arms, D and P.
+P nine 10%-gridward pulls after global steps100,...,900.
+Both arms exactly 1200 step opportunities, SIX AMP-skipped
+steps each = 1194 effective optimizer updates, all
+construction checks pass. Within-job D exactly reproduces
+historical tuned direct seed1729 loss **5.595722187310457**.
+
+S1-1 heldout:
+- D loss **5.5957221873**, PPL269.2720, top1 29.87%, KL2.66403
+- P loss **5.8457463756**, PPL345.7605, top1 27.28%, KL2.93324
+- P WORSE **0.2500241883 nats**, PPL +28.4056%.
+
+Despite loss deterioration, P suppresses sampled
+noise-free Q3 transitions **78.41%**:
+D per sampled weight/update 0.0004350535,
+P 0.0000939178, sampled 32768 weights every step.
+Final source-code movement D6.960%, P3.445%.
+Validation @300 D5.98809/P5.97667; @600 D5.74032/
+P5.67064; @900 D5.41510/P5.58253; @1200
+D5.25594/P5.57738. Thus P initially mildly
+improved validation but fell decisively behind later,
+consistent with (not proof of) premature commitment.
+Do **not** infer simply decreasing flips improves accuracy.
+
+Granite G1-9/G1-10 P was positive at matched constant
+LR1e-4 (+0.237 and +0.274 nats), but had Granite-specific
+scale restoration/fresh Adam at step300. This S1-1
+negative falsifies the **unqualified cross-architecture
+rule** of porting the same nine 10% pulls under
+the architecture's preferred LR schedule.
+Architecture vs learning-rate/reset effects remain
+unresolved; do not claim Smol can never benefit at
+other strengths/schedules.
+
+This does NOT negate previously positive Smol
+Q9→Q3 three-seed matched-schedule benefits.
+The S1-1 experiment was direct-only (no Q9/Gaussian).
+No retuning against viewed heldout values.
+
+Raw archive:
+`results/run_s1_1_smol360m_gridward_direct_q3_seed1729_2026-10-09.json`.
+Detailed interpretation:
+`results/run_s1_1_smol360m_gridward_direct_q3_seed1729_summary.md`.
+HF link: https://huggingface.co/jobs/codeflash85/6ac83c3bfee2c90070171b1a
+
+S1-1 prior "ACTIVE" sections are historical.
+**No further GPU jobs launched.** Focus next on
+analysis of assignment margins, boundary transition
+retention, or an independently preregistered adaptive
+schedule (requires separate user approval for GPU).
