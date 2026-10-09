@@ -33,6 +33,26 @@ replication, not cross-model validation**.
 [G1-9](results/run_g1_9_granite350m_gaussian_pull_summary.md) ·
 [G1-10](results/run_g1_10_granite350m_gaussian_pull_seed424242_summary.md).
 
+**S1-1 cross-model negative (2026-10-09):** applying the same
+nine 10%-gridward pulls to **SmolLM2-360M's tuned direct-Q3
+training schedule** made the result **worse**, not better:
+seed1729 D held-out loss **5.59572** → P **5.84575**
+(**+0.25002 nats**, PPL **28.41% higher**).
+Both arms had exactly matched 1,200 scheduled steps,
+six identical AMP-skipped optimizer updates and all
+checks passing; D exactly reproduced historical v9.
+Gridward still cut sampled ternary code-flip frequency
+by **78.41%**, demonstrating that **fewer code flips
+are not a universal guarantee of improvement**.
+P was slightly better on validation at steps 300/600,
+but fell behind by 900/1200, suggesting possible
+premature commitment, *not proving the cause*.
+Granite and Smol have different architectures AND
+previously selected optimizer/LR schedules.
+The three-seed Smol Q9→Q3 **staging advantage**
+remains independently intact.
+[S1-1 summary](results/run_s1_1_smol360m_gridward_direct_q3_seed1729_summary.md).
+
 **Living current-state report:** [RESEARCH_REPORT.md](RESEARCH_REPORT.md) · **Chronological log:** [SHAREABLE_RESEARCH_REPORT.md](SHAREABLE_RESEARCH_REPORT.md)
 
 ## Current interpretation
