@@ -3693,3 +3693,26 @@ Summary:
 The previous submission/running records are historical;
 **S1-1 is COMPLETED with a negative scientific result**.
 No additional GPU jobs or retuning launched.
+
+### T1 — Q9 assignment discovery timing, seed1729 (COMPLETED, 2026-10-08 EDT)
+
+**Frozen prereg before compute:** `research_log/phase_a_q9_timing_seed1729_prereg_2026-10-08.md`.  
+**HF job:** `codeflash85/6ac85534fee2c90070172a41`, [link](https://huggingface.co/jobs/codeflash85/6ac85534fee2c90070172a41), completed 2026-10-09 02:51:49 UTC.  
+**Pinned code:** `2a982be6910d99eaf53d74f6e3ec3dae5807de17`.  
+**Raw parsed FINAL_JSON:** `results/run_t1_q9_discovery_timing_seed1729_2026-10-08.json`.  
+**Interpretation:** `results/run_t1_q9_discovery_timing_seed1729_summary.md`.
+
+One bounded GPU job: matched 300-step D(Q3) and S(Q9) preparation under v10 global schedule, fixed-original-row-scale Q3 code snapshots at steps 0/50/100/150/200/250/300. No held-out evaluation, no Q3 continuation, and no Gaussian/gridward. All code positions represented by two-bit packing for retrospective comparisons within job. Construction checks passed: `valid_for_science=true`, exact native D/S validation losses, exact S original-Q3 projected validation loss, exact step300 disagreement mask **6.45808%**. D fixed-original-scale validation loss **6.004324** was +0.016230 nats above native D **5.988094**, within prereg 0.035 tolerance; record rather than suppress this diagnostic difference.
+
+| Preparation step | D/S mask among all weights | Precision vs step300 mask | Recall of step300 mask |
+|---:|---:|---:|---:|
+| 50 | 0.8724% | 49.04% | 6.63% |
+| 100 | 2.2303% | 53.88% | 18.61% |
+| 150 | 3.7682% | 60.71% | 35.42% |
+| 200 | 4.8758% | 68.02% | 51.35% |
+| 250 | 5.7629% | 77.77% | 69.40% |
+| 300 | 6.4581% | 100.00% | 100.00% |
+
+The Q9-only and direct-only components both emerge gradually. By step250, **67.60% of final Q9-only** and **68.97% of final direct-only** disagreement positions are present. Early comparisons use *hindsight* step300 labels; this is not a predictor available online. A descriptive result with one seed, **not** proof that Q9 can transition at 200/250 with unchanged final quality. Roughly **30.60%** of final disagreement positions remain absent at step250. Which subgroup causally matters more, final optimal transition time, and cross-seed timing are unknown. This work did **not** test shorter Q9→Q3 training or improve the model.
+
+**Next gate:** preregister either a causal split of the two disagreement categories (Phase B) or a matched-total-update Q9 switch-time experiment (Phase C) on a bounded GPU budget; seek explicit approval before more compute. Historical negative experiments preserved.
