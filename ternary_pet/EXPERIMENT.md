@@ -3449,3 +3449,61 @@ Hugging Face accepted **one** detached A10G-small job on
   `271828` → `424242`. No duplicates were listed before launch.
 - Archive complete JSON, validate all four arm checkpoints, and
   compare paired D/P/GP/G after job reaches terminal state.
+
+
+#### G1-10 COMPLETED — seed-only replication confirms gridward pull on 424242
+
+HF job `6ac82c93fee2c900701711db` **COMPLETED successfully**
+at 2026-10-09T00:21:46.422Z. Code pin `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`
+(the exact one-line G1-9 seed substitution). All D/G/P/GP arms
+completed 300+900 updates and the five final recorded checks passed,
+including nine gridward steps in P/GP, finite losses and expected
+249,561,088 quantized target weights. Held-out evaluation is the
+same 8192-token deterministic hard Q3 slice.
+
+| Arm | Seed424242 held-out loss | PPL | D−arm gain (positive better) |
+|---|---:|---:|---:|
+| D | 5.801920056 | 330.9344 | — |
+| G | 5.756361738 | 316.1958 | +0.045558 |
+| **P** | **5.528112054** | **251.6683** | **+0.273808** |
+| GP | 5.535340339 | 253.4940 | +0.266580 |
+
+D reproduces the earlier fixed-LR Granite 424242 historical D
+**exactly**: 5.801920056. The primary **P** result is positive
+again at the unchanged schedule. P cuts held-out PPL by **23.95%**.
+GP remains strongly better than D, but is **0.007228 nats worse
+than P** on 424242; Gaussian-only G mildly improves D on this order,
+contrary to seed271828 (where G was 0.016645 worse).
+
+The *two-seed mean* D−P gain, for selected 271828 and 424242
+orders, is **+0.255412 nats**; both seeds are positive. This
+is **within-family cross-order** confirmation, **not** new-family
+generalization or an unbiased replication sampling plan.
+
+Monitored continuation-stage Q3 code-flip rate (32,768 fixed sampled
+positions) was D=0.000728421 and P=0.000095486 per sampled
+weight/update — P has **86.89% fewer sampled flips**.
+D changed 10.327% of source Q3 codes by the final checkpoint,
+P 5.369%. Flip reductions do not prove the gain is mediated solely
+by oscillation correction.
+
+**Raw JSON metadata caveat:** Because G1-10 differs in just
+`SEED=424242`, inherited `kind=g1_9_...`,
+`event=g1_9_...`, and
+`effects.historic_D_loss_271828=5.7267251685` /
+`D_minus_historic_D_loss=+0.07519489` labels are
+**stale parent-run comparator fields**, not the proper historical
+424242 baseline. The independent historical 424242 direct
+loss is 5.801920056, and it exactly matches the G1-10 D.
+Keep raw JSON unedited; use seed, HF job ID, and script pin for
+identification.
+
+Raw JSON: `results/run_g1_10_granite350m_gaussian_pull_seed424242_2026-10-08.json`.
+Analysis: `results/run_g1_10_granite350m_gaussian_pull_seed424242_summary.md`.
+Previous G1-9: `results/run_g1_9_granite350m_gaussian_pull_summary.md`.
+
+The original Q9 mixed-seed findings and prior matched/random controls
+remain separately valid; neither G1-9 nor G1-10 tested Q9 or random
+assignment masks. Gridward interpolation has related published WinQ
+prior art; cross-family validation would need fresh authorization.
+No further GPU jobs were launched.
