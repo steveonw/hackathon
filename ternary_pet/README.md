@@ -7,7 +7,7 @@
 
 **Authoritative live state:** [CURRENT_STATE.md](CURRENT_STATE.md) · **Copyable next-experiment/handoff plan:** [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md). The long AI handoff and experiment ledger preserve historical statuses, including superseded “current” headings.
 
-**New study underway:** [L1 longer-horizon WikiText durability + F1 FineWeb-Edu source-data test](NEXT_JOBS_PLAN.md). L1 running on Hugging Face and F1 GPU job [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd) submitted after document-disjoint preflight passed. Both are separate one-seed paired experiments; no new scientific outcome yet. The training recipe remains fixed within each paired study.
+**FineWeb-Edu F1 experiment COMPLETED:** D direct Q3 held-out NLL **5.766660** vs S Q9(300)→Q3(900) **4.996255** (gain **+0.770405 nats**). On independent-from-QAT-training WikiText-2 validation, **6.558239 vs 5.695225** (+0.863013 staged). [F1 results](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_summary.md) · [full raw JSON](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_2026-10-09.json). This is one seed and a small public sample of a SmolLM2 pretraining ingredient; pretrained-source overlap unknown. **L1 6000-step WikiText durability remains RUNNING** ([HF job](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53)); no result yet. [Full active plan](NEXT_JOBS_PLAN.md).
 
 Experiments on whether a pretrained language model can enter ternary weight
 space more effectively after adapting on an intermediate discrete grid.
