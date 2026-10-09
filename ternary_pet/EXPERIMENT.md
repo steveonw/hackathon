@@ -3629,3 +3629,67 @@ Exact frozen code pin `a5634bce459092a503e7534e6b89b6d3a019548b`. No S1-1 duplic
 in HF jobs list immediately before launch. Settings and two-arm
 protocol unchanged from preceding S1-1 preregistration. Await
 final explicit `FINAL_JSON` and baseline reproducibility check.
+
+
+#### S1-1 FINAL result — significant negative Smol transfer, no job error
+
+The preregistered S1-1 two-arm SmolLM2 gridward direct-Q3 experiment,
+HF job `6ac83c3bfee2c90070171b1a`, completed **successfully**
+2026-10-09 01:18:20.104 UTC on unchanged pinned code
+`a5634bce459092a503e7534e6b89b6d3a019548b`.
+
+Both arms D and P had all 1,200 global training-step opportunities,
+**six identical AMP-skipped steps each**, **1,194 effective AdamW
+updates each**, 8192 held-out test tokens, the same
+Smol validated warmup-to-1e-3 and cosine-to-1e-4 schedule,
+and identical objective/quantizer/evaluator. The P arm had
+exactly nine `W ← 0.9W+0.1Q3(W)` pulls at
+steps100,...,900, D zero. All **9** recorded
+scientific construction/finite/schedule/smoke checks passed.
+
+| Arm | Final heldout loss | PPL | Teacher top1 | Teacher KL |
+|---|---:|---:|---:|---:|
+| D tuned direct Q3 | **5.595722** | **269.27** | 29.87% | 2.66403 |
+| P gridward only | 5.845746 | 345.76 | 27.28% | 2.93324 |
+
+**Scientific negative:** P has **+0.250024 worse NLL** and
+**28.41% higher PPL** than tuned D. The within-run
+D reproduces Smol v9 historical baseline `5.595722187310457`
+**exactly**, ruling out direct-baseline mismatch.
+This is NOT a Q9 experiment and is not a GPU/script failure.
+
+Despite worse heldout quality, P lowers per-weight per-step
+sampled clean-Q3 transitions by **78.41%** relative to D
+(D 0.000435054, P 0.000093918); full final code movement
+from source D **6.960%** vs P **3.445%**. The
+32,768-weight sample spans 16 layers and 1,200 steps.
+Fewer Q3 code changes do not guarantee better heldout quality.
+
+Time-course validation: P is slightly BETTER at global
+step300 (D 5.98809, P 5.97667) and 600
+(D 5.74032, P 5.67064), then WORSE at step900
+(D 5.41510, P 5.58253) and 1200
+(D 5.25594, P 5.57738). The large late quality
+gap and near-zero monitored P flips at the end are
+compatible with premature assignment commitment under
+Smol's more aggressive LR schedule, but the causal
+mechanism has NOT been isolated.
+
+**Two Granite P-positive orders do not make the
+pull strength portable without adaptation.**
+Granite employed constant 1e-4 and optimizer/scale
+reset at step300; Smol used warmup peak1e-3,
+cosine and continuous Adam. Architecture and LR
+interactions cannot be separated by this result.
+Previous Smol Q9→Q3 3/3 improvement
+remains intact as a distinct mechanism. The method
+has published WinQ-type prior art.
+
+Full raw, unmodified JSON:
+`results/run_s1_1_smol360m_gridward_direct_q3_seed1729_2026-10-09.json`.
+Summary:
+`results/run_s1_1_smol360m_gridward_direct_q3_seed1729_summary.md`.
+
+The previous submission/running records are historical;
+**S1-1 is COMPLETED with a negative scientific result**.
+No additional GPU jobs or retuning launched.
