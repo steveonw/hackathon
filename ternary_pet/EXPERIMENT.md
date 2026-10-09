@@ -3617,3 +3617,15 @@ sign and update the reports.
 - Baseline reproducibility target: original v9 seed1729 tuned
   direct Q3 test loss `5.595722187310457`.
 - One accepted HF job ID to be appended below; no duplicate launch.
+
+
+#### S1-1 successful cross-family Smol GPU submission
+
+On 2026-10-09T00:58:35.070Z, Hugging Face accepted **one**
+detached `a10g-small` job with 90-minute cap; job
+`6ac83c3bfee2c90070171b1a`, URL https://huggingface.co/jobs/codeflash85/6ac83c3bfee2c90070171b1a.
+Initial stage **SCHEDULING**, not scientifically complete.
+Exact frozen code pin `a5634bce459092a503e7534e6b89b6d3a019548b`. No S1-1 duplicate found
+in HF jobs list immediately before launch. Settings and two-arm
+protocol unchanged from preceding S1-1 preregistration. Await
+final explicit `FINAL_JSON` and baseline reproducibility check.
