@@ -1,5 +1,18 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## G1/S1 COMPLETE — controls on scale gradients and sham resets (2026-10-09 UTC)
+
+G1 HF [6ac96a7efee2c9007017ea64](https://huggingface.co/jobs/codeflash85/6ac96a7efee2c9007017ea64) COMPLETED, 6/6 checks, pinned source SHA `059a0bb91aa55fea99ed56b1d0d980eb21fd31ae`. Final WikiText heldout NLL: d0.03 learned **5.494818**, d0.50 learned **4.884970**, shallow-minus-deep gain **+0.609848**; d0.03 frozen **5.516548**, d0.50 frozen **4.896080**, gain **+0.620468**; frozen-minus-learned depth interaction **+0.010620**. Identical initial Q3 codes/scores; raw scales frozen exactly and excluded from optimizer, all 900 opportunities (898 effective/2 AMP skips). **Depth effect persists without row-scale learning**, supporting interior assignment placement and survival rather than requiring scale-gradient learning. Does not isolate Q9's wider range or fully prove mediation.
+
+S1 HF [6ac96a82fee2c9007017ea6b](https://huggingface.co/jobs/codeflash85/6ac96a82fee2c9007017ea6b) COMPLETED, 9/9 checks, pinned SHA `4cdab8ee73ddd804e96fac43992f91ab9a54c1b9`. On matched seed1729 FineWeb, D Q3 continuous loss **5.766660**, D Q3 with original-scale+Adam/GradScaler sham reset@300 **5.789199** (sham worse **0.022539**), historical same-seed Q9→Q3 **4.996255** (**0.792944** better than sham). WikiText validation likewise sham 6.560840, continuous6.558239, staged5.695225. Anchor D reproduces original F1 exactly. **Reset alone is insufficient** to explain staged FineWeb benefit. One seed, same 21-doc heldout sample.
+
+**Raw evidence:** [G1 JSON](results/run_g1_depth_by_scale_freeze_seed1729_2026-10-09.json) · [G1 summary](results/run_g1_depth_by_scale_freeze_seed1729_summary.md) · [S1 JSON](results/run_s1_fineweb_q3_sham_reset_seed1729_2026-10-09.json) · [S1 summary](results/run_s1_fineweb_q3_sham_reset_seed1729_summary.md). Original frozen protocol/job handoff [G1_S1_ACTIVE_JOB_PLAN.md](G1_S1_ACTIVE_JOB_PLAN.md).
+
+**Next:** strongest unrun mechanistic confound is Q9's broader output range (range-matched nine levels versus original Q9, correct STE/clipping); boundary-margin matched controls and truly new evaluation docs follow. No R1 or other paid follow-up job automatically launched. [CURRENT_STATE.md](CURRENT_STATE.md) is authoritative; old “active/submitted” headings elsewhere are historical.
+
+---
+
+
 ## NOW ACTIVE — G1 and S1 mechanism-control jobs (2026-10-09 EDT)
 
 **Two bounded GPU jobs submitted**, with preregistrations committed before launch; **results not available at submission**:
