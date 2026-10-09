@@ -1,0 +1,605 @@
+{
+  "kind": "f2_fineweb_edu_direct_vs_staged_seed271828",
+  "prereg": "ternary_pet/research_log/f2_f3_fineweb_edu_seed271828_424242_replication_prereg_2026-10-09.md",
+  "model_revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+  "wikitext_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "fineweb_data_audit": {
+    "dataset": "HuggingFaceFW/fineweb-edu",
+    "config": "sample-10BT",
+    "revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+    "partition": "sha256(doc_id) 8-byte leading digest mod20",
+    "partition_buckets": {
+      "eval": [
+        0
+      ],
+      "dev": [
+        1
+      ],
+      "train": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "docs_scanned": 340,
+    "docs_used": {
+      "train": 180,
+      "dev": 3,
+      "eval": 21
+    },
+    "chunks": {
+      "train": 1200,
+      "dev": 24,
+      "eval": 128
+    },
+    "first_hashed_id_digests": {
+      "train": [
+        "064ec0237ed8d64d",
+        "07f470a6c5adc467",
+        "085e136d4d71be6b",
+        "0a62e58a80dbad0e",
+        "0b283982ea828237"
+      ],
+      "dev": [
+        "1442b86c353cf555",
+        "a010bb0697285821",
+        "ba3a0907531e9315"
+      ],
+      "eval": [
+        "12b2eef2f1524a0c",
+        "2b34e6006f74fd3c",
+        "3a7267e23f189184",
+        "555b6a7fa7e63038",
+        "557009a021af52b8"
+      ]
+    },
+    "document_id_partition_disjoint": true
+  },
+  "source_train_diag": {
+    "loss": 15.44352944691976,
+    "ppl": 5093773.385197346,
+    "top1_agreement": 0.0006510416666666666,
+    "kl_to_teacher": 12.849974830945333,
+    "tokens": 3072
+  },
+  "seed": 271828,
+  "order_head": [
+    834,
+    47,
+    981,
+    79,
+    679,
+    330,
+    210,
+    787,
+    378,
+    125,
+    66,
+    977,
+    640,
+    922,
+    219,
+    1156
+  ],
+  "arms": {
+    "D": {
+      "arm": "D",
+      "q9_prep_steps": 0,
+      "scheduled_steps": 1200,
+      "actual_updates": 1193,
+      "amp_skips": 7,
+      "switches": [],
+      "train_dev": {
+        "300": {
+          "loss": 6.3983882665634155,
+          "ppl": 600.8758053829198,
+          "top1_agreement": 0.21451822916666666,
+          "kl_to_teacher": 3.708498736222585,
+          "tokens": 3072
+        },
+        "600": {
+          "loss": 6.082996368408203,
+          "ppl": 438.340659024798,
+          "top1_agreement": 0.24544270833333334,
+          "kl_to_teacher": 3.3572213649749756,
+          "tokens": 3072
+        },
+        "900": {
+          "loss": 5.821642637252808,
+          "ppl": 337.5260313461714,
+          "top1_agreement": 0.2747395833333333,
+          "kl_to_teacher": 3.109317272901535,
+          "tokens": 3072
+        },
+        "1200": {
+          "loss": 5.59707389275233,
+          "ppl": 269.6362673365147,
+          "top1_agreement": 0.287109375,
+          "kl_to_teacher": 2.8935414055983224,
+          "tokens": 3072
+        }
+      },
+      "trace": [
+        {
+          "step": 1,
+          "lr": 0.00001,
+          "loss": 18.30200958251953,
+          "ce": 20.01885986328125,
+          "kl": 17.377552032470703,
+          "levels": 3,
+          "updates": 0,
+          "skips": 1
+        },
+        {
+          "step": 100,
+          "lr": 0.001,
+          "loss": 5.005732536315918,
+          "ce": 6.820713043212891,
+          "kl": 4.028435707092285,
+          "levels": 3,
+          "updates": 93,
+          "skips": 7
+        },
+        {
+          "step": 200,
+          "lr": 0.000981771838126524,
+          "loss": 5.815380096435547,
+          "ce": 7.541938781738281,
+          "kl": 4.885695457458496,
+          "levels": 3,
+          "updates": 193,
+          "skips": 7
+        },
+        {
+          "step": 300,
+          "lr": 0.0009285640897740315,
+          "loss": 3.8798632621765137,
+          "ce": 5.646787643432617,
+          "kl": 2.9284424781799316,
+          "levels": 3,
+          "updates": 293,
+          "skips": 7
+        },
+        {
+          "step": 400,
+          "lr": 0.0008446873302753783,
+          "loss": 4.556893348693848,
+          "ce": 6.337886810302734,
+          "kl": 3.5978968143463135,
+          "levels": 3,
+          "updates": 393,
+          "skips": 7
+        },
+        {
+          "step": 500,
+          "lr": 0.000736936755850849,
+          "loss": 3.789900302886963,
+          "ce": 5.526981830596924,
+          "kl": 2.854548931121826,
+          "levels": 3,
+          "updates": 493,
+          "skips": 7
+        },
+        {
+          "step": 600,
+          "lr": 0.0006140416772229784,
+          "loss": 3.2171974182128906,
+          "ce": 4.567900657653809,
+          "kl": 2.489895820617676,
+          "levels": 3,
+          "updates": 593,
+          "skips": 7
+        },
+        {
+          "step": 700,
+          "lr": 0.00048595832277702173,
+          "loss": 3.859645366668701,
+          "ce": 5.997890472412109,
+          "kl": 2.708282709121704,
+          "levels": 3,
+          "updates": 693,
+          "skips": 7
+        },
+        {
+          "step": 800,
+          "lr": 0.00036306324414915115,
+          "loss": 4.536257743835449,
+          "ce": 5.8935346603393555,
+          "kl": 3.8054165840148926,
+          "levels": 3,
+          "updates": 793,
+          "skips": 7
+        },
+        {
+          "step": 900,
+          "lr": 0.00025531266972462173,
+          "loss": 4.435802459716797,
+          "ce": 6.759884834289551,
+          "kl": 3.1843740940093994,
+          "levels": 3,
+          "updates": 893,
+          "skips": 7
+        },
+        {
+          "step": 1000,
+          "lr": 0.0001714359102259684,
+          "loss": 4.090994834899902,
+          "ce": 6.001802444458008,
+          "kl": 3.062098979949951,
+          "levels": 3,
+          "updates": 993,
+          "skips": 7
+        },
+        {
+          "step": 1100,
+          "lr": 0.00011822816187347625,
+          "loss": 4.584300518035889,
+          "ce": 6.656379699707031,
+          "kl": 3.4685657024383545,
+          "levels": 3,
+          "updates": 1093,
+          "skips": 7
+        },
+        {
+          "step": 1200,
+          "lr": 0.0001,
+          "loss": 3.9356513023376465,
+          "ce": 5.800262451171875,
+          "kl": 2.9316303730010986,
+          "levels": 3,
+          "updates": 1193,
+          "skips": 7
+        }
+      ],
+      "final_heldout_fineweb": {
+        "loss": 5.7586564384400845,
+        "ppl": 316.92223820566073,
+        "top1_agreement": 0.2808837890625,
+        "kl_to_teacher": 2.878544755280018,
+        "tokens": 16384
+      },
+      "final_wikitext_validation": {
+        "loss": 6.589704614132643,
+        "ppl": 727.5659254626646,
+        "top1_agreement": 0.24969482421875,
+        "kl_to_teacher": 3.5244815833866596,
+        "tokens": 16384
+      },
+      "final_source_q3_code_movement": {
+        "fraction": 0.06806942303975423,
+        "top_layers": [
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.22083658854166666
+          },
+          {
+            "name": "model.layers.0.self_attn.o_proj",
+            "fraction": 0.1982541232638889
+          },
+          {
+            "name": "model.layers.0.self_attn.k_proj",
+            "fraction": 0.17239908854166666
+          },
+          {
+            "name": "model.layers.29.self_attn.k_proj",
+            "fraction": 0.16537434895833333
+          },
+          {
+            "name": "model.layers.0.self_attn.q_proj",
+            "fraction": 0.157685546875
+          },
+          {
+            "name": "model.layers.28.self_attn.k_proj",
+            "fraction": 0.15434895833333334
+          },
+          {
+            "name": "model.layers.30.self_attn.k_proj",
+            "fraction": 0.14818684895833334
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.14437825520833333
+          }
+        ]
+      },
+      "final_code_hist": {
+        "0": 0.31579933166503904,
+        "1": 0.34224493980407716,
+        "-1": 0.3419557285308838
+      },
+      "final_scales": {
+        "mean": 0.2075159102678299,
+        "std": 0.04242217540740967,
+        "min": 0.022526944056153297,
+        "max": 1.3637975454330444
+      },
+      "elapsed_seconds": 395.77996945381165
+    },
+    "S300": {
+      "arm": "S300",
+      "q9_prep_steps": 300,
+      "scheduled_steps": 1200,
+      "actual_updates": 1189,
+      "amp_skips": 11,
+      "switches": [
+        {
+          "at_step": 300,
+          "native_q9_dev": {
+            "loss": 5.251898765563965,
+            "ppl": 190.92845286966065,
+            "top1_agreement": 0.3177083333333333,
+            "kl_to_teacher": 2.5289513965447745,
+            "tokens": 3072
+          },
+          "original_q3_scale_dev": {
+            "loss": 6.653568625450134,
+            "ppl": 775.547029943411,
+            "top1_agreement": 0.2080078125,
+            "kl_to_teacher": 3.933357705672582,
+            "tokens": 3072
+          },
+          "transition_shock": 1.4016698598861694
+        }
+      ],
+      "train_dev": {
+        "300": {
+          "loss": 5.251898765563965,
+          "ppl": 190.92845286966065,
+          "top1_agreement": 0.3177083333333333,
+          "kl_to_teacher": 2.5289513965447745,
+          "tokens": 3072
+        },
+        "600": {
+          "loss": 5.485517382621765,
+          "ppl": 241.173690800778,
+          "top1_agreement": 0.2926432291666667,
+          "kl_to_teacher": 2.7483830650647483,
+          "tokens": 3072
+        },
+        "900": {
+          "loss": 5.137063602606456,
+          "ppl": 170.21521425667856,
+          "top1_agreement": 0.3294270833333333,
+          "kl_to_teacher": 2.4092154999574027,
+          "tokens": 3072
+        },
+        "1200": {
+          "loss": 4.779811799526215,
+          "ppl": 119.0819366588766,
+          "top1_agreement": 0.3642578125,
+          "kl_to_teacher": 2.071975603699684,
+          "tokens": 3072
+        }
+      },
+      "trace": [
+        {
+          "step": 1,
+          "lr": 0.00001,
+          "loss": 10.583170890808105,
+          "ce": 12.023921966552734,
+          "kl": 9.807382583618164,
+          "levels": 9,
+          "updates": 0,
+          "skips": 1
+        },
+        {
+          "step": 100,
+          "lr": 0.001,
+          "loss": 4.454285144805908,
+          "ce": 6.188746929168701,
+          "kl": 3.5203442573547363,
+          "levels": 9,
+          "updates": 93,
+          "skips": 7
+        },
+        {
+          "step": 200,
+          "lr": 0.000981771838126524,
+          "loss": 4.180320739746094,
+          "ce": 5.914311408996582,
+          "kl": 3.246633529663086,
+          "levels": 9,
+          "updates": 193,
+          "skips": 7
+        },
+        {
+          "step": 300,
+          "lr": 0.0009285640897740315,
+          "loss": 2.8601086139678955,
+          "ce": 4.5986328125,
+          "kl": 1.9239802360534668,
+          "levels": 9,
+          "updates": 293,
+          "skips": 7
+        },
+        {
+          "step": 400,
+          "lr": 0.0008446873302753783,
+          "loss": 3.8851656913757324,
+          "ce": 5.672499656677246,
+          "kl": 2.922755241394043,
+          "levels": 3,
+          "updates": 389,
+          "skips": 11
+        },
+        {
+          "step": 500,
+          "lr": 0.000736936755850849,
+          "loss": 3.356175422668457,
+          "ce": 4.96630859375,
+          "kl": 2.4891810417175293,
+          "levels": 3,
+          "updates": 489,
+          "skips": 11
+        },
+        {
+          "step": 600,
+          "lr": 0.0006140416772229784,
+          "loss": 2.769178867340088,
+          "ce": 4.180318832397461,
+          "kl": 2.0093343257904053,
+          "levels": 3,
+          "updates": 589,
+          "skips": 11
+        },
+        {
+          "step": 700,
+          "lr": 0.00048595832277702173,
+          "loss": 3.4886815547943115,
+          "ce": 5.622808456420898,
+          "kl": 2.339536428451538,
+          "levels": 3,
+          "updates": 689,
+          "skips": 11
+        },
+        {
+          "step": 800,
+          "lr": 0.00036306324414915115,
+          "loss": 3.761303663253784,
+          "ce": 5.234345436096191,
+          "kl": 2.968127489089966,
+          "levels": 3,
+          "updates": 789,
+          "skips": 11
+        },
+        {
+          "step": 900,
+          "lr": 0.00025531266972462173,
+          "loss": 3.6818509101867676,
+          "ce": 5.8727874755859375,
+          "kl": 2.5021162033081055,
+          "levels": 3,
+          "updates": 889,
+          "skips": 11
+        },
+        {
+          "step": 1000,
+          "lr": 0.0001714359102259684,
+          "loss": 3.5104238986968994,
+          "ce": 5.487469673156738,
+          "kl": 2.4458608627319336,
+          "levels": 3,
+          "updates": 989,
+          "skips": 11
+        },
+        {
+          "step": 1100,
+          "lr": 0.00011822816187347625,
+          "loss": 3.708681583404541,
+          "ce": 5.828056335449219,
+          "kl": 2.5674800872802734,
+          "levels": 3,
+          "updates": 1089,
+          "skips": 11
+        },
+        {
+          "step": 1200,
+          "lr": 0.0001,
+          "loss": 2.851018190383911,
+          "ce": 4.703175067901611,
+          "kl": 1.8537030220031738,
+          "levels": 3,
+          "updates": 1189,
+          "skips": 11
+        }
+      ],
+      "final_heldout_fineweb": {
+        "loss": 4.979720430448651,
+        "ppl": 145.43371713054444,
+        "top1_agreement": 0.3604736328125,
+        "kl_to_teacher": 2.0827930103987455,
+        "tokens": 16384
+      },
+      "final_wikitext_validation": {
+        "loss": 5.7438680455088615,
+        "ppl": 312.2699523205512,
+        "top1_agreement": 0.28607177734375,
+        "kl_to_teacher": 2.724144846200943,
+        "tokens": 16384
+      },
+      "final_source_q3_code_movement": {
+        "fraction": 0.07242146174112955,
+        "top_layers": [
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.24074544270833334
+          },
+          {
+            "name": "model.layers.0.self_attn.q_proj",
+            "fraction": 0.23884765625
+          },
+          {
+            "name": "model.layers.0.self_attn.o_proj",
+            "fraction": 0.20122504340277778
+          },
+          {
+            "name": "model.layers.0.self_attn.k_proj",
+            "fraction": 0.19369466145833333
+          },
+          {
+            "name": "model.layers.29.self_attn.k_proj",
+            "fraction": 0.133955078125
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.12402018229166667
+          },
+          {
+            "name": "model.layers.28.self_attn.k_proj",
+            "fraction": 0.12236653645833333
+          },
+          {
+            "name": "model.layers.30.self_attn.k_proj",
+            "fraction": 0.11821940104166667
+          }
+        ]
+      },
+      "final_code_hist": {
+        "0": 0.3160346253712972,
+        "1": 0.34212979952494305,
+        "-1": 0.3418355751037598
+      },
+      "final_scales": {
+        "mean": 0.20767779648303986,
+        "std": 0.042286019772291183,
+        "min": 0.021699687466025352,
+        "max": 1.3692477941513062
+      },
+      "elapsed_seconds": 400.5154757499695
+    }
+  },
+  "fineweb_gap_direct_minus_staged": 0.7789360079914331,
+  "wikitext_validation_gap_direct_minus_staged": 0.8458365686237812,
+  "checks": {
+    "both_1200": true,
+    "disjoint_fineweb_documents": true,
+    "correct_split_count": true,
+    "both_final_finite": true,
+    "same_order": true
+  },
+  "valid_for_science": true,
+  "exploratory_only": true,
+  "pretraining_data_overlap_unknown": true,
+  "job_provenance": {
+    "hf_id": "6ac87415fee2c90070173baf",
+    "hf_url": "https://huggingface.co/jobs/codeflash85/6ac87415fee2c90070173baf",
+    "pinned_script_commit": "64d171a225ba2781c83148a4235272c91939f9c9",
+    "script": "ternary_pet/f2_fineweb_edu_qat_seed271828.py",
+    "archival_note": "Original scientific FINAL_JSON untouched; only job provenance appended."
+  }
+}
