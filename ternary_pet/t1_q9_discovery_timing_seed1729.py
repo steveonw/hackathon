@@ -1,10 +1,11 @@
+# /// script
+# dependencies = ["torch>=2.4","transformers>=4.46","datasets>=3.0","accelerate>=1.0"]
+# ///
+
 # Phase A / T1 experimental pilot: Q9 assignment discovery timing.
 # Preregistered at ternary_pet/research_log/phase_a_q9_timing_seed1729_prereg_2026-10-08.md
 # Only diagnostic checkpoints; no heldout test, no Q3 continuation, no Gaussian, no gridward.
 # Parent code: ternary_pet/smollm2_v11_hybrid_factorial.py, reused unchanged for training path.
-# /// script
-# dependencies = ["torch>=2.4","transformers>=4.46","datasets>=3.0","accelerate>=1.0"]
-# ///
 """
 SmolLM2 v11: matched-schedule four-arm hybrid-master factorial.
 
