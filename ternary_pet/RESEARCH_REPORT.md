@@ -851,3 +851,25 @@ At the Q9→Q3 transition, the original Q3 scales and a fresh AdamW/GradScaler w
 This was **one familiar seed/order** and a previously evaluated held-out slice. Step250 was selected after inspecting T1 masks and prior historical outcomes, so this is *exploratory evidence*, not independent statistical confirmation, a general optimal schedule, or a production-quality model. A fixed-protocol replication on new orders is needed. No additional GPU jobs launched after C1.
 
 Records: [frozen protocol](research_log/phase_c_q9_switch250_vs300_seed1729_prereg_2026-10-08.md); [HF job](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79); [raw parsed C1 JSON](results/run_c1_smol360m_q9_switch250_vs300_seed1729_2026-10-08.json); [detailed result and dev trajectories](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md).
+
+## M1 update — matched Q3 continuation and final code destinations (October 9, 2026 UTC)
+
+M1 tested the remaining ambiguity from C1. **M1 is deliberately different from C1's equal-total-training-budget recipe test.** It saves a single Q9 trajectory at steps250 and300, then uses **identical 900-step Q3 continuation batches and learning rates** for both saved FP32 master states. Both continuations use the original source Q3 scales and fresh AdamW/GradScaler, with 897 successful Q3 updates and 3 AMP skips each.
+
+| Q9 preparation | Shared Q3 continuation | Total update opportunities | Held-out NLL ↓ | PPL ↓ |
+|---|---:|---:|---:|---:|
+| Step250 | 900 | **1150** | **4.950432** | 141.236 |
+| Step300 | 900 | **1200** | **4.900985** | 134.422 |
+
+**The extra 50 Q9 preparation steps confer a +0.0494467 nats/token advantage when the downstream Q3 training operator is held fixed.** All seven prespecified technical/reproduction checks passed, including the exact historical Q9(300)→Q3(900) endpoint. The prior C1 test instead showed 250 Q9 +950 Q3 preserved 95.75% of Q9(300)+900 Q3's improvement at *equal total* 1200-step budget. M1 adds evidence that Q9 preparation itself affects downstream trainability; it does **not** settle optimal resource allocation between Q9 and Q3, because total steps differ.
+
+M1 also records **actual final ternary codes by position**, previously unavailable from C1. Original-Q3-scale projected Q9 codes at steps250 and300 disagree at **6,245,131 of 314,572,800 positions (1.9853%)**. After shared Q3 continuation:
+- P250 final codes match the step300 Q9-prep code on **44.16%** of initially differing positions.
+- P300 final codes retain the step300 prep code on **59.30%** of those positions.
+- The final two models agree on **60.00%** of those initially differing positions and **93.858%** across all targeted weights.
+
+These observations show **partial convergence toward later Q9 choices and substantial reorganization/remaining disagreement**, not a proof that specific early weights are disproportionately important or that one late-prep code set is universally correct. The late Q9 code set is itself not preserved at many positions by its own Q3 continuation. The two different starting geometries may also produce differences outside their original 1.985% code-disagreement positions.
+
+**Outstanding threats:** familiar seed 1729, repeatedly viewed 8192-token WikiText heldout, short training horizon, degraded text generation, nonstandard internal QAT baseline, model-family sensitivity and absence of fresh-data confirmation. The highest-value next independent tests are durability versus direct Q3 under a longer fixed recipe (multiple common checkpoints) and genuinely new evaluation data. No further GPU run launched.
+
+M1 records: [full raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json), [detailed technical interpretation](results/run_m1_equal_q3_continuation_seed1729_summary.md), [frozen preregistration](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md), [completed HF job](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb).
