@@ -549,3 +549,37 @@ not included. Historical tuned direct baseline target:
 
 All final results pending job completion; do NOT claim Smol
 transfer before checks and paired D/P full JSON.
+
+
+### S1-1 COMPLETE — Smol direct-Q3 gridward transfer is negative
+
+Job [`6ac83c3bfee2c90070171b1a`](https://huggingface.co/jobs/codeflash85/6ac83c3bfee2c90070171b1a)
+**COMPLETED** 2026-10-09 01:18 UTC.
+Immutable script pin:
+`a5634bce459092a503e7534e6b89b6d3a019548b`.
+D and P both trained over 1200 scheduled steps with six
+identical AMP-skipped optimizer updates (1194 effective
+updates each), and all nine scheduled P pulls were valid.
+All nine construction checks passed.
+
+| Arm | Smol seed1729 heldout loss | PPL | Difference vs D |
+|---|---:|---:|---:|
+| **D canonical tuned direct Q3** | **5.595722** | **269.27** | — |
+| P same schedule + gridward | 5.845746 | 345.76 | **0.250024 worse** |
+
+Direct D exactly matches Smol v9 seed1729 historical
+reference. PPL is **28.41% higher** with P. Nevertheless
+P has **78.41% fewer sampled clean-code changes** over
+1200 updates, and 3.445% final code movement versus
+D's 6.960%. At validation checkpoints 300/600
+P was mildly better; at 900/1200 P was worse.
+The fixed 10%-every100-through900 pull rule that
+helped two Granite orders **did not generalize** to
+Smol's established warmup1e-3/cosine schedule.
+Architecture/schedule confounded; no universal claim.
+
+- [Full raw result](run_s1_1_smol360m_gridward_direct_q3_seed1729_2026-10-09.json)
+- [Scientific result and cross-model analysis](run_s1_1_smol360m_gridward_direct_q3_seed1729_summary.md)
+
+No Gaussian, no Q9 arm, and no new GPU jobs.
+The earlier active record is now historical status.
