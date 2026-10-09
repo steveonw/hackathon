@@ -527,3 +527,25 @@ See summary for details.
 - [Scientific analysis with both seeds](run_g1_10_granite350m_gaussian_pull_seed424242_summary.md)
 
 No additional GPU jobs were launched.
+
+
+### S1-1 ACTIVE — Smol cross-model gridward-pull test
+
+HF Job [`6ac83c3bfee2c90070171b1a`](https://huggingface.co/jobs/codeflash85/6ac83c3bfee2c90070171b1a)
+submitted 2026-10-09 00:58 UTC; initial status SCHEDULING,
+A10G-small, 90m cap.
+
+Pinned script: `ternary_pet/s1_1_smol360m_gridward_direct_q3_seed1729.py`,
+commit `a5634bce459092a503e7534e6b89b6d3a019548b`. Preregistered in `EXPERIMENT.md` before code and GPU.
+
+Two matched direct-Q3 arms D versus P, seed1729, all 1,200
+steps under the validated **Smol v9** warmup100→1e-3
+then cosine→1e-4 schedule. Unlike Granite, NO optimizer/scale
+reset at step300. Same FP32 BF16-rounded masters and
+Smol-validated FP16 AMP GradScaler. P adds nine 10% post-step
+gridward pulls at steps100..900; D has none. Noise and Q9
+not included. Historical tuned direct baseline target:
+**loss 5.595722187310457**. Holdout is 8192 WikiText-2 tokens.
+
+All final results pending job completion; do NOT claim Smol
+transfer before checks and paired D/P full JSON.
