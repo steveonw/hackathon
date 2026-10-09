@@ -15,6 +15,8 @@
 
 **G1/S1 completed:** [G1 frozen-scale depth](results/run_g1_depth_by_scale_freeze_seed1729_summary.md) found deep-vs-shallow gain **+0.620468 nats** with frozen scales vs **+0.609848** with trainable scales; row-scale training is not needed for depth benefit. [S1 FineWeb sham switch](results/run_s1_fineweb_q3_sham_reset_seed1729_summary.md) found direct Q3 reset at300 **5.789199** versus continuous **5.766660**, both far worse than historical Q9 staged **4.996255**. All G1 (6/6) and S1 (9/9) checks passed. [Current status](CURRENT_STATE.md). R1 range-matched Q9 not yet launched.
 
+**R1 ACTIVE:** [Current job plan](R1_ACTIVE_JOB_PLAN.md): Q9 nine-state output range match on FineWeb, 3-arm D vs wide Q9→Q3 vs range-matched Q9→Q3. [HF job](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904) accepted, scientific outcome pending; immutable script `f28f1d4814ab0a61f2b529e2add007ce142972d5`. Pre-run 9-code/gradient/STE CPU checks passed. G1 and S1 completed separately; their findings unchanged. Use [CURRENT_STATE.md](CURRENT_STATE.md) for live status.
+
 Experiments on whether a pretrained language model can enter ternary weight
 space more effectively after adapting on an intermediate discrete grid.
 
