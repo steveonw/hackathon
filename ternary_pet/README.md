@@ -11,6 +11,8 @@
 
 **LATEST (2026-10-09):** [FineWeb F1/F2/F3 aggregate](results/run_f1_f3_fineweb_edu_three_seed_aggregate_summary.md): **3/3 seeds** favor Q9→Q3, mean heldout advantage **+0.763898 nats** (same 21 documents across all seeds). [L1 WikiText6000 result](results/run_l1_6000step_wikitext_durability_seed1729_summary.md): staged advantage **+0.616040 nats at6000**, not eliminated, but narrowing overall. [Six unresolved mechanism controls / outside review](research_log/2026-10-09_external_technical_review_scale_range_sham_controls.md): freeze scale-depth comparison, FineWeb sham Q3 switch and Q9 range match next; proposed only, not GPU launched. [Current state](CURRENT_STATE.md) is authoritative; older “running” prose below describes historical job submission status.
 
+**LIVE STUDY:** [G1/S1 mechanism-control plan](G1_S1_ACTIVE_JOB_PLAN.md): frozen-vs-learned-scale Q3 depth (G1, HF `6ac96a7efee2c9007017ea64`, SHA `059a0bb91aa55fea99ed56b1d0d980eb21fd31ae`) and FineWeb direct-Q3 sham reset (S1, HF `6ac96a82fee2c9007017ea6b`, SHA `4cdab8ee73ddd804e96fac43992f91ab9a54c1b9`). **Submitted; results pending.** Both frozen preregs and pinned scripts linked in active plan. R1 not launched. Older job statuses are historical, use [CURRENT_STATE.md](CURRENT_STATE.md).
+
 Experiments on whether a pretrained language model can enter ternary weight
 space more effectively after adapting on an intermediate discrete grid.
 
