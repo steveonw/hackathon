@@ -4,6 +4,18 @@
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
 **Status:** T1, C1 and M1 completed; **no active scientific GPU job**. Read [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md) for archived M1 design, alternative hypotheses and subsequent research gates.
 
+## NEW ACTIVE STUDY — L1 durability and F1 FineWeb-Edu
+
+**2026-10-09 UTC / October 8 EDT.** **L1 GPU submitted / RUNNING at last check**: [HF 6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53), A10G-small, <=2h, pinned script SHA `841e0ab948991a24b7397b34d90d28c38f749879`. Paired **6000-step direct Q3 vs Q9(300)→Q3** on WikiText2, preserving first1200 historic steps; subsequent 4800 are fresh QAT train chunks and LR is fixed 1e-4. New WikiText2 validation curve measured at five horizons. **Results unknown until job completion.**
+
+**F1 FineWeb-Edu** was separately preregistered and implemented, pinned script SHA `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`; initial source streaming and both static checks passed. A complete CPU dataset-partition preflight [6ac86e0d095c578089301e45](https://huggingface.co/jobs/codeflash85/6ac86e0d095c578089301e45) is running; **F1 GPU not yet launched as of this note**. F1 changes only QAT corpus under a matched 1200-step paired trial. Train/dev/eval FineWeb documents partitioned by hash; potential overlap with *source model* pretraining explicitly unknown.
+
+**Frozen protocols:** [L1 durability](research_log/l1_6000_step_durability_wikitext_seed1729_prereg_2026-10-09.md), [F1 FineWeb-Edu](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md). **Copyable handoff plan:** [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md).
+
+**Handoff:** check both job stages, do not submit duplicates, verify `FINAL_JSON` and scientific validity, archive raw JSON, record negative results. **T1/C1/M1 remain completed** and are untouched.
+
+---
+
 ## Latest completed experiment — M1 matched Q3 continuation
 
 **Status:** COMPLETED, **2026-10-09 04:15:27 UTC**. [Hugging Face job `6ac86712fee2c900701734bb`](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb); pinned script `cad64c009209a924be89b523e6a1e184a4f4137b`, `m1_smol360m_equal_q3_continuation_seed1729.py`. Seven of seven preregistered construction/reproduction checks passed (`valid_for_science=true`). [M1 detailed result](results/run_m1_equal_q3_continuation_seed1729_summary.md) · [raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json) · [frozen preregistration](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md).
