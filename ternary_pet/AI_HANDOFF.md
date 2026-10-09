@@ -1,5 +1,17 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## L1/F1 NEW STUDY — do not duplicate current jobs
+
+Read [CURRENT_STATE.md](CURRENT_STATE.md) for authoritative live status and [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md) for the full independent critiques, hypotheses, reproduction checks, precise dataset/model SHA pins and current job status.
+
+**L1 GPU job:** [6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53), A10G-small up to 2h, source SHA `841e0ab948991a24b7397b34d90d28c38f749879`, `l1_6000step_wikitext_durability_seed1729.py`. Submitted, last stage RUNNING. Two arms: direct Q3 vs Q9(300)→Q3, 6000 updates both, old first1200 data/schedule exactly replicated, 4800 additional nonrepeated training chunks at 1e-4 LR. New WikiText2 validation curve at 1200/2400/3600/4800/6000. Job not yet a result.
+
+**F1 FineWeb-Edu job:** `f1_fineweb_edu_qat_seed1729.py`, pinned source `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`, frozen protocol [F1](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md). Document-source preflight underway under CPU job `6ac86e0d095c578089301e45` after basic dataset access and static QA passed; GPU not submitted yet as of this note. Aim: 1200 matched direct/staged on public FineWeb-Edu sample with document-level train/dev/eval partition plus WikiText2 validation. FineWeb-Edu is **one** source of original SmolLM2 pretraining, not full exact mixture, and pretrained model contamination unknown.
+
+**No results yet.** Do not relaunch M1, tune against old WikiText2 test, or add extra seeds before analyzing the frozen jobs.
+
+---
+
 ## M1 COMPLETE — controlled Q3 continuation and late-code adoption (2026-10-09 UTC)
 
 **HF job:** [`6ac86712fee2c900701734bb`](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb) — completed **2026-10-09 04:15:27 UTC**, A10G-small, seven of seven checks passed, `valid_for_science=true`. **Pinned script SHA:** `cad64c009209a924be89b523e6a1e184a4f4137b`. [M1 preregistration](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md). [M1 full raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json). [Detailed summary](results/run_m1_equal_q3_continuation_seed1729_summary.md).
