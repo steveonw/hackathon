@@ -831,3 +831,23 @@ The projected Q3 **D/S disagreement mask grows gradually**. Recall of the final 
 **Next experiment decision:** choose and preregister a bounded causal-split study at step300, or a 200/250/300 Q9→Q3 continuation study that holds total training opportunities fixed. No follow-up GPU job was launched by T1 analysis.
 
 Records: [T1 raw JSON](results/run_t1_q9_discovery_timing_seed1729_2026-10-08.json), [T1 detailed summary](results/run_t1_q9_discovery_timing_seed1729_summary.md), [preregistration](research_log/phase_a_q9_timing_seed1729_prereg_2026-10-08.md), and [research-history motivation](research_log/2026-10-08_q9_assignment_discovery_timing.md).
+
+## C1 update — Q9 for 250 steps preserves 95.75% of the 300-step staging benefit (October 8, 2026 EDT)
+
+A frozen exploratory follow-up to the one-seed T1 timing study tested an **actual training-time Q9→Q3 switch** 50 steps earlier, not merely the resemblance of code masks. This used the same 1200 scheduled step budget and global LR schedule in all arms, with the same seed/order 1729, BF16-rounded SmolLM2-360M source, WikiText-2 teacher objective, FP32 masters and FP16 autocast.
+
+| Arm | Schedule | Final held-out NLL ↓ | Final PPL ↓ |
+|---|---|---:|---:|
+| D | Direct Q3 for 1200 | 5.595722 | 269.272 |
+| S250 | Q9 250 → Q3 950 | **4.930515** | **138.451** |
+| S300 | Q9 300 → Q3 900 | **4.900985** | **134.422** |
+
+At the Q9→Q3 transition, the original Q3 scales and a fresh AdamW/GradScaler were restored; the global LR schedule was **not restarted**. D used continuous AdamW and learned scales. D and S300 matched historical held-out losses *exactly* and technical checks passed. Equal **1200 update opportunities** did not mean equal actual optimizer updates (direct 1194; staged 1190 after AMP skips).
+
+**Predeclared exploratory outcome:** S250 is **+0.0295299 nats** worse than S300 but preserves **95.7495%** of the S300 improvement over D. Both nominal test thresholds, extra loss <=0.07 and preserved gain >=90%, passed. S250 remains **0.665207 nats/token** better than direct Q3.
+
+**Interpretation:** under these finite-budget conditions, cutting **50 Q9 steps**, replaced by **50 additional ternary Q3 steps**, sacrifices comparatively little end quality. T1 nevertheless found that step250 includes only ~69.4% of the eventual projected-code disagreement mask. It is therefore **not proven** that all Q9 assignments are learned by step250, or that the last 50 Q9 steps are useless; instead, some benefit may be recoverable or replaceable through later Q3 updates. The two Q9→Q3 transition checkpoints have nearly equal immediate fixed-Q3 projection losses (6.542107 vs 6.542292), even though Q9 native-loss differs (5.390830 vs 5.182719). Immediate projected loss alone still does not establish later trainability.
+
+This was **one familiar seed/order** and a previously evaluated held-out slice. Step250 was selected after inspecting T1 masks and prior historical outcomes, so this is *exploratory evidence*, not independent statistical confirmation, a general optimal schedule, or a production-quality model. A fixed-protocol replication on new orders is needed. No additional GPU jobs launched after C1.
+
+Records: [frozen protocol](research_log/phase_c_q9_switch250_vs300_seed1729_prereg_2026-10-08.md); [HF job](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79); [raw parsed C1 JSON](results/run_c1_smol360m_q9_switch250_vs300_seed1729_2026-10-08.json); [detailed result and dev trajectories](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md).
