@@ -3782,3 +3782,13 @@ M1 preserved the exact Q9 preparation setup from prior experiments. A single Q9 
 **Relation to C1:** C1 Q9(250)+Q3(950) NLL **4.930515** vs M1 Q9(250)+Q3(900) NLL **4.950432**. Cannot attribute the difference solely to 50 extra Q3 updates: C1's Q3 learning-rate values and training-batch indices begin at global step251, M1's at301. Preserve both controlled questions (equal total budget vs identical continuation) separately.
 
 **Follow-up gate:** NO new GPU job launched. The most valuable next experiment is **longer paired direct/staged training with fresh evaluation data** and a frozen recipe, then independent training-order confirmation and stronger external QAT baselines. Any new jobs require a separately frozen plan and budget. [Authoritative status](CURRENT_STATE.md), [durable plan](NEXT_EXPERIMENT_PLAN.md).
+
+### New L1 and F1 jobs — long-run durability vs pretraining-style corpus (2026-10-09 UTC)
+
+The user requested the next jobs and suggested using some of the data SmolLM2 was originally trained on. These are **separate studies** to prevent confounding horizon and distribution.
+
+**L1** freeze: [preregistration](research_log/l1_6000_step_durability_wikitext_seed1729_prereg_2026-10-09.md), [script](l1_6000step_wikitext_durability_seed1729.py) pinned `841e0ab948991a24b7397b34d90d28c38f749879`; GPU [6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53) RUNNING, A10G-small max2h. Paired D direct Q3 and S300 staged, each 6000 scheduled steps (first1200 source/sequence/schedule of historic v10, then4800 new WikiText2 train chunks at LR1e-4). New WikiText validation 16384-token evaluation at 1200/2400/3600/4800/6000; historic WikiText test at1200 for reproduction only.
+
+**F1** freeze: [preregistration](research_log/f1_fineweb_edu_qat_seed1729_prereg_2026-10-09.md), [script](f1_fineweb_edu_qat_seed1729.py) pinned `64dcd7f20240b4c62e6ecac8df70a1336a57bb14`; dataset access preflight and static QA passed, full document partition CPU preflight `6ac86e0d095c578089301e45` running. F1 GPU not yet launched at this writing. Paired1200 Q3 vs Q9→Q3 on public FineWeb-Edu sample of SmolLM2's pretraining-type corpus; exact model/dataset revisions and SHA256 document partition fixed. Separate FineWeb source documents train/dev/test and WikiText validation; pretrained source-model exposure of FineWeb documents unknown.
+
+**Handoff:** [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md). **Status:** no new results at submission; archive raw outcome including failures. No other seeds/retries authorized without new decision.
