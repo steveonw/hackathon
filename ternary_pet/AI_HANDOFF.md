@@ -1,5 +1,7 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+**Authoritative live state:** [CURRENT_STATE.md](CURRENT_STATE.md) · **Copyable next-experiment/handoff plan:** [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md). The long AI handoff and experiment ledger preserve historical statuses, including superseded “current” headings.
+
 ## C1 COMPLETED — 250-step Q9 switch retains 95.75% of staged benefit (2026-10-08 EDT)
 
 **COMPLETED:** 2026-10-09 03:24:11 UTC. HF job [`6ac8597afee2c90070172c79`](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79), A10G-small. **Pinned code:** `5577a771ed57409283690097a58bae0c8966fdb1`, `ternary_pet/c1_smol360m_q9_switch250_vs300_seed1729.py`.  
