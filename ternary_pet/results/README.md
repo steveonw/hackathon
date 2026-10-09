@@ -491,3 +491,39 @@ Prior G1-9 seed271828 held-out loss D5.726725, G5.743370,
 P5.489709, GP5.487853. Historical Granite constant-LR seed424242
 direct-Q3 held-out loss ~5.80192 for reference. Primary comparison is
 within new job P versus D. **No G1-10 results at initial submission.**
+
+
+### G1-10 COMPLETED — Granite 424242 replicates direct Q3 gridward improvement
+
+The historical status note above is now superseded: HF job
+[`6ac82c93fee2c900701711db`](https://huggingface.co/jobs/codeflash85/6ac82c93fee2c900701711db)
+**COMPLETED** 2026-10-09 00:21 UTC.
+Code pin: `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`.
+Exactly one changed line from G1-9 (seed 271828→424242).
+All four direct ternary arms, 300+900 updates, 9 P/GP pulls,
+and all five audit checks passed.
+
+| Arm | 424242 held-out loss | PPL | D−arm gain |
+|---|---:|---:|---:|
+| D | 5.801920 | 330.93 | — |
+| G | 5.756362 | 316.20 | +0.045558 |
+| **P** | **5.528112** | **251.67** | **+0.273808** |
+| GP | 5.535340 | 253.49 | +0.266580 |
+
+Within-run D matches historical seed424242 direct exactly.
+P PPL reduction **23.95%**. G-only helps modestly here but
+not on 271828; GP slightly **loses to P** on 424242.
+Both tested Granite orders now show substantial pull-only
+gains (271828 +0.237016; 424242 +0.273808), with unchanged
+protocol. This is *within Granite* seed/order replication.
+
+**Raw metadata warning:** inherited G1-9 `kind`, event prefix
+and `historic_D_loss_271828` keys are stale from the
+one-line seed-only parent script; the correct seed424242
+historical D is 5.801920 and matches in-run D exactly.
+See summary for details.
+
+- [Complete raw data](run_g1_10_granite350m_gaussian_pull_seed424242_2026-10-08.json)
+- [Scientific analysis with both seeds](run_g1_10_granite350m_gaussian_pull_seed424242_summary.md)
+
+No additional GPU jobs were launched.
