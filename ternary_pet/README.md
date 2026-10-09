@@ -55,6 +55,9 @@ remains independently intact.
 
 **Living current-state report:** [RESEARCH_REPORT.md](RESEARCH_REPORT.md) · **Chronological log:** [SHAREABLE_RESEARCH_REPORT.md](SHAREABLE_RESEARCH_REPORT.md)
 
+
+**New research-history note (2026-10-08 EDT):** [Q9 assignment discovery and checkpoint-timing plan](research_log/2026-10-08_q9_assignment_discovery_timing.md) records the user's "rough 9, better 3" selection hypothesis, a retrospective decomposition of the v11 disagreement mask into Q9-only versus direct-only code changes, and a gated proposal to measure *when* useful Q3 decisions emerge. This is **documentation and a draft plan, not a completed test or permission to launch GPU jobs**.
+
 ## Current interpretation
 
 Q9 does not simply preserve more information or create a better ternary model at
