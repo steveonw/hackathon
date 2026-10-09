@@ -2,17 +2,21 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** T1 and C1 completed; **M1 next experiment is documented in [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md)**. Check this page and [AI_HANDOFF.md](AI_HANDOFF.md) for latest execution status before launching compute.
+**Status:** T1, C1 and M1 completed; **no active scientific GPU job**. Read [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md) for archived M1 design, alternative hypotheses and subsequent research gates.
 
-## Latest live execution — M1 equal-Q3 continuation
+## Latest completed experiment — M1 matched Q3 continuation
 
-**M1 job submitted** on Hugging Face as [codeflash85/6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb). **Status at submission: SCHEDULING; results pending.**  
-**Pinned Git commit:** `cad64c009209a924be89b523e6a1e184a4f4137b`  
-**Script:** [`m1_smol360m_equal_q3_continuation_seed1729.py`](m1_smol360m_equal_q3_continuation_seed1729.py).  
-**Frozen pre-job preregistration:** [M1 protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md).  
-**GPU:** one A10G-small, 90-minute maximum, seed 1729. **CPU-only syntax smoke:** `6ac86709fee2c900701734b2`, `M1_STATIC_CHECK_OK`. No second M1 job launched.
+**Status:** COMPLETED, **2026-10-09 04:15:27 UTC**. [Hugging Face job `6ac86712fee2c900701734bb`](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb); pinned script `cad64c009209a924be89b523e6a1e184a4f4137b`, `m1_smol360m_equal_q3_continuation_seed1729.py`. Seven of seven preregistered construction/reproduction checks passed (`valid_for_science=true`). [M1 detailed result](results/run_m1_equal_q3_continuation_seed1729_summary.md) · [raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json) · [frozen preregistration](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md).
 
-**Do not duplicate.** The M1 arm states are Q9 preparation after 250 vs 300 steps, both followed by **identical 900-Q3-step** data/LR sequences. P250 totals **1150** vs P300 **1200** step opportunities. In-job outputs include held-out NLL, final-code positional agreement and whether P250 Q3 continuation moves toward Q9's later code choices. Interpret only after checking `FINAL_JSON` and `valid_for_science`, preserving null and technical failures. Any subsequent run needs a new decision.
+One Q9 preparation trajectory, saved at steps 250 and 300; both states were assigned **the exact same 900 Q3 training examples and LR values**, with original Q3 scales and fresh Adam. Earlier state total **1150** step opportunities; later state **1200** (not an equal-compute comparison). Both Q3 continuations had **897 effective optimizer updates and three AMP skips**.
+
+- Q9(250)+common Q3(900): **held-out loss 4.9504320**, PPL **141.236**.
+- Q9(300)+common Q3(900): **held-out loss 4.9009854**, PPL **134.422**. Exact historical v10 reproduction.
+- Thus **longer Q9 preparation retains a +0.0494467-nat quality advantage under a common Q3 operator** in this seed. It remains exploratory, evaluated on previously viewed WikiText tokens.
+- **6,245,131 / 314,572,800 weights (1.9853%)** have different initial original-Q3-scale codes between Q9 steps 250 and 300. After continuation, earlier arm's final Q3 code matches later Q9-prep code at **44.16%** of those positions; two final Q3 models agree at **60.00%** of those selected positions, and **93.858%** globally. This suggests partial adoption of late-Q9 choices and incomplete final convergence, **not** causal proof of optimal assignments.
+- M1 differs from C1's earlier 250+950 recipe (NLL 4.930515) in Q3 **length, beginning batches and LR indices**; the difference between those runs cannot be cleanly assigned to exactly 50 extra Q3 steps.
+
+**NO new GPU job has been launched after M1.** Next scientifically highest-value gate: an independently scoped **longer-horizon paired direct vs staged fixed-recipe experiment with fresh evaluation data**, and new training orders for confirmation. Neither has yet been approved or launched. The complete handoff and interpretation plan is [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md).
 
 ---
 
@@ -31,12 +35,13 @@
 |---|---|---|
 | T1 (Q9 projected-code discovery timing) | [6ac85534fee2c90070172a41](https://huggingface.co/jobs/codeflash85/6ac85534fee2c90070172a41) | [Summary](results/run_t1_q9_discovery_timing_seed1729_summary.md); [raw JSON](results/run_t1_q9_discovery_timing_seed1729_2026-10-08.json). Completed. |
 | C1 (Q9 switch 250 vs300, equal total budget) | [6ac8597afee2c90070172c79](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79) | [Summary](results/run_c1_smol360m_q9_switch250_vs300_seed1729_summary.md); [raw JSON](results/run_c1_smol360m_q9_switch250_vs300_seed1729_2026-10-08.json). Completed. |
+| M1 (250 vs300 Q9 prep with *identical* Q3 continuation) | [6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb) | [Summary](results/run_m1_equal_q3_continuation_seed1729_summary.md); [raw JSON](results/run_m1_equal_q3_continuation_seed1729_2026-10-09.json). Completed, checks passed. |
 
 ## Current next action and constraints
 
-**M1 proposal:** Compare saved Q9 preparation states from step250 and step300, each with **identical 900-step Q3 continuations**, shared post-transition LR and training chunks, while recording **actual final ternary codes** to assess convergence or rediscovery. This deliberately has **unequal total update opportunities (1150 vs1200)** and complements rather than replaces C1. Full plan: [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md). The plan includes preregistration, GPU/time bound, checks, analysis, alternative explanations and subsequent confirmatory/long-run research gates.
+**No immediate compute queued.** The paired 250-vs-300 controls, both equal-total (C1) and equal-Q3-continuation (M1), have now been run on seed1729, which has repeatedly informed the experiment design. The most consequential open questions are **durability (does direct Q3 catch up at longer training horizons?), fresh evaluation, and cross-seed/family confirmation**. Decide a budget and freeze an independent next protocol before any paid compute; do not repeatedly tune using the known 8192-token WikiText test slice.
 
-**Next AI:** Read the execution status here and in the latest top of [AI_HANDOFF.md](AI_HANDOFF.md). If there is an M1 job ID, **inspect it before doing anything**, do not duplicate or silently launch new seeds. Follow the exact pinned code and job, check raw `FINAL_JSON`, archive **positive, negative or technical** outcomes verbatim and update both short status and chronological documents. The full experiment ledger is [EXPERIMENT.md](EXPERIMENT.md).
+**Next AI:** Read [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md) for hypotheses/controls, this current-state summary for latest status, [AI_HANDOFF.md](AI_HANDOFF.md) for chronology and [EXPERIMENT.md](EXPERIMENT.md) for historical protocols. M1 must **not** be relaunched. First check Hugging Face for any newer job before planning. Record exact source SHA, prereg, job ID, raw output, validity and negatives for each new experiment.
 
 ## Key limitations and competing explanations
 
