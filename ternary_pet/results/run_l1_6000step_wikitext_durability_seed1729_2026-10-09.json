@@ -1,0 +1,614 @@
+{
+  "kind": "l1_6000step_wikitext_durability_seed1729",
+  "prereg": "ternary_pet/research_log/l1_6000_step_durability_wikitext_seed1729_prereg_2026-10-09.md",
+  "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "model_revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+  "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "seed": 1729,
+  "data_first1200_order_head": [
+    221,
+    850,
+    89,
+    747,
+    685,
+    1055,
+    781,
+    170,
+    233,
+    62,
+    421,
+    806,
+    1031,
+    1187,
+    683,
+    619
+  ],
+  "validation_split": "wikitext2_validation_first128_chunks",
+  "historical_test_at_step1200_only": true,
+  "arms": {
+    "D": {
+      "arm": "D",
+      "prep_q9_steps": 0,
+      "scheduled": 6000,
+      "actual_updates": 5994,
+      "amp_skips": 6,
+      "trace": [
+        {
+          "step": 1,
+          "loss": 13.105018615722656,
+          "ce": 14.419036865234375,
+          "kl": 12.397472381591797,
+          "lr": 0.00001,
+          "active_levels": 3,
+          "updates": 0,
+          "skips": 1
+        },
+        {
+          "step": 300,
+          "loss": 5.018011569976807,
+          "ce": 6.398173809051514,
+          "kl": 4.274847507476807,
+          "lr": 0.0009285640897740315,
+          "active_levels": 3,
+          "updates": 294,
+          "skips": 6
+        },
+        {
+          "step": 600,
+          "loss": 3.821916103363037,
+          "ce": 5.149842262268066,
+          "kl": 3.1068787574768066,
+          "lr": 0.0006140416772229784,
+          "active_levels": 3,
+          "updates": 594,
+          "skips": 6
+        },
+        {
+          "step": 900,
+          "loss": 3.8746533393859863,
+          "ce": 5.774271488189697,
+          "kl": 2.8517825603485107,
+          "lr": 0.00025531266972462173,
+          "active_levels": 3,
+          "updates": 894,
+          "skips": 6
+        },
+        {
+          "step": 1200,
+          "loss": 3.3452630043029785,
+          "ce": 4.954431533813477,
+          "kl": 2.478787899017334,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 1194,
+          "skips": 6
+        },
+        {
+          "step": 2400,
+          "loss": 3.2979607582092285,
+          "ce": 5.248416900634766,
+          "kl": 2.247715473175049,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 2394,
+          "skips": 6
+        },
+        {
+          "step": 3600,
+          "loss": 3.2634189128875732,
+          "ce": 5.272186279296875,
+          "kl": 2.1817750930786133,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 3594,
+          "skips": 6
+        },
+        {
+          "step": 4800,
+          "loss": 3.725557565689087,
+          "ce": 5.6505632400512695,
+          "kl": 2.689016103744507,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 4794,
+          "skips": 6
+        },
+        {
+          "step": 6000,
+          "loss": 3.220642566680908,
+          "ce": 5.175725936889648,
+          "kl": 2.167905330657959,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 5994,
+          "skips": 6
+        }
+      ],
+      "transition": [],
+      "checkpoints": {
+        "1200": {
+          "global_step": 1200,
+          "wiki_validation": {
+            "loss": 5.047604322433472,
+            "ppl": 155.64913233863064,
+            "top1_agreement": 0.33599853515625,
+            "kl_to_teacher": 2.575575875118375,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 5.255937337875366,
+            "ppl": 191.7010903589171,
+            "top1_agreement": 0.3375651041666667,
+            "kl_to_teacher": 2.3730439841747284,
+            "tokens": 3072
+          },
+          "actual_updates": 1194,
+          "amp_skips": 6,
+          "active_levels": 3,
+          "historical_wikitext_test_8192": {
+            "loss": 5.595722187310457,
+            "ppl": 269.2720447429168,
+            "top1_agreement": 0.2987060546875,
+            "kl_to_teacher": 2.664031323045492,
+            "tokens": 8192
+          }
+        },
+        "2400": {
+          "global_step": 2400,
+          "wiki_validation": {
+            "loss": 4.796893447637558,
+            "ppl": 121.1335247657723,
+            "top1_agreement": 0.34991455078125,
+            "kl_to_teacher": 2.3662270605564117,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 5.1685306032498675,
+            "ppl": 175.65653861180286,
+            "top1_agreement": 0.3424479166666667,
+            "kl_to_teacher": 2.277293215195338,
+            "tokens": 3072
+          },
+          "actual_updates": 2394,
+          "amp_skips": 6,
+          "active_levels": 3
+        },
+        "3600": {
+          "global_step": 3600,
+          "wiki_validation": {
+            "loss": 4.684793369844556,
+            "ppl": 108.28789445183016,
+            "top1_agreement": 0.36846923828125,
+            "kl_to_teacher": 2.2478114292025566,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 5.016848266124725,
+            "ppl": 150.93484688587841,
+            "top1_agreement": 0.3600260416666667,
+            "kl_to_teacher": 2.13346200188001,
+            "tokens": 3072
+          },
+          "actual_updates": 3594,
+          "amp_skips": 6,
+          "active_levels": 3
+        },
+        "4800": {
+          "global_step": 4800,
+          "wiki_validation": {
+            "loss": 4.67356263846159,
+            "ppl": 107.07854584306851,
+            "top1_agreement": 0.36602783203125,
+            "kl_to_teacher": 2.212746283970773,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 5.056642989317576,
+            "ppl": 157.06237026859063,
+            "top1_agreement": 0.3343098958333333,
+            "kl_to_teacher": 2.1289233416318893,
+            "tokens": 3072
+          },
+          "actual_updates": 4794,
+          "amp_skips": 6,
+          "active_levels": 3
+        },
+        "6000": {
+          "global_step": 6000,
+          "wiki_validation": {
+            "loss": 4.500474011525512,
+            "ppl": 90.05981057268609,
+            "top1_agreement": 0.3807373046875,
+            "kl_to_teacher": 2.0694586411118507,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 4.844679077466329,
+            "ppl": 127.0624982310058,
+            "top1_agreement": 0.3727213541666667,
+            "kl_to_teacher": 1.913225769996643,
+            "tokens": 3072
+          },
+          "actual_updates": 5994,
+          "amp_skips": 6,
+          "active_levels": 3
+        }
+      },
+      "final_code_movement": {
+        "fraction": 0.07620321273803711,
+        "top_layers": [
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.23923502604166666
+          },
+          {
+            "name": "model.layers.0.self_attn.k_proj",
+            "fraction": 0.2230859375
+          },
+          {
+            "name": "model.layers.0.self_attn.o_proj",
+            "fraction": 0.21003580729166665
+          },
+          {
+            "name": "model.layers.0.self_attn.q_proj",
+            "fraction": 0.20925672743055557
+          },
+          {
+            "name": "model.layers.29.self_attn.k_proj",
+            "fraction": 0.16337890625
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.15270833333333333
+          },
+          {
+            "name": "model.layers.30.self_attn.k_proj",
+            "fraction": 0.1516796875
+          },
+          {
+            "name": "model.layers.28.self_attn.k_proj",
+            "fraction": 0.14704752604166665
+          }
+        ]
+      },
+      "final_code_hist": {
+        "0": 0.3158666515350342,
+        "1": 0.342220942179362,
+        "-1": 0.3419124062856038
+      },
+      "scale_stats": {
+        "mean": 0.20806607604026794,
+        "std": 0.04254686459898949,
+        "min": 0.022204892709851265,
+        "max": 1.383469820022583
+      },
+      "elapsed_seconds": 1830.7494821548462
+    },
+    "S300": {
+      "arm": "S300",
+      "prep_q9_steps": 300,
+      "scheduled": 6000,
+      "actual_updates": 5990,
+      "amp_skips": 10,
+      "trace": [
+        {
+          "step": 1,
+          "loss": 10.80948257446289,
+          "ce": 12.224014282226562,
+          "kl": 10.047811508178711,
+          "lr": 0.00001,
+          "active_levels": 9,
+          "updates": 0,
+          "skips": 1
+        },
+        {
+          "step": 300,
+          "loss": 4.015382289886475,
+          "ce": 5.49531364440918,
+          "kl": 3.218496322631836,
+          "lr": 0.0009285640897740315,
+          "active_levels": 9,
+          "updates": 293,
+          "skips": 7
+        },
+        {
+          "step": 600,
+          "loss": 3.51318359375,
+          "ce": 4.827547073364258,
+          "kl": 2.8054494857788086,
+          "lr": 0.0006140416772229784,
+          "active_levels": 3,
+          "updates": 590,
+          "skips": 10
+        },
+        {
+          "step": 900,
+          "loss": 3.2304506301879883,
+          "ce": 5.134206771850586,
+          "kl": 2.2053513526916504,
+          "lr": 0.00025531266972462173,
+          "active_levels": 3,
+          "updates": 890,
+          "skips": 10
+        },
+        {
+          "step": 1200,
+          "loss": 2.775770902633667,
+          "ce": 4.439074516296387,
+          "kl": 1.8801460266113281,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 1190,
+          "skips": 10
+        },
+        {
+          "step": 2400,
+          "loss": 2.5977530479431152,
+          "ce": 4.508884429931641,
+          "kl": 1.5686826705932617,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 2390,
+          "skips": 10
+        },
+        {
+          "step": 3600,
+          "loss": 2.676690101623535,
+          "ce": 4.772373199462891,
+          "kl": 1.5482451915740967,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 3590,
+          "skips": 10
+        },
+        {
+          "step": 4800,
+          "loss": 3.313382625579834,
+          "ce": 5.210083961486816,
+          "kl": 2.2920820713043213,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 4790,
+          "skips": 10
+        },
+        {
+          "step": 6000,
+          "loss": 2.726043701171875,
+          "ce": 4.71536111831665,
+          "kl": 1.6548728942871094,
+          "lr": 0.0001,
+          "active_levels": 3,
+          "updates": 5990,
+          "skips": 10
+        }
+      ],
+      "transition": [
+        {
+          "at_step": 300,
+          "q9_native_train_dev": {
+            "loss": 5.182718833287557,
+            "ppl": 178.16655825060224,
+            "top1_agreement": 0.3173828125,
+            "kl_to_teacher": 2.3122033923864365,
+            "tokens": 3072
+          },
+          "q3_original_scale_train_dev": {
+            "loss": 6.542291978995006,
+            "ppl": 693.8751040706278,
+            "top1_agreement": 0.22102864583333334,
+            "kl_to_teacher": 3.5452360113461814,
+            "tokens": 3072
+          },
+          "shock": 1.359573145707449
+        }
+      ],
+      "checkpoints": {
+        "1200": {
+          "global_step": 1200,
+          "wiki_validation": {
+            "loss": 4.331517595797777,
+            "ppl": 76.05962679713589,
+            "top1_agreement": 0.4061279296875,
+            "kl_to_teacher": 1.8974335454404354,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 4.521716256936391,
+            "ppl": 91.99334679021959,
+            "top1_agreement": 0.416015625,
+            "kl_to_teacher": 1.68612136443456,
+            "tokens": 3072
+          },
+          "actual_updates": 1190,
+          "amp_skips": 10,
+          "active_levels": 3,
+          "historical_wikitext_test_8192": {
+            "loss": 4.9009853675961494,
+            "ppl": 134.42216969803354,
+            "top1_agreement": 0.369140625,
+            "kl_to_teacher": 1.9699785858392715,
+            "tokens": 8192
+          }
+        },
+        "2400": {
+          "global_step": 2400,
+          "wiki_validation": {
+            "loss": 4.082644263282418,
+            "ppl": 59.30207300286225,
+            "top1_agreement": 0.434326171875,
+            "kl_to_teacher": 1.6828853623010218,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 4.448618282874425,
+            "ppl": 85.50871348663604,
+            "top1_agreement": 0.4280598958333333,
+            "kl_to_teacher": 1.5874500821034114,
+            "tokens": 3072
+          },
+          "actual_updates": 2390,
+          "amp_skips": 10,
+          "active_levels": 3
+        },
+        "3600": {
+          "global_step": 3600,
+          "wiki_validation": {
+            "loss": 4.0000785533338785,
+            "ppl": 54.60243906830974,
+            "top1_agreement": 0.44342041015625,
+            "kl_to_teacher": 1.5934977354481816,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 4.352765768766403,
+            "ppl": 77.69304704633038,
+            "top1_agreement": 0.4462890625,
+            "kl_to_teacher": 1.496695299943288,
+            "tokens": 3072
+          },
+          "actual_updates": 3590,
+          "amp_skips": 10,
+          "active_levels": 3
+        },
+        "4800": {
+          "global_step": 4800,
+          "wiki_validation": {
+            "loss": 3.97682941891253,
+            "ppl": 53.347622839102506,
+            "top1_agreement": 0.43939208984375,
+            "kl_to_teacher": 1.5552594168111682,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 4.284040778875351,
+            "ppl": 72.53293821354956,
+            "top1_agreement": 0.4313151041666667,
+            "kl_to_teacher": 1.4330194691816966,
+            "tokens": 3072
+          },
+          "actual_updates": 4790,
+          "amp_skips": 10,
+          "active_levels": 3
+        },
+        "6000": {
+          "global_step": 6000,
+          "wiki_validation": {
+            "loss": 3.8844338003546,
+            "ppl": 48.63939505332888,
+            "top1_agreement": 0.46710205078125,
+            "kl_to_teacher": 1.4686650009825826,
+            "tokens": 16384
+          },
+          "train_split_diag": {
+            "loss": 4.2060120900472,
+            "ppl": 67.08846288322246,
+            "top1_agreement": 0.4602864583333333,
+            "kl_to_teacher": 1.3554220646619797,
+            "tokens": 3072
+          },
+          "actual_updates": 5990,
+          "amp_skips": 10,
+          "active_levels": 3
+        }
+      },
+      "final_code_movement": {
+        "fraction": 0.07692015012105306,
+        "top_layers": [
+          {
+            "name": "model.layers.0.self_attn.q_proj",
+            "fraction": 0.27224283854166664
+          },
+          {
+            "name": "model.layers.0.self_attn.k_proj",
+            "fraction": 0.26587239583333333
+          },
+          {
+            "name": "model.layers.0.self_attn.v_proj",
+            "fraction": 0.2503385416666667
+          },
+          {
+            "name": "model.layers.0.self_attn.o_proj",
+            "fraction": 0.2017556423611111
+          },
+          {
+            "name": "model.layers.29.self_attn.k_proj",
+            "fraction": 0.13868489583333332
+          },
+          {
+            "name": "model.layers.27.self_attn.k_proj",
+            "fraction": 0.12958658854166666
+          },
+          {
+            "name": "model.layers.28.self_attn.k_proj",
+            "fraction": 0.12444986979166667
+          },
+          {
+            "name": "model.layers.30.self_attn.k_proj",
+            "fraction": 0.12303385416666666
+          }
+        ]
+      },
+      "final_code_hist": {
+        "0": 0.31658384641011555,
+        "1": 0.34186333338419594,
+        "-1": 0.3415528202056885
+      },
+      "scale_stats": {
+        "mean": 0.20813310146331787,
+        "std": 0.042486950755119324,
+        "min": 0.021799635142087936,
+        "max": 1.405603289604187
+      },
+      "elapsed_seconds": 1839.6089503765106
+    }
+  },
+  "validation_gap_curve": [
+    {
+      "step": 1200,
+      "direct_validation_nll": 5.047604322433472,
+      "staged_validation_nll": 4.331517595797777,
+      "direct_minus_staged_nll": 0.7160867266356945
+    },
+    {
+      "step": 2400,
+      "direct_validation_nll": 4.796893447637558,
+      "staged_validation_nll": 4.082644263282418,
+      "direct_minus_staged_nll": 0.7142491843551397
+    },
+    {
+      "step": 3600,
+      "direct_validation_nll": 4.684793369844556,
+      "staged_validation_nll": 4.0000785533338785,
+      "direct_minus_staged_nll": 0.6847148165106773
+    },
+    {
+      "step": 4800,
+      "direct_validation_nll": 4.67356263846159,
+      "staged_validation_nll": 3.97682941891253,
+      "direct_minus_staged_nll": 0.6967332195490599
+    },
+    {
+      "step": 6000,
+      "direct_validation_nll": 4.500474011525512,
+      "staged_validation_nll": 3.8844338003546,
+      "direct_minus_staged_nll": 0.6160402111709118
+    }
+  ],
+  "checks": {
+    "all_steps": true,
+    "all_q3_final": true,
+    "direct_historic_reproduced": true,
+    "staged_historic_reproduced": true,
+    "same_first1200_order": true
+  },
+  "valid_for_science": true,
+  "exploratory": true,
+  "job_provenance": {
+    "hf_id": "6ac86e1f095c578089301e53",
+    "hf_url": "https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53",
+    "completed_utc": "2026-10-09T05:33:40.255Z",
+    "script_commit": "841e0ab948991a24b7397b34d90d28c38f749879",
+    "script": "ternary_pet/l1_6000step_wikitext_durability_seed1729.py",
+    "note": "Unmodified original scientific FINAL_JSON fields; job provenance appended."
+  }
+}
