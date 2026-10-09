@@ -3507,3 +3507,94 @@ remain separately valid; neither G1-9 nor G1-10 tested Q9 or random
 assignment masks. Gridward interpolation has related published WinQ
 prior art; cross-family validation would need fresh authorization.
 No further GPU jobs were launched.
+
+
+### S1-1 — SmolLM2 cross-family gridward replication against tuned direct Q3 (seed 1729)
+
+**Preregistered before coding and GPU launch.** The user authorized trying
+the Granite-positive gridward-pull training rule on SmolLM2-360M. We use
+**seed/order 1729**, historically used for direct-Q3 tuning; therefore
+the result is a **first cross-family development transfer**, not an
+unseen-order or blinded confirmation. Do not select a better-seeming
+Smol seed after viewing its outcome.
+
+#### Primary question and fixed design
+
+Does the frozen Granite G1-9/G1-10 gridward rule improve
+SmolLM2-360M-Instruct **direct three-state ternary Q3** under Smol's
+own established **best-tested direct-Q3 schedule**?
+
+Two arms only, equal compute and data:
+
+- **D**: canonical tuned direct Q3, no pulls.
+- **P**: exactly the same direct Q3, except after training step
+  `100,200,300,...,900` (nine pulls), update FP32 master weights
+  `W ← 0.9 W + 0.1 Q3(W)`, where Q3 uses the **current learned
+  output-row scales** and same true hard ternary grid.
+  Pull occurs under `torch.no_grad()`, with no additional optimizer
+  update, no optimizer-state reset, and **no adjustment of scales**.
+
+The entire Smol direct recipe, sourced from the v9 tuned baseline
+script `ternary_pet/smollm2_v9_direct_q3_tuning.py`, is held constant:
+
+- model `HuggingFaceTB/SmolLM2-360M-Instruct`; original BF16-rounded
+  FP32 master weights and trainable rowwise ternary scales;
+  frozen other parameters; LM head excluded from quantized linears;
+  original FP16 teacher/student autocast and AMP GradScaler (the
+  **Smol**-validated compute path, not Granite BF16 autocast).
+- 1,200 optimizer-step **opportunities** using the same 1,200
+  seed-shuffled WikiText-2 chunks of 128 tokens, same 24 train-heldout
+  diagnostic chunks and 64 held-out test chunks / 8192 tokens.
+  Log AMP skipped steps if any; pulls require a valid optimizer
+  update at their scheduled boundaries.
+- same `CE_W=0.35` plus `KL_W=0.65` teacher distillation,
+  AdamW β=(0.9,0.95), weight decay0, clip norm 1.
+- global LR curve **steps 1-100 linear warmup to 1e-3, then cosine
+  to 1e-4 at step1200**. Do **not** restart LR at step300.
+- unlike Granite G1-9, Smol's **strong direct-v9 baseline trains
+  continuously through step300**: **no original-scale restoration or
+  fresh Adam at step300** in either arm. The transfer under test is the
+  10%-gridward *rule*, not a full import of the Granite optimizer
+  reset schedule.
+- same original model, training/evaluation chunks, prompt generation,
+  evaluation at 300/600/900/1200, and v9 telemetry in both arms.
+  Add deterministic, dedicated-RNG 16-layer×2048-weight per-step clean-code
+  monitor in both arms for flips and immediate two-step reversals;
+  an independent CPU generator must not perturb global training RNG.
+  Preserve baseline training/calibration call ordering.
+
+**No Gaussian noise**, no Q9 arm, no margin/predictor experiment.
+All original Q9 mask/random controls remain unchanged in prior scripts.
+
+#### Required validity checks and interpretation
+
+- Explicit verify source lineage from original v9 direct training
+  functions and Smol global LR values; all 1,200 step opportunities,
+  same order/config and 9 scheduled pulls only in P.
+- Verify exact CPU smoke behavior of pull on representative Q3
+  values: hard ternary codes remain the same during a convex pull,
+  the FP32 latent weight moves closer to its current quantized
+  prototype, and learned scales are not directly altered.
+- At final report **test NLL, PPL, teacher-top1, teacher KL** for D and P,
+  validation over time, noise-free hard-Q3 code movement from source,
+  sampled flip rates and immediate reversals, AMP skipped-step counts.
+- Historical tuned Smol v9 seed1729 D test-loss comparator:
+  **5.595722187310457**. If within-job D does not reproduce it to
+  sensible numerical tolerance, **report the mismatch explicitly**,
+  do not hide it or reinterpret the historical baseline as control.
+  New *paired within-run* D remains the primary baseline.
+- Historical matched-schedule staged-Q9 result for 1729: ~4.9010
+  loss, strictly **context only**. This test does not claim to
+  replace staged Q9 without showing corresponding results.
+- If P beats D, this is positive **cross-architecture evidence**
+  for a published (WinQ-related) technique under two family-specific
+  schedules; it remains short-budget/one-Smollm order and requires
+  additional seeds before broad generalization.
+- If P does not beat D, record a **cross-family negative** without
+  retuning the strength/timing using the 8192-token test.
+  No automatic repeat, LR change, bigger model, or seed sweep.
+
+**Only one two-arm A10G-small Hugging Face Jobs launch
+(90-minute cap) is authorized.** Code must be pinned immutably
+before launch; avoid duplicates. Archive complete JSON regardless of
+sign and update the reports.
