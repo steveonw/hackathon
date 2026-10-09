@@ -2,9 +2,23 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** F1 FineWeb-Edu seed1729 completed; **F2/F3 seeds271828/424242 and L1 WikiText6000 are RUNNING**. New seed replication plan is frozen; no F2/F3 results yet. See [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md) for details.
+**Status:** **F1/F2/F3 FineWeb and L1 WikiText6000 completed**, with final results and original protocols archived below. No new GPU jobs launched after their verification. See [NEXT_JOBS_PLAN.md](NEXT_JOBS_PLAN.md) for original plans.
 
-## ACTIVE: FineWeb-Edu F2/F3 seed replications (2026-10-09 UTC)
+## LATEST VERIFIED — F1/F2/F3 and L1 COMPLETED (2026-10-09 UTC)
+
+**No currently active scientific GPU jobs in the verified HF job list.** The four most recent studies are completed (F1 seed1729, F2 seed271828, F3 seed424242, L1 WikiText 6000 steps). Each finished successfully with all preregistered technical checks passing. No new GPU trials were launched in this archival/review action.
+
+**FineWeb-Edu three-seed exact-recipe replication:** staged Q9(300)→Q3(900) beat direct Q3(1200) on FineWeb heldout and WikiText validation in **3/3 seeds**. Mean paired FineWeb D−S loss gap **+0.763898 nats/token**, range **+0.742353 to +0.778936**; mean WikiText validation gap **+0.801917**, range +0.696902 to +0.863013. [Aggregate analysis](results/run_f1_f3_fineweb_edu_three_seed_aggregate_summary.md); [F1 raw](results/run_f1_fineweb_edu_direct_vs_staged_seed1729_2026-10-09.json); [F2 raw](results/run_f2_fineweb_edu_direct_vs_staged_seed271828_2026-10-09.json); [F3 raw](results/run_f3_fineweb_edu_direct_vs_staged_seed424242_2026-10-09.json). **Same 21 FineWeb heldout docs for all three orders.** This is RNG/order replication, *not* independent-dataset or causal-mechanism replication. F2/F3 HF job IDs [F2](https://huggingface.co/jobs/codeflash85/6ac87415fee2c90070173baf) and [F3](https://huggingface.co/jobs/codeflash85/6ac87417095c5780893020c2).
+
+**L1 6000-step WikiText durability COMPLETE:** [HF job](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53). Paired fixed-recipe direct-Q3 versus Q9→Q3, with WikiText validation staged gap **+0.716087 nats at1200** and **+0.616040 nats at6000**; direct has **not caught up at6000**. Both historical step1200 tests reproduced exactly; all five checks passed. One seed, gap narrowing but nonmonotonic; no asymptotic proof. [L1 detailed summary](results/run_l1_6000step_wikitext_durability_seed1729_summary.md) · [raw JSON](results/run_l1_6000step_wikitext_durability_seed1729_2026-10-09.json).
+
+**Important new independent methodological review:** [six objections and matched experimental controls](research_log/2026-10-09_external_technical_review_scale_range_sham_controls.md). Highest priority for *mechanism*, before more indiscriminate GPU scaling: within-bin depth with **fixed versus trainable Q3 row scales**, and direct-Q3 **sham step300 reset** on FineWeb, then Q9 **range-matched** vs wide, matched-margin position controls, final-code same-reference diagnostics and document-linked checkpoint evidence. These controls are **proposed only**; no new GPU jobs have been launched.
+
+**Next AI:** use this section as current. Historical submission statuses below are preserved but superseded. Before designing new work, freeze protocol, document source SHA, and budget; avoid claiming the present 3/3-seed effect independently confirms original-pretraining dataset generalization.
+
+---
+
+## HISTORICAL AT SUBMISSION: FineWeb-Edu F2/F3 seed replications (2026-10-09 UTC)
 
 **User-authorized two new-seed GPU jobs, now RUNNING:**
 
@@ -21,7 +35,7 @@
 
 ---
 
-## CURRENT: L1 WikiText durability running; F1 FineWeb-Edu completed
+## HISTORICAL AT SUBMISSION: L1 WikiText running and F1 completed
 
 **Last checked 2026-10-09 UTC:** **L1 still RUNNING** on Hugging Face: [L1 6ac86e1f095c578089301e53](https://huggingface.co/jobs/codeflash85/6ac86e1f095c578089301e53), A10G-small, 2-hour maximum, pinned script SHA `841e0ab948991a24b7397b34d90d28c38f749879`. Matched direct Q3 versus Q9(300)→Q3 extended to **6000** WikiText training opportunities with new QAT training chunks and an independent WikiText validation curve. **L1 scientific outcome remains pending. Do not interrupt or duplicate this job.**
 
