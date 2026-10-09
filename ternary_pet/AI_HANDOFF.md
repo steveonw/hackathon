@@ -1,5 +1,23 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## C1 Phase C Q9→Q3 early switch — HF GPU job submitted (2026-10-08 EDT)
+
+**Status at launch:** SCHEDULING; results **not yet known**.  
+**Job:** [codeflash85/6ac8597afee2c90070172c79](https://huggingface.co/jobs/codeflash85/6ac8597afee2c90070172c79)  
+**Pinned script commit:** `5577a771ed57409283690097a58bae0c8966fdb1`  
+**Script:** `ternary_pet/c1_smol360m_q9_switch250_vs300_seed1729.py`  
+**Preregistration:** [Phase C 250/300 switch test](research_log/phase_c_q9_switch250_vs300_seed1729_prereg_2026-10-08.md).  
+**Prior diagnostic:** [T1 Phase A timing finding](results/run_t1_q9_discovery_timing_seed1729_summary.md).
+
+User explicitly authorized the next experimental test ("sure do it"). ONE bounded GPU job: `a10g-small`, 90-minute max, seed1729, 1200 globally matched scheduled opportunities per arm. Arms D: 1200 direct-Q3, continuous Adam/scales; S250: Q9(250)+Q3(950), original Q3 scales and fresh Adam at step250; S300: Q9(300)+Q3(900), same reset at step300. Global warmup-to-1e-3 cosine-to-1e-4 schedule never restarts. Same teacher, data order, FP32 master/FP16 compute, objective, optimizer, train-split diagnostics and 8192-token held-out evaluation. Code static smoke HF job `6ac85970095c578089301448` reported `C1_STATIC_CHECK_OK` before GPU submission. Do not submit duplicate.
+
+**Primary exploratory outcome:** test loss `L250-L300` and preservation of relative-to-D improvement. Prespecified "preserve benefit" thresholds: `L250-L300 <= +0.07` nats AND `(LD-L250)/(LD-L300) >= 0.90`, only when S300 improves over D. Check historical D ~5.595722 and S300 ~4.900985 (within prereg 0.06 nats), all arms 1200 scheduled opportunities, skips explicitly measured. This is **exploratory**, since t250 was selected after observing T1 step300 mask and historical v10 heldout.
+
+**After job completion:** inspect HF status and full `FINAL_JSON_BEGIN...FINAL_JSON_END`, verify validity before scientific interpretation, archive original raw JSON including negatives, update `EXPERIMENT.md`, `RESEARCH_REPORT.md`, README and AI handoff. Technical failure vs scientific null must be distinguished. No other seed/sweep authorized automatically, no additional jobs launched.
+
+---
+
+
 ## LATEST COMPLETED HF JOB: T1 Q9 assignment timing (2026-10-08 evening EDT)
 
 **Status:** COMPLETED; completed **2026-10-09 02:51:49 UTC**.  
