@@ -1,5 +1,16 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R1 newly submitted — Q9 range-matched to Q3 (2026-10-09 UTC)
+
+**ONE bounded scientific GPU job submitted:** [HF 6ac97c30095c57808930b904](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904), A10G-small, max2h, initial stage SCHEDULING. **No R1 scientific result available at submission.** Immutable script SHA `f28f1d4814ab0a61f2b529e2add007ce142972d5`; [R1 source](r1_fineweb_q9_range_matched_seed1729.py). [Frozen pre-run R1 prereg](research_log/r1_range_matched_q9_fineweb_seed1729_prereg_2026-10-09.md). [Full active job plan/handoff](R1_ACTIVE_JOB_PLAN.md).
+
+This controls the **representable output range** question from the external review: FineWeb seed1729 1200-step `D` direct Q3, `S_wide` original Q9(300)→Q3(900) with nine values reaching ±α, and `S_range` nine-state Q9(300)→Q3(900) with nine values reaching only ±2α/3, then identical Q3 continuation. Same Q3 source row-scale restoration and AdamW/GradScaler reset at step300 for S_wide and S_range. Same `z=clamp(w/alpha,-0.99,0.99)` and STE gradient path; range-matched clips **integer code after round(6z)** to ±4, not normalized z, so code set is exactly nine. Width matching also moves intermediate state spacing/threshold locations, so **not a perfect pure range ablation**.
+
+**Pre-run CPU dynamic gradient/code QA [6ac97b98095c57808930b8da](https://huggingface.co/jobs/codeflash85/6ac97b98095c57808930b8da)** COMPLETED. It printed `R1_QUANTIZER_TEST_OK` for both wide/range variants and `R1_CPU_PREFLIGHT_OK`: 9 states, max output amplitude, STE master-weight/scale gradients on unclipped inputs, Q3 switch behavior, script AST. The R1 three-arm GPU job has not been completed or interpreted yet. Historical G1/S1 findings remain valid and archived; **do not launch new seeds, repeat R1, or launch other jobs without user approval**.
+
+---
+
+
 ## G1/S1 COMPLETE — controls on scale gradients and sham resets (2026-10-09 UTC)
 
 G1 HF [6ac96a7efee2c9007017ea64](https://huggingface.co/jobs/codeflash85/6ac96a7efee2c9007017ea64) COMPLETED, 6/6 checks, pinned source SHA `059a0bb91aa55fea99ed56b1d0d980eb21fd31ae`. Final WikiText heldout NLL: d0.03 learned **5.494818**, d0.50 learned **4.884970**, shallow-minus-deep gain **+0.609848**; d0.03 frozen **5.516548**, d0.50 frozen **4.896080**, gain **+0.620468**; frozen-minus-learned depth interaction **+0.010620**. Identical initial Q3 codes/scores; raw scales frozen exactly and excluded from optimizer, all 900 opportunities (898 effective/2 AMP skips). **Depth effect persists without row-scale learning**, supporting interior assignment placement and survival rather than requiring scale-gradient learning. Does not isolate Q9's wider range or fully prove mediation.
