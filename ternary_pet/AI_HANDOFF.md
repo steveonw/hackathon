@@ -1956,3 +1956,31 @@ No further GPU jobs launched; next scientific request
 could authorize frozen-setting cross-model replication
 on Smol, or independent new Granite seeds. No
 automatic expansion permitted.
+
+
+### S1-1 ACTIVE — Gridward-pull cross-model transfer on SmolLM2
+
+HF job `6ac83c3bfee2c90070171b1a` submitted 2026-10-09
+00:58:35 UTC, initial stage SCHEDULING.
+Monitor https://huggingface.co/jobs/codeflash85/6ac83c3bfee2c90070171b1a.
+Code pin `a5634bce459092a503e7534e6b89b6d3a019548b`;
+file `ternary_pet/s1_1_smol360m_gridward_direct_q3_seed1729.py`.
+Preregistered first. No duplicate existing before launch.
+
+Scientific question: do nine periodic 10% master-to-current-
+ternary-grid pulls improve tuned direct Q3 on Smol, after
+Granite G1-9/G1-10 both improved P on seeds271828,424242?
+This is true cross-family testing of the pull rule, not
+importing Granite's LR or reset: Smol v9 tuned direct
+1200-step continuous AdamW, warmup100 to1e-3 then
+cosine→1e-4, FP32 masters BF16-rounded source and FP16 AMP
+student/teacher. Two equal-budget arms D/P on same seed1729
+order and identical 8192-token test slice. Q9 and Gaussian
+absent. D historical seed1729 test-loss target 5.59572218731.
+
+When complete inspect FINAL_JSON; check baseline reproducibility,
+arm step counts, exactly nine pulls in P and none in D,
+AMP skipped-step opportunities, deterministic code movement
+and flip/reversal diagnostics. Raw JSON and reports to be
+archived, *including negatives*. Do not launch other seeds
+or hyperparameter tuning without separate request.
