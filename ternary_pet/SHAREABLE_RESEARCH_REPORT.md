@@ -1456,3 +1456,83 @@ completed **2026-10-08 23:32:17 UTC**.
 No further GPU jobs launched in response to this result.
 
 ---
+
+
+## 39. G1-10: a positive Granite training order replicates the gridward direct-Q3 effect without retuning
+
+We preregistered a **seed-only reproduction** of G1-9 on previously
+Q9-staging-positive Granite order **424242**. The new source changes only
+`SEED=271828` to `SEED=424242`, leaving all WinQ-inspired
+Gaussian/pull settings, hard-Q3 forward, FP32 masters, BF16 compute,
+same 300/900 optimizer/scale reset, constant `1e-4` LR,
+WikiText-2 objective/evaluator, and step budget unchanged.
+Every arm and all structural checks passed. No new mask/random
+intervention was introduced.
+
+| Direct Q3 training arm | Previous G1-9 271828 loss | New G1-10 424242 loss | New 424242 PPL |
+|---|---:|---:|---:|
+| D — baseline | 5.726725 | 5.801920 | 330.93 |
+| G — Gaussian only | 5.743370 | 5.756362 | 316.20 |
+| **P — gridward only** | **5.489709** | **5.528112** | **251.67** |
+| GP — combined | 5.487853 | 5.535340 | 253.49 |
+
+**P wins again:** New D−P held-out loss gain **+0.273808 nats**,
+PPL **−23.95%** on 424242. Prior 271828 D−P gain +0.237016
+and PPL −21.10%. Together, the two known orderings yield
+mean D−P gain **+0.255412 nats**, without changing any
+hyperparameters. Both within-run D arms reproduced their historical
+constant-LR Granite baselines exactly.
+
+The Gaussian portion proved **less consistent**: G alone was
+0.016645 nats *worse* than D on seed271828 yet 0.045558 nats
+*better* on seed424242; combining G with P was 0.001856 nats
+better than P on 271828 but 0.007228 nats *worse* on 424242.
+Thus we have **within-Granite order replication for P**, not
+a confirmed Gaussian-only mechanism or an advantage of GP.
+
+A deterministic sample of 32,768 weights across 16 layers tracked
+clean ternary codes after every optimizer step. On 424242 in the
+900-update continuation, sampled transition frequency was
+**0.000728421 per sampled weight/update** in D and
+**0.000095486** in P — **~86.9% lower**. The previous
+271828 result had similarly ~87.2% lower sampled flip frequency
+under P. Final initial-reference code-movement fractions were
+424242 D **10.327%**, P **5.369%**. Improved performance
+and reduced transitions co-occur, but the evidence is not yet
+a causal demonstration that eliminating two-step oscillations
+produced the observed gains; gridward pulls change where latent
+FP32 masters lie within their ternary cells.
+
+**Metadata transparency:** Because the frozen G1-10 implementation
+is exactly a one-line seed change, its raw `FINAL_JSON` still
+uses inherited `kind=g1_9...` / `event=g1_9...`
+labels and `effects.historic_D_loss_271828=5.726725` /
+`effects.D_minus_historic_D_loss=0.075195`
+metadata. These are **parent-run historical comparator labels**,
+not valid same-seed 424242 comparisons. The correct historical
+424242 D is **5.801920056343079**, exactly equal to
+this G1-10 D. To maintain auditability, raw output was
+archived without editing; interpret it with job ID, code pin,
+actual seed, and the corrected analysis.
+
+**Scope:** The positive pull effect now spans two *previously
+observed training orders* but just one Granite model family,
+one short 1,200-update regime, one held-out test slice, and the
+same published-interpolation technique. It has **not yet**
+transferred to Smol, and is not a novel invention of WinQ-style
+gridward interpolation. Neither the Smol Q9 staging successes
+nor the mixed original Granite staging results are overwritten.
+A frozen-setting cross-family experiment would be the natural
+next confirmation; it has **not** been authorized or launched.
+
+Job `6ac82c93fee2c900701711db`, completed
+**2026-10-09 00:21:46 UTC**.
+Pinned script commit: `e08659a51fd0d72ed85f01f8e7ce739283ca6c61`.
+
+- [Raw unmodified result](results/run_g1_10_granite350m_gaussian_pull_seed424242_2026-10-08.json)
+- [Detailed G1-10 and two-order analysis](results/run_g1_10_granite350m_gaussian_pull_seed424242_summary.md)
+- Preregistration and immutable code record: `EXPERIMENT.md`
+
+No additional jobs launched.
+
+---
