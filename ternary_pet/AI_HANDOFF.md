@@ -1,5 +1,16 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## M1 matched-Q3 continuation: HF job submitted (2026-10-08 EDT)
+
+**Status at launch:** SCHEDULING, not a scientific outcome. **HF job:** [codeflash85/6ac86712fee2c900701734bb](https://huggingface.co/jobs/codeflash85/6ac86712fee2c900701734bb). One **A10G-small**, max 90m. **Pinned code SHA:** `cad64c009209a924be89b523e6a1e184a4f4137b`, [M1 script](m1_smol360m_equal_q3_continuation_seed1729.py). **Frozen pre-job prereg:** [M1 protocol](research_log/m1_equal_q3_continuation_seed1729_prereg_2026-10-08.md). **Durable copy of working plan:** [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md). A CPU-basic HF syntax check `6ac86709fee2c900701734b2` emitted `M1_STATIC_CHECK_OK`.
+
+**Design:** One continuous Q9 prep trajectory saves FP32 masters at 250 and 300; two sequential models project saved masters through original Q3 scales with fresh optimizer. BOTH run identical **900 Q3 steps** using chunks301..1200 and LR indices301..1200. Earlier arm has **1150 total step opportunities**, later has 1200. Thus M1 is **not an equal-total-budget** replication of C1: it tests preparation-state effects under an identical Q3 operator. Measures final position-level ternary codes and whether earlier-switch Q3 finds later-Q9 ternary choices, with exact diagnostic counts; reproduction checks ensure step300 historic final NLL4.900985 and t250/t300 Q9 source-code geometry.
+
+**No outcome is known yet.** Do **not** submit a duplicate job. At completion inspect raw `FINAL_JSON` and `valid_for_science`, archive even negative/mismatched results, update [CURRENT_STATE.md](CURRENT_STATE.md), [EXPERIMENT.md](EXPERIMENT.md), living reports/README. Do not expand seeds or launch long-run tests without a separate user decision.
+
+---
+
+
 **Authoritative live state:** [CURRENT_STATE.md](CURRENT_STATE.md) · **Copyable next-experiment/handoff plan:** [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md). The long AI handoff and experiment ledger preserve historical statuses, including superseded “current” headings.
 
 ## C1 COMPLETED — 250-step Q9 switch retains 95.75% of staged benefit (2026-10-08 EDT)
