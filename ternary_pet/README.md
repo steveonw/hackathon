@@ -7,7 +7,7 @@
 
 **Authoritative live state:** [CURRENT_STATE.md](CURRENT_STATE.md) · **Copyable next-experiment/handoff plan:** [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md). The long AI handoff and experiment ledger preserve historical statuses, including superseded “current” headings.
 
-**New study underway:** [L1 longer-horizon WikiText durability + F1 FineWeb-Edu source-data test](NEXT_JOBS_PLAN.md). L1 running on Hugging Face; F1 experimental protocol/code committed, GPU launch pending the data integrity smoke. No new scientific outcome yet. The training recipe remains fixed within each paired study.
+**New study underway:** [L1 longer-horizon WikiText durability + F1 FineWeb-Edu source-data test](NEXT_JOBS_PLAN.md). L1 running on Hugging Face and F1 GPU job [6ac86eb0fee2c900701738dd](https://huggingface.co/jobs/codeflash85/6ac86eb0fee2c900701738dd) submitted after document-disjoint preflight passed. Both are separate one-seed paired experiments; no new scientific outcome yet. The training recipe remains fixed within each paired study.
 
 Experiments on whether a pretrained language model can enter ternary weight
 space more effectively after adapting on an intermediate discrete grid.
