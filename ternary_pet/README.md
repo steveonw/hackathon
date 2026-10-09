@@ -5,6 +5,8 @@
 > New AI/researcher: read **[AI_HANDOFF.md](AI_HANDOFF.md)** before changing an
 > experiment or launching compute.
 
+**Authoritative live state:** [CURRENT_STATE.md](CURRENT_STATE.md) · **Copyable next-experiment/handoff plan:** [NEXT_EXPERIMENT_PLAN.md](NEXT_EXPERIMENT_PLAN.md). The long AI handoff and experiment ledger preserve historical statuses, including superseded “current” headings.
+
 Experiments on whether a pretrained language model can enter ternary weight
 space more effectively after adapting on an intermediate discrete grid.
 
