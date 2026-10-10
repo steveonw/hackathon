@@ -2,9 +2,34 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** **R3 scientific GPU job RUNNING at last HF check** (HF 6ac99666fee2c9007018011f), first direct-Q3 training step logged, results not yet available; CPU verification passed, all earlier R2/G1/S1/F1–F3/L1 completed. See [R3_ACTIVE_JOB_PLAN.md](R3_ACTIVE_JOB_PLAN.md).
+**Status:** **R3 scientific GPU job COMPLETED 2026-10-10 02:04 UTC with 16/16 checks passed and raw data archived**; previous R2/R1/G1/S1/F1–F3/L1 complete. See latest R3 evidence and [R3_ACTIVE_JOB_PLAN.md](R3_ACTIVE_JOB_PLAN.md).
 
-## R3 LAUNCHED — nonuniform Q9 outer-level rescue and fresh 32-document evaluation (2026-10-10 UTC)
+## NEWEST VERIFIED — R3 hybrid outer-level Q9 nearly matches original wide Q9 on NEW 32-document holdout (2026-10-10 02:04 UTC)
+
+**R3 GPU COMPLETED and VALID**: [HF `6ac99666fee2c9007018011f`](https://huggingface.co/jobs/codeflash85/6ac99666fee2c9007018011f), A10G-small, finished **2026-10-10 02:04:07.293 UTC / 2026-10-09 22:04 EDT**. Pinned source commit `a4abf256c0be9db771e3ec271c1f0a5e6d605816`; frozen protocol commit `bf89baef162f2a9e948ab702a1708c74b856d3a4`, before job. **`valid_for_science=true`, all 16/16 checks passed.** [R3 complete 32-doc/per-arm raw JSON](results/run_r3_nonuniform_q9_outer_freshdocs_seed1729_2026-10-10.json) · [detailed scientific result](results/run_r3_nonuniform_q9_outer_freshdocs_seed1729_summary.md) · [R3 handoff](R3_ACTIVE_JOB_PLAN.md).
+
+**Main controlled intervention:** same seed1729 SmolLM2/FineWeb QAT data/order, same T4 ternary-prep integer code thresholds and identical master/z STE surrogate across all Q9 variants. Three Q9(300)→Q3(900) arms: W original wide reconstruction values `{0,±α/4,±α/2,±3α/4,±α}`; N narrow `{0,±α/6,±α/3,±α/2,±2α/3}`; **H hybrid `{0,±α/6,±α/3,±α/2,±α}`**, differing from narrow N *only* in the output of codes ±4, where H restores ±α, leaving all seven central outputs and integer code assignment thresholds identical. Plus direct Q3 D. Same historical step300 original Q3 scale and Adam/GradScaler reset for W/N/H, FP32 masters and all original 1200-step schedule.
+
+**PRIMARY evaluation is 32 genuinely new-to-this-QAT-study FineWeb-Edu doc IDs**, preselected by frozen SHA doc hash bucket0 from **source rows>340** (actual first343,last1222), not any original train/dev/21 old heldout docs; 4×128 prediction tokens/document, total **16,384**, with per-document SHA256 IDs and NLL sums/means archived. **Not guaranteed absent from SmolLM2 underlying pretraining data.**
+
+| Arm | NEW FineWeb 32-doc heldout NLL ↓ | D−arm staged advantage | Historical FineWeb 21-doc NLL ↓ | WikiText validation NLL ↓ |
+|---|---:|---:|---:|---:|
+| D direct Q3 | 5.789299 | — | 5.766660 | 6.558239 |
+| **W original wide Q9** | **4.885759** | **+0.903540** | **4.996255** | **5.695225** |
+| N original-threshold narrow Q9 | 5.813866 | −0.024567 | 5.780473 | 6.593468 |
+| **H hybrid outer-value restored Q9** | **4.916794** | **+0.872505** | **5.039273** | **5.730818** |
+
+**KEY RESULT:** Hybrid H retains **96.57%** of the W staged advantage on new docs (`(D−H)/(D−W)`) and recovers **96.66%** of N→W NLL improvement. **All 32/32 fresh docs** favor H over N and H over direct D. W beats H on 23/32 docs, but their aggregate gap is only **H−W +0.031035 nats/token**, compared with **N−H +0.897071** and **D−H +0.872505**. All old D/W/N FineWeb+WikiText anchors reproduce their archived losses exactly, 16/16 technical checks pass; Q9-native prep dev H **5.365745** vs W **5.428179** and N **6.478196**. Extreme Q9 occupancy H29.34%, W29.30%, N29.22%; the effect is not solely different code occupancy.
+
+**Scientific conclusion:** within this Q9→Q3 recipe and one seed, **restoring the high-magnitude outputs at just the two extreme Q9 codebook states** is sufficient to recover nearly the entire wide-grid staging advantage even when all interior state outputs remain narrow. This is NOT a claim about only two individual weights; extreme codebook levels are shared across many weights. This does not prove output-range magnitude rather than changed scale-gradient/optimization trajectories or ternary code survival is sole mediator. Fresh docs are new to *our QAT evaluation*, **not necessarily original pretrained model**; still one model/seed/source dataset and no saved trained checkpoint.
+
+**Preflight provenance:** original CPU job `6ac992d4095c57808930c1b0` passed code/data assertions but crashed during interpreter teardown, status ERROR; separate finalization-safe CPU job [`6ac99425095c57808930c23c`](https://huggingface.co/jobs/codeflash85/6ac99425095c57808930c23c) **COMPLETED** after printing exact nonuniform codebook/gradient and 32-doc selection checks before R3 GPU launch. Only ONE R3 scientific GPU job submitted; now terminal. All earlier R2/R1/G1/S1/F1–F3/L1 verified and preserved. **No follow-up GPU job automatically launched.**
+
+**Next research proposal, not launched:** cross-model/fresh-corpus external validation or targeted measurement of scale gradients/master weight placement and Q3 code survival under H vs W vs N, with restorable checkpoints and per-doc uncertainty, rather than adaptively tuning more variants on this same holdout. Read [R3 result summary](results/run_r3_nonuniform_q9_outer_freshdocs_seed1729_summary.md) for design, checks and limitations.
+
+---
+
+## HISTORICAL AT SUBMISSION — R3 LAUNCHED (2026-10-10 UTC)
 
 **R3 single scientific GPU job ACCEPTED:** [HF `6ac99666fee2c9007018011f`](https://huggingface.co/jobs/codeflash85/6ac99666fee2c9007018011f), `a10g-small`, max **2 hours**, initial SCHEDULING, subsequently **RUNNING** with first D training step logged. One scientific R3 GPU job only, no seed sweep. [Exact R3 job and archival handoff](R3_ACTIVE_JOB_PLAN.md). [Immutable script](r3_nonuniform_q9_outer_freshdocs_seed1729.py) code commit `a4abf256c0be9db771e3ec271c1f0a5e6d605816`; [frozen prereg](research_log/r3_nonuniform_q9_outer_recovery_freshdoc_prereg_2026-10-09.md) commit `bf89baef162f2a9e948ab702a1708c74b856d3a4`.
 
