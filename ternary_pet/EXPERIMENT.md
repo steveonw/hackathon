@@ -4007,3 +4007,15 @@ All R3/FineWeb studies and earlier G1/S1/R1/R2 remain archived and complete. **N
 
 ---
 
+## R5 ACTIVE — NEW preregistered seeds + previously unexamined 32-doc FineWeb eval (2026-10-10 UTC)
+
+**One Granite + one SmolLM2 GPU job SUBMITTED, science still PENDING.**
+- **Granite-4.0-350m seed104729**, [HF `6ac9b8c8095c57808930d94f`](https://huggingface.co/jobs/codeflash85/6ac9b8c8095c57808930d94f), immutable script SHA `c1f0d61aa69a85899203647b88277382275c2a3a`, [source](r5_granite_new_seed104729_fineweb_hybrid.py). **RUNNING at initial follow-up**.
+- **SmolLM2-360M-Instruct seed130363**, [HF `6ac9b8cefee2c90070181ae3`](https://huggingface.co/jobs/codeflash85/6ac9b8cefee2c90070181ae3), immutable SHA `4560d829f483386eb39411c2a9fbf204d4157c4d`, [source](r5_smol_new_seed130363_fineweb_hybrid.py). **SCHEDULING at initial follow-up**.
+
+Both single-A10G-small jobs have **90-minute limits** and each repeats four matched D/W/N/H QAT arms over1200 scheduled opportunities, with historical model-specific optimizer/precision settings. Newly chosen seeds are arbitrary precommitted (104729/130363), **not outcome-selected**, but there is only one new seed per family. The **primary new evaluation** is 32 *previously unused in QAT research* FineWeb-Edu source documents per model (rows≥1223, bucket7 by SHA256(doc-id) %20, first32 qualified ≥516 tokenizer tokens) and 16,384 paired target tokens per model/arm, full per-doc losses saved; source document IDs can differ across model tokenizers and may have been in base pretraining. Primary N−H/W−H/D−H. WikiText2 validation/test only secondary. **Private compact H Q3 inference snapshots are best-effort**, not restartable full-FP32/Adam checkpoints; explicitly check successful uploaded artifact in raw result and avoid claiming retention on an upload failure.
+
+**CPU code+data preflight COMPLETED** [HF `6ac9b87dfee2c90070181aa5`](https://huggingface.co/jobs/codeflash85/6ac9b87dfee2c90070181aa5), with `R5_ALL_CPU_PREFLIGHT_OK`, both codebooks/STE and both tokenizer-specific 32-doc selectors verified (Granite rows1487..3052, Smol1300..2984). **Frozen-before-compute prereg** [R5 prereg](research_log/r5_independent_seed_new_fineweb_validation_prereg_2026-10-09.md), commit `55786ecbd3baa63f5ded08287934d1b09d9e59a9`. **Authoritative exact-job handoff:** [R5_FRESH_SEED_NEW_DOCS_ACTIVE_JOB_PLAN.md](R5_FRESH_SEED_NEW_DOCS_ACTIVE_JOB_PLAN.md). No extra GPUs, variant searches or retries; previous R4 four valid jobs all archived; R5 results not known yet.
+
+---
+
