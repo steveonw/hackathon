@@ -8,7 +8,7 @@
 
 ## R3 scientific GPU job successfully submitted
 
-**HF GPU job:** [`6ac99666fee2c9007018011f`](https://huggingface.co/jobs/codeflash85/6ac99666fee2c9007018011f), `a10g-small`, hard 2-hour timeout, initial **SCHEDULING** status at submission. **ONE AND ONLY ONE** scientific R3 GPU job submitted after verifying no duplicate R3 in the HF job list.
+**HF GPU job:** [`6ac99666fee2c9007018011f`](https://huggingface.co/jobs/codeflash85/6ac99666fee2c9007018011f), `a10g-small`, hard 2-hour timeout, initial SCHEDULING at submission; **RUNNING at last checked HF inspect**, D step1 logged. **ONE AND ONLY ONE** scientific R3 GPU job submitted after verifying no duplicate R3 in the HF job list.
 
 **Immutable source:** [R3 script](r3_nonuniform_q9_outer_freshdocs_seed1729.py) at commit `a4abf256c0be9db771e3ec271c1f0a5e6d605816`. [R3 frozen prereg](research_log/r3_nonuniform_q9_outer_recovery_freshdoc_prereg_2026-10-09.md) committed `bf89baef162f2a9e948ab702a1708c74b856d3a4` before code/job.
 
