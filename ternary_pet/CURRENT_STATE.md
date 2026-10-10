@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R6 CPU INFERENCE RECONSTRUCTION COMPLETED — quality caveat (2026-10-10 UTC)
+
+[Recorded end-to-end CPU reconstruction results](results/r6_cpu_inference_reconstruction_outcomes_2026-10-10.md) from user-provided terminal markers and HF jobs confirmed **COMPLETED**: [Granite job](https://huggingface.co/jobs/codeflash85/6ac9e3fd095c57808930fb10) reconstructed 249,561,088 ternary weights/168 layers and [Smol job](https://huggingface.co/jobs/codeflash85/6ac9e405fee2c90070184365) reconstructed 314,572,800 weights/224 layers. Both passed snapshot SHA check, ran finite logits and generated 12 tokens. **Outputs are degenerate**: Granite generated 12 periods; Smol predominantly newlines/periods. This proves technical decoding, not useful language generation or parity with job-side H evaluation; investigate before any deployment claim. Full remote log retrieval was blocked in this session, so observations come from user-pasted original success lines, corroborated by job statuses. No additional GPU launched.
+
+---
+
 ## R6 CPU INFERENCE RECONSTRUCTION — initial attempts failed, decode fix ready (2026-10-10 UTC)
 
 Both authorized CPU-only proof attempts, [Granite `6ac9e36cfee2c90070184271`](https://huggingface.co/jobs/codeflash85/6ac9e36cfee2c90070184271) and [Smol `6ac9e389095c57808930fa68`](https://huggingface.co/jobs/codeflash85/6ac9e389095c57808930fa68), **ERROR**, at the identical NumPy unsigned-to-negative `np.where(codes==2,-1,codes)` conversion (`OverflowError: Python integer -1 out of bounds for uint8`). Both original base weights and private snapshots downloaded successfully; no real inference was run. This does not invalidate R6 science or the independent snapshot SHA audit. The [reconstruction script](r6_cpu_inference_reconstruction.py) was fixed at commit `056545171e015e821a8e6a5a7bfc3eebadbcbe2c` by converting codes to signed int8 first; a separate [CPU regression job](https://huggingface.co/jobs/codeflash85/6ac9e3ddfee2c9007018432f) printed `R6_TERNARY_DECODE_REGRESSION_OK 2.5.3`. **End-to-end inference reconstruction still unverified**; rerun the fixed script via authenticated Windows CLI `--secrets HF_TOKEN`, not via unauthenticated connector. No GPU jobs needed.
