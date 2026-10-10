@@ -979,3 +979,24 @@ FineWeb wide-Q9 gain `D−wide` **+0.770405 nats/token**; range-matched gain `D�
 
 ---
 
+## R4 COMPLETE — Granite + Smol 2×2 hard/easy hybrid Q9 replication (2026-10-10 UTC)
+
+**ALL FOUR GPU jobs completed and archived; `valid_for_science=true` for each; 48/48 reported checks passed.** [Authoritative four-job result and paired controls](results/run_r4_granite_smol_easy_hard_four_job_aggregate_2026-10-10.md) · [Permanent 2+2 HF IDs/protocol](R4_GRANITE_SMOL_EASY_HARD_JOBS.md) · [Frozen R4 prereg](research_log/r4_2026-10-09_granite_smol_easy_hard_two_batch_prereg.md).
+
+**Primary aligned WikiText2 validation loss, lower better, first64 129-token windows, 8192 target tokens:**
+
+| Family/seed | D direct Q3 | W original wide Q9→Q3 | N narrow Q9→Q3 | **H hybrid outer-restored Q9→Q3** |
+|---|---:|---:|---:|---:|
+| Granite-4.0-350M **271828 known hard** | 5.438636 | 5.577830 | 5.416681 | **5.370064** |
+| Granite-4.0-350M **424242 known easy** | 5.420453 | 5.349609 | 5.396033 | **5.295450** |
+| SmolLM2-360M 271828 | 5.293719 | 4.567472 | 5.259229 | **4.480920** |
+| SmolLM2-360M 424242 | 5.265099 | 4.553739 | 5.273762 | **4.520216** |
+
+**Major result:** In all four model/seed combinations H beats D/W/N. On **historically negative Granite seed271828**, W is **0.139194 NLL worse than D**, but H is **0.068572 better than D**, a reversal. H vs W improves by **0.207766 Granite hard**, **0.054158 Granite easy**, **0.086552 Smol271828**, **0.033523 Smol424242**. W original wide remains negative on the Granite hard seed, and this is preserved explicitly. On Smol both H and W are much better than D; narrow N is close to D. Historical WikiText *test* D and W anchors reproduced in every run, all four jobs pass 12/12 checks. Per-chunk paired output saved as complete raw JSON, not just averages.
+
+**HF job provenance and raw scientific evidence:** Granite hard [HF 6ac9a43d095c57808930ccfe](https://huggingface.co/jobs/codeflash85/6ac9a43d095c57808930ccfe), [raw](results/run_r4_granite_hard_seed271828_2026-10-10.json); Granite easy [HF 6ac9a443095c57808930cd03](https://huggingface.co/jobs/codeflash85/6ac9a443095c57808930cd03), [raw](results/run_r4_granite_easy_seed424242_2026-10-10.json); Smol271828 [HF 6ac9a5c2fee2c90070180ce3](https://huggingface.co/jobs/codeflash85/6ac9a5c2fee2c90070180ce3), [raw](results/run_r4_smol_seed271828_2026-10-10.json); Smol424242 [HF 6ac9a5c9095c57808930cdde](https://huggingface.co/jobs/codeflash85/6ac9a5c9095c57808930cdde), [raw](results/run_r4_smol_seed424242_2026-10-10.json). Executables pinned at Git SHA `33dfae38bd016946ad5d37bd633fdf02818fbacd` Granite and `65af3057b248f38a6d46ad8b7cd1bc1c52d2e654` Smol. All data/model revisions pinned and CPU STE/nine-code QA passed.
+
+**Scientific limits:** Two **historically selected** seeds per family, no blind random sample; primary WikiText2 validation is contiguous chunks **not independent documents**, dataset/source pretraining overlap unknown; family protocols differ materially (Granite BF16 constant1e-4 and direct step300 reset vs Smol FP16 warmup/cosine and continuous direct Adam), so **do not pool raw losses or infer pure architectural comparison**. H differs from N only in the two extreme *codebook levels* (±4 output restored to ±α), but many weights use them; downstream learned scale gradients, masters and ternary assignment evolution can also change. No final model checkpoints and no production-generation inference. Earlier Smol FineWeb R3 32-doc sample and G1/S1/R1/R2 remain archived, but R4 does not use a second, independent corpus. **All GPUs terminal; none newly launched during archival.** Next research could validate on previously untouched external-document evaluation and independently selected seeds with checkpoint retention, **not authorized/launched yet**. Old 'R4 pending' prose elsewhere is historical. [CURRENT_STATE.md](CURRENT_STATE.md) is the current reference.
+
+---
+
