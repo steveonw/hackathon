@@ -6,6 +6,12 @@
 **Experiment source** [`r3_nonuniform_q9_outer_freshdocs_seed1729.py`](r3_nonuniform_q9_outer_freshdocs_seed1729.py), pinned immutable Git commit **`a4abf256c0be9db771e3ec271c1f0a5e6d605816`**.  
 **CPU preflight** [HF `6ac992d4095c57808930c1b0`](https://huggingface.co/jobs/codeflash85/6ac992d4095c57808930c1b0), checks AST, quantizer 9 codes, W/N/H exact nonuniform output and gradient formula, original Q3 post switch and actual streaming FineWeb 32-document selection. **Do not launch GPU until successful complete `R3_ALL_PREFLIGHT_OK`.**
 
+## Preflight operational note — Python shutdown cleanup
+
+Original CPU QA job [`6ac992d4095c57808930c1b0`](https://huggingface.co/jobs/codeflash85/6ac992d4095c57808930c1b0) printed **`R3_QA_GRID_OK` for W/N/H, `R3_QA_NONUNIFORM_OK`, `R3_FRESH_DATA_PREFLIGHT_OK`**, and `R3_ALL_PREFLIGHT_OK` after verifying 32 docs (fresh eval bucket0, source rows 343..1222). **After printing success**, Python emitted `Fatal Python error: PyGILState_Release` while shutting down external dataset/HF background threads; this is a **CPU interpreter shutdown/cleanup failure**, not a failed asserted quantizer/doc-selection check. To avoid mistaking it for a clean completion, an independent finalization-safe CPU replication [`6ac99425095c57808930c23c`](https://huggingface.co/jobs/codeflash85/6ac99425095c57808930c23c) was submitted using explicit `sys.stdout.flush(); os._exit(0)` after all verification checks. **Gate the R3 paid GPU job on successful terminal completion of the second CPU check**, not merely text in original logs. Do not confuse these CPU verification jobs with scientific GPU replicates.
+
+---
+
 ## Controlled arms
 
 **Seed1729, one model, one matched FineWeb training corpus and original hyperparameters.** Direct Q3 D continuous1200, original wide W Q9(300)→Q3(900), historical narrow N `T4,V6` Q9(300)→Q3(900), and nonuniform hybrid H Q9(300)→Q3(900). All Q9 arms use same code assignment `k=round(4*clamp(w/alpha,-.99,.99))`, exactly nine codes.
