@@ -1012,7 +1012,7 @@ checks={
     and all(a["fresh_fineweb"]["document_count"]==32
        and a["fresh_fineweb"]["tokens"]==16384 for a in arms.values()),
  "fresh_all_arms_paired_docs":all([d["doc_sha256"] for d in arms[k]["fresh_fineweb"]["per_document"]]==R5_FRESH_AUDIT["document_sha256"] for k in ARM_ORDER),
- "new_seed_190027":SEED==130363,
+ "new_seed_190027":SEED==190027,
  "model_pin":MODEL_REVISION=="a10cc1512eabd3dde888204e902eca88bddb4951",
  "wikitext_pin":WIKITEXT_REVISION=="b08601e04326c79dfdd32d625aee71d232d685c3",
  "fineweb_pin":R5_FINEWEB_REV=="e628166",
@@ -1044,4 +1044,4 @@ out={"kind":"r6_smol_imdb_hybrid","seed":SEED,
 print("FINAL_JSON_BEGIN",flush=True)
 print(json.dumps(out),flush=True)
 print("FINAL_JSON_END",flush=True)
-if not out["valid_for_science"]:raise RuntimeError(("R5_INVALID",checks))
+if not out["valid_for_science"]:raise RuntimeError(("R6_INVALID",checks))
