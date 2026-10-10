@@ -1,5 +1,11 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R6 FROZEN AND CPU PREFLIGHT PASSED — pending secure CLI GPU launch
+
+[Immutable two-seed R6 IMDb prereg](research_log/r6_imdb_two_seed_prereg_2026-10-10.md) frozen at Git commit `0d6f9440d197c67f837dd1a62f23c48c6399843c` **before R6 GPUs**. Granite seed170141 and Smol seed190027, four D/W/N/H arms each, primary 32 pinned IMDb test docs/model (16,384 tokens/arm); frozen source scripts in `ternary_pet/r6_granite_seed170141_imdb_hybrid.py` and `ternary_pet/r6_smol_seed190027_imdb_hybrid.py`. [HF CPU preflight `6ac9d3defee2c90070183201`](https://huggingface.co/jobs/codeflash85/6ac9d3defee2c90070183201) **COMPLETED** with `R6_ALL_CPU_PREFLIGHT_OK`: Granite selector32 docs by row5739; Smol selector32 by row4692. User authorized max two A10G-small 90-minute GPUs; **no R6 GPU job submitted yet** because launch must use the user's local Windows CLI `--secrets HF_TOKEN` to transmit private dataset write permissions not available to ChatGPT's Hugging Face job connector. Do not launch GPU through connector without secret injection. Immutable script SHA for commands: `0d6f9440d197c67f837dd1a62f23c48c6399843c`. Historical `fresh_fineweb` output keys in derived R6 scripts refer to IMDb; use audit dataset identity, not inherited key names.
+
+---
+
 ## R6 REVIEW DRAFT — not authorized (2026-10-10)
 
 [Prospective R6 protocol and compute-gating checklist](research_log/r6_candidate_protocol_review_draft_2026-10-10.md) created using archived R5 evidence. This is **not a frozen preregistration** and does **not** authorize paid GPU runs. Before launching, determine job budget, fresh seeds, independent evaluation corpus, source pins and a CPU-only preflight; preserve original R5 evidence and verified `--secrets HF_TOKEN` upload path.
