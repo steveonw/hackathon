@@ -2,9 +2,21 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** **R1 completed, 12/12 technical checks passed; see newest R1 outcome below.** G1/S1, F1/F2/F3 and L1 are completed. No additional scientific GPU job launched.
+**Status:** **R2 2×2 Q9 output/threshold control submitted, results pending.** R1, G1/S1, FineWeb F1–F3, L1 completed. See [R2_ACTIVE_JOB_PLAN.md](R2_ACTIVE_JOB_PLAN.md).
 
-## LATEST: R1 Q9 range-match COMPLETED — full staged gain largely lost (2026-10-10 UTC)
+## NEW ACTIVE R2 — threshold/saturation versus output range (2026-10-09 EDT)
+
+**R2 is SUBMITTED, scientific outcome PENDING:** [HF `6ac985f0fee2c9007017f720`](https://huggingface.co/jobs/codeflash85/6ac985f0fee2c9007017f720), A10G-small, **2-hour limit**, source SHA `93d7aba84bff0409b8cc91603ab9605cf1a9e09d` ([source](r2_fineweb_q9_output_threshold_factorial_seed1729.py)). [**Full R2 job handoff**](R2_ACTIVE_JOB_PLAN.md) · [**frozen before GPU prereg**](research_log/r2_q9_range_threshold_factorial_fineweb_seed1729_prereg_2026-10-09.md).
+
+**Scientific question:** R1's range-matched nine-state Q9 lost almost the entire staged improvement, but changing range also changed spacing, thresholds and code saturation. R2 does a controlled **2×2 factorial of Q9 output divisor V∈{4,6} and rounding threshold multiplier T∈{4,6}**, with exactly nine integer codes in every preparatory grid `k=clip(round(T*clip(w/α,-.99,.99)),-4,4)`, `q=α*[z+(k/V-z).detach()]`. Arms: `W4T4` historic wide, `W4T6` wide with tighter thresholds, `N6T4` narrow with original thresholds, `N6T6` historic R1 narrow, plus `D` original direct Q3 control. Each: same seed1729 FineWeb data/doc partition and SmolLM2 source, 1200 global steps, four Q9(300)→Q3(900) trajectories, normal original-scale/optimizer reset at300, dev+heldout FineWeb and WikiText validation. Anchors D/W4T4/N6T6 and signed interaction prespecified; actual outcomes pending.
+
+**CPU dynamic preflight completed** [HF `6ac985c6095c57808930bb9c`](https://huggingface.co/jobs/codeflash85/6ac985c6095c57808930bb9c): `R2_PRE_GPU_PREFLIGHT_OK` plus 4× `R2_QA_ARM_OK`, validating exactly nine codes, amplitudes, code identity for same T, STE FP32/master/scale gradients, original Q3 switch and expected differing T4 vsT6 outer-code occupancy. Original R1/G1/S1 and FineWeb/F1–F3/L1 results remain archived, unchanged.
+
+**Interpretation limitations:** The factorial separates **input threshold/saturation** from **output amplitude/spacing taken together**; cannot separately isolate amplitude from uniform-grid spacing. Single familiar seed and repeatedly evaluated 21 FineWeb document-heldout slice, pretraining overlap unknown. **No other GPU job/retry/new seed authorized.** Next AI: inspect exactly the one R2 job, parse `FINAL_JSON` and per-arm checks/contrasts, preserve raw and negative results, update reports. Older “R1 completed / no active GPU” text below is *historical*.
+
+---
+
+## PREVIOUS COMPLETED: R1 Q9 range-match — full staged gain largely lost (2026-10-10 UTC)
 
 **R1 GPU COMPLETED 2026-10-10 00:05:57 UTC (Oct 9 EDT)**: [HF 6ac97c30095c57808930b904](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904), A10G-small, script SHA `f28f1d4814ab0a61f2b529e2add007ce142972d5`, **all 12/12 technical checks passed, `valid_for_science=true`**. [R1 detailed results](results/run_r1_q9_range_matched_fineweb_seed1729_summary.md) · [full raw JSON](results/run_r1_q9_range_matched_fineweb_seed1729_2026-10-10.json) · [frozen preregistration](research_log/r1_range_matched_q9_fineweb_seed1729_prereg_2026-10-09.md) · [job handoff](R1_ACTIVE_JOB_PLAN.md).
 
