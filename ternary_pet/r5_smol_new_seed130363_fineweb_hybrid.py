@@ -1015,7 +1015,8 @@ checks={
  "wikitext_pin":WIKITEXT_REVISION=="b08601e04326c79dfdd32d625aee71d232d685c3",
  "fineweb_pin":R5_FINEWEB_REV=="87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
  "all_q3_quantized_master_weights":all(a["quantized_master_weights"]==314572800 and
-      a["final_q3_code_hist"]["total"]==314572800 for a in arms.values()),
+      set(a["final_q3_code_hist"])=={"-1","0","1"} and
+       abs(sum(a["final_q3_code_hist"].values())-1.0)<1e-6 for a in arms.values()),
  "all_Q9_9_states_at300":all(arms[k]["prep"]["grid"]["integer_states"]==list(range(-4,5)) for k in ("W","N","H")),
  "all_expected_Q9_amplitudes":all(abs(arms[k]["prep"]["grid"]["max_abs_output_normalized"]-
     (2/3 if k=="N" else 1.0))<1e-6 for k in ("W","N","H")),
