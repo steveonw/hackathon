@@ -1,10 +1,22 @@
 # R3 — nonuniform Q9 outer-output recovery and unused per-document FineWeb evaluation
 
-**Study intent:** user authorized follow-up with "do what you need to do" after valid R2 completed. **Current status:** R3 protocol/code frozen, CPU preflight under way; **do not assume GPU launched from this document until the HF job ID is appended**. [CURRENT_STATE.md](CURRENT_STATE.md) is authoritative.
+**Study intent:** user authorized follow-up with "do what you need to do" after valid R2 completed. **Current status:** **R3 single pinned GPU job submitted; result pending.** Check live Hugging Face status at the exact ID below. [CURRENT_STATE.md](CURRENT_STATE.md) is authoritative.
 
 **Frozen preregistration** [R3 nonuniform/QAT-fresh docs](research_log/r3_nonuniform_q9_outer_recovery_freshdoc_prereg_2026-10-09.md) (commit `bf89baef162f2a9e948ab702a1708c74b856d3a4`), committed before training source.  
 **Experiment source** [`r3_nonuniform_q9_outer_freshdocs_seed1729.py`](r3_nonuniform_q9_outer_freshdocs_seed1729.py), pinned immutable Git commit **`a4abf256c0be9db771e3ec271c1f0a5e6d605816`**.  
 **CPU preflight** [HF `6ac992d4095c57808930c1b0`](https://huggingface.co/jobs/codeflash85/6ac992d4095c57808930c1b0), checks AST, quantizer 9 codes, W/N/H exact nonuniform output and gradient formula, original Q3 post switch and actual streaming FineWeb 32-document selection. **Do not launch GPU until successful complete `R3_ALL_PREFLIGHT_OK`.**
+
+## R3 scientific GPU job successfully submitted
+
+**HF GPU job:** [`6ac99666fee2c9007018011f`](https://huggingface.co/jobs/codeflash85/6ac99666fee2c9007018011f), `a10g-small`, hard 2-hour timeout, initial **SCHEDULING** status at submission. **ONE AND ONLY ONE** scientific R3 GPU job submitted after verifying no duplicate R3 in the HF job list.
+
+**Immutable source:** [R3 script](r3_nonuniform_q9_outer_freshdocs_seed1729.py) at commit `a4abf256c0be9db771e3ec271c1f0a5e6d605816`. [R3 frozen prereg](research_log/r3_nonuniform_q9_outer_recovery_freshdoc_prereg_2026-10-09.md) committed `bf89baef162f2a9e948ab702a1708c74b856d3a4` before code/job.
+
+**Final paid-GPU acceptance gate PASS:** second CPU preflight [`6ac99425095c57808930c23c`](https://huggingface.co/jobs/codeflash85/6ac99425095c57808930c23c) **COMPLETED 2026-10-10 01:35:09.774 UTC**, printed `R3_SAFE_QUANTIZER_PRECHECK_OK`, `R3_SAFE_FRESH_DOC_SELECTION_OK` (32 docs, final source row1222), and `R3_SAFE_ALL_PREFLIGHT_OK` on the pinned script. The initial CPU preflight printed all scientific check-pass markers but **ERROR exit134 during interpreter thread cleanup**; preserving that negative infrastructure artifact without confusing it for a scientific quantizer failure.
+
+**CURRENT scientific result:** UNKNOWN at initial submission; inspect the exact HF job before claiming completion, and never launch a duplicate. New 32-document per-document evaluation is primary and the previously viewed F1 heldout is for reproduction only.
+
+---
 
 ## Preflight operational note — Python shutdown cleanup
 
