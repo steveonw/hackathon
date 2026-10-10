@@ -1,6 +1,6 @@
 # R6 candidate protocol — review draft, NOT pre-registered or authorized
 
-**Created 2026-10-10 after reviewing R5.** This document is a *prospective planning draft*. It is not a locked preregistration, an approved GPU budget, or an experiment currently running. Do not choose seeds, corpus, or endpoint based on observed R6 outcome.
+**Created 2026-10-10 after reviewing R5.** User subsequently approved proceeding without repeated permission requests, in context of the offered scope of **at most two A10G-small GPU jobs, one Granite and one Smol, 90-minute cap each**. This approves that ceiling, **not** a run with an unverified dataset, a missing secret, or an incomplete preflight. This remains a planning draft, not a locked preregistration or active experiment. Do not choose seeds, corpus, or endpoint based on observed R6 outcome.
 
 ## Why another experiment?
 
@@ -20,9 +20,9 @@ Does hybrid Q9(300)→Q3(900) reliably lower final ternary held-out next-token N
 
 ## Before locking R6 (gates requiring decisions)
 
-1. **Budget and scope:** determine authorized maximum GPU-job count, model family/families, per-job timeout and cloud flavor, and whether to prioritize Smol validation repair or new independent replications. No proposed number is authorization.
+1. **Budget and scope:** authorized ceiling is **two A10G-small 90-minute jobs total**, one per family. Confirm technical feasibility before launching; no silent retries, additional GPUs, or extended runtime.
 2. **New training seeds:** select and publish fixed deterministic seeds *without testing outcomes*, document selection method, and do not reuse R1–R5 seeds.
-3. **Primary corpus:** identify a suitable genuinely different distribution from FineWeb-Edu, check its license, stability, accessible pinned dataset revision, tokenizer-specific selection and document IDs, and likely pretraining contamination caveats. Avoid picking corpus/subset after viewing model losses.
+3. **Primary corpus:** identify a suitable genuinely different distribution from FineWeb-Edu, check its license, stability, accessible pinned dataset revision, tokenizer-specific selection and document IDs, and likely pretraining contamination caveats. **PG-19 books** are a promising candidate, but the familiar HF dataset mirror uses legacy dataset scripts that may not load under current `datasets`; first identify a working pinned, appropriately licensed distribution and actually run a CPU selector test. Avoid picking corpus/subset after viewing model losses.
 4. **Sample size / precision:** freeze number of independent documents, target tokens per doc, denominator, corpus-selection code, and intended confidence/uncertainty treatment. Document-level paired comparisons are not independent training-seed repetitions. If model tokenizers select different docs, keep comparisons within family.
 5. **All checks before GPU:** source frozen by commit SHA, CPU AST parse and toy STE/codebook/state-transition checks, document selector audit for all targeted tokenizers, 1200-opportunity train schedule, nonfinite handling, snapshot and JSON serialization smoke test. Validate output-schema without indexing missing keys. Fully exercise construction of terminal `FINAL_JSON` on synthetic miniature arm data.
 6. **Snapshot retention:** inject `HF_TOKEN` as a job secret with CLI `--secrets HF_TOKEN` (remote CPU proof [HF 6ac9ce67095c57808930e890](https://huggingface.co/jobs/codeflash85/6ac9ce67095c57808930e890) passed). Require private destination, upload + authenticated readback, checksum match; save inference-only packed Q3 codes, α/scales, tensor names/shapes and source revision, and explicitly distinguish from full training restart state. No token values in scripts, logs or git.
@@ -35,4 +35,4 @@ Primary H relative to W and D, with N included as the matched inner-codebook mec
 
 ## Next operational decision
 
-Obtain explicit approval of *job count and spend limit*, pick corpus and seeds, build + run CPU-only preflight, then **freeze a separately dated R6 preregistration and immutable source commit**. Only after those gates may any expensive scientific job be submitted. Existing R5 scripts/results remain historical; never overwrite or re-label R5 evidence.
+The two-job/90-minute ceiling is authorized. Pick corpus and seeds, build + run CPU-only preflight, then **freeze a separately dated R6 preregistration and immutable source commit**. Only after those gates may any expensive scientific job be submitted. Existing R5 scripts/results remain historical; never overwrite or re-label R5 evidence.
