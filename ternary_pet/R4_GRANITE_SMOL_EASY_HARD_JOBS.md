@@ -1,5 +1,34 @@
 # R4 — 2+2 hard/easy seeds on Granite and SmolLM2, one batch per user prompt
 
+## FINAL — ALL FOUR JOBS COMPLETED, RAW RESULTS ARCHIVED
+
+**R4 is COMPLETE and scientifically valid (2026-10-10 UTC).** All four HF A10G-small scientific jobs reached terminal **COMPLETED**, four separate `FINAL_JSON` records were recovered and `valid_for_science=true` in all. **48/48 reported checks passed** (12 per job), including 1200 matched training opportunities per arm, precise Q9 stage assignments, original ternary final models, and reproductions of historical D/W anchors. No further GPU jobs launched.
+
+[**Full four-job aggregate, signed contrasts and limitations**](results/run_r4_granite_smol_easy_hard_four_job_aggregate_2026-10-10.md).
+
+| Model / seed | HF job | Final stage, finish UTC | Full archived raw output |
+|---|---|---|---|
+| Granite hard 271828 | [6ac9a43d095c57808930ccfe](https://huggingface.co/jobs/codeflash85/6ac9a43d095c57808930ccfe) | COMPLETED, 2026-10-10 03:00:26 | [JSON](results/run_r4_granite_hard_seed271828_2026-10-10.json) |
+| Granite easy 424242 | [6ac9a443095c57808930cd03](https://huggingface.co/jobs/codeflash85/6ac9a443095c57808930cd03) | COMPLETED, 2026-10-10 03:00:36 | [JSON](results/run_r4_granite_easy_seed424242_2026-10-10.json) |
+| Smol 271828 | [6ac9a5c2fee2c90070180ce3](https://huggingface.co/jobs/codeflash85/6ac9a5c2fee2c90070180ce3) | COMPLETED, 2026-10-10 03:10:10 | [JSON](results/run_r4_smol_seed271828_2026-10-10.json) |
+| Smol 424242 | [6ac9a5c9095c57808930cdde](https://huggingface.co/jobs/codeflash85/6ac9a5c9095c57808930cdde) | COMPLETED, 2026-10-10 03:09:31 | [JSON](results/run_r4_smol_seed424242_2026-10-10.json) |
+
+**Primary WikiText2 validation NLL (lower better):**
+
+| Family/seed | D direct Q3 | W original wide Q9 | N narrow Q9 | H hybrid (best in each case) |
+|---|---:|---:|---:|---:|
+| Granite 271828 HARD | 5.438636 | 5.577830 | 5.416681 | **5.370064** |
+| Granite 424242 EASY | 5.420453 | 5.349609 | 5.396033 | **5.295450** |
+| Smol 271828 | 5.293719 | 4.567472 | 5.259229 | **4.480920** |
+| Smol 424242 | 5.265099 | 4.553739 | 5.273762 | **4.520216** |
+
+**Key inference:** Hybrid H beats D, W and N on all four within-seed evaluations. **Granite hard seed** is especially diagnostic: original W remains **0.139194 worse than D**, while H becomes **0.068572 better than D** (H beats W by0.207766). Hybrid advantage over W is +0.054158 on Granite easy, +0.086552 and +0.033523 on the two Smol seeds. These seeds were **historically chosen**, not new randomized independent replications. Evaluation: first64 WikiText2 validation contiguous chunks (8192 tokens) per arm, with per-chunk losses; no valid independent 64-document inference. **Critical across-family confounds:** Granite BF16/constantLR1e-4 and D step300 reset; Smol FP16/warmup+cosine and D uninterrupted Adam. Interpret only paired **within-family** comparisons and generality of the qualitative direction, not a pooled causal model-family effect. Original test anchor D/W values reproduced in every job. No model checkpoints retained.
+
+**All below sections are preserved submission/protocol HISTORY.** Previous references to "running", "no Smol jobs", or "results pending" are outdated. No more GPU jobs should be launched without fresh user authorization.
+
+---
+
+
 ## Batch B EXECUTION RECORD — second user prompt (two Smol GPUs launched)
 
 **Two and only two SmolLM2-360M-Instruct scientific GPU jobs accepted**, 2026-10-10 UTC:
@@ -30,7 +59,7 @@ If these fail, archive original raw/check statuses and mark `valid_for_science=f
 ---
 
 
-**Authoritative current state:** **all FOUR user-authorized GPUs submitted in TWO prompts**, Granite pair earlier and Smol pair in subsequent explicit request. Scientific outcomes pending. The older Batch A/B plan below is preserved as preregistration history.
+**Current state: ALL FOUR authorized GPU jobs COMPLETED and all RAW results archived**; see FINAL section above. The older Batch A/B plan below is preserved as preregistration history.
 
 ## First prompt — Granite batch A, 2/2 GPU jobs
 
