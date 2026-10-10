@@ -4,7 +4,26 @@
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
 **Status:** **R3 scientific GPU job COMPLETED 2026-10-10 02:04 UTC with 16/16 checks passed and raw data archived**; previous R2/R1/G1/S1/F1–F3/L1 complete. See latest R3 evidence and [R3_ACTIVE_JOB_PLAN.md](R3_ACTIVE_JOB_PLAN.md).
 
-## LATEST — R4 2+2 MATRIX: all FOUR scientific GPUs submitted in TWO user prompts (2026-10-10 UTC)
+## LATEST VERIFIED — R4 Granite + Smol four-job hard/easy hybrid study COMPLETE (2026-10-10 UTC)
+
+**Four GPU jobs COMPLETED, all scientific validity gates passed**: each `valid_for_science=true`, **12/12 checks per job, 48/48 in all**, historical direct-Q3 and original-Q9 WikiText test anchors reproduced. All exact scientific `FINAL_JSON` objects saved with pinned source SHA, model/data revisions, per-chunk losses, checks, and HF provenance. [R4 detailed 4-job aggregate](results/run_r4_granite_smol_easy_hard_four_job_aggregate_2026-10-10.md) · [R4 complete 2+2 handoff](R4_GRANITE_SMOL_EASY_HARD_JOBS.md). **No additional GPU job, duplicate or retry.**
+
+| Family, previously selected seed | D direct | W wide Q9→Q3 | N narrow Q9→Q3 | **H hybrid** |
+|---|---:|---:|---:|---:|
+| **Granite-4.0-350M 271828, historically hard/negative** | 5.438636 | 5.577830 | 5.416681 | **5.370064** |
+| Granite-4.0-350M 424242, historically easy/positive | 5.420453 | 5.349609 | 5.396033 | **5.295450** |
+| SmolLM2-360M 271828 | 5.293719 | 4.567472 | 5.259229 | **4.480920** |
+| SmolLM2-360M 424242 | 5.265099 | 4.553739 | 5.273762 | **4.520216** |
+
+**Primary:** WikiText2 validation first64 aligned 129-token windows = 8192 target tokens each arm, NLL lower better. **Hybrid H beats all other arms on all four jobs.** Key **Granite hard reversal**: original W remains **+0.139194 NLL worse** than direct D, whereas H finishes **−0.068572 better** than D (H vs W **−0.207766**). Granite easy H vs W **−0.054158**; Smol seed271828 H vs W **−0.086552**; Smol seed424242 H vs W **−0.033523**. The hybrid preserves narrow Q9's seven central outputs and changes **only the ±4 extreme codebook reconstruction levels** to original wide ±α. These are two states shared across many weights, not two specific parameters. [Full paired chunk signs/median contrasts and original WikiText test reproduction](results/run_r4_granite_smol_easy_hard_four_job_aggregate_2026-10-10.md).
+
+**All four HF jobs:** Granite hard [6ac9a43d095c57808930ccfe](https://huggingface.co/jobs/codeflash85/6ac9a43d095c57808930ccfe) completed 03:00:26 UTC, [raw JSON](results/run_r4_granite_hard_seed271828_2026-10-10.json); Granite easy [6ac9a443095c57808930cd03](https://huggingface.co/jobs/codeflash85/6ac9a443095c57808930cd03) completed 03:00:36 UTC, [raw JSON](results/run_r4_granite_easy_seed424242_2026-10-10.json); Smol seed271828 [6ac9a5c2fee2c90070180ce3](https://huggingface.co/jobs/codeflash85/6ac9a5c2fee2c90070180ce3) completed 03:10:10 UTC, [raw JSON](results/run_r4_smol_seed271828_2026-10-10.json); Smol seed424242 [6ac9a5c9095c57808930cdde](https://huggingface.co/jobs/codeflash85/6ac9a5c9095c57808930cdde) completed 03:09:31 UTC, [raw JSON](results/run_r4_smol_seed424242_2026-10-10.json). Each was pinned and CPU codebook QA had passed before paid GPU.
+
+**Interpretation limits:** GRANITE was historically mixed before this experiment, hard/easy seeds **selected after seeing past behavior** and 2 per family do not estimate a population effect. Primary first64 validation windows are contiguous, **not independent documents or a fresh unrelated corpus**. Cross-family LR/precision/direct-baseline reset differ: Granite constant1e-4 BF16 and step300 direct sham reset, Smol warmup/cosine FP16 GradScaler and uninterrupted direct optimizer; **do not pool raw NLL/gain across model families**. H's intervention changes extreme reconstruction outputs, but gradients through scale and training states may change too, so magnitude alone is not proven sole mediator. No final model checkpoints, not a generation-quality test. Scientific next step is independent randomized seeds/new document corpus with retained checkpoint or scale/assignment diagnostics — *only as a proposal, not a launched job*. Older “R4 running/submitted” text below is historical.
+
+---
+
+## HISTORICAL AT SUBMISSION — R4 2+2 MATRIX: all FOUR scientific GPUs submitted (2026-10-10 UTC)
 
 **Batch A, Granite 4.0 350M** previously submitted: historically hard seed271828 [HF `6ac9a43d095c57808930ccfe`](https://huggingface.co/jobs/codeflash85/6ac9a43d095c57808930ccfe) and easy seed424242 [HF `6ac9a443095c57808930cd03`](https://huggingface.co/jobs/codeflash85/6ac9a443095c57808930cd03). Both remained RUNNING at start of this second request; final science unknown. Immutable Granite script SHA `33dfae38bd016946ad5d37bd633fdf02818fbacd`, Granite BF16 + LR constant1e-4.
 
