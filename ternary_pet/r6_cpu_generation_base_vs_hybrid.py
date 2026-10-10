@@ -94,7 +94,9 @@ def reconstruct(family, token):
                 probs=torch.softmax(logits,dim=-1)
                 for method in ("greedy","sample"):
                     args={"max_new_tokens":24,"do_sample":method=="sample","pad_token_id":tokenizer.eos_token_id}
-                    if method=="sample":args.update({"temperature":0.8,"top_p":0.9,"generator":torch.Generator(device="cpu").manual_seed(20261010)})
+                    if method=="sample":
+                        torch.manual_seed(20261010)
+                        args.update({"temperature":0.8,"top_p":0.9})
                     output=m.generate(ids,**args)
                     print("R6_GENERATION_CONTROL "+json.dumps({"family":family,"task":task,"prompt_format":fmt,"model":name,"decoding":method,"continuation":tokenizer.decode(output[0,ids.shape[-1]:],skip_special_tokens=True),"tokens":int(output.shape[-1]-ids.shape[-1]),"top1_prob":float(probs.max()),"finite_logits":True}),flush=True)
         print("R6_GENERATION_CONTROL_COMPLETE "+json.dumps({"family":family,"seed":seed,"cases":12}),flush=True)
