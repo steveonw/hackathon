@@ -1,5 +1,18 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R3 AUTHORIZED — nonuniform Q9 extreme recovery plus fresh document-level heldout (2026-10-09 EDT)
+
+**Status at this revision: preregistered and script pinned, CPU preflight submitted; GPU study NOT YET SUBMITTED pending successful preflight and Hugging Face service availability.** **No duplicate or automatic second job authorized.** [Full R3 handoff](R3_ACTIVE_JOB_PLAN.md). [Frozen R3 prereg](research_log/r3_nonuniform_q9_outer_recovery_freshdoc_prereg_2026-10-09.md), committed SHA `bf89baef162f2a9e948ab702a1708c74b856d3a4` **before script/GPU run**. [Pinned R3 script](r3_nonuniform_q9_outer_freshdocs_seed1729.py), code commit `a4abf256c0be9db771e3ec271c1f0a5e6d605816`.
+
+**CPU preflight job:** [HF `6ac992d4095c57808930c1b0`](https://huggingface.co/jobs/codeflash85/6ac992d4095c57808930c1b0), checks whole-script AST, W/N/H exactly nine states, identical T4 code assignments, nonuniform H matching narrow levels at k0..3 but restoring wide outputs at±4, FP32 master/scale STE derivatives and return to exact Q3. Independently checks deterministic public FineWeb **32 new heldout docs** with source rows **after the initial 340 used by F1**, bucket0 hash criterion, first 32 distinct docs with ≥516 tokenizer tokens each; 512 next tokens per document, full per-doc NLL saved. This is fresh to **QAT evaluation**, not guaranteed unseen by original model pretraining.
+
+**Scientific four-arm design:** Direct Q3 D1200; original wide W Q9(300)→Q3(900) with outputs k/4; old narrow N Q9→Q3 with outputs k/6; **hybrid H** Q9→Q3 with N's exact inner outputs k=0,±1,±2,±3 but ±4 output restored to±α, using identical T4 rounding thresholds and z/STE surrogate. All old model/data/order/teacher/LR/reset controls frozen and historic anchors D/W/N reproduced as technical checks. **Primary** is paired N−H, H−W, D−H NLL on 32 new docs; old FineWeb21 docs and WikiText validation are secondary/reproduction only. One A10G-small max2h planned **only after CPU preflight passes**.
+
+**Current blocker:** transient Hugging Face MCP unavailability / rate-limit while inspecting CPU job. Do not claim successful preflight or launch, do not submit to paid GPU without confirmed `R3_ALL_PREFLIGHT_OK`. Inspect the preflight job first, then submit a **single** SHA-pinned GPU job if valid. Historical R2 (16/16 checks) and prior G1/S1/R1/F1–F3/L1 remain complete and untouched; R3 result not known.
+
+---
+
+
 ## R2 COMPLETED — output grid size versus threshold/saturation confound (2026-10-10 UTC)
 
 **R2 COMPLETED VALID**, [HF GPU job 6ac985f0fee2c9007017f720](https://huggingface.co/jobs/codeflash85/6ac985f0fee2c9007017f720), finished **2026-10-10 01:00:05 UTC**, pinned script SHA `93d7aba84bff0409b8cc91603ab9605cf1a9e09d`. All **16/16 technical and reproduction controls passed**. [Full original FINAL_JSON with job metadata](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_2026-10-10.json) · [Detailed analysis](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_summary.md) · [preregistered plan](research_log/r2_q9_range_threshold_factorial_fineweb_seed1729_prereg_2026-10-09.md) · [durable R2 handoff](R2_ACTIVE_JOB_PLAN.md).
