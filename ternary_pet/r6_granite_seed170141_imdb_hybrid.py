@@ -698,7 +698,7 @@ checks={
  "four_arms":set(arms)==set(ARM_ORDER),
  "all_1200_steps":all(a["train_scheduled"]==1200 and a["prep_steps"]==300 and
          a["q3_continue_steps"]==900 for a in arms.values()),
- "new_seed_170141":SEED==104729,
+ "new_seed_170141":SEED==170141,
  "base_model_pin":MODEL_REVISION=="bd8a1497065c0d6ba1ef19af6b0d2b14bacf71c2",
  "wikitext_pin":WIKITEXT_REVISION=="b08601e04326c79dfdd32d625aee71d232d685c3",
  "new_fineweb_pin":R5_FINEWEB_REV=="e628166",
@@ -735,4 +735,4 @@ out={"kind":"r6_granite_imdb_hybrid","seed":SEED,
 print("FINAL_JSON_BEGIN",flush=True)
 print(json.dumps(out),flush=True)
 print("FINAL_JSON_END",flush=True)
-if not out["valid_for_science"]:raise RuntimeError(("R5_INVALID",checks))
+if not out["valid_for_science"]:raise RuntimeError(("R6_INVALID",checks))
