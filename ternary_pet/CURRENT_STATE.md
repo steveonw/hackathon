@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R6 SMOL CONTROLLED GENERATION COMPLETE — mixed result (2026-10-10)
+
+[Full Smol base-versus-ternary generation controls](results/r6_smol_generation_controls_completed_2026-10-10.md) archived from [HF CPU job 6ac9f61ffee2c90070184f2b](https://huggingface.co/jobs/codeflash85/6ac9f61ffee2c90070184f2b), **COMPLETED**, full 12/12 output cases; source SHA `38954d695e5f9f9a72dcd8fe19055edcea921704`. Positive nuance: **Smol R6 H produces some coherent plain text continuations** (scientist/notebook, greedy and sampling), refuting blanket 'only punctuation' claim. However, with proper Smol chat template, the base answered baseline/explanation and 17+28=45 correctly while **H failed both instruction tasks**, generating unrelated music/history/number text and newlines. This confirms a major instruction-retention problem in tested prompts, despite cross-corpus H NLL win over other ternary controls and near-original job loss of reconstructed snapshot. [Granite controls](results/r6_generation_base_hybrid_granite_result_smol_fix_2026-10-10.md) were also completed. No extra GPU jobs launched; do not claim usable chat quality.
+
+---
+
 ## R6 GENERATION CONTROL SCRIPT BUG FIXED — 2026-10-10
 
 Two CPU-only controlled-generation jobs ([Granite](https://huggingface.co/jobs/codeflash85/6ac9ea5ffee2c90070184895), [Smol](https://huggingface.co/jobs/codeflash85/6ac9ea68095c57808930ff7c)) **ERROR** because `model.generate(..., generator=torch.Generator(...))` is rejected by the currently installed Transformers generation API (`ValueError: unused model_kwargs ['generator']`), not due to snapshot integrity. [Corrected script](r6_cpu_generation_base_vs_hybrid.py) pinned SHA `7f641c27470748fd1ff139f5a84590a6c63d18ba` now calls `torch.manual_seed(20261010)` before sampled generation, and passes only supported sampling options. [Standalone CPU sampling test](https://huggingface.co/jobs/codeflash85/6ac9eda9095c5780893100ce) emitted `R6_GENERATION_SAMPLING_PATCH_TEST_OK` using Transformers `generate()` with sampling; full original base-vs-H comparison still **not** rerun and must not be claimed. R6 training results and independently verified snapshot NLL parity remain unchanged. Private models require local CLI `--secrets HF_TOKEN`.
