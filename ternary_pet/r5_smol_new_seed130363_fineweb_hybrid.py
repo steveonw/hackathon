@@ -826,7 +826,10 @@ def r5_checkpoint_h(qs,arm):
          "repo_id":R5_CKPT_REPO,"remote_path":f"smol_seed{SEED}/H_final_compact.npz",
          "layers":len(meta),"quantized_weights":total}
     try:
-        api=HfApi()
+        token=os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+        if not token:
+            raise RuntimeError("Missing HF_TOKEN write credential in HF Job secrets; compact snapshot not retained")
+        api=HfApi(token=token)
         api.create_repo(repo_id=R5_CKPT_REPO,repo_type="dataset",private=True,exist_ok=True)
         info=api.repo_info(repo_id=R5_CKPT_REPO,repo_type="dataset")
         if not getattr(info,"private",False):raise RuntimeError("Refusing to upload into nonprivate repo")
