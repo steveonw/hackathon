@@ -1,5 +1,11 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R5 ARCHIVED POSTRUN SYNTHESIS — 2026-10-10
+
+[**R5 cross-model final synthesis**](results/r5_cross_model_final_synthesis_2026-10-10.md) now records verified Granite per-document D/W/N/H differences (32 paired docs), SmolLM2 log-only aggregate measurements and incomplete validation, WikiText secondary outcomes, original provenance/limitations, and the **successfully completed remote CPU secret-backed private upload check**. The original R5 GPU snapshots remain unavailable. No further GPU run is authorized or scheduled; next R6 design is a proposal only.
+
+---
+
 ## R5 REMOTE CHECKPOINT AUTH VERIFIED — 2026-10-10 05:34 UTC
 
 **Remote CPU-only upload proof passed.** HF job [`6ac9ce67095c57808930e890`](https://huggingface.co/jobs/codeflash85/6ac9ce67095c57808930e890) ran [`r5_checkpoint_remote_upload_smoketest.py`](r5_checkpoint_remote_upload_smoketest.py) using `--flavor cpu-basic --secrets HF_TOKEN` from the user's authenticated Windows CLI. HF reports **COMPLETED**; logs contain `R5_REMOTE_CHECKPOINT_UPLOAD_OK` and independently confirm owner `codeflash85`, dataset `codeflash85/ternary-pet-r5-checkpoints`, `private=True`, and successful upload/readback of `verification/remote_cpu_secret_check.txt`. **No token value logged or committed, and no GPU training run launched.** This validates the secret-injection and private dataset write path for **future CLI-launched jobs**, not the previous unsuccessful R5 snapshots. A future GPU job must explicitly include `--secrets HF_TOKEN` (or equivalent secure injection); ChatGPT connector-launched jobs do not automatically inherit the user's Windows token. Original R5 Granite/Smol snapshots remain unretained; original science statuses unchanged.
