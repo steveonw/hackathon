@@ -1,5 +1,13 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R5 private snapshot authentication — fix applied after original jobs (2026-10-10)
+
+The originally pinned R5 GPU jobs remain immutable historical runs: neither H inference snapshot was retained (HTTP 401). The current **main branch** R5 Granite and Smol scripts now check for `HF_TOKEN` (or `HUGGING_FACE_HUB_TOKEN`) in the job's environment, and pass it explicitly to `HfApi(token=token)` for private dataset creation and upload. Missing authentication is reported clearly and remains a nonfatal snapshot failure; it does not change science or recreate lost files. **Do not claim the authentication issue fully resolved until a properly authorized job verifies upload and persistence.**
+
+**Required account-side step before any future authorized job:** create or use a narrowly scoped Hugging Face write token for `codeflash85/ternary-pet-r5-checkpoints` (repo creation also needs creation authority if repo does not yet exist). Supply the token through the Hugging Face Jobs secret mechanism as `HF_TOKEN` and never commit, print, or paste it. The connected account OAuth credential has scopes `jobs`, `openid`, `profile`, `read-mcp`, `read-repos`; it does not by itself provide a write token inside the job. Prefer creating the private dataset repository once through the account UI, then granting only dataset write access. Confirm repo remains private and actual files exist before setting `retained=true`. No GPU run was authorized or launched by this authentication patch. The current source commits must not be misrepresented as the originally executed pinned SHAs.
+
+---
+
 ## R5 TERMINAL — Granite valid; SmolLM2 reporting failure (2026-10-10 UTC)
 
 **This is the newest status; the older R5 ACTIVE sections below are historical submission records.** Both preregistered jobs are terminal, with no further GPUs or retries launched.
