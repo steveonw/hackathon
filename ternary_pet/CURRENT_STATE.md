@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R5 ARCHIVED POSTRUN SYNTHESIS — 2026-10-10
+
+[**R5 cross-model final synthesis**](results/r5_cross_model_final_synthesis_2026-10-10.md) now records verified Granite per-document D/W/N/H differences (32 paired docs), SmolLM2 log-only aggregate measurements and incomplete validation, WikiText secondary outcomes, original provenance/limitations, and the **successfully completed remote CPU secret-backed private upload check**. The original R5 GPU snapshots remain unavailable. No further GPU run is authorized or scheduled; next R6 design is a proposal only.
+
+---
+
 
 ## R5 TERMINAL — Granite valid; SmolLM2 reporting failure (2026-10-10 UTC)
 
