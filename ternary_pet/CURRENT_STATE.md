@@ -2,9 +2,23 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** **R1 Q9 range-match GPU submitted, results pending**. G1/S1 controls and all earlier F1/F2/F3/L1 experiments completed. [R1_ACTIVE_JOB_PLAN.md](R1_ACTIVE_JOB_PLAN.md) is the current job handoff.
+**Status:** **R1 completed, 12/12 technical checks passed; see newest R1 outcome below.** G1/S1, F1/F2/F3 and L1 are completed. No additional scientific GPU job launched.
 
-## R1 newly submitted — Q9 range-matched to Q3 (2026-10-09 UTC)
+## LATEST: R1 Q9 range-match COMPLETED — full staged gain largely lost (2026-10-10 UTC)
+
+**R1 GPU COMPLETED 2026-10-10 00:05:57 UTC (Oct 9 EDT)**: [HF 6ac97c30095c57808930b904](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904), A10G-small, script SHA `f28f1d4814ab0a61f2b529e2add007ce142972d5`, **all 12/12 technical checks passed, `valid_for_science=true`**. [R1 detailed results](results/run_r1_q9_range_matched_fineweb_seed1729_summary.md) · [full raw JSON](results/run_r1_q9_range_matched_fineweb_seed1729_2026-10-10.json) · [frozen preregistration](research_log/r1_range_matched_q9_fineweb_seed1729_prereg_2026-10-09.md) · [job handoff](R1_ACTIVE_JOB_PLAN.md).
+
+**Main question:** does a nine-state Q9 prepare useful ternary Q3 assignments when its output range is reduced from max ±α (original Q9) to max ±2α/3 (same as Q3), without altering the normalized STE z clamp and with integer codes constrained to exactly -4..4? **FineWeb held-out NLL:** direct Q3 **5.766660**; original/wide Q9(300)→Q3(900) **4.996255**; **range-matched nine-state Q9→Q3 5.751036**. Original wide staged gain **+0.770405**, range-matched staged gain **+0.015624** nats/token, retaining **2.03%** of the original. Secondary WikiText validation: direct **6.558239**, wide **5.695225**, range-matched **6.566215** (range-matched marginally *worse* than direct). Both original D and wide-Q9 anchors reproduced prior F1 exactly on both evaluations.
+
+**New prep diagnostic:** at Q9 step300 **47.83%** of range-matched Q9 codes are outer ±4, versus **29.30%** wide Q9; **36.45%** of would-be `round(6z)` codes exceed code magnitude4 before integer clipping. Range-matched native Q9 train-dev NLL **6.6035** vs wide **5.4282**. Wide→narrow matches output range while necessarily changing nine-state spacing, decision boundaries and saturation/occupancy. **Do not assert “range alone has been proven to be the cause”**; R1 refutes the narrower hypothesis that any uniformly spaced nine-state Q9 grid will preserve the stage advantage. It indicates **wider effective range and/or its coupled code geometry is critical for this tested recipe**, not that all alternative range-matched nine-state schemes fail.
+
+**Technical/source provenance:** [R1 CPU preflight](https://huggingface.co/jobs/codeflash85/6ac97b98095c57808930b8da) passed exact nine reachable codes, max output amplitude and master/alpha surrogate derivatives. R1 GPU 3 arms all1200 scheduled steps, final Q3; F1 source, seed1729, same FineWeb 21 heldout docs and WikiText validation. **One seed, reused small sample, no production inference/generation claim**. No other GPU study was initiated in the R1 analysis. G1 and S1 remain completed with prior positive controls; all former historical experiments remain archived.
+
+**Next unrun scientific work (proposal only):** separate nine-state range restriction from code-cell spacing and saturation in a preregistered control, or evaluate genuinely fresh heldout documents/model family. Do not automatically launch a new GPU job. Older “scheduling” status descriptions below are historical and superseded.
+
+---
+
+## HISTORICAL R1 SUBMISSION — Q9 range-matched to Q3 (2026-10-09 UTC)
 
 **ONE bounded scientific GPU job submitted:** [HF 6ac97c30095c57808930b904](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904), A10G-small, max2h, initial stage SCHEDULING. **No R1 scientific result available at submission.** Immutable script SHA `f28f1d4814ab0a61f2b529e2add007ce142972d5`; [R1 source](r1_fineweb_q9_range_matched_seed1729.py). [Frozen pre-run R1 prereg](research_log/r1_range_matched_q9_fineweb_seed1729_prereg_2026-10-09.md). [Full active job plan/handoff](R1_ACTIVE_JOB_PLAN.md).
 
