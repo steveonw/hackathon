@@ -17,6 +17,16 @@ CASES={
  "smol":("smol_seed190027/H_final_compact.npz","5d41638430f7a54fb553f2ad32d861386e5f38e42901c916fe8926172447fbfe",64195086,190027,224,314572800),
 }
 PROMPT="A small dog waited patiently outside the library."
+
+def ternary_decode(values):
+    # NumPy 2 rejects negative Python integers in unsigned np.where branches.
+    signed=values.astype(np.int8)
+    return np.where(signed==2,-1,signed).astype(np.float32)
+
+def test_ternary_decode():
+    sample=np.array([0,1,2,0,2,1],dtype=np.uint8)
+    assert ternary_decode(sample).tolist()==[0.0,1.0,-1.0,0.0,-1.0,1.0]
+
 @torch.no_grad()
 def reconstruct(family, token):
     remote,expected_sha,size,seed,expected_layers,expected_count=CASES[family]
@@ -57,7 +67,7 @@ def reconstruct(family, token):
             assert not np.any(codes==3),name
             for k,n in ((-1,2),(0,0),(1,1)):
                 counts[k]+=int(np.count_nonzero(codes==n))
-            decoded=np.where(codes==2,-1,codes).astype(np.float32).reshape(shape)
+            decoded=ternary_decode(codes).reshape(shape)
             alpha=np.asarray(data["alpha_"+key],dtype=np.float32)
             assert np.all(np.isfinite(alpha)) and np.all(alpha>0)
             # Q3 original forward: hard_code / 1.5 multiplied by alpha.
@@ -89,6 +99,7 @@ def main():
     args=parser.parse_args()
     token=os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
     if not token:raise SystemExit("HF_TOKEN required as secret to read private snapshots")
+    test_ternary_decode()
     torch.set_num_threads(4)
     reconstruct(args.family,token)
 if __name__=="__main__":main()
