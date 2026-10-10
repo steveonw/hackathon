@@ -1,6 +1,19 @@
 # R3 — nonuniform Q9 outer-output recovery and unused per-document FineWeb evaluation
 
-**Study intent:** user authorized follow-up with "do what you need to do" after valid R2 completed. **Current status:** **R3 single pinned GPU job submitted; result pending.** Check live Hugging Face status at the exact ID below. [CURRENT_STATE.md](CURRENT_STATE.md) is authoritative.
+## FINAL R3 RESULT — completed, verified, and archived
+
+**R3 HF [`6ac99666fee2c9007018011f`](https://huggingface.co/jobs/codeflash85/6ac99666fee2c9007018011f) COMPLETED 2026-10-10 02:04:07 UTC; all 16/16 prespecified technical checks passed, `valid_for_science=true`.** Frozen source commit `a4abf256c0be9db771e3ec271c1f0a5e6d605816`. **Raw all-arm + all-document JSON:** [R3 full scientific output](results/run_r3_nonuniform_q9_outer_freshdocs_seed1729_2026-10-10.json). **Detailed interpretation:** [R3 final summary](results/run_r3_nonuniform_q9_outer_freshdocs_seed1729_summary.md).
+
+**New-to-QAT 32-document FineWeb heldout NLL ↓:** D direct Q3 **5.789299**, W original wide Q9 **4.885759**, N narrow Q9 with historical T4 thresholds **5.813866**, H nonuniform hybrid extreme-only restored to wide **4.916794**. D−W **+0.903540**; D−H **+0.872505**, which is **96.57%** of the wide staged advantage. N−H **+0.897071**, H−W **+0.031035**. Per-document checks: **32/32 docs** favor H over N and D; W better than H on 23/32. Each doc has exactly 512 evaluated prediction tokens, IDs never in original first340 source rows, all raw per-document losses retained.
+
+**Historical controls:** old 21-document FineWeb heldout: D **5.766660**, W **4.996255**, N **5.780473**, H **5.039273**. Secondary WikiText validation: D **6.558239**, W **5.695225**, N **6.593468**, H **5.730818**. All old D/W/N anchors reproduce prior experiments exactly. W/N/H original T4 integer assignments and interior N/H reconstruction remain identical; H only changes outputs of ±4 codebook states from ±2α/3 to ±α. This is **two output codes shared by millions of weights**, not two weight entries. Scale/optimizer trajectories downstream diverge; do not claim proof of single causal mediator.
+
+**Study state:** all R3 technical and GPU jobs now terminal; first CPU preflight failed during Python shutdown *after scientific assertions passed*, separately clean second CPU check completed; one scientific GPU job only. **No new GPU or seed automatically launched.** Treat every older `SCHEDULING` or `RUNNING` line below as historical.
+
+---
+
+
+**Study intent:** user authorized follow-up with "do what you need to do" after valid R2 completed. **Current status:** **R3 fully COMPLETED and valid; see final result and archive links above.** [CURRENT_STATE.md](CURRENT_STATE.md) is authoritative.
 
 **Frozen preregistration** [R3 nonuniform/QAT-fresh docs](research_log/r3_nonuniform_q9_outer_recovery_freshdoc_prereg_2026-10-09.md) (commit `bf89baef162f2a9e948ab702a1708c74b856d3a4`), committed before training source.  
 **Experiment source** [`r3_nonuniform_q9_outer_freshdocs_seed1729.py`](r3_nonuniform_q9_outer_freshdocs_seed1729.py), pinned immutable Git commit **`a4abf256c0be9db771e3ec271c1f0a5e6d605816`**.  
