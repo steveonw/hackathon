@@ -1,5 +1,11 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R5 REMOTE CHECKPOINT AUTH VERIFIED — 2026-10-10 05:34 UTC
+
+**Remote CPU-only upload proof passed.** HF job [`6ac9ce67095c57808930e890`](https://huggingface.co/jobs/codeflash85/6ac9ce67095c57808930e890) ran [`r5_checkpoint_remote_upload_smoketest.py`](r5_checkpoint_remote_upload_smoketest.py) using `--flavor cpu-basic --secrets HF_TOKEN` from the user's authenticated Windows CLI. HF reports **COMPLETED**; logs contain `R5_REMOTE_CHECKPOINT_UPLOAD_OK` and independently confirm owner `codeflash85`, dataset `codeflash85/ternary-pet-r5-checkpoints`, `private=True`, and successful upload/readback of `verification/remote_cpu_secret_check.txt`. **No token value logged or committed, and no GPU training run launched.** This validates the secret-injection and private dataset write path for **future CLI-launched jobs**, not the previous unsuccessful R5 snapshots. A future GPU job must explicitly include `--secrets HF_TOKEN` (or equivalent secure injection); ChatGPT connector-launched jobs do not automatically inherit the user's Windows token. Original R5 Granite/Smol snapshots remain unretained; original science statuses unchanged.
+
+---
+
 ## R5 private snapshot authentication — fix applied after original jobs (2026-10-10)
 
 The originally pinned R5 GPU jobs remain immutable historical runs: neither H inference snapshot was retained (HTTP 401). The current **main branch** R5 Granite and Smol scripts now check for `HF_TOKEN` (or `HUGGING_FACE_HUB_TOKEN`) in the job's environment, and pass it explicitly to `HfApi(token=token)` for private dataset creation and upload. Missing authentication is reported clearly and remains a nonfatal snapshot failure; it does not change science or recreate lost files. **Do not claim the authentication issue fully resolved until a properly authorized job verifies upload and persistence.**
