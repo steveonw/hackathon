@@ -1,5 +1,18 @@
 # Ternary Pet Experiments
 
+## R6 COMPLETE — two verified new-seed cross-corpus jobs (2026-10-10 UTC)
+
+**Both authorized A10G-small jobs COMPLETED with complete final JSON and `valid_for_science=true`.** [R6 two-job scientific synthesis](results/r6_granite_smol_imdb_two_job_synthesis_2026-10-10.md) · [Frozen prereg](research_log/r6_imdb_two_seed_prereg_2026-10-10.md). Source commit `0d6f9440d197c67f837dd1a62f23c48c6399843c`. Primary evaluation is **32 pinned IMDb test movie reviews/model, 16,384 targets/arm**, NOT FineWeb despite inherited JSON variable keys.
+
+| Model/new seed | Direct D | Wide W | Narrow N | **Hybrid H** | Job validity |
+|---|---:|---:|---:|---:|---|
+| Granite-4.0-350M **170141** | 6.756248 | 6.664138 | 6.766883 | **6.643789** | **15/15 passed** |
+| SmolLM2-360M **190027** | 6.738819 | 6.048038 | 6.675319 | **5.958103** | **17/17 passed** |
+
+Granite H beats D/W/N on 32/25/31 of 32 paired documents respectively; Smol H beats D/W/N on 32/30/32 of 32. [Granite HF job](https://huggingface.co/jobs/codeflash85/6ac9d4cffee2c90070183341) · [full JSON](results/run_r6_granite_seed170141_imdb_2026-10-10.json); [Smol HF job](https://huggingface.co/jobs/codeflash85/6ac9d5d3095c57808930ed92) · [full JSON](results/run_r6_smol_seed190027_imdb_2026-10-10.json). **Both H inference snapshots report `retained=true`** in the established private HF dataset, Granite `granite_seed170141/H_final_compact.npz` and Smol `smol_seed190027/H_final_compact.npz`; independent SHA download audit still pending. These are not full training restart checkpoints. **No more R6 GPU jobs should be launched.** Limits: only one new seed/model and selected genre, possible base-model pretraining overlap, family-specific optimizer/precision confounds. Historic R5 snapshots remain unavailable.
+
+---
+
 ## R5 TERMINAL — Granite valid; SmolLM2 reporting failure (2026-10-10 UTC)
 
 **This is the newest status; the older R5 ACTIVE sections below are historical submission records.** Both preregistered jobs are terminal, with no further GPUs or retries launched.
