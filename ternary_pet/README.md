@@ -1,5 +1,18 @@
 # Ternary Pet Experiments
 
+## LATEST — R4 2+2 MATRIX: all FOUR scientific GPUs submitted in TWO user prompts (2026-10-10 UTC)
+
+**Batch A, Granite 4.0 350M** previously submitted: historically hard seed271828 [HF `6ac9a43d095c57808930ccfe`](https://huggingface.co/jobs/codeflash85/6ac9a43d095c57808930ccfe) and easy seed424242 [HF `6ac9a443095c57808930cd03`](https://huggingface.co/jobs/codeflash85/6ac9a443095c57808930cd03). Both remained RUNNING at start of this second request; final science unknown. Immutable Granite script SHA `33dfae38bd016946ad5d37bd633fdf02818fbacd`, Granite BF16 + LR constant1e-4.
+
+**Batch B, SmolLM2-360M-Instruct** **NOW SUBMITTED at user request**: seed271828 [HF `6ac9a5c2fee2c90070180ce3`](https://huggingface.co/jobs/codeflash85/6ac9a5c2fee2c90070180ce3), seed424242 [HF `6ac9a5c9095c57808930cdde`](https://huggingface.co/jobs/codeflash85/6ac9a5c9095c57808930cdde). One A10G-small, 90m hard limit per job. Exact seed-only scripts [271828](r4_smol_q9_hybrid_seed271828.py) · [424242](r4_smol_q9_hybrid_seed424242.py), immutable common SHA `65af3057b248f38a6d46ad8b7cd1bc1c52d2e654`. **Prepaid-GPU CPU dynamic QA** [HF `6ac9a578095c57808930cd9c`](https://huggingface.co/jobs/codeflash85/6ac9a578095c57808930cd9c) **COMPLETED**, verifying both script AST/pins, nine Q9 codes, H/N inner levels match, outer ±4 restored in H only, STE gradients, post-switch original Q3 and seed-only script variation.
+
+**Each of four GPU jobs runs the same D/W/N/H family experiment** (matched within seed): D direct Q3 1200, W original wide Q9(300)→Q3(900), N narrow T4 Q9(300)→Q3(900), H nonuniform Q9(300)→Q3(900) with narrow 7 inner levels and original wide ±α two extreme levels. Smol uses **original tuned warmup100→1e-3 cosine→1e-4, FP16 teacher/autocast + GradScaler, FP32 masters**, BF16-rounded source; D direct original continuous Adam, W/N/H original Q3 row scale + Adam/GradScaler reset at300. Granite uses previously calibrated **constantLR1e-4, BF16 teacher/autocast no GradScaler**, all arms reset source Q3 scales/fresh Adam at300. Consequently architectural and optimizer policies remain somewhat confounded across families; compare within-family paired NLL differences. Original WikiText2 test first64 chunks anchors; **primary first64 WikiText validation chunks**, matched 8192 tokens and per-chunk losses; historical seeds are **not new random confirmation**, samples may have appeared in pretraining. Smol historical anchors seed271828 D≈5.6228/W≈4.9510, seed424242 D≈5.6067/W≈4.9563, fixed tolerance ±0.08 nats. No source/output retuning after observing jobs.
+
+**Frozen before jobs:** [R4 2+2 preregistration](research_log/r4_2026-10-09_granite_smol_easy_hard_two_batch_prereg.md). **Authoritative four job IDs, precise protocol/recovery rules:** [R4_GRANITE_SMOL_EASY_HARD_JOBS.md](R4_GRANITE_SMOL_EASY_HARD_JOBS.md). **No fifth GPU/retry planned.** Wait for all four terminal results, extract and archive original FINAL_JSONs, all validity checks, negative outcomes, comparisons and limitations; update reports then.
+
+---
+
+
 ## LATEST — R4 Granite hard/easy pair SUBMITTED, Smol pair reserved for NEXT prompt (2026-10-09 EDT)
 
 **User requested exactly 2 jobs in this prompt and 2 only in the following prompt, waiting for Granite to finish.** Batch A **TWO Granite-4.0-350m jobs submitted**, one per previously identified training-order seed, both using a four-arm D/W/N/H controlled hybrid Q9 comparison:
