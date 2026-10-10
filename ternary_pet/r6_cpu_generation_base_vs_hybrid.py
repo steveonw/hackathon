@@ -83,6 +83,13 @@ def reconstruct(family, token):
         for task,prompt in TASKS:
             if family=="smol" and task!="continuation":
                 ids=tokenizer.apply_chat_template([{"role":"user","content":prompt}],tokenize=True,add_generation_prompt=True,return_tensors="pt")
+                if not torch.is_tensor(ids):
+                    if hasattr(ids,"get") and ids.get("input_ids") is not None:
+                        ids=ids["input_ids"]
+                    if not torch.is_tensor(ids):
+                        ids=torch.tensor(ids,dtype=torch.long)
+                if ids.ndim==1:ids=ids.unsqueeze(0)
+                assert ids.ndim==2 and ids.dtype==torch.long
                 fmt="chat_template"
             else:
                 ids=tokenizer(prompt,return_tensors="pt").input_ids
