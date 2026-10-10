@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R6 REVIEW DRAFT — not authorized (2026-10-10)
+
+[Prospective R6 protocol and compute-gating checklist](research_log/r6_candidate_protocol_review_draft_2026-10-10.md) created using archived R5 evidence. This is **not a frozen preregistration** and does **not** authorize paid GPU runs. Before launching, determine job budget, fresh seeds, independent evaluation corpus, source pins and a CPU-only preflight; preserve original R5 evidence and verified `--secrets HF_TOKEN` upload path.
+
+---
+
 ## R5 ARCHIVED POSTRUN SYNTHESIS — 2026-10-10
 
 [**R5 cross-model final synthesis**](results/r5_cross_model_final_synthesis_2026-10-10.md) now records verified Granite per-document D/W/N/H differences (32 paired docs), SmolLM2 log-only aggregate measurements and incomplete validation, WikiText secondary outcomes, original provenance/limitations, and the **successfully completed remote CPU secret-backed private upload check**. The original R5 GPU snapshots remain unavailable. No further GPU run is authorized or scheduled; next R6 design is a proposal only.
