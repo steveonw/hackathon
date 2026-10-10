@@ -3871,3 +3871,22 @@ This controls the **representable output range** question from the external revi
 
 ---
 
+## R1 COMPLETED — range-matched nine-state Q9 nearly erases staging gain (2026-10-10 UTC)
+
+**Valid scientific R1**: [HF job](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904), finished **2026-10-10 00:05:57 UTC**, source SHA `f28f1d4814ab0a61f2b529e2add007ce142972d5`. **12/12 technical/reproduction checks passed**, including *exact* archived FineWeb F1 direct-Q3 and original wide Q9→Q3 heldout NLL reproductions. [R1 full raw JSON](results/run_r1_q9_range_matched_fineweb_seed1729_2026-10-10.json) · [R1 detailed summary](results/run_r1_q9_range_matched_fineweb_seed1729_summary.md) · [original prereg](research_log/r1_range_matched_q9_fineweb_seed1729_prereg_2026-10-09.md) · [R1 handoff](R1_ACTIVE_JOB_PLAN.md).
+
+**R1 question:** is having nine intermediate levels enough, or is the originally wider Q9 representation (max ±α) important compared with Q3's max ±2α/3? A new nine-state range-matched Q9 uses `q=α*clamp(round(6*clip(w/α,-.99,.99)),-4,4)/6`, preserving nine codes, normalized `z` outer clip and surrogate gradient formula, but deliberately compressing output range to ±2α/3. All arms use the same seed1729 FineWeb `sample-10BT`, original model source, 300 Q9 +900 Q3 continuation/switch, and fixed heldout evaluation.
+
+| Endpoint | Direct Q3 | Original wide Q9→Q3 | Range-matched Q9→Q3 |
+|---|---:|---:|---:|
+| FineWeb doc-heldout NLL ↓ | 5.766660 | **4.996255** | 5.751036 |
+| WikiText validation NLL ↓ | 6.558239 | **5.695225** | 6.566215 |
+
+FineWeb wide-Q9 gain `D−wide` **+0.770405 nats/token**; range-matched gain `D−range` **+0.015624** (only **2.03%** of original). Range-matched was 0.0080 nats **worse than direct** on WikiText validation; original wide gain there **+0.863013**.
+
+**Crucial confound still present:** A uniformly spaced nine-state grid constrained to Q3's range also changes quantization cell width, internal thresholds and code saturation. At Q9 preparation300 the proportion of extreme code ±4 was **47.83%** range-matched vs **29.30%** wide; **36.45%** of range-matched would-be raw round(6z) codes exceed ±4 and are clipped. We can state **the wider output range and/or its coupled code geometry is necessary for *this particular range-matched implementation* to retain the effect**, not that range alone caused it or any narrow-range nine-level method must fail. The new S_range already has worse Q9-native train-dev loss, not merely larger switch shock.
+
+**Scope:** single familiar seed1729 and 21 small FineWeb heldout source documents, pretrained-model document exposure unknown, no restored model checkpoint, no production-generation claim. Previous G1 frozen-scale and S1 sham-reset controls passed and support a meaningful optimization-path/assignment-stability story but do not render R1 a pure isolation of range. **No additional GPU job was launched after R1.** [CURRENT_STATE.md](CURRENT_STATE.md) is authoritative; older “R1 submitted” sections are historical.
+
+---
+
