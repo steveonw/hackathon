@@ -3924,3 +3924,15 @@ FineWeb wide-Q9 gain `D−wide` **+0.770405 nats/token**; range-matched gain `D�
 
 ---
 
+## R3 LAUNCHED — nonuniform Q9 outer-level rescue and fresh 32-document evaluation (2026-10-10 UTC)
+
+**R3 single scientific GPU job ACCEPTED:** [HF `6ac99666fee2c9007018011f`](https://huggingface.co/jobs/codeflash85/6ac99666fee2c9007018011f), `a10g-small`, max **2 hours**, initial **SCHEDULING** status. One scientific R3 GPU job only, no seed sweep. [Exact R3 job and archival handoff](R3_ACTIVE_JOB_PLAN.md). [Immutable script](r3_nonuniform_q9_outer_freshdocs_seed1729.py) code commit `a4abf256c0be9db771e3ec271c1f0a5e6d605816`; [frozen prereg](research_log/r3_nonuniform_q9_outer_recovery_freshdoc_prereg_2026-10-09.md) commit `bf89baef162f2a9e948ab702a1708c74b856d3a4`.
+
+**CPU reproducibility and data-selection gate PASSED:** [HF finalization-safe CPU preflight `6ac99425095c57808930c23c`](https://huggingface.co/jobs/codeflash85/6ac99425095c57808930c23c) **COMPLETED** 2026-10-10 01:35:09 UTC, emitted `R3_SAFE_QUANTIZER_PRECHECK_OK`, `R3_SAFE_FRESH_DOC_SELECTION_OK` and `R3_SAFE_ALL_PREFLIGHT_OK`. Checked 9 codes, W/N/H correct level outputs, same integer decisions and STE, post-Q3 switch and 32 real FineWeb docs beyond original QAT scan rows340 (source rows first343, last1222; first 32 qualifying docs ≥516 tokenizer tokens). Initial CPU job `6ac992d4095c57808930c1b0` had passed scientific tests but failed during external dataset-interpreter teardown (`PyGILState_Release`, exit134); preserved this as an infrastructure failure; a clean independent CPU pass preceded GPU submission.
+
+**Frozen R3 arms:** direct Q3 D; original wide Q9 W (levels 0,±1/4,±1/2,±3/4,±1); narrow Q9 N (0,±1/6,±2/6,±3/6,±4/6); new nonuniform hybrid H (0,±1/6,±2/6,±3/6,±1), keeping original T4 integer assignment thresholds for all Q9 variants and original Q3 through steps301–1200. All use same seed1729, SmolLM2 source, FineWeb training order/data and optimizer resets.
+
+**Primary:** *new QAT-heldout* 32 FineWeb documents, 512 tokens each, **per-document loss evidence**, aggregate contrasts N−H, H−W and D−H with paired descriptive per-doc statistics. Historical FineWeb21-doc and WikiText validation used as reproduction/secondary results only. Documents fresh to these QAT experiments, **NOT guaranteed absent from source model pretraining**. All previous R2 (16/16) and G1/S1/R1/F1–F3/L1 studies remain intact. **No R3 outcome available until GPU job completes and `FINAL_JSON` validity checks pass. No additional GPU job/retry authorized.**
+
+---
+
