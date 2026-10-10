@@ -3904,3 +3904,23 @@ FineWeb wide-Q9 gain `D−wide` **+0.770405 nats/token**; range-matched gain `D�
 
 ---
 
+## R2 COMPLETED — output grid size versus threshold/saturation confound (2026-10-10 UTC)
+
+**R2 COMPLETED VALID**, [HF GPU job 6ac985f0fee2c9007017f720](https://huggingface.co/jobs/codeflash85/6ac985f0fee2c9007017f720), finished **2026-10-10 01:00:05 UTC**, pinned script SHA `93d7aba84bff0409b8cc91603ab9605cf1a9e09d`. All **16/16 technical and reproduction controls passed**. [Full original FINAL_JSON with job metadata](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_2026-10-10.json) · [Detailed analysis](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_summary.md) · [preregistered plan](research_log/r2_q9_range_threshold_factorial_fineweb_seed1729_prereg_2026-10-09.md) · [durable R2 handoff](R2_ACTIVE_JOB_PLAN.md).
+
+**R2 intervention:** seed1729 matched FineWeb-Edu 1200 opportunities, direct-Q3 reference plus four Q9(300)→Q3(900) variants arranged by independent normalized rounding threshold multiplier `T=4` vs `6` and Q9 output divisor `V=4` (wide max ±α) vs `6` (narrow max ±2α/3), all exactly nine codes with the original clipped-z STE gradient surrogate. All four Q9 stages reset source Q3 row scales and Adam/GradScaler identically and use the same fixed teacher/data/LR.
+
+| R2 approach | FineWeb 21-doc heldout NLL ↓ | D−Q9 FineWeb advantage | WikiText validation NLL ↓ | Fraction outer ±4 at prep300 |
+|---|---:|---:|---:|---:|
+| D direct Q3 | 5.766660 | — | 6.558239 | — |
+| W4T4 wide/original | **4.996255** | **+0.770405** | 5.695225 | 29.30% |
+| W4T6 wide/tighter thresholds | 5.263767 | +0.502892 | 6.137133 | 47.87% |
+| N6T4 narrow/original thresholds | 5.780473 | −0.013813 | 6.593468 | 29.22% |
+| N6T6 narrow/tighter thresholds | 5.751036 | +0.015624 | 6.566215 | 47.83% |
+
+**Core finding:** R1's narrow-Q9 failure does **not** arise *solely* from increasing saturation/outer code assignment. W4T6 retains a large benefit despite ~48% outer code prevalence; N6T4 lacks a gain despite ~29% outer prevalence. Holding the threshold multiplier fixed, switching wide→narrow worsens FineWeb NLL **+0.784218** at T4 and **+0.487269** at T6. Tightening thresholds T4→T6 worsens wide-Q9 **+0.267512**, whereas narrow-Q9 changes **−0.029437**; interaction **−0.296950**. All 3 historical D/W4T4/N6T6 anchors reproduced exactly. **Crucial caveat:** the V factor changes **both output range and equally spaced codebook spacing**; the result does **not** isolate range amplitude alone and doesn't guarantee effect on other models/datasets.
+
+**Interpretation bounds:** Same small **21 FineWeb heldout documents**, same familiar seed1729, original pretraining overlap unknown, WikiText validation also previously reused. No confidence intervals over new documents. Archived raw scores and technical negatives preserved; no extra GPU job, retuning or new seed launched during result analysis. Next possible discriminant: nonuniform Q9 codebook independently varying extreme output values versus central spacing; or fresh-doc/model-family confirmation. Both are **proposed only**. [CURRENT_STATE.md](CURRENT_STATE.md) takes precedence over historical “running/submitted” text.
+
+---
+
