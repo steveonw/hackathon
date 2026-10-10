@@ -1,5 +1,18 @@
 # R2 — Q9 output-grid × code-threshold 2×2 mechanism factorial
 
+## Final R2 results — job COMPLETE 2026-10-10 01:00:05 UTC
+
+[Hugging Face job `6ac985f0fee2c9007017f720`](https://huggingface.co/jobs/codeflash85/6ac985f0fee2c9007017f720) finished successfully; **`valid_for_science=true`, 16/16 frozen technical controls passed**. [Detailed R2 analysis](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_summary.md) · [Full raw FINAL_JSON](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_2026-10-10.json). All originally documented script+dataset pins remain unchanged; source D, W4T4 and N6T6 reproduce prior R1/F1 exactly.
+
+**FineWeb heldout NLL, lower better:** D **5.766660**, W4T4 wide/original thresholds **4.996255**, W4T6 wide/tighter thresholds **5.263767**, N6T4 narrow/original thresholds **5.780473**, N6T6 narrow/tighter thresholds **5.751036**. Secondary WikiText validation: D **6.558239**, W4T4 **5.695225**, W4T6 **6.137133**, N6T4 **6.593468**, N6T6 **6.566215**.
+
+**Scientific conclusion:** a wider Q9 output grid retains positive direct-Q3 staged advantage even with high extreme-code use (W4T6 +0.502892 vs direct); the narrow Q9 grid does **not** retain material benefit even at original T4 thresholds (N6T4 −0.013813 vs direct). Extreme-code occupancy alone cannot explain the R1 failure. **Still unresolved:** output amplitude/range vs uniform nine-level spacing, altered scale gradients and model-specific consequences. One familiar seed/small shared heldout sample; no fresh-data or production claim.
+
+**No additional scientific GPUs were launched following this R2 completion.** Below is the original preregistered submission plan; its SCHEDULING text is historical. [CURRENT_STATE.md](CURRENT_STATE.md) is authoritative.
+
+---
+
+
 **Live job as of 2026-10-09 EDT:** [Hugging Face `6ac985f0fee2c9007017f720`](https://huggingface.co/jobs/codeflash85/6ac985f0fee2c9007017f720). **Initial status:** SCHEDULING (not a result). **One A10G-small**, **2-hour timeout**, five sequential training arms. No duplicates or other GPU jobs authorized.
 
 **Frozen scientific protocol:** [R2 preregistration](research_log/r2_q9_range_threshold_factorial_fineweb_seed1729_prereg_2026-10-09.md), committed **BEFORE** script/GPU execution.  
