@@ -1,5 +1,19 @@
 # Ternary Pet — CURRENT STATE
 
+
+## R5 TERMINAL — Granite valid; SmolLM2 reporting failure (2026-10-10 UTC)
+
+**This is the newest status; the older R5 ACTIVE sections below are historical submission records.** Both preregistered jobs are terminal, with no further GPUs or retries launched.
+
+- **Granite-4.0-350M seed104729**: [HF job](https://huggingface.co/jobs/codeflash85/6ac9b8c8095c57808930d94f) **COMPLETED** 04:27:14 UTC; its original log emitted a complete `FINAL_JSON_BEGIN`/`FINAL_JSON_END` object, with `valid_for_science=true` and **15/15 checks passed**. New 32-document FineWeb-Edu NLL (lower better): D **6.490101**, W **6.388855**, N **6.506379**, H **6.358198**. H improved over D on **32/32** documents, over N on **31/32**, and over W on **27/32**. Full raw per-document JSON is preserved in the original Hugging Face job log; it has **not yet been independently checked into GitHub as a standalone results JSON**.
+- **SmolLM2-360M-Instruct seed130363**: [HF job](https://huggingface.co/jobs/codeflash85/6ac9b8cefee2c90070181ae3) **ERROR** exit 1 at 04:32:04 UTC **after all four arms logged final evaluations**. The original immutable script raised `KeyError: 'total'` during final aggregation, because `code_hist()` returns normalized code fractions without a `total` key. New FineWeb NLL from arm logs: D **6.617192**, W **5.775722**, N **6.591928**, H **5.658846**. **These are log-recovered descriptive measurements, NOT a validated final scientific result:** no `FINAL_JSON`, original paired per-document arrays, or all postrun checks were emitted. [Recovery and caveats](results/r5_smol_seed130363_log_recovery_2026-10-10.md).
+- **Neither H inference snapshot was retained.** Both private Hugging Face uploads returned HTTP **401 Unauthorized**; temporary local file sizes do not establish persistence. Authentication must be corrected separately; no checkpoint rescue is claimed.
+
+**Research interpretation:** On the new Granite seed, H wins against D/W/N with full job-side validation. Smol's aggregate logs also rank H first, but the failure means it must be clearly separated from validated replications. Distinct family-specific optimizers, possible pretraining-document overlap, one new seed per family, and absence of retained checkpoints still limit generalization. **No retuning or GPU retry authorized.** The reporting-only fix is on a separate review branch and does not change the original SHA-pinned R5 run.
+
+---
+
+
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
 **Status:** **R3 scientific GPU job COMPLETED 2026-10-10 02:04 UTC with 16/16 checks passed and raw data archived**; previous R2/R1/G1/S1/F1–F3/L1 complete. See latest R3 evidence and [R3_ACTIVE_JOB_PLAN.md](R3_ACTIVE_JOB_PLAN.md).
