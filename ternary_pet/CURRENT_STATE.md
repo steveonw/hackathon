@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R6 INDEPENDENT PRIVATE SNAPSHOT AUDIT PASSED — 2026-10-10 UTC
+
+**Both saved R6 H inference-only snapshots independently downloaded, SHA-256-verified, and structurally validated.** CPU HF job [6ac9e014095c57808930f5dd](https://huggingface.co/jobs/codeflash85/6ac9e014095c57808930f5dd) **COMPLETED**, emitting `R6_SNAPSHOT_AUDIT_OK` for both files and `R6_BOTH_PRIVATE_SNAPSHOTS_VERIFIED`. Original audit source pinned commit `7e4758ad81a98269932f918b6014adfcd8a5e3c3` ([script](r6_private_snapshot_cpu_audit.py)). Granite: 50,895,933 bytes, SHA-256 `3c30ab36a6518606db74a45411b6e96639171c063f0dd2b0f6cea384581f0888`, 168 layers/249,561,088 ternary weights. Smol: 64,195,086 bytes, SHA-256 `5d41638430f7a54fb553f2ad32d861386e5f38e42901c916fe8926172447fbfe`, 224 layers/314,572,800 weights. Audit checks private dataset, size, hash, manifest, packed code ranges, and finite positive scales; it does **not** yet test model loading or generated outputs. No GPU jobs initiated.
+
+---
+
 ## R6 COMPLETE — two verified new-seed cross-corpus jobs (2026-10-10 UTC)
 
 **Both authorized A10G-small jobs COMPLETED with complete final JSON and `valid_for_science=true`.** [R6 two-job scientific synthesis](results/r6_granite_smol_imdb_two_job_synthesis_2026-10-10.md) · [Frozen prereg](research_log/r6_imdb_two_seed_prereg_2026-10-10.md). Source commit `0d6f9440d197c67f837dd1a62f23c48c6399843c`. Primary evaluation is **32 pinned IMDb test movie reviews/model, 16,384 targets/arm**, NOT FineWeb despite inherited JSON variable keys.
