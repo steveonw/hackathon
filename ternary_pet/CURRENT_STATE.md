@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R6 GENERATION CONTROL SCRIPT BUG FIXED — 2026-10-10
+
+Two CPU-only controlled-generation jobs ([Granite](https://huggingface.co/jobs/codeflash85/6ac9ea5ffee2c90070184895), [Smol](https://huggingface.co/jobs/codeflash85/6ac9ea68095c57808930ff7c)) **ERROR** because `model.generate(..., generator=torch.Generator(...))` is rejected by the currently installed Transformers generation API (`ValueError: unused model_kwargs ['generator']`), not due to snapshot integrity. [Corrected script](r6_cpu_generation_base_vs_hybrid.py) pinned SHA `7f641c27470748fd1ff139f5a84590a6c63d18ba` now calls `torch.manual_seed(20261010)` before sampled generation, and passes only supported sampling options. [Standalone CPU sampling test](https://huggingface.co/jobs/codeflash85/6ac9eda9095c5780893100ce) emitted `R6_GENERATION_SAMPLING_PATCH_TEST_OK` using Transformers `generate()` with sampling; full original base-vs-H comparison still **not** rerun and must not be claimed. R6 training results and independently verified snapshot NLL parity remain unchanged. Private models require local CLI `--secrets HF_TOKEN`.
+
+---
+
 ## R6 RECONSTRUCTION LOSS PARITY VERIFIED — 2026-10-10 UTC
 
 [Original remote CPU NLL parity logs and per-document results](results/r6_reconstruction_loss_parity_verified_2026-10-10.md) are now independently accessible: [Granite CPU job](https://huggingface.co/jobs/codeflash85/6ac9e829095c57808930fd96) and [Smol CPU job](https://huggingface.co/jobs/codeflash85/6ac9e841fee2c9007018468b), both **COMPLETED**, fixed script SHA `ddcb84cc4566b989429d5cd131199f264c5b6d81`. First 4 pinned R6 IMDb documents per model (2,048 tokens/model) CPU FP32 reconstructed H vs original GPU AMP H NLL: **Granite 6.681939 vs 6.682182, delta -0.000244, max doc delta 0.000712**; **Smol 6.165740 vs 6.165852, delta -0.000113, max doc delta 0.000137**. Supports high-fidelity inference reconstruction, **not** numeric parity of every token/logit or useful generation; both single-prompt generations were degenerate. Original HF logs fetched directly, no further user copy needed. No new GPU training.
