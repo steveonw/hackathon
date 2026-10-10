@@ -1,12 +1,12 @@
 # R5 active handoff — two preregistered fresh-seed cross-model new-document jobs
 
-**State at submission: BOTH R5 GPU jobs ACCEPTED; results PENDING.** Two A10G-small jobs, **90-minute timeout each**, no additional seeds, duplicate experiments or retries. Submitted 2026-10-10 UTC following explicit user "sure do it" authorization of independent seeds/new evaluation documents and preferably retained checkpoints.
+**Current last HF check: BOTH R5 GPUs RUNNING, results PENDING.** Two A10G-small jobs, **90-minute timeout each**, no additional seeds, duplicate experiments or retries. Submitted 2026-10-10 UTC following explicit user "sure do it" authorization of independent seeds/new evaluation documents and preferably retained checkpoints.
 
 ## Scientific jobs and provenance
 
 | Family | Frozen novel training seed | Exactly pinned source commit and Python file | Hugging Face job | Submission stage |
 |---|---:|---|---|---|
-| Granite-4.0-350m | **104729** | `c1f0d61aa69a85899203647b88277382275c2a3a`, [script](r5_granite_new_seed104729_fineweb_hybrid.py) | [`6ac9b8c8095c57808930d94f`](https://huggingface.co/jobs/codeflash85/6ac9b8c8095c57808930d94f) | SCHEDULING |
+| Granite-4.0-350m | **104729** | `c1f0d61aa69a85899203647b88277382275c2a3a`, [script](r5_granite_new_seed104729_fineweb_hybrid.py) | [`6ac9b8c8095c57808930d94f`](https://huggingface.co/jobs/codeflash85/6ac9b8c8095c57808930d94f) | RUNNING at last inspect |
 | SmolLM2-360M-Instruct | **130363** | `4560d829f483386eb39411c2a9fbf204d4157c4d`, [script](r5_smol_new_seed130363_fineweb_hybrid.py) | [`6ac9b8cefee2c90070181ae3`](https://huggingface.co/jobs/codeflash85/6ac9b8cefee2c90070181ae3) | SCHEDULING |
 
 **Frozen prior-to-GPU preregistration:** [R5 protocol](research_log/r5_independent_seed_new_fineweb_validation_prereg_2026-10-09.md), committed `55786ecbd3baa63f5ded08287934d1b09d9e59a9`. New seeds 104729/130363 are fixed arbitrary prime integers, not cherry-picked after observing R5 results. R4 on two known seeds per family had H beating D/W/N but samples and seeds were repeatedly studied.
