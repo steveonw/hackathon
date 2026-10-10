@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R6 CPU INFERENCE RECONSTRUCTION — initial attempts failed, decode fix ready (2026-10-10 UTC)
+
+Both authorized CPU-only proof attempts, [Granite `6ac9e36cfee2c90070184271`](https://huggingface.co/jobs/codeflash85/6ac9e36cfee2c90070184271) and [Smol `6ac9e389095c57808930fa68`](https://huggingface.co/jobs/codeflash85/6ac9e389095c57808930fa68), **ERROR**, at the identical NumPy unsigned-to-negative `np.where(codes==2,-1,codes)` conversion (`OverflowError: Python integer -1 out of bounds for uint8`). Both original base weights and private snapshots downloaded successfully; no real inference was run. This does not invalidate R6 science or the independent snapshot SHA audit. The [reconstruction script](r6_cpu_inference_reconstruction.py) was fixed at commit `056545171e015e821a8e6a5a7bfc3eebadbcbe2c` by converting codes to signed int8 first; a separate [CPU regression job](https://huggingface.co/jobs/codeflash85/6ac9e3ddfee2c9007018432f) printed `R6_TERNARY_DECODE_REGRESSION_OK 2.5.3`. **End-to-end inference reconstruction still unverified**; rerun the fixed script via authenticated Windows CLI `--secrets HF_TOKEN`, not via unauthenticated connector. No GPU jobs needed.
+
+---
+
 ## R6 INDEPENDENT PRIVATE SNAPSHOT AUDIT PASSED — 2026-10-10 UTC
 
 **Both saved R6 H inference-only snapshots independently downloaded, SHA-256-verified, and structurally validated.** CPU HF job [6ac9e014095c57808930f5dd](https://huggingface.co/jobs/codeflash85/6ac9e014095c57808930f5dd) **COMPLETED**, emitting `R6_SNAPSHOT_AUDIT_OK` for both files and `R6_BOTH_PRIVATE_SNAPSHOTS_VERIFIED`. Original audit source pinned commit `7e4758ad81a98269932f918b6014adfcd8a5e3c3` ([script](r6_private_snapshot_cpu_audit.py)). Granite: 50,895,933 bytes, SHA-256 `3c30ab36a6518606db74a45411b6e96639171c063f0dd2b0f6cea384581f0888`, 168 layers/249,561,088 ternary weights. Smol: 64,195,086 bytes, SHA-256 `5d41638430f7a54fb553f2ad32d861386e5f38e42901c916fe8926172447fbfe`, 224 layers/314,572,800 weights. Audit checks private dataset, size, hash, manifest, packed code ranges, and finite positive scales; it does **not** yet test model loading or generated outputs. No GPU jobs initiated.
