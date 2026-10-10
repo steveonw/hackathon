@@ -35,12 +35,11 @@ def reconstruct(family, token):
         model=AutoModelForCausalLM.from_pretrained(
             model_id,revision=revision,torch_dtype=torch.float32,low_cpu_mem_usage=True
         ).cpu().eval()
-        # Original Granite training rounded base FP32 weights to BF16 before QAT.
-        # Unquantized base weights must match that original source roundtrip.
-        if family=="granite":
-            for param in model.parameters():
-                if param.is_floating_point():
-                    param.copy_(param.to(torch.bfloat16).float())
+        # Both R6 families BF16-rounded FP32 base weights before QAT.
+        # Untouched nonquantized parameters require the same source roundtrip.
+        for param in model.parameters():
+            if param.is_floating_point():
+                param.copy_(param.to(torch.bfloat16).float())
         modules=dict(model.named_modules())
         restored=0; counts={-1:0,0:0,1:0}
         for entry in manifest["layers"]:
