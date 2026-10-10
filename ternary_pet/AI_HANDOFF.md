@@ -1,5 +1,11 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R6 RECONSTRUCTION LOSS PARITY VERIFIED — 2026-10-10 UTC
+
+[Original remote CPU NLL parity logs and per-document results](results/r6_reconstruction_loss_parity_verified_2026-10-10.md) are now independently accessible: [Granite CPU job](https://huggingface.co/jobs/codeflash85/6ac9e829095c57808930fd96) and [Smol CPU job](https://huggingface.co/jobs/codeflash85/6ac9e841fee2c9007018468b), both **COMPLETED**, fixed script SHA `ddcb84cc4566b989429d5cd131199f264c5b6d81`. First 4 pinned R6 IMDb documents per model (2,048 tokens/model) CPU FP32 reconstructed H vs original GPU AMP H NLL: **Granite 6.681939 vs 6.682182, delta -0.000244, max doc delta 0.000712**; **Smol 6.165740 vs 6.165852, delta -0.000113, max doc delta 0.000137**. Supports high-fidelity inference reconstruction, **not** numeric parity of every token/logit or useful generation; both single-prompt generations were degenerate. Original HF logs fetched directly, no further user copy needed. No new GPU training.
+
+---
+
 ## R6 GENERATED-TEXT QUALITY FOLLOW-UP — parity CPU code ready (2026-10-10)
 
 [Four-document reconstruction-vs-training H NLL parity diagnostic](research_log/r6_cpu_reconstruction_parity_plan_2026-10-10.md), [script](r6_cpu_reconstruction_nll_parity.py) source SHA `ddcb84cc4566b989429d5cd131199f264c5b6d81`. Public CPU AST preflight [6ac9e64c095c57808930fcaa](https://huggingface.co/jobs/codeflash85/6ac9e64c095c57808930fcaa) produced `R6_PARITY_SCRIPT_AST_PREFLIGHT_OK`. Actual secure private-checkpoint CPU parity runs **not launched yet** (local CLI secret required). Four original IMDb documents/model, 512 targets/document, original archived R6 H NLL comparison; CPU FP32 differs from original GPU AMP precision. Avoid claiming exact parity without measurements. Prior single-prompt greedy outputs were repetitive punctuation.
