@@ -2,9 +2,29 @@
 
 **Authoritative short handoff:** As of 2026-10-08 Eastern / 2026-10-09 UTC.  
 **Repository:** `steveonw/hackathon` → `ternary_pet/`.  
-**Status:** **R2 2×2 Q9 output/threshold control submitted, results pending.** R1, G1/S1, FineWeb F1–F3, L1 completed. See [R2_ACTIVE_JOB_PLAN.md](R2_ACTIVE_JOB_PLAN.md).
+**Status:** **R2 completed; all 16 scientific-technical checks passed**. Earlier R1, G1/S1, FineWeb F1–F3 and L1 complete. See newest R2 result section and [R2_ACTIVE_JOB_PLAN.md](R2_ACTIVE_JOB_PLAN.md).
 
-## NEW ACTIVE R2 — threshold/saturation versus output range (2026-10-09 EDT)
+## NEWEST VERIFIED R2 RESULT — 2×2 Q9 grid factorial COMPLETED (2026-10-10 01:00 UTC)
+
+**R2 scientific GPU job COMPLETED SUCCESSFULLY** [HF 6ac985f0fee2c9007017f720](https://huggingface.co/jobs/codeflash85/6ac985f0fee2c9007017f720), ended **2026-10-10 01:00:05 UTC** (Oct9 9:00 PM EDT), pinned source commit `93d7aba84bff0409b8cc91603ab9605cf1a9e09d`. `valid_for_science=true`; **16/16 technical/reproduction checks passed**. [R2 detailed scientific summary](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_summary.md), [complete raw FINAL_JSON](results/run_r2_fineweb_q9_output_threshold_factorial_seed1729_2026-10-10.json), [frozen prereg](research_log/r2_q9_range_threshold_factorial_fineweb_seed1729_prereg_2026-10-09.md), [R2 job/handoff plan](R2_ACTIVE_JOB_PLAN.md). CPU quantizer preflight passed, no R2 duplicates or extra GPU jobs launched.
+
+**R2 tests:** with nine Q9 integer codes -4..4, manipulate **V = output amplitude/spacing divisor (wide V4 ±α versus narrow V6 ±2α/3)** independently of **T = rounding/threshold multiplier (T4 original, T6 tighter and more outer-code occupancy)**, keeping same clipped-z STE, original-source row scales and fresh optimizer/GradScaler at Q9→Q3 switch after300, same seed1729 FineWeb 1200-step order/corpus and WikiText validation. Direct Q3 reference D.
+
+| Q9 mode | FineWeb heldout NLL (lower better) | D−arm advantage | WikiText validation NLL | Q9 prep extreme ±4 fraction |
+|---|---:|---:|---:|---:|
+| D (direct Q3) | 5.766660 | — | 6.558239 | — |
+| **W4T4** original wide, original thresholds | **4.996255** | **+0.770405** | **5.695225** | 29.30% |
+| **W4T6** wide output, tighter thresholds | **5.263767** | **+0.502892** | **6.137133** | 47.87% |
+| N6T4 narrow output, original thresholds | 5.780473 | −0.013813 | 6.593468 | 29.22% |
+| N6T6 R1 narrow, tight thresholds | 5.751036 | +0.015624 | 6.566215 | 47.83% |
+
+**Main new inference:** restoring original (T4) decision thresholds while keeping **narrow output grid** does **not** rescue performance (N6T4 even slightly worse than D); tightening thresholds while keeping **wide output grid** reduces but does **not erase** staging benefit (W4T6 still +0.5029 over D). The **output amplitude/spacing package** is central within this custom quantizer family; elevated **extreme-code occupancy alone** cannot explain R1 failure, since both wide and narrow arms have comparable extreme-code fractions within each T level while vastly different losses. Historical D/W4T4/N6T6 anchors reproduced original FineWeb+WikiText exactly; **all 16 checks passed**. Predefined FineWeb output-grid contrast at T4 **+0.784218 nats (narrow-wider)**, at T6 **+0.487269**; threshold contrast T6-T4 wide **+0.267512**, narrow **−0.029437**. Factorial threshold interaction = **−0.296950**.
+
+**Limitations:** `V` simultaneously changes output range **and** uniform codebook spacing, so R2 **does not prove range alone is causally decisive**; T controls threshold/code assignment independently, not all possible geometry. One seed1729/model/schedule and the same 21 previously viewed FineWeb heldout docs, possible pretrained-model overlap; all other modules frozen and no production-level inference. Other previously completed F1–F3, L1, G1, S1, R1 remain valid archived records. Next **proposals only**: nonuniform nine-level grid separating central spacing and extreme output range, and fresh independent-document evaluation plus checkpoint retention; do not launch more GPU automatically.
+
+---
+
+## HISTORICAL SUBMISSION: R2 — threshold/saturation versus output range (2026-10-09 EDT)
 
 **R2 is SUBMITTED, scientific outcome PENDING:** [HF `6ac985f0fee2c9007017f720`](https://huggingface.co/jobs/codeflash85/6ac985f0fee2c9007017f720), A10G-small, **2-hour limit**, source SHA `93d7aba84bff0409b8cc91603ab9605cf1a9e09d` ([source](r2_fineweb_q9_output_threshold_factorial_seed1729.py)). [**Full R2 job handoff**](R2_ACTIVE_JOB_PLAN.md) · [**frozen before GPU prereg**](research_log/r2_q9_range_threshold_factorial_fineweb_seed1729_prereg_2026-10-09.md).
 
