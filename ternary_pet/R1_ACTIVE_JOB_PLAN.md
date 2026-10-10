@@ -1,8 +1,20 @@
 # R1 — Range-matched nine-state Q9 controlled experiment
 
-**Authoritative status as of submission (2026-10-09 UTC):** R1 has been **SUBMITTED**; inspect Hugging Face for the live stage and scientific outcomes. **There is one and only one R1 scientific GPU job.**
+**Current status: R1 COMPLETED with final raw JSON and summary archived.** The original submission log and scientific design remain below. **There is one and only one R1 scientific GPU job.**
 
-## Job record
+## FINAL RESULT — R1 COMPLETED 2026-10-10 UTC
+
+[HF R1 job](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904) **COMPLETED**, 2026-10-10 00:05:57 UTC. **`valid_for_science=true`, 12/12 checks passed.** [Final scientific summary](results/run_r1_q9_range_matched_fineweb_seed1729_summary.md) · [complete raw JSON](results/run_r1_q9_range_matched_fineweb_seed1729_2026-10-10.json).
+
+**FineWeb heldout NLL:** Direct Q3 **5.766660**, original wide-range Q9→Q3 **4.996255**, nine-state range-matched Q9→Q3 **5.751036**. D−wide staged advantage **+0.770405**, D−range staged advantage **+0.015624**, i.e. range-matched retains **2.03%** of the original observed benefit. WikiText validation: direct **6.558239**, wide Q9 **5.695225**, range-matched **6.566215**. Historical D/wide exact anchors reproduced on both evaluations.
+
+**Critical caveat:** Matching nine-state output range to ternary also compresses nine-cell spacing and shifts boundaries: prep ±4 saturation **47.83%** range-matched versus **29.30%** wide, and **36.45%** of range-matched would-be integer codes were clipped. Conclude only that **this** uniformly spaced nine-state range-matched variant loses the large staged advantage; **do not ascribe causality to output range alone** or generalize beyond this seed/model/sample. No further GPU experiments launched.
+
+**Everything after this section documents the original PRE-RUN protocol and initial queue state and is preserved historically.** For latest handoff use [CURRENT_STATE.md](CURRENT_STATE.md).
+
+---
+
+## Original pre-run job record
 
 - **Hugging Face:** [codeflash85/6ac97c30095c57808930b904](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904). Initial stage **SCHEDULING**; A10G-small; 2-hour timeout; detached.
 - **Immutable experiment source SHA:** `f28f1d4814ab0a61f2b529e2add007ce142972d5`. [R1 script](r1_fineweb_q9_range_matched_seed1729.py).
