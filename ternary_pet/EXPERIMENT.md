@@ -3959,3 +3959,18 @@ FineWeb wide-Q9 gain `D−wide` **+0.770405 nats/token**; range-matched gain `D�
 
 ---
 
+## LATEST — R4 Granite hard/easy pair SUBMITTED, Smol pair reserved for NEXT prompt (2026-10-09 EDT)
+
+**User requested exactly 2 jobs in this prompt and 2 only in the following prompt, waiting for Granite to finish.** Batch A **TWO Granite-4.0-350m jobs submitted**, one per previously identified training-order seed, both using a four-arm D/W/N/H controlled hybrid Q9 comparison:
+
+- **Hard seed271828** (historically full wide Q9 lost): [HF `6ac9a43d095c57808930ccfe`](https://huggingface.co/jobs/codeflash85/6ac9a43d095c57808930ccfe), A10G-small, 90m max.
+- **Easy seed424242** (historically wide Q9 won): [HF `6ac9a443095c57808930cd03`](https://huggingface.co/jobs/codeflash85/6ac9a443095c57808930cd03), A10G-small, 90m max.
+
+**Immutable single source SHA** `33dfae38bd016946ad5d37bd633fdf02818fbacd`, [hard script](r4_granite_q9_hybrid_hard_seed271828.py), [easy script](r4_granite_q9_hybrid_easy_seed424242.py); source scripts differ by exactly one seed line. Frozen [R4 2+2 prereg](research_log/r4_2026-10-09_granite_smol_easy_hard_two_batch_prereg.md), [complete job handoff](R4_GRANITE_SMOL_EASY_HARD_JOBS.md). BF16 Granite teacher/autocast, FP32 masters, historical constant LR1e-4, original WikiText2 QAT training split, W nine-state wide, N narrow, H seven narrow center levels with two ±4 outputs restored wide. All three Q9 arms stage Q9(300)→Q3(900), original Q3 source row scales and fresh AdamW at300. D matched direct Q3 with same reset at300. **Primary new-to-R4 validation:** WikiText2 validation64 chunks×128 targets, per-chunk loss; historical WikiText test first64 remains secondary reproduction anchor. CPU pin job `6ac9a397fee2c90070180b8d` and CPU nine-code/gradient QA `6ac9a40b095c57808930ccec` both **COMPLETED** before GPUs; model and dataset commits pinned.
+
+**Batch B planned but NOT LAUNCHED:** SmolLM2-360M-Instruct seed271828 and seed424242, 2 scientific GPU jobs **only upon next explicit user prompt after Granite jobs finish**. Smol should use its own calibrated LR/precision recipe and same D/W/N/H codebooks on WikiText2; no premature claims of cross-family effect. R4 study uses already viewed Granite hard/easy orders, not blind novel seeds. **R4 results pending** until exact `FINAL_JSON` checks; preserve null/negative arms and no duplicate or retry GPU runs.
+
+All R3/FineWeb studies and earlier G1/S1/R1/R2 remain archived and complete. **Never misread historical submission sections below as live state.**
+
+---
+
