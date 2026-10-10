@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R6 RECONSTRUCTION LOSS PARITY VERIFIED — 2026-10-10 UTC
+
+[Original remote CPU NLL parity logs and per-document results](results/r6_reconstruction_loss_parity_verified_2026-10-10.md) are now independently accessible: [Granite CPU job](https://huggingface.co/jobs/codeflash85/6ac9e829095c57808930fd96) and [Smol CPU job](https://huggingface.co/jobs/codeflash85/6ac9e841fee2c9007018468b), both **COMPLETED**, fixed script SHA `ddcb84cc4566b989429d5cd131199f264c5b6d81`. First 4 pinned R6 IMDb documents per model (2,048 tokens/model) CPU FP32 reconstructed H vs original GPU AMP H NLL: **Granite 6.681939 vs 6.682182, delta -0.000244, max doc delta 0.000712**; **Smol 6.165740 vs 6.165852, delta -0.000113, max doc delta 0.000137**. Supports high-fidelity inference reconstruction, **not** numeric parity of every token/logit or useful generation; both single-prompt generations were degenerate. Original HF logs fetched directly, no further user copy needed. No new GPU training.
+
+---
+
 ## R6 CPU INFERENCE RECONSTRUCTION COMPLETED — quality caveat (2026-10-10 UTC)
 
 [Recorded end-to-end CPU reconstruction results](results/r6_cpu_inference_reconstruction_outcomes_2026-10-10.md) from user-provided terminal markers and HF jobs confirmed **COMPLETED**: [Granite job](https://huggingface.co/jobs/codeflash85/6ac9e3fd095c57808930fb10) reconstructed 249,561,088 ternary weights/168 layers and [Smol job](https://huggingface.co/jobs/codeflash85/6ac9e405fee2c90070184365) reconstructed 314,572,800 weights/224 layers. Both passed snapshot SHA check, ran finite logits and generated 12 tokens. **Outputs are degenerate**: Granite generated 12 periods; Smol predominantly newlines/periods. This proves technical decoding, not useful language generation or parity with job-side H evaluation; investigate before any deployment claim. Full remote log retrieval was blocked in this session, so observations come from user-pasted original success lines, corroborated by job statuses. No additional GPU launched.
