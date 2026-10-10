@@ -1,5 +1,11 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R6 GENERATED-TEXT QUALITY FOLLOW-UP — parity CPU code ready (2026-10-10)
+
+[Four-document reconstruction-vs-training H NLL parity diagnostic](research_log/r6_cpu_reconstruction_parity_plan_2026-10-10.md), [script](r6_cpu_reconstruction_nll_parity.py) source SHA `ddcb84cc4566b989429d5cd131199f264c5b6d81`. Public CPU AST preflight [6ac9e64c095c57808930fcaa](https://huggingface.co/jobs/codeflash85/6ac9e64c095c57808930fcaa) produced `R6_PARITY_SCRIPT_AST_PREFLIGHT_OK`. Actual secure private-checkpoint CPU parity runs **not launched yet** (local CLI secret required). Four original IMDb documents/model, 512 targets/document, original archived R6 H NLL comparison; CPU FP32 differs from original GPU AMP precision. Avoid claiming exact parity without measurements. Prior single-prompt greedy outputs were repetitive punctuation.
+
+---
+
 ## R6 CPU INFERENCE RECONSTRUCTION COMPLETED — quality caveat (2026-10-10 UTC)
 
 [Recorded end-to-end CPU reconstruction results](results/r6_cpu_inference_reconstruction_outcomes_2026-10-10.md) from user-provided terminal markers and HF jobs confirmed **COMPLETED**: [Granite job](https://huggingface.co/jobs/codeflash85/6ac9e3fd095c57808930fb10) reconstructed 249,561,088 ternary weights/168 layers and [Smol job](https://huggingface.co/jobs/codeflash85/6ac9e405fee2c90070184365) reconstructed 314,572,800 weights/224 layers. Both passed snapshot SHA check, ran finite logits and generated 12 tokens. **Outputs are degenerate**: Granite generated 12 periods; Smol predominantly newlines/periods. This proves technical decoding, not useful language generation or parity with job-side H evaluation; investigate before any deployment claim. Full remote log retrieval was blocked in this session, so observations come from user-pasted original success lines, corroborated by job statuses. No additional GPU launched.
