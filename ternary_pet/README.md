@@ -17,6 +17,8 @@
 
 **R1 ACTIVE:** [Current job plan](R1_ACTIVE_JOB_PLAN.md): Q9 nine-state output range match on FineWeb, 3-arm D vs wide Q9→Q3 vs range-matched Q9→Q3. [HF job](https://huggingface.co/jobs/codeflash85/6ac97c30095c57808930b904) accepted, scientific outcome pending; immutable script `f28f1d4814ab0a61f2b529e2add007ce142972d5`. Pre-run 9-code/gradient/STE CPU checks passed. G1 and S1 completed separately; their findings unchanged. Use [CURRENT_STATE.md](CURRENT_STATE.md) for live status.
 
+**R1 range-matched Q9 COMPLETED (2026-10-10 UTC):** [full result](results/run_r1_q9_range_matched_fineweb_seed1729_summary.md) · [raw](results/run_r1_q9_range_matched_fineweb_seed1729_2026-10-10.json). Q9-wide staged FineWeb NLL **4.996255** vs direct **5.766660**; nine-state Q9 range-matched to Q3's ±2α/3 gave **5.751036**, retaining **2.03%** of wide-Q9 advantage. **12/12 prereg technical checks passed.** The narrow grid also changes spacing, thresholds and saturation (47.83% extreme codes vs29.30% wide): range alone not causally isolated. [Current state](CURRENT_STATE.md) supersedes historical R1 submitted prose. No new GPU jobs launched.
+
 Experiments on whether a pretrained language model can enter ternary weight
 space more effectively after adapting on an intermediate discrete grid.
 
