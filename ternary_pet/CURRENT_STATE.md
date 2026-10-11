@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R8 STAGE CAPABILITY LOCALIZATION VERIFIED — 2026-10-10
+
+[Complete R8 CPU stage-localization outcomes](results/r8_stage_capability_localization_both_models_2026-10-10.md): user launched Granite CPU `6acadf3d095c5780893190ec` and Smol CPU `6acadf44095c5780893190ef`; both `COMPLETED`, `R8_EVAL_FINAL valid:true`, independently checksum/reconstructed all 8 R8 stage snapshots; 200 deterministic greedy output records per family. Corrected permissive total/30: Granite C0 base **29**, C1 Q9@300 **0**, C2 projected Q3@300 **0**, C3 Q3@600 **0**, C4 Q3@1200 **0**. Smol C0 base **24**, all four quantized stages **0**. Continuation unique-bigram: Granite C0 .6846, C1 .1460, C2 .0524, C3 .1730, C4 .1000; Smol C0 .9127, C1 .3270, C2 .1937, C3 .3169, C4 .3937. **Central discovery:** Tested instruction/QA capabilities are already absent at step300 Q9, before Q3 projection, though Q3 transition additionally damages NLL/diversity. This does NOT distinguish step0 quantizer damage from degradation during first300 Q9 updates. **Next low-cost scientific diagnostic: CPU-only step0 hybrid Q9 reconstruction**, same frozen prompt battery, compare C0, C1; do not rerun GPUs until clarified. Prior full R7 battery prompts reused diagnostically, not untouched holdout.
+
+---
+
 ## R7 FIXED BASELINE COMPLETED (2026-10-10)
 
 [Full R7 baseline summary](results/r7_cpu_capability_baseline_both_families_2026-10-10.md). Both private-credential CPU jobs **COMPLETED** with terminal `R7_BASELINE_FINAL valid:true`: Granite `6acad549095c578089318d57`; Smol `6acad569fee2c9007018f35a`; each reports 120 generated outputs and same frozen prompt SHA256 `5180b1319cca0b3b65ffa01f0940d599747c9f9169bfde7d8b14d0f1dae6008b`. **Strict exact answers out of 10 by arithmetic/instruction/extraction:** Granite base `10/9/8`, H `0/0/0`; Smol base `0/4/6`, H `0/0/0`. Strict scoring can reject semantically correct verbose answers (especially Smol base arithmetic 0). Need permissive-scoring audit and full per-prompt logs before generalizing; connector returned only trailing 19 records+final per job, not all 120 records. No new GPU training. Strong evidence ternary hybrid lost exact instruction ability despite relative ternary NLL wins.
