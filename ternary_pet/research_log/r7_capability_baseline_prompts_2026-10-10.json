@@ -1,0 +1,276 @@
+{
+  "version": "r7-capability-baseline-v1",
+  "created_utc": "2026-10-10",
+  "prompts": [
+    {
+      "id": "A01",
+      "category": "arithmetic",
+      "prompt": "Calculate 24 + 39. Answer with only the number.",
+      "expected": "63",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A02",
+      "category": "arithmetic",
+      "prompt": "Calculate 58 + 27. Answer with only the number.",
+      "expected": "85",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A03",
+      "category": "arithmetic",
+      "prompt": "Calculate 126 + 47. Answer with only the number.",
+      "expected": "173",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A04",
+      "category": "arithmetic",
+      "prompt": "Calculate 205 + 68. Answer with only the number.",
+      "expected": "273",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A05",
+      "category": "arithmetic",
+      "prompt": "Calculate 314 + 159. Answer with only the number.",
+      "expected": "473",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A06",
+      "category": "arithmetic",
+      "prompt": "Calculate 91 - 34. Answer with only the number.",
+      "expected": "57",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A07",
+      "category": "arithmetic",
+      "prompt": "Calculate 143 - 57. Answer with only the number.",
+      "expected": "86",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A08",
+      "category": "arithmetic",
+      "prompt": "Calculate 280 - 96. Answer with only the number.",
+      "expected": "184",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A09",
+      "category": "arithmetic",
+      "prompt": "Calculate 407 - 188. Answer with only the number.",
+      "expected": "219",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "A10",
+      "category": "arithmetic",
+      "prompt": "Calculate 620 - 275. Answer with only the number.",
+      "expected": "345",
+      "grading": "integer_exact"
+    },
+    {
+      "id": "I01",
+      "category": "instruction",
+      "prompt": "Reply with exactly: READY",
+      "expected": "READY",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I02",
+      "category": "instruction",
+      "prompt": "Reply with exactly: BLUE",
+      "expected": "BLUE",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I03",
+      "category": "instruction",
+      "prompt": "Reply with exactly: OPEN",
+      "expected": "OPEN",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I04",
+      "category": "instruction",
+      "prompt": "Reply with exactly: SEVEN",
+      "expected": "SEVEN",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I05",
+      "category": "instruction",
+      "prompt": "Reply with exactly: NORTH",
+      "expected": "NORTH",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I06",
+      "category": "instruction",
+      "prompt": "Which is larger, 8 or 5? Answer only 8 or 5.",
+      "expected": "8",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I07",
+      "category": "instruction",
+      "prompt": "Is a square a shape? Answer only yes or no.",
+      "expected": "yes",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I08",
+      "category": "instruction",
+      "prompt": "Which comes first alphabetically: apple or zebra? Answer with one word.",
+      "expected": "apple",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I09",
+      "category": "instruction",
+      "prompt": "If all tulips are flowers and this is a tulip, is it a flower? Answer yes or no.",
+      "expected": "yes",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "I10",
+      "category": "instruction",
+      "prompt": "Which is colder, ice or boiling water? Answer ice or water.",
+      "expected": "ice",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E01",
+      "category": "extraction",
+      "prompt": "Read: Mara placed the silver key inside the green box.\nQuestion: What color was the box?\nAnswer with only the answer.",
+      "expected": "green",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E02",
+      "category": "extraction",
+      "prompt": "Read: The shipment arrived on Tuesday at the north warehouse.\nQuestion: On what weekday did the shipment arrive?\nAnswer with only the answer.",
+      "expected": "Tuesday",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E03",
+      "category": "extraction",
+      "prompt": "Read: The museum ticket cost 14 dollars in the story.\nQuestion: How many dollars did the ticket cost?\nAnswer with only the answer.",
+      "expected": "14",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E04",
+      "category": "extraction",
+      "prompt": "Read: Kito named his small boat Willow.\nQuestion: What name did Kito give his boat?\nAnswer with only the answer.",
+      "expected": "Willow",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E05",
+      "category": "extraction",
+      "prompt": "Read: At noon the baker made cinnamon rolls.\nQuestion: What kind of rolls did the baker make?\nAnswer with only the answer.",
+      "expected": "cinnamon",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E06",
+      "category": "extraction",
+      "prompt": "Read: The badge number printed on the card was 482.\nQuestion: What badge number was printed?\nAnswer with only the answer.",
+      "expected": "482",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E07",
+      "category": "extraction",
+      "prompt": "Read: Anika hid the map beneath the blue chair.\nQuestion: What furniture was the map beneath?\nAnswer with only the answer.",
+      "expected": "chair",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E08",
+      "category": "extraction",
+      "prompt": "Read: Four cranes rested beside the river at dawn.\nQuestion: How many cranes rested there?\nAnswer with only the answer.",
+      "expected": "Four",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E09",
+      "category": "extraction",
+      "prompt": "Read: The librarian mailed the parcel to Omar.\nQuestion: Who received the mailed parcel?\nAnswer with only the answer.",
+      "expected": "Omar",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "E10",
+      "category": "extraction",
+      "prompt": "Read: The cabin had a red roof and white door.\nQuestion: What color was the door?\nAnswer with only the answer.",
+      "expected": "white",
+      "grading": "normalized_exact"
+    },
+    {
+      "id": "C01",
+      "category": "continuation",
+      "prompt": "At the far end of the train platform, someone had left",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C02",
+      "category": "continuation",
+      "prompt": "The orchard was quiet until the first rain began",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C03",
+      "category": "continuation",
+      "prompt": "As the telescope turned toward the moon, the technician noticed",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C04",
+      "category": "continuation",
+      "prompt": "The engineer unfolded the bridge plans and pointed toward",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C05",
+      "category": "continuation",
+      "prompt": "Inside the empty theater, a single light illuminated",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C06",
+      "category": "continuation",
+      "prompt": "A courier reached the village carrying a sealed envelope from",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C07",
+      "category": "continuation",
+      "prompt": "On the morning of the race, the runners gathered near",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C08",
+      "category": "continuation",
+      "prompt": "The antique clock stopped precisely when the caretaker opened",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C09",
+      "category": "continuation",
+      "prompt": "Behind the research station, the frozen lake reflected",
+      "grading": "repetition_metrics_only"
+    },
+    {
+      "id": "C10",
+      "category": "continuation",
+      "prompt": "When the city power returned, the bakery owner discovered",
+      "grading": "repetition_metrics_only"
+    }
+  ]
+}
