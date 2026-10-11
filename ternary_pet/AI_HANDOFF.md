@@ -1,5 +1,11 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R7 BASELINE DESIGNED — not yet run (2026-10-10)
+
+[CPU-first R7 capability retention protocol](research_log/r7_capability_retention_baseline_design_2026-10-10.md) and [fixed 40-prompt evaluation set](research_log/r7_capability_baseline_prompts_2026-10-10.json) are now committed **before any R7 baseline tests**. Battery: 10 exact arithmetic, 10 instruction/compliance, 10 extraction, 10 continuation prompts; compare pinned Granite/Smol original BF16-source-rounded base models to their independently checksum-verified R6 H ternary snapshots. Per-arm greedy, deterministic scores and repetition indicators; secondary seeded sampled generation and fixed-document original R6 IMDb loss anchors. Granularity is within-family paired prompts, not pooled model accuracy. Instruction Smol uses chat template, Granite explicit plain Q/A wrapper. Any private snapshot CPU job must run with local authenticated CLI `--secrets HF_TOKEN`. No R7 CPU scored baseline or GPU training has been launched; no claims about outcomes. Next: implement runner matching protocol, validate on CPU, then collect results.
+
+---
+
 ## R6 SMOL CONTROLLED GENERATION COMPLETE — mixed result (2026-10-10)
 
 [Full Smol base-versus-ternary generation controls](results/r6_smol_generation_controls_completed_2026-10-10.md) archived from [HF CPU job 6ac9f61ffee2c90070184f2b](https://huggingface.co/jobs/codeflash85/6ac9f61ffee2c90070184f2b), **COMPLETED**, full 12/12 output cases; source SHA `38954d695e5f9f9a72dcd8fe19055edcea921704`. Positive nuance: **Smol R6 H produces some coherent plain text continuations** (scientist/notebook, greedy and sampling), refuting blanket 'only punctuation' claim. However, with proper Smol chat template, the base answered baseline/explanation and 17+28=45 correctly while **H failed both instruction tasks**, generating unrelated music/history/number text and newlines. This confirms a major instruction-retention problem in tested prompts, despite cross-corpus H NLL win over other ternary controls and near-original job loss of reconstructed snapshot. [Granite controls](results/r6_generation_base_hybrid_granite_result_smol_fix_2026-10-10.md) were also completed. No extra GPU jobs launched; do not claim usable chat quality.
