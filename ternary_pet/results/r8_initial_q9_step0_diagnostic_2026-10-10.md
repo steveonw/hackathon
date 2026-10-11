@@ -13,3 +13,7 @@ CPU job [6acaed17fee2c9007019018b](https://huggingface.co/jobs/codeflash85/6acae
 ## Next research
 
 After Smol completes, compare both complete stage0 curves (base→Q9@0→Q9@300→Q3@300→Q3@600→Q3@1200). Before further GPUs, investigate alpha scaling, layerwise perturbation and quantization shock; constrain experiments to CPU inference and new frozen holdout for prospective claims. No new GPU training launched.
+
+## FINAL UPDATE — Smol verified completed
+
+HF CPU job `6acaed17fee2c9007019018b` **COMPLETED**; terminal `R8_EVAL_FINAL valid:true` verified from job logs. Exact permissive Smol original C0 base = arithmetic **10/10**, instruction **6/10**, extraction **8/10**, total **24/30**; untrained Q9_step0 = **0/10**, **0/10**, **0/10**, total **0/30**. Continuation mean unique-bigram ratio Smol base **0.9126984126984127**, Q9_step0 **0.1619047619047619**. Granite completed base29/30 vs Q9_step0 0/30, diversity .684599797 vs .023809524. Both architectures independently show immediate severe capability loss on diagnostic questions and repetition deterioration at quantizer application, **before any training update**. This is an initial quantizer/scaling and architecture robustness investigation, not evidence that all Q9 designs inevitably fail.
