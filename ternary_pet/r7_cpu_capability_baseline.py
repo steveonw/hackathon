@@ -104,7 +104,7 @@ def reconstruct(family, token):
                 if ids.ndim==1:ids=ids.unsqueeze(0)
             else:
                 text=p["prompt"]
-                if family=="granite" and category!="continuation":text="Question: "+text+"\\nAnswer:"
+                if family=="granite" and category!="continuation":text="Question: "+text+"\nAnswer:"
                 ids=tokenizer(text,return_tensors="pt").input_ids
             assert ids.ndim==2 and ids.dtype==torch.long
             for arm,m in (("base",base),("hybrid",model)):
