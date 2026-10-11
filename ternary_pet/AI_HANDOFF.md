@@ -1,5 +1,11 @@
 # AI HANDOFF — Ternary Pet Quantization Research
 
+## R7 FIXED BASELINE COMPLETED (2026-10-10)
+
+[Full R7 baseline summary](results/r7_cpu_capability_baseline_both_families_2026-10-10.md). Both private-credential CPU jobs **COMPLETED** with terminal `R7_BASELINE_FINAL valid:true`: Granite `6acad549095c578089318d57`; Smol `6acad569fee2c9007018f35a`; each reports 120 generated outputs and same frozen prompt SHA256 `5180b1319cca0b3b65ffa01f0940d599747c9f9169bfde7d8b14d0f1dae6008b`. **Strict exact answers out of 10 by arithmetic/instruction/extraction:** Granite base `10/9/8`, H `0/0/0`; Smol base `0/4/6`, H `0/0/0`. Strict scoring can reject semantically correct verbose answers (especially Smol base arithmetic 0). Need permissive-scoring audit and full per-prompt logs before generalizing; connector returned only trailing 19 records+final per job, not all 120 records. No new GPU training. Strong evidence ternary hybrid lost exact instruction ability despite relative ternary NLL wins.
+
+---
+
 ## R7 BASELINE DESIGNED — not yet run (2026-10-10)
 
 [CPU-first R7 capability retention protocol](research_log/r7_capability_retention_baseline_design_2026-10-10.md) and [fixed 40-prompt evaluation set](research_log/r7_capability_baseline_prompts_2026-10-10.json) are now committed **before any R7 baseline tests**. Battery: 10 exact arithmetic, 10 instruction/compliance, 10 extraction, 10 continuation prompts; compare pinned Granite/Smol original BF16-source-rounded base models to their independently checksum-verified R6 H ternary snapshots. Per-arm greedy, deterministic scores and repetition indicators; secondary seeded sampled generation and fixed-document original R6 IMDb loss anchors. Granularity is within-family paired prompts, not pooled model accuracy. Instruction Smol uses chat template, Granite explicit plain Q/A wrapper. Any private snapshot CPU job must run with local authenticated CLI `--secrets HF_TOKEN`. No R7 CPU scored baseline or GPU training has been launched; no claims about outcomes. Next: implement runner matching protocol, validate on CPU, then collect results.
