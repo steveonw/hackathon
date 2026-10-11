@@ -32,7 +32,7 @@ def decode(packed,n,levels):
         coeff=codes.astype(np.float32)/1.5
     return coeff
 def tests():
-    q9=np.array([0x04,0x08],dtype=np.uint8) # -4,0,+4,0
+    q9=np.array([0x40,0x48],dtype=np.uint8) # -4,0,+4,0
     assert np.allclose(decode(q9,4,9),[-1,0,1,0])
     q3=np.array([0b00011000],dtype=np.uint8) # -1,1,0,-1
     assert np.allclose(decode(q3,4,3),[-2/3,2/3,0,-2/3])
