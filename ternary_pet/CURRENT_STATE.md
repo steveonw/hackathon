@@ -1,5 +1,11 @@
 # Ternary Pet — CURRENT STATE
 
+## R7 FIXED BASELINE COMPLETED (2026-10-10)
+
+[Full R7 baseline summary](results/r7_cpu_capability_baseline_both_families_2026-10-10.md). Both private-credential CPU jobs **COMPLETED** with terminal `R7_BASELINE_FINAL valid:true`: Granite `6acad549095c578089318d57`; Smol `6acad569fee2c9007018f35a`; each reports 120 generated outputs and same frozen prompt SHA256 `5180b1319cca0b3b65ffa01f0940d599747c9f9169bfde7d8b14d0f1dae6008b`. **Strict exact answers out of 10 by arithmetic/instruction/extraction:** Granite base `10/9/8`, H `0/0/0`; Smol base `0/4/6`, H `0/0/0`. Strict scoring can reject semantically correct verbose answers (especially Smol base arithmetic 0). Need permissive-scoring audit and full per-prompt logs before generalizing; connector returned only trailing 19 records+final per job, not all 120 records. No new GPU training. Strong evidence ternary hybrid lost exact instruction ability despite relative ternary NLL wins.
+
+---
+
 ## R6 SMOL CONTROLLED GENERATION COMPLETE — mixed result (2026-10-10)
 
 [Full Smol base-versus-ternary generation controls](results/r6_smol_generation_controls_completed_2026-10-10.md) archived from [HF CPU job 6ac9f61ffee2c90070184f2b](https://huggingface.co/jobs/codeflash85/6ac9f61ffee2c90070184f2b), **COMPLETED**, full 12/12 output cases; source SHA `38954d695e5f9f9a72dcd8fe19055edcea921704`. Positive nuance: **Smol R6 H produces some coherent plain text continuations** (scientist/notebook, greedy and sampling), refuting blanket 'only punctuation' claim. However, with proper Smol chat template, the base answered baseline/explanation and 17+28=45 correctly while **H failed both instruction tasks**, generating unrelated music/history/number text and newlines. This confirms a major instruction-retention problem in tested prompts, despite cross-corpus H NLL win over other ternary controls and near-original job loss of reconstructed snapshot. [Granite controls](results/r6_generation_base_hybrid_granite_result_smol_fix_2026-10-10.md) were also completed. No extra GPU jobs launched; do not claim usable chat quality.
